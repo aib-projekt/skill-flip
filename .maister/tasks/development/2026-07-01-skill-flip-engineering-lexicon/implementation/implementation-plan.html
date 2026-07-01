@@ -207,7 +207,7 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
 </div>
 </section>
 
-<section data-group="3" class="group todo">
+<section data-group="3" class="group done">
 <div class="card">
   <h3>Group 3 — Filters, Learn Algorithm &amp; Storage <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> Group 1</div>
@@ -217,12 +217,12 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
     <span class="file-chip">src/lib/storage.ts</span><span class="file-chip">src/lib/storage.test.ts</span>
   </div>
   <ul class="steps">
-    <li data-step="3.1" class="step todo">Write 8 tests: category filter, level filter, search across 4 fields, combined AND semantics, weighted draw favors dont_know, graduation/demotion, previous-card exclusion w/ single-card fallback, storage round-trip+reset</li>
-    <li data-step="3.2" class="step todo">Implement applyFilters pure function</li>
-    <li data-step="3.3" class="step todo">Implement weighted-draw + bucket-transition logic</li>
-    <li data-step="3.4" class="step todo">Full-mastery uniform-random fallback</li>
-    <li data-step="3.5" class="step todo">storage.ts read/write/reset + shared computeBucketCounts helper</li>
-    <li data-step="3.6" class="step todo">Run the 8 tests only</li>
+    <li data-step="3.1" class="step done">Write 8 tests: category filter, level filter, search across 4 fields, combined AND semantics, weighted draw favors dont_know, graduation/demotion, previous-card exclusion w/ single-card fallback, storage round-trip+reset</li>
+    <li data-step="3.2" class="step done">Implement applyFilters pure function</li>
+    <li data-step="3.3" class="step done">Implement weighted-draw + bucket-transition logic</li>
+    <li data-step="3.4" class="step done">Full-mastery uniform-random fallback</li>
+    <li data-step="3.5" class="step done">storage.ts read/write/reset + shared computeBucketCounts helper</li>
+    <li data-step="3.6" class="step done">Run the 8 tests only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 8 tests pass · search matches all 4 text fields · filters combine correctly · weighted draw favors dont_know · graduation/demotion/exclusion/fallback all correct · computeBucketCounts is the single shared function for both topbars.</p>
 </div>
@@ -310,7 +310,7 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
 </div>
 </section>
 
-<section data-group="7" class="group todo">
+<section data-group="7" class="group done">
 <div class="card">
   <h3>Group 7 — Content Pipeline &amp; Starter Content <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> Group 1</div>
@@ -321,13 +321,13 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
     <span class="file-chip">package.json</span>
   </div>
   <ul class="steps">
-    <li data-step="7.1" class="step todo">Write 5 tests: valid fixture passes, bad category fails, bad level fails, duplicate id fails, duplicate (term,category) fails</li>
-    <li data-step="7.2" class="step todo">Implement validate-glossary.ts</li>
-    <li data-step="7.3" class="step todo">Wire npm run validate-glossary script, confirm decoupled from src/</li>
-    <li data-step="7.4" class="step todo">Write prompt-template.md + rubric.md</li>
-    <li data-step="7.5" class="step todo">Author ~15-20 Java-category entries (Regular+Senior) into glossary.json</li>
-    <li data-step="7.6" class="step todo">Run validate-glossary against real dataset, fix until zero errors</li>
-    <li data-step="7.7" class="step todo">Run the 5 tests only</li>
+    <li data-step="7.1" class="step done">Write 5 tests: valid fixture passes, bad category fails, bad level fails, duplicate id fails, duplicate (term,category) fails</li>
+    <li data-step="7.2" class="step done">Implement validate-glossary.ts</li>
+    <li data-step="7.3" class="step done">Wire npm run validate-glossary script, confirm decoupled from src/</li>
+    <li data-step="7.4" class="step done">Write prompt-template.md + rubric.md</li>
+    <li data-step="7.5" class="step done">Author ~15-20 Java-category entries (Regular+Senior) into glossary.json</li>
+    <li data-step="7.6" class="step done">Run validate-glossary against real dataset, fix until zero errors</li>
+    <li data-step="7.7" class="step done">Run the 5 tests only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 5 tests pass · validate-glossary passes with zero errors against ~15-20 entry starter set · zero content-pipeline↔src imports either direction.</p>
 </div>

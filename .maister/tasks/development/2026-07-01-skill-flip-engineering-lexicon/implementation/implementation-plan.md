@@ -92,8 +92,8 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
 **Dependencies:** Group 1
 **Files to Modify:** `src/lib/filters.ts`, `src/lib/filters.test.ts`, `src/lib/learnAlgorithm.ts`, `src/lib/learnAlgorithm.test.ts`, `src/lib/storage.ts`, `src/lib/storage.test.ts`
 
-- [ ] 3.0 Complete pure/stateless business logic (no DOM dependency)
-  - [ ] 3.1 Write 8 focused tests across the three modules:
+- [x] 3.0 Complete pure/stateless business logic (no DOM dependency)
+  - [x] 3.1 Write 8 focused tests across the three modules:
     - `applyFilters`: category filter alone narrows correctly
     - `applyFilters`: level filter alone narrows correctly
     - `applyFilters`: search matches term, description, `translationPl`, AND `descriptionPl` (all 4 fields)
@@ -102,11 +102,11 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
     - `learnAlgorithm`: graduates `dont_know`→`know` after exactly 2 consecutive "know" marks, and immediate demotion to `dont_know` on any single "don't know" mark (resets consecutive-know counter)
     - `learnAlgorithm`: excludes the immediately-previous card from the next draw unless it is the only card remaining in the pool (explicit acceptance criterion per spec-audit Finding 6)
     - `storage.ts`: write then read round-trips a `LearnProgressEntry` correctly under key `skillflip:learn-progress`, and reset clears the key entirely
-  - [ ] 3.2 Implement `applyFilters(entries, filterState)` pure function: category multi-select + level segmented value + debounced-search-ready substring match (the 200ms debounce timer itself lives in `FilterBar.ts`, Group 4 — this function is synchronous/pure and takes the already-current search string)
-  - [ ] 3.3 Implement `learnAlgorithm.ts`: bucket-weighted pool construction using `BUCKET_WEIGHTS` from `config.ts`, uniform-random draw from the weighted pool, previous-card exclusion with single-card fallback, bucket-transition logic (graduate after `GRADUATION_THRESHOLD` consecutive "know", immediate demotion on "don't know")
-  - [ ] 3.4 Implement full-mastery fallback: when every entry is in the `know` bucket (weight uniformly 1 for all), draw must degrade gracefully to uniform-random across all entries rather than erroring or looping
-  - [ ] 3.5 Implement `storage.ts`: `readProgress()`, `writeProgress(id, entry)`, `resetProgress()` against `localStorage['skillflip:learn-progress']`, plus a `computeBucketCounts(entries)` helper (mastered/shaky/new) that both topbars (Groups 4 and 5) will call — this is the "shared bucket-count computation" the spec-audit fix requires
-  - [ ] 3.6 Ensure logic tests pass
+  - [x] 3.2 Implement `applyFilters(entries, filterState)` pure function: category multi-select + level segmented value + debounced-search-ready substring match (the 200ms debounce timer itself lives in `FilterBar.ts`, Group 4 — this function is synchronous/pure and takes the already-current search string)
+  - [x] 3.3 Implement `learnAlgorithm.ts`: bucket-weighted pool construction using `BUCKET_WEIGHTS` from `config.ts`, uniform-random draw from the weighted pool, previous-card exclusion with single-card fallback, bucket-transition logic (graduate after `GRADUATION_THRESHOLD` consecutive "know", immediate demotion on "don't know")
+  - [x] 3.4 Implement full-mastery fallback: when every entry is in the `know` bucket (weight uniformly 1 for all), draw must degrade gracefully to uniform-random across all entries rather than erroring or looping
+  - [x] 3.5 Implement `storage.ts`: `readProgress()`, `writeProgress(id, entry)`, `resetProgress()` against `localStorage['skillflip:learn-progress']`, plus a `computeBucketCounts(entries)` helper (mastered/shaky/new) that both topbars (Groups 4 and 5) will call — this is the "shared bucket-count computation" the spec-audit fix requires
+  - [x] 3.6 Ensure logic tests pass
     - Run ONLY the 8 tests written in 3.1
     - Do NOT run entire test suite
 
@@ -232,19 +232,19 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
 **Dependencies:** Group 1 (types)
 **Files to Modify:** `content-pipeline/prompt-template.md`, `content-pipeline/rubric.md`, `content-pipeline/validate-glossary.ts`, `content-pipeline/validate-glossary.test.ts`, `content-pipeline/source/engineering-ladder.md` (or reference to existing source), `data/glossary.json`, `package.json` (add `validate-glossary` script)
 
-- [ ] 7.0 Complete content pipeline tooling and author starter dataset
-  - [ ] 7.1 Write 5 focused tests for `validate-glossary.ts`:
+- [x] 7.0 Complete content pipeline tooling and author starter dataset
+  - [x] 7.1 Write 5 focused tests for `validate-glossary.ts`:
     - passes on a well-formed fixture array (all required fields present, valid enum values)
     - fails with a clear error when a `category` value is outside the 12-value enum
     - fails with a clear error when a `level` value is outside Junior/Regular/Senior
     - fails on duplicate `id` values within the array
     - fails on duplicate `(term, category)` pairs within the array
-  - [ ] 7.2 Implement `validate-glossary.ts`: reads `data/glossary.json`, validates shape/enum-membership/non-empty-array against `src/types/glossary.ts`, checks duplicate `id`s and duplicate `(term, category)` pairs, exits non-zero with a clear message list on any failure
-  - [ ] 7.3 Wire `npm run validate-glossary` script in `package.json`, confirmed fully decoupled from `src/` (no import either direction, not bundled into the Vite build)
-  - [ ] 7.4 Write `content-pipeline/prompt-template.md` (AI-assisted generation prompt for curating a `GlossaryEntry` from a source taxonomy bullet) and `content-pipeline/rubric.md` (curation quality bar: definitions rewritten not transcribed, PL translation covers full definition not just the term, appropriate level assignment)
-  - [ ] 7.5 Author ~15-20 hand-curated Java-category `GlossaryEntry` records spanning Regular and Senior levels into `data/glossary.json` (replacing Group 1's 3-entry fixture stub), using the prompt template + rubric against the source `Engineering Ladder.md` taxonomy, each entry manually reviewed for accuracy
-  - [ ] 7.6 Run `npm run validate-glossary` against the real starter dataset and fix any reported issues until it passes with zero errors
-  - [ ] 7.7 Ensure content-pipeline tests pass
+  - [x] 7.2 Implement `validate-glossary.ts`: reads `data/glossary.json`, validates shape/enum-membership/non-empty-array against `src/types/glossary.ts`, checks duplicate `id`s and duplicate `(term, category)` pairs, exits non-zero with a clear message list on any failure
+  - [x] 7.3 Wire `npm run validate-glossary` script in `package.json`, confirmed fully decoupled from `src/` (no import either direction, not bundled into the Vite build)
+  - [x] 7.4 Write `content-pipeline/prompt-template.md` (AI-assisted generation prompt for curating a `GlossaryEntry` from a source taxonomy bullet) and `content-pipeline/rubric.md` (curation quality bar: definitions rewritten not transcribed, PL translation covers full definition not just the term, appropriate level assignment)
+  - [x] 7.5 Author ~15-20 hand-curated Java-category `GlossaryEntry` records spanning Regular and Senior levels into `data/glossary.json` (replacing Group 1's 3-entry fixture stub), using the prompt template + rubric against the source `Engineering Ladder.md` taxonomy, each entry manually reviewed for accuracy
+  - [x] 7.6 Run `npm run validate-glossary` against the real starter dataset and fix any reported issues until it passes with zero errors
+  - [x] 7.7 Ensure content-pipeline tests pass
     - Run ONLY the 5 tests written in 7.1
     - Do NOT run entire test suite
 

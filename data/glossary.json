@@ -1,28 +1,181 @@
 [
   {
-    "id": "java-generics",
-    "term": "Generics",
-    "description": "Type parameters that allow classes and methods to operate on typed objects while providing compile-time type safety.",
-    "translationPl": "Generyki",
-    "descriptionPl": "Parametry typu pozwalające klasom i metodom operować na typowanych obiektach, zapewniając bezpieczeństwo typów w czasie kompilacji.",
+    "id": "java-character-encoding",
+    "term": "Character Encoding (UTF-8 / ASCII)",
+    "description": "A scheme that maps characters to byte sequences so text can be stored and transmitted consistently. ASCII covers only 128 basic Latin characters, while UTF-8 is a variable-width encoding that represents the full Unicode range while staying backward-compatible with ASCII.",
+    "translationPl": "Kodowanie znaków (UTF-8 / ASCII)",
+    "descriptionPl": "Schemat, który mapuje znaki na sekwencje bajtów, aby tekst mógł być spójnie zapisywany i przesyłany. ASCII obejmuje jedynie 128 podstawowych znaków łacińskich, natomiast UTF-8 to kodowanie o zmiennej długości reprezentujące pełny zakres Unicode, zachowując przy tym zgodność wsteczną z ASCII.",
     "category": "Java",
     "level": "Regular"
   },
   {
-    "id": "java-streams",
+    "id": "java-memory-management",
+    "term": "JVM Memory Management (String Pool, Heap, Stack)",
+    "description": "The JVM splits runtime memory into the heap, which stores objects and is shared across threads, and the stack, which stores per-thread method call frames and local variables and is reclaimed automatically on method return. Within the heap, the string pool is a dedicated region that caches unique string literals so identical values are reused instead of re-allocated.",
+    "translationPl": "Zarządzanie pamięcią JVM (pula stringów, sterta, stos)",
+    "descriptionPl": "JVM dzieli pamięć w czasie działania na stertę (heap), która przechowuje obiekty i jest współdzielona przez wątki, oraz stos (stack), który przechowuje ramki wywołań metod i zmienne lokalne danego wątku i jest automatycznie zwalniany po zakończeniu metody. W obrębie sterty pula stringów (string pool) to wydzielony obszar przechowujący unikalne literały tekstowe, dzięki czemu identyczne wartości są ponownie wykorzystywane zamiast tworzone od nowa.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-generic-wildcards",
+    "term": "Generic Wildcards",
+    "description": "The `?` syntax in Java generics that represents an unknown type, used with bounds like `? extends T` (producer, read-only) or `? super T` (consumer, write-only) to make generic APIs more flexible without sacrificing type safety.",
+    "translationPl": "Wildcardy w typach generycznych",
+    "descriptionPl": "Składnia `?` w generykach Javy reprezentująca nieznany typ, używana z ograniczeniami takimi jak `? extends T` (producent, tylko do odczytu) lub `? super T` (konsument, tylko do zapisu), aby uelastycznić generyczne API bez utraty bezpieczeństwa typów.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-jvm-basics",
+    "term": "JVM (Java Virtual Machine) Basics",
+    "description": "The runtime engine that loads compiled Java bytecode, verifies it, and executes it on the host machine, providing platform independence, automatic memory management, and services like class loading and just-in-time compilation.",
+    "translationPl": "Podstawy JVM (Java Virtual Machine)",
+    "descriptionPl": "Silnik uruchomieniowy, który wczytuje skompilowany bytecode Javy, weryfikuje go i wykonuje na maszynie hosta, zapewniając niezależność od platformy, automatyczne zarządzanie pamięcią oraz usługi takie jak ładowanie klas i kompilacja just-in-time.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-garbage-collector-basics",
+    "term": "Garbage Collector (Basics)",
+    "description": "The JVM subsystem that automatically reclaims heap memory occupied by objects no longer reachable from any live reference, freeing developers from manual memory deallocation at the cost of occasional collection pauses.",
+    "translationPl": "Garbage collector (podstawy)",
+    "descriptionPl": "Podsystem JVM, który automatycznie odzyskuje pamięć na stercie zajmowaną przez obiekty niedostępne już z żadnej aktywnej referencji, zwalniając programistę z ręcznego zwalniania pamięci kosztem sporadycznych przerw na sprzątanie.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-streams-api",
     "term": "Streams API",
-    "description": "A sequence of elements supporting sequential and parallel functional-style operations such as map, filter, and reduce.",
+    "description": "A functional-style API for processing sequences of elements through composable, lazily-evaluated operations such as `map`, `filter`, and `reduce`, without mutating the underlying source collection.",
     "translationPl": "Streams API",
-    "descriptionPl": "Sekwencja elementów wspierająca sekwencyjne i równoległe operacje w stylu funkcyjnym, takie jak map, filter i reduce.",
+    "descriptionPl": "Funkcyjne API do przetwarzania sekwencji elementów za pomocą składalnych, leniwie wykonywanych operacji, takich jak `map`, `filter` i `reduce`, bez modyfikowania źródłowej kolekcji.",
     "category": "Java",
     "level": "Regular"
   },
   {
-    "id": "java-jvm-memory-model",
-    "term": "JVM Memory Model",
-    "description": "How the JVM organizes runtime memory into heap, stack, and metaspace, and how garbage collection interacts with each region.",
-    "translationPl": "Model pamięci JVM",
-    "descriptionPl": "Sposób, w jaki JVM organizuje pamięć w czasie działania na stertę, stos i metaspace, oraz jak garbage collector współdziała z każdym z tych obszarów.",
+    "id": "java-collections-complexity",
+    "term": "Collections Framework Complexity",
+    "description": "Knowledge of how core collection implementations (e.g. `ArrayList`, `LinkedList`, `HashMap`, `TreeMap`) are structured internally and the resulting time complexity of their operations, so the right structure can be chosen for a given access pattern.",
+    "translationPl": "Złożoność implementacji kolekcji",
+    "descriptionPl": "Znajomość wewnętrznej budowy podstawowych implementacji kolekcji (np. `ArrayList`, `LinkedList`, `HashMap`, `TreeMap`) oraz wynikającej z niej złożoności czasowej ich operacji, co pozwala dobrać odpowiednią strukturę do danego wzorca dostępu do danych.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-synchronized-keyword",
+    "term": "`synchronized` Keyword",
+    "description": "A Java keyword that marks a method or code block as a mutual-exclusion critical section, ensuring only one thread at a time can hold the associated monitor lock and execute that code.",
+    "translationPl": "Słowo kluczowe `synchronized`",
+    "descriptionPl": "Słowo kluczowe Javy oznaczające metodę lub blok kodu jako sekcję krytyczną wzajemnego wykluczania, zapewniające, że tylko jeden wątek naraz może przetrzymywać powiązaną blokadę monitora i wykonywać ten kod.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-deadlocks",
+    "term": "Deadlock",
+    "description": "A concurrency failure state where two or more threads are each waiting on a lock held by another thread in the cycle, so none of them can ever proceed, typically resolved by consistent lock ordering or timeouts.",
+    "translationPl": "Zakleszczenie (deadlock)",
+    "descriptionPl": "Stan błędu współbieżności, w którym co najmniej dwa wątki wzajemnie czekają na blokadę przetrzymywaną przez inny wątek w tym cyklu, przez co żaden z nich nigdy nie może kontynuować działania; rozwiązywany zwykle przez spójną kolejność zajmowania blokad lub limity czasu.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-race-conditions",
+    "term": "Race Condition",
+    "description": "A bug where the correctness of a program depends on the unpredictable timing or interleaving of multiple threads accessing shared state, producing inconsistent results depending on execution order.",
+    "translationPl": "Wyścig danych (race condition)",
+    "descriptionPl": "Błąd polegający na tym, że poprawność programu zależy od nieprzewidywalnego czasu lub przeplotu wykonania wielu wątków korzystających ze wspólnego stanu, co prowadzi do niespójnych wyników w zależności od kolejności wykonania.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-thread-pools",
+    "term": "Thread Pool",
+    "description": "A managed collection of reusable worker threads that execute submitted tasks from a queue, avoiding the overhead of creating and destroying a new thread for every task and bounding the number of concurrently running threads.",
+    "translationPl": "Pula wątków (thread pool)",
+    "descriptionPl": "Zarządzany zbiór wielokrotnie używanych wątków roboczych, które wykonują zadania pobierane z kolejki, unikając narzutu tworzenia i niszczenia nowego wątku dla każdego zadania oraz ograniczając liczbę równocześnie działających wątków.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-release-cadence",
+    "term": "Java Release Cadence",
+    "description": "Oracle's time-boxed six-month release train for the JDK, which delivers incremental language and platform enhancements (with select long-term-support versions) far more frequently than the old multi-year major-version cycle.",
+    "translationPl": "Cykl wydawniczy Javy",
+    "descriptionPl": "Ograniczony czasowo, sześciomiesięczny cykl wydawniczy JDK od Oracle, dostarczający przyrostowe usprawnienia języka i platformy (z wybranymi wersjami długoterminowego wsparcia — LTS) znacznie częściej niż dawny, wieloletni cykl wersji głównych.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-jit-compiler",
+    "term": "JIT (Just-In-Time) Compiler",
+    "description": "A JVM component that compiles frequently executed bytecode paths into optimized native machine code at runtime, using profiling data to apply optimizations that ahead-of-time compilation cannot, at the cost of a warm-up period.",
+    "translationPl": "Kompilator JIT (Just-In-Time)",
+    "descriptionPl": "Komponent JVM, który kompiluje często wykonywane fragmenty bytecode do zoptymalizowanego natywnego kodu maszynowego w czasie działania programu, wykorzystując dane z profilowania do optymalizacji niedostępnych przy kompilacji z wyprzedzeniem, kosztem okresu rozgrzewki.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-gc-implementations",
+    "term": "Garbage Collector Implementations",
+    "description": "The different collector algorithms the JVM can run (e.g. Serial, Parallel, G1, ZGC, Shenandoah), each trading off throughput, pause-time predictability, and heap-size scalability differently, selectable based on an application's latency and throughput needs.",
+    "translationPl": "Implementacje garbage collectora",
+    "descriptionPl": "Różne algorytmy kolektora dostępne w JVM (np. Serial, Parallel, G1, ZGC, Shenandoah), z których każdy inaczej równoważy przepustowość, przewidywalność czasu pauzy i skalowalność względem rozmiaru sterty, dobierane w zależności od wymagań aplikacji co do opóźnień i przepustowości.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-parallel-streams",
+    "term": "Parallel Streams",
+    "description": "A Streams API mode that splits a data source into chunks processed concurrently across the common `ForkJoinPool`, potentially improving throughput on large, CPU-bound, easily-partitionable workloads, but with added coordination overhead and ordering caveats.",
+    "translationPl": "Strumienie równoległe (Parallel Streams)",
+    "descriptionPl": "Tryb Streams API, który dzieli źródło danych na fragmenty przetwarzane równolegle we wspólnej puli `ForkJoinPool`, mogąc poprawić przepustowość przy dużych, obciążających CPU i łatwo podzielnych zadaniach, kosztem dodatkowego narzutu koordynacji i ograniczeń dotyczących kolejności.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-locks-api",
+    "term": "Explicit Locks (`Lock` API)",
+    "description": "The `java.util.concurrent.locks` interfaces (e.g. `ReentrantLock`) that offer finer-grained control over mutual exclusion than the `synchronized` keyword, including tryLock with timeouts, interruptible waits, and fairness policies.",
+    "translationPl": "Blokady jawne (API `Lock`)",
+    "descriptionPl": "Interfejsy z pakietu `java.util.concurrent.locks` (np. `ReentrantLock`) oferujące bardziej precyzyjną kontrolę nad wzajemnym wykluczaniem niż słowo kluczowe `synchronized`, w tym próbę zajęcia blokady z limitem czasu, przerywalne oczekiwanie oraz polityki sprawiedliwości dostępu.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-cyclic-barrier-and-latches",
+    "term": "CyclicBarrier and CountDownLatch",
+    "description": "Concurrency synchronization utilities where `CountDownLatch` lets one or more threads wait until a set of operations finishes (one-shot), while `CyclicBarrier` makes a fixed group of threads wait for each other at a common point and can be reused across multiple rounds.",
+    "translationPl": "CyclicBarrier i CountDownLatch",
+    "descriptionPl": "Narzędzia synchronizacji współbieżności, gdzie `CountDownLatch` pozwala jednemu lub wielu wątkom czekać na zakończenie zestawu operacji (jednorazowo), natomiast `CyclicBarrier` sprawia, że ustalona grupa wątków czeka na siebie nawzajem w tym samym punkcie i może być wykorzystywana wielokrotnie w kolejnych rundach.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-atomic-classes",
+    "term": "Atomic Classes",
+    "description": "Classes such as `AtomicInteger` and `AtomicReference` in `java.util.concurrent.atomic` that provide lock-free, thread-safe operations on single variables using low-level compare-and-swap CPU instructions instead of blocking synchronization.",
+    "translationPl": "Klasy atomowe (Atomic)",
+    "descriptionPl": "Klasy takie jak `AtomicInteger` czy `AtomicReference` z pakietu `java.util.concurrent.atomic`, które zapewniają bezblokadowe, bezpieczne wątkowo operacje na pojedynczych zmiennych przy użyciu niskopoziomowych instrukcji procesora typu compare-and-swap zamiast blokującej synchronizacji.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-virtual-threads",
+    "term": "Virtual Threads",
+    "description": "Lightweight, JVM-managed threads (introduced via Project Loom) that are cheap to create in the millions and are automatically parked/unmounted from the underlying OS thread during blocking operations, greatly simplifying high-throughput concurrent code without needing reactive/async styles.",
+    "translationPl": "Wątki wirtualne (Virtual Threads)",
+    "descriptionPl": "Lekkie wątki zarządzane przez JVM (wprowadzone w ramach Project Loom), które są tanie w tworzeniu nawet w milionach egzemplarzy i automatycznie odczepiane od leżącego u ich podstaw wątku systemu operacyjnego podczas operacji blokujących, co znacznie upraszcza wysokoprzepustowy kod współbieżny bez konieczności stosowania stylu reaktywnego/asynchronicznego.",
+    "category": "Java",
+    "level": "Senior"
+  },
+  {
+    "id": "java-synchronized-collections",
+    "term": "Synchronized Collections",
+    "description": "Collection wrappers (e.g. `Collections.synchronizedList`) or dedicated classes (e.g. `ConcurrentHashMap`) that make collection access thread-safe, ranging from coarse whole-collection locking to fine-grained, higher-throughput concurrent designs.",
+    "translationPl": "Kolekcje zsynchronizowane",
+    "descriptionPl": "Opakowania kolekcji (np. `Collections.synchronizedList`) lub dedykowane klasy (np. `ConcurrentHashMap`) zapewniające bezpieczny wątkowo dostęp do kolekcji — od prostego blokowania całej kolekcji po precyzyjne, bardziej wydajne projekty współbieżne.",
     "category": "Java",
     "level": "Senior"
   }
