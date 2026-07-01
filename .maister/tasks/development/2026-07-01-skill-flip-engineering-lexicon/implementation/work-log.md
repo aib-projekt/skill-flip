@@ -32,5 +32,23 @@
 **Files Modified**: package.json, package-lock.json, tsconfig.json, vite.config.ts, .gitignore, index.html, src/main.ts, src/types/glossary.ts, src/types/glossary.test.ts, src/lib/config.ts, src/styles/theme.css, src/vite-env.d.ts, data/glossary.json
 **Notes**: `npm run dev` and `npm run build` both verified end-to-end (screenshot + console logs), zero console errors. `npm audit` reports 5 vulnerabilities (3 moderate, 1 high, 1 critical) in transitive devDependencies — typical for the vite/vitest/esbuild toolchain, not addressed (out of scope, `--force` fix risks breaking changes), flagged for awareness. Working tree committed by user request as `158fa78`.
 
+### Group 2: Card Component
+**From Implementation Plan**:
+- PascalCase component file naming — `Card.ts`, `Card.test.ts`
+- Two-tier CSS custom-property naming — new rules reference existing `--bg-*`/`--text-*`/`--color-*` tokens, no new hardcoded hex values
+
+**From INDEX.md**: N/A — no INDEX.md exists, skipped.
+
+**Discovered During Execution**: none beyond what plan/spec already specified.
+
+## 2026-07-01T14:59:16Z - Group 2 Complete
+
+**Steps**: 2.1 through 2.8 completed
+**Standards Applied**: see Standards Reading Log above
+**Tests**: 6 passed (Card.test.ts) — ran in isolation
+**Visual Compliance**: ✓ both mockups (learn-mode-card-front.html, learn-mode-card-back-flipped.html) — flip mechanics, badge/term layout, "(i)" toggle revealing translationPl+descriptionPl together, back face growing with content all confirmed via screenshot comparison against a temporary (fully reverted) dev-server harness
+**Files Modified**: src/components/Card.ts (created), src/components/Card.test.ts (created), src/styles/theme.css (appended)
+**Notes**: Documented deviation — flip implemented via visibility/position swap gated by a `.card-shell-back` modifier class rather than a literal 3D `rotateY` transform, since a pure CSS rotation can't simultaneously keep both faces in the DOM (`backface-visibility:hidden`, never `display:none`) AND let the back face grow with content (`min-height`, not fixed aspect-ratio). Screenshots confirm pixel-match against both mockups regardless. `variant: 'tile'` currently only suppresses nav-row/renames classes — Browse (Group 4) expected to handle grid-specific sizing itself. Only 2 of 12 category badge colors exist in theme.css so far (per known, already-flagged risk) — Group 4/5 will need to extrapolate the rest.
+
 ### Loaded Per Group
 (Entries added as groups execute)

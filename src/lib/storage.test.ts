@@ -1,10 +1,31 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import { readProgress, writeProgress, resetProgress, computeBucketCounts } from './storage';
 import type { Glossary } from '../types/glossary';
 
 const STORAGE_KEY = 'skillflip:learn-progress';
 
 describe('storage', () => {
+  beforeAll(() => {
+    // Environment workaround (not a production concern): under this
+    // Node/jsdom combination, Node's own experimental `webstorage` global
+    // shadows jsdom's public `window.localStorage` getter, which resolves
+    // to `undefined` even though jsdom's real Storage instance is alive
+    // internally as `window._localStorage`. Re-pointing the public property
+    // at jsdom's internal instance restores normal Storage behavior for
+    // this test file only. Production code (`storage.ts`) is unaffected —
+    // it runs in a real browser where `window.localStorage` is never
+    // shadowed like this. The durable fix is a Vitest setup file (or
+    // `NODE_OPTIONS=--no-experimental-webstorage`) at the project config
+    // level; flagged separately since `vite.config.ts` is outside this
+    // group's file scope.
+    if (typeof window.localStorage === 'undefined') {
+      Object.defineProperty(window, 'localStorage', {
+        value: (window as unknown as { _localStorage: Storage })._localStorage,
+        configurable: true,
+      });
+    }
+  });
+
   beforeEach(() => {
     localStorage.clear();
   });

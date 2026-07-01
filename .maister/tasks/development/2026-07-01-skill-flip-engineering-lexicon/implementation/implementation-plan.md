@@ -63,21 +63,21 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
   locator: `.card-shell.card-shell-back` / `.card-face.card-back` block (selectors `.card-shell-back`, `.card-back`, `.back-top`, `.term-small`, `.info-btn`, `.description`, `.translation-pop`, `.pl-term`, `.pl-desc`)
   acceptance: back face uses `min-height:340px` and grows with content (NOT the fixed aspect-ratio box the front uses — corrected mockup behavior); shows small uppercase term repeated at top-left with a circular "(i)" `.info-btn` beside it; full `description` text below; `.info-btn` toggles `.translation-pop` visibility showing BOTH `.pl-term` (`translationPl`) and `.pl-desc` (`descriptionPl`) together, independent of flip state; flip trigger is a real `<button>` element (not a clickable `<div>`)
 
-- [ ] 2.0 Complete the shared Card component in isolation
-  - [ ] 2.1 Write 6 focused tests for `Card`:
+- [x] 2.0 Complete the shared Card component in isolation
+  - [x] 2.1 Write 6 focused tests for `Card`:
     - flip toggles `isFlipped` state on click/tap
     - flip toggles on spacebar keypress when card has focus
     - front and back faces are both present in the DOM at all times (query both `.card-front` and `.card-back` regardless of flip state)
     - flip trigger element is a real `<button>` (not a div with a click handler)
     - "(i)" translation toggle sets `isTranslationVisible` independently of `isFlipped` (flipping does not reset translation visibility; un-flipping and re-flipping preserves last translation-toggle state per card instance)
     - Prev/Next navigation callbacks fire with the correct direction and reset `CardViewState` (`isFlipped`, `isTranslationVisible`) for the newly-shown entry
-  - [ ] 2.2 Implement `Card.ts` accepting an entry + optional nav callbacks + a `variant` flag (`'full'` for Learn Mode single-card, `'tile'` for Browse grid) so both call sites share one component per spec Section 2
-  - [ ] 2.3 Implement flip interaction: click/tap anywhere on the card face, spacebar when focused, using `backface-visibility: hidden` for both faces (never `display:none`, to keep screen-reader/DOM presence per Success Criteria)
-  - [ ] 2.4 Implement Prev/Next navigation (button-driven) and basic swipe-gesture detection (touch start/end delta) that only activates when `isFlipped === true`, per the `.swipe-hint` annotation ("swipe ↑ know / ↓ don't know") — swipe itself just emits a callback; Learn Mode (Group 5) wires the callback to mark actions
-  - [ ] 2.5 Implement the "(i)" translation toggle button rendering `.translation-pop` with `.pl-term` (`translationPl`) and `.pl-desc` (`descriptionPl`) together, independent of flip/nav state
-  - [ ] 2.6 Append Card-specific CSS to `theme.css` (`.card-shell`, `.card-inner`, `.card-face`, `.card-front`, `.card-back`, `.card-shell-back`, `.badge`, `.term`, `.term-small`, `.info-btn`, `.description`, `.translation-pop`, `.pl-term`, `.pl-desc`, `.flip-hint`) copied from both mockups' inline styles, reconciling the front's fixed aspect-ratio box against the back's content-driven `min-height`
-  - [ ] 2.7 Manually verify Card against both mockup screens (front static state, back flipped-with-translation state) in a dev-server render before moving on — this is the spec's flagged "build and verify in isolation first" integration seam
-  - [ ] 2.8 Ensure Card tests pass
+  - [x] 2.2 Implement `Card.ts` accepting an entry + optional nav callbacks + a `variant` flag (`'full'` for Learn Mode single-card, `'tile'` for Browse grid) so both call sites share one component per spec Section 2
+  - [x] 2.3 Implement flip interaction: click/tap anywhere on the card face, spacebar when focused, using `backface-visibility: hidden` for both faces (never `display:none`, to keep screen-reader/DOM presence per Success Criteria)
+  - [x] 2.4 Implement Prev/Next navigation (button-driven) and basic swipe-gesture detection (touch start/end delta) that only activates when `isFlipped === true`, per the `.swipe-hint` annotation ("swipe ↑ know / ↓ don't know") — swipe itself just emits a callback; Learn Mode (Group 5) wires the callback to mark actions
+  - [x] 2.5 Implement the "(i)" translation toggle button rendering `.translation-pop` with `.pl-term` (`translationPl`) and `.pl-desc` (`descriptionPl`) together, independent of flip/nav state
+  - [x] 2.6 Append Card-specific CSS to `theme.css` (`.card-shell`, `.card-inner`, `.card-face`, `.card-front`, `.card-back`, `.card-shell-back`, `.badge`, `.term`, `.term-small`, `.info-btn`, `.description`, `.translation-pop`, `.pl-term`, `.pl-desc`, `.flip-hint`) copied from both mockups' inline styles, reconciling the front's fixed aspect-ratio box against the back's content-driven `min-height`
+  - [x] 2.7 Manually verify Card against both mockup screens (front static state, back flipped-with-translation state) in a dev-server render before moving on — this is the spec's flagged "build and verify in isolation first" integration seam
+  - [x] 2.8 Ensure Card tests pass
     - Run ONLY the 6 tests written in 2.1
     - Do NOT run entire test suite
 
