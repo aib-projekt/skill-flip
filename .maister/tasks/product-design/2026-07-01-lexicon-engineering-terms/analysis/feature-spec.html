@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Specification — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* page-specific extensions */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+header { margin-top:4px; }
+header .sub { color:var(--dim); font-size:12.5px; margin-top:4px; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 4px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:700px) { .two-col { grid-template-columns:1fr; } }
+.scope-in .card { border-left:3px solid var(--ok); }
+.scope-out .card { border-left:3px solid var(--dim); }
+.scope-title { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); margin-bottom:6px; }
+ul.tight { margin:6px 0; padding-left:20px; }
+ul.tight li { margin:3px 0; }
+pre { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:12px 14px; overflow-x:auto; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px; line-height:1.5; }
+pre code { background:none; padding:0; }
+.section-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px 20px; margin:16px 0; }
+.section-card h3 { margin-top:0; font-size:15px; }
+.flag { border-left:3px solid var(--warn); background:var(--warn-soft); border-radius:0 var(--radius) var(--radius) 0;
+  padding:10px 14px; margin:10px 0; font-size:13px; }
+.risk-list { list-style:none; margin:0; padding:0; }
+.risk-list li { padding:8px 10px; border-bottom:1px solid var(--border); font-size:13px; }
+.risk-list li:last-child { border-bottom:none; }
+footer.note { color:var(--dim); font-size:12px; margin-top:36px; padding-top:14px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="design-context.md" target="_blank" rel="noopener" class="md" style="margin-left:0;">Design Context (md) ↗</a>
+  <a href="problem-statement.md" target="_blank" rel="noopener" class="md">Problem Statement (md) ↗</a>
+  <a href="personas.md" target="_blank" rel="noopener" class="md">Personas (md) ↗</a>
+  <a href="alternatives.html">Alternatives</a>
+  <a href="design-decisions.html">Design Decisions</a>
+  <span class="here">Feature Spec</span>
+  <a href="feature-spec.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Feature Specification</span>
+  <h1>Skill Flip — Engineering Lexicon</h1>
+  <div class="sub">Implementation-ready spec · 8 sections · client-only Vite + TypeScript flashcard app</div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>8</b><span>spec sections</span></div>
+  <div class="tile"><b>1</b><span>shared card component</span></div>
+  <div class="tile"><b>12</b><span>category enum values</span></div>
+  <div class="tile"><b>3</b><span>bucket weight tiers</span></div>
+  <div class="tile"><b>4</b><span>open risks / flags</span></div>
+</div>
+
+<section class="tldr">
+  <div class="card">
+    <h2 style="margin-top:0;">TL;DR</h2>
+    <p>A Vite + vanilla TypeScript, client-only flashcard app for reviewing curated Java/Backend engineering terms, data-driven from a typed <code>data/glossary.json</code>. One shared single-card component (tap-to-flip, Prev/Next, swipe accelerators, separate translation toggle) serves Learn Mode and focused review; a flippable grid serves Browse/Filter/Search. Learn Mode uses a bucketed weighted-random draw (<code>dont_know</code> weighted 4x, graduates after 2 consecutive "know" marks) persisted in <code>localStorage</code>. Visual identity uses a CSS-variable palette derived from the AiB Projekt GitHub avatar plus one added terracotta accent. Content is authored via a documented, checked-in AI-generation pipeline (prompt template + rubric + validation script) kept separate from runtime code. Ships via GitHub Actions to GitHub Pages; README serves both the creator and recruiter audiences. 8 sections, all implementation-ready and depth-verified.</p>
+
+    <h2>Key Decisions</h2>
+    <table>
+      <tr><th>Decision</th><th>Section</th></tr>
+      <tr><td><code>GlossaryEntry</code> schema fixed: <code>id</code>, <code>term</code>, <code>description</code>, <code>translationPl</code>, <code>descriptionPl</code>, <code>category</code> (12-value enum), <code>level</code> (Junior/Regular/Senior) — enforced by a validation script, not at runtime. Polish translation covers BOTH the term and the full definition (revised during mockup review — originally specced as term-only).</td><td>1</td></tr>
+      <tr><td>Single shared card component handles flip, navigation, and swipe; the full Polish translation (term + definition) is hidden behind a separate "(i)" toggle rather than always shown on the back, keeping the English definition primary.</td><td>2 <span class="badge" style="margin-left:4px;">revised twice: toggle, then full definition</span></td></tr>
+      <tr><td>Search matches term + description + Polish translation + Polish definition; grid tiles flip in place rather than navigating away. Filter/search state is intentionally NOT persisted across sessions.</td><td>3</td></tr>
+      <tr><td>Learn Mode: bucketed weighted-random draw, weights <code>dont_know=4 / unseen=2 / know=1</code>, graduation after 2 consecutive "know" marks, immediate demotion on any miss — no explicit session concept, always resumable.</td><td>4</td></tr>
+      <tr><td>Visual palette is CSS custom properties derived from the AiB Projekt avatar, plus one deliberate non-avatar addition (muted terracotta) for the "don't know" accent, since the avatar itself has no warning/attention color.</td><td>5 <span class="badge" style="margin-left:4px;">flagged &amp; approved</span></td></tr>
+      <tr><td>Content pipeline (prompt template + rubric + validation script) is checked into the repo under <code>content-pipeline/</code>, explicitly separated from the shipped app's runtime code.</td><td>6</td></tr>
+      <tr><td>Vite + GitHub Actions deploy to GitHub Pages; no environment variables/secrets needed (fully static).</td><td>7</td></tr>
+      <tr><td>README is a dual-audience artifact (creator's future reference + recruiter skim), with explicit "adding new glossary entries" instructions covering both manual edits and the content pipeline.</td><td>8</td></tr>
+    </table>
+
+    <h2>Open Questions / Risks</h2>
+    <ul class="risk-list">
+      <li><span class="sev info">info</span>Exact per-category → badge-color assignment is left as an implementation detail (any consistent, accessible-contrast mapping satisfies the spec).</li>
+      <li><span class="sev warning">flagged</span>The terracotta "don't know" accent color is a deliberate addition beyond the avatar-derived palette — flagged for awareness, already approved.</li>
+      <li><span class="sev info">info</span>No special UI exists for "100% mastered" (full-mastery edge case) beyond the draw algorithm continuing to function — a celebratory banner is a nice-to-have, not required for v1.</li>
+      <li><span class="sev info">info</span>License choice for the README is left to the creator, not specified here.</li>
+    </ul>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#s1">1. Data Model &amp; Content Schema</a> ·
+  <a href="#s2">2. Card &amp; Flip Interaction</a> ·
+  <a href="#s3">3. Browse / Filter / Search</a> ·
+  <a href="#s4">4. Learn Mode</a> ·
+  <a href="#s5">5. Visual Design &amp; Theming</a> ·
+  <a href="#s6">6. Content Generation Pipeline</a> ·
+  <a href="#s7">7. Project Structure, Build &amp; Deployment</a> ·
+  <a href="#s8">8. Documentation (README)</a>
+</nav>
+
+<main>
+
+<section id="s1" class="section-card">
+  <h3>Section 1 — Data Model &amp; Content Schema</h3>
+  <pre><code>// src/types/glossary.ts
+
+export type Level = "Junior" | "Regular" | "Senior";
+
+export type Category =
+  | "Soft Skills"
+  | "Management"
+  | "Mentoring"
+  | "Problem Solving"
+  | "API Development"
+  | "Cloud Engineering"
+  | "Data Storage"
+  | "DevOps"
+  | "Java"
+  | "Software Engineering"
+  | "Spring/JEE"
+  | "Testing";
+
+export interface GlossaryEntry {
+  id: string;              // stable slug, e.g. "idempotency" — used as localStorage key, must be unique
+  term: string;             // English term, e.g. "Idempotency"
+  description: string;      // curated definition, 1-3 sentences, English
+  translationPl: string;    // Polish translation of the term itself, e.g. "Idempotentność"
+  descriptionPl: string;    // Polish translation of the full definition, 1-3 sentences
+  category: Category;
+  level: Level;
+}
+
+export type Glossary = GlossaryEntry[];</code></pre>
+
+  <p><strong>File:</strong> <code>data/glossary.json</code> — a plain JSON array matching <code>GlossaryEntry[]</code>, fetched at runtime via <code>fetch('./data/glossary.json')</code> (no bundling into JS, so the content can be edited without a rebuild — see Section 6 on why a validate step is still recommended even so).</p>
+
+  <details>
+    <summary>Schema rules (enforced by validation script, not at runtime)</summary>
+    <ul class="tight">
+      <li><code>id</code> must be unique, lowercase-kebab-case, stable across edits (used as the localStorage progress key — renaming an <code>id</code> resets that card's progress, an accepted, documented trade-off)</li>
+      <li><code>term</code>, <code>description</code>, <code>translationPl</code>, <code>descriptionPl</code> are non-empty strings</li>
+      <li><code>category</code> must be one of the 12 enum values above</li>
+      <li><code>level</code> must be one of <code>Junior | Regular | Senior</code> (Junior realistically only used for API Development per the source ladder, but the type allows any category to have Junior-level entries)</li>
+      <li>No duplicate <code>(term, category)</code> pairs</li>
+    </ul>
+  </details>
+
+  <p><strong>Runtime loading:</strong> the app fetches <code>glossary.json</code> once on load, validates client-side that it's a non-empty array (fails loudly with a visible error state if fetch fails or the array is empty — no silent blank screen), and holds it in memory for the session. No pagination needed at ~150 entries.</p>
+
+  <p><strong>Why a flat array, not grouped-by-category:</strong> filtering/searching is simpler over a flat list with in-memory <code>.filter()</code>; grouping by category is a derived view (computed via <code>.reduce()</code> when rendering the Browse grid), not the storage shape.</p>
+</section>
+
+<section id="s2" class="section-card">
+  <h3>Section 2 — Card &amp; Flip Interaction (Single-Card Component)</h3>
+  <p>The shared component used by Learn Mode and any focused single-card view.</p>
+
+  <p><strong>Component states:</strong></p>
+  <pre><code>interface CardViewState {
+  currentEntry: GlossaryEntry;
+  isFlipped: boolean;          // false = showing term (front), true = showing description (back)
+  direction: "next" | "prev" | null;  // drives the transition animation direction
+  isTranslationVisible: boolean;      // false by default; toggled independently of isFlipped
+}</code></pre>
+
+  <p><strong>Interaction model:</strong></p>
+  <table>
+    <tr><th>Input</th><th>Action</th></tr>
+    <tr><td>Tap/click on card body</td><td>Toggle <code>isFlipped</code> (flip animation, ~300-400ms CSS 3D transform on a <code>.card-inner</code> wrapper: <code>rotateY(180deg)</code>)</td></tr>
+    <tr><td>Tap "Next" button / → arrow key / swipe-left</td><td>Advance to next entry in the current queue; resets <code>isFlipped</code> and <code>isTranslationVisible</code> to <code>false</code> on the new card</td></tr>
+    <tr><td>Tap "Prev" button / ← arrow key / swipe-right</td><td>Go to previous entry in queue history (a simple array-index stack, not full undo); resets <code>isFlipped</code> and <code>isTranslationVisible</code> to <code>false</code></td></tr>
+    <tr><td>Spacebar (desktop)</td><td>Same as tap-to-flip, for keyboard-only users</td></tr>
+    <tr><td>Tap "(i)" icon (back side only)</td><td>Toggle <code>isTranslationVisible</code>; does NOT flip or navigate — a small, separate tap target so it can't be triggered by accident during a flip</td></tr>
+    <tr><td>Swipe up/down (Learn Mode only)</td><td>Mark "know" (up) / "don't know" (down) — see Section 4. Only active when <code>isFlipped === true</code>; a swipe attempted while <code>isFlipped === false</code> instead just flips the card</td></tr>
+  </table>
+
+  <p><strong>Front (term side):</strong> large term text, category badge (colored per Section 5 palette), level badge (Regular/Senior/Junior pill).</p>
+
+  <div class="flag">
+    <strong>Back (description side):</strong> term repeated (small, at top, for context), full description. Polish translation is <strong>hidden by default</strong> behind a small "(i)" icon button next to the term; tapping it reveals both <code>translationPl</code> (the term) and <code>descriptionPl</code> (the full translated definition) together in one expanding block/popover, without affecting flip or navigation state. This keeps the English definition as the primary focus and treats the full Polish translation as an optional, complete lookup — not a partial "just the word" translation that leaves the definition itself untranslated.
+  </div>
+
+  <p><strong>Card queue abstraction:</strong> the component receives an ordered array of <code>GlossaryEntry</code> (the "queue") plus an index; Browse/Filter/Search and Learn Mode each construct this queue differently (a filtered subset in list order for Browse; a weighted-random draw sequence for Learn Mode — see Section 4) but hand the same shape to the card component. This is the concrete mechanism behind the "one shared component" decision from <a href="design-decisions.html">design-decisions.html</a>.</p>
+
+  <details>
+    <summary>Accessibility &amp; desktop/mobile parity details</summary>
+    <ul class="tight">
+      <li>Card front/back both rendered in the DOM simultaneously (back visually hidden via <code>backface-visibility: hidden</code> + rotation, not <code>display:none</code>), so screen readers can still access content</li>
+      <li>Flip triggered via a real <code>&lt;button&gt;</code> wrapping the card (not a bare <code>&lt;div onclick&gt;</code>), keyboard-focusable and announced</li>
+      <li>The "(i)" translation toggle is also a real <code>&lt;button&gt;</code> with an <code>aria-label="Show Polish translation"</code></li>
+      <li>Buttons are always visible (not hidden behind swipe-only); swipe/keyboard are accelerators layered on top, matching the <a href="design-decisions.html">design-decisions.html</a> selection</li>
+    </ul>
+  </details>
+</section>
+
+<section id="s3" class="section-card">
+  <h3>Section 3 — Browse / Filter / Search</h3>
+  <p><strong>Layout:</strong> a persistent header (sticky on scroll) containing: search input, category filter (multi-select dropdown/chips), level filter (segmented control: All / Junior / Regular / Senior). Below the header, a responsive CSS grid of card tiles (1 column mobile, 2 columns tablet, 3-4 columns desktop).</p>
+
+  <p><strong>Filter state:</strong></p>
+  <pre><code>interface BrowseFilterState {
+  searchQuery: string;               // raw input, debounced 200ms before applying
+  selectedCategories: Category[];    // empty array = all categories shown
+  selectedLevel: Level | "All";
+}</code></pre>
+
+  <p><strong>Filtering/search logic</strong> (pure function, re-run on any state change):</p>
+  <pre><code>function applyFilters(glossary: GlossaryEntry[], state: BrowseFilterState): GlossaryEntry[] {
+  const q = state.searchQuery.trim().toLowerCase();
+  return glossary.filter(entry => {
+    const categoryMatch = state.selectedCategories.length === 0
+      || state.selectedCategories.includes(entry.category);
+    const levelMatch = state.selectedLevel === "All" || entry.level === state.selectedLevel;
+    const searchMatch = q === "" ||
+      entry.term.toLowerCase().includes(q) ||
+      entry.description.toLowerCase().includes(q) ||
+      entry.translationPl.toLowerCase().includes(q) ||
+      entry.descriptionPl.toLowerCase().includes(q);
+    return categoryMatch && levelMatch && searchMatch;
+  });
+}</code></pre>
+  <p style="color:var(--dim); font-size:12.5px;">Per the earlier convergence decision, search matches term + description + Polish translation — now covering both the Polish term and the Polish definition, since Section 1 was revised to include <code>descriptionPl</code>.</p>
+
+  <p><strong>Grid tile (card-back-collapsed state):</strong> each tile shows the <code>term</code> and category/level badges by default (not flipped); tapping a tile flips it in place (in-grid, using the same flip mechanics as Section 2, sized down) to reveal the description — it does NOT navigate to a separate single-card view. This preserves the "scan many at once" value of the grid (Recruiter persona: seeing full category breadth fast) while reusing the same flip component/animation for visual consistency.</p>
+
+  <p><strong>Result count &amp; empty state:</strong> a small "<code>N</code> of 150 terms" counter above the grid, live-updating with filters. If filters produce zero results: a friendly empty state ("No terms match — try clearing a filter") with a "Clear filters" button, not a blank grid.</p>
+
+  <div class="flag">
+    <strong>Filter persistence:</strong> filter/search state is NOT persisted across sessions (resets on reload) — this is a lightweight, in-session-only concern, distinct from Learn Mode's cross-session <code>localStorage</code> progress (Section 4). Rationale: browsing is exploratory and low-stakes; there's no evidence a "remember my last filter" feature is needed, and adding it would be unrequested scope.
+  </div>
+
+  <p><strong>Category filter UI detail:</strong> chips/checkboxes for all 12 categories, each showing a live count of matching entries in parens (e.g. "Java (14)") so filtering communicates content volume before you click — useful for the Recruiter's fast-scan need and the Creator's "look something up" journey.</p>
+
+  <p><strong>Entry point from Learn Mode:</strong> a visible "Browse all" or "Exit Learn Mode" control always returns here without losing learn-mode progress (progress is saved continuously to <code>localStorage</code>, not just on exit — see Section 4).</p>
+</section>
+
+<section id="s4" class="section-card">
+  <h3>Section 4 — Learn Mode</h3>
+
+  <p><strong>Per-card learn state</strong> (persisted in <code>localStorage</code>, keyed by <code>id</code>):</p>
+  <pre><code>type Bucket = "unseen" | "know" | "dont_know";
+
+interface LearnProgressEntry {
+  bucket: Bucket;
+  consecutiveKnowCount: number;   // resets to 0 on any "don't know"; increments on each "know"
+}
+
+// localStorage key: "skillflip:learn-progress"
+// value: Record&lt;string, LearnProgressEntry&gt;  — keyed by GlossaryEntry.id</code></pre>
+
+  <p><strong>Bucket weights</strong> (draw probability, tunable constants in one <code>config.ts</code> file):</p>
+  <pre><code>const BUCKET_WEIGHTS: Record&lt;Bucket, number&gt; = {
+  dont_know: 4,
+  unseen: 2,
+  know: 1,
+};
+const GRADUATION_THRESHOLD = 2; // consecutive "know" marks needed to move dont_know -&gt; know</code></pre>
+
+  <div class="two-col" style="margin-top:14px;">
+    <div>
+      <div class="scope-title">Draw algorithm (runs once per "Next")</div>
+      <div class="card" style="margin:0;">
+        <ol class="tight" style="padding-left:18px;">
+          <li>Build a weighted pool: for each card, look up its current bucket (default <code>unseen</code> if not in <code>localStorage</code> yet), repeat its <code>id</code> in a flat array <code>BUCKET_WEIGHTS[bucket]</code> times.</li>
+          <li>Pick one entry at random (uniform) from that flat array — this naturally gives <code>dont_know</code> cards ~4x the draw chance of <code>know</code> cards.</li>
+          <li>Exclude the immediately-previous card from the pool for this draw only (avoid showing the same card twice in a row) unless it's the only card left.</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="scope-title">Marking logic (swipe up = know / down = don't know)</div>
+      <div class="card" style="margin:0;">
+        <ul class="tight">
+          <li>Mark "don't know" → <code>bucket = "dont_know"</code>, <code>consecutiveKnowCount = 0</code> (immediate, regardless of prior state — "a single miss should surface it more, not wait," per <a href="alternatives.html">alternatives.html</a>).</li>
+          <li>Mark "know" → increment <code>consecutiveKnowCount</code>; if it reaches <code>GRADUATION_THRESHOLD</code> (2), set <code>bucket = "know"</code> and reset the counter to 0; otherwise stay in the current bucket (an <code>unseen</code> or <code>dont_know</code> card doesn't jump to <code>know</code> on a single mark).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <p><strong>Session queue construction:</strong> Learn Mode does NOT pre-build a fixed shuffled deck; each "Next" re-runs the weighted draw against current bucket state, so a card just marked "don't know" can legitimately reappear sooner within the same session — an emergent property of the weighting, not separately engineered logic (this was the key reason Alternative 2D — explicit queue reinsertion — was rejected as redundant).</p>
+
+  <p><strong>Progress UI:</strong> a small stat readout always visible in Learn Mode header: <code>"{know_count} mastered · {dont_know_count} shaky · {unseen_count} new"</code>. Computed by counting buckets across all ~150 <code>LearnProgressEntry</code> records on each render — no separate aggregate needs to be stored.</p>
+
+  <p><strong>Reset control:</strong> a visible "Reset progress" button (in a settings/menu area, with a confirmation prompt — "This clears all learn-mode progress. Continue?") clears the entire <code>localStorage</code> key, returning every card to <code>unseen</code>.</p>
+
+  <p><strong>Session boundaries:</strong> there is no explicit "session" concept — Learn Mode is always live/continuous; opening the app and tapping "Learn" just resumes drawing from current bucket state. This directly serves the Creator persona's "resumes instantly, no configuration step" requirement from <a href="personas.md" target="_blank" rel="noopener">personas.md</a>.</p>
+
+  <div class="flag">
+    <strong>Empty/edge cases:</strong> if literally every card is in the <code>know</code> bucket (full mastery), the draw still works (weight 1 each, uniform random) — no special "you've mastered everything" dead-end state is needed, though a small celebratory banner is a nice-to-have, not required for v1.
+  </div>
+</section>
+
+<section id="s5" class="section-card">
+  <h3>Section 5 — Visual Design &amp; Theming</h3>
+
+  <p><strong>Color palette</strong> (derived from the AiB Projekt GitHub avatar — muted painterly tones), defined as CSS custom properties:</p>
+  <pre><code>:root {
+  /* Core palette from avatar */
+  --color-navy: #1c2b3a;        /* dark charcoal-navy — primary text, header */
+  --color-steel: #5b7086;       /* muted steel blue-gray — secondary elements, borders */
+  --color-ice: #d7e2e6;         /* pale ice-blue — backgrounds, card fronts */
+  --color-sage: #6f8a72;        /* muted sage green — accents, "know" state */
+  --color-chartreuse: #e3e8ad;  /* pale chartreuse — highlights, badges */
+  --color-cream: #f7f7f2;       /* off-white cream — page background */
+
+  /* Semantic mapping */
+  --bg-page: var(--color-cream);
+  --bg-card-front: var(--color-ice);
+  --bg-card-back: #ffffff;
+  --text-primary: var(--color-navy);
+  --text-secondary: var(--color-steel);
+  --accent-know: var(--color-sage);       /* "know" marking, mastered badge */
+  --accent-dont-know: #b5765f;            /* warm muted terracotta — deliberate complementary addition (not from the avatar itself) for "needs review" contrast */
+  --accent-highlight: var(--color-chartreuse);
+}</code></pre>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0 16px;">
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#1c2b3a;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">navy</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#5b7086;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">steel</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#d7e2e6;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">ice</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#6f8a72;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">sage</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#e3e8ad;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">chartreuse</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#f7f7f2;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">cream</div></div>
+    <div style="width:64px;"><div style="height:32px;border-radius:6px;background:#b5765f;border:1px solid var(--border);"></div><div style="font-size:10.5px;text-align:center;color:var(--dim);">terracotta*</div></div>
+  </div>
+  <p style="color:var(--dim); font-size:12px; margin-top:-8px;">* the one deliberate non-avatar addition — see Open Questions / Risks above</p>
+
+  <p><strong>Category color-coding:</strong> each of the 12 categories gets a badge color assigned from a small derived sub-palette (tints/shades of the 6 core colors above) — e.g. Java=navy, Spring/JEE=steel, Cloud Engineering=sage, DevOps=chartreuse, etc. Exact per-category assignment is a design/implementation detail, not a product decision — any consistent, accessible-contrast mapping satisfies the requirement.</p>
+
+  <p><strong>Typography:</strong> a single clean sans-serif for UI chrome (e.g. system font stack: <code>-apple-system, "Segoe UI", Roboto, sans-serif</code> — avoids a webfont load for a small app), with a monospace accent font (e.g. <code>"JetBrains Mono", monospace</code>) used sparingly for category/level badges and the progress-counter numbers, as a subtle nod to the technical subject matter without going full "code-editor theme."</p>
+
+  <p><strong>Layout breakpoints</strong> (mobile-first, per constraint):</p>
+  <pre><code>/* Base styles = mobile (&lt; 640px): single column, full-width card, stacked filter controls */
+@media (min-width: 640px)  { /* tablet: 2-column browse grid */ }
+@media (min-width: 1024px) { /* desktop: 3-4 column browse grid, side-by-side filter bar */ }</code></pre>
+
+  <p><strong>Card sizing:</strong> single-card view (Learn Mode) caps max-width at ~420px even on desktop (centered) — a flashcard shouldn't stretch edge-to-edge on a wide screen; the Browse grid, by contrast, does use full available width.</p>
+
+  <p><strong>Motion:</strong> flip transform (~300-400ms <code>ease-in-out</code>), swipe-dismiss animation (~200ms translate + fade) — both respect <code>prefers-reduced-motion: reduce</code> (fall back to instant state changes, no animation) for accessibility.</p>
+
+  <p><strong>First-load feel:</strong> no loading spinner needed for the ~150-entry JSON fetch (expected to complete in well under a second on any real connection), but a minimal skeleton/placeholder state is shown for the first 100-200ms to avoid a layout flash.</p>
+</section>
+
+<section id="s6" class="section-card">
+  <h3>Section 6 — Content Generation Pipeline</h3>
+  <p>A one-time (repeatable) authoring tool, separate from the shipped app's runtime — lives in a <code>content-pipeline/</code> folder, not bundled into the built app.</p>
+
+  <p><strong>Inputs:</strong> <code>context/Engineering Ladder.md</code> (the source taxonomy) — copied into the repo as <code>content-pipeline/source/engineering-ladder.md</code> for traceability.</p>
+
+  <details>
+    <summary>Prompt template (content-pipeline/prompt-template.md)</summary>
+    <pre><code>You are curating flashcard glossary entries from a skills-ladder document.
+
+For each skill bullet below, extract the core TECHNICAL TERM (not the full
+ability-statement) and write a glossary-quality definition.
+
+Rules:
+- `term`: the concept name only (e.g. "Idempotency", not "Understanding of
+  idempotency and safe methods")
+- `description`: 1-3 sentences, written in your own words, no verbatim
+  copying of the source bullet, suitable for someone reviewing the concept
+  for an interview
+- `translationPl`: the Polish translation of the TERM itself
+- `descriptionPl`: the full definition translated into natural Polish
+  (not a literal word-for-word translation — should read naturally to a
+  Polish speaker)
+- `category`: must be one of the 12 fixed categories [list provided]
+- `level`: Junior | Regular | Senior, matching the source section
+- `id`: lowercase-kebab-case slug of the term, must be unique across all
+  entries
+
+Output strictly as a JSON array matching this TypeScript type:
+[paste GlossaryEntry type from Section 1]
+
+Source bullets:
+[paste category section from engineering-ladder.md]</code></pre>
+    <p>Run once per category (12 runs total), outputs merged into a working <code>data/glossary.draft.json</code>.</p>
+  </details>
+
+  <details>
+    <summary>Curation rubric (content-pipeline/rubric.md)</summary>
+    <p>The creator's review checklist before promoting draft entries to <code>data/glossary.json</code>:</p>
+    <ul class="tight">
+      <li>Term is a real, googleable technical concept (not a vague paraphrase of the ability statement)</li>
+      <li>Definition is accurate and reads naturally — not a copy-paste of the ladder bullet</li>
+      <li>No two entries in the same category have near-duplicate terms</li>
+      <li>Polish term translation (<code>translationPl</code>) is accurate and idiomatic</li>
+      <li>Polish definition (<code>descriptionPl</code>) reads naturally, not as a stiff literal translation of the English <code>description</code></li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Validation script (content-pipeline/validate-glossary.ts)</summary>
+    <p>Run via <code>npm run validate-glossary</code>:</p>
+    <ul class="tight">
+      <li>Parses <code>data/glossary.json</code>, checks it against the <code>GlossaryEntry[]</code> type (via a runtime check, e.g. a small hand-written validator or a lightweight schema library)</li>
+      <li>Fails (non-zero exit code, printed list of problems) if: any required field is empty, <code>category</code> isn't one of the 12 enum values, <code>level</code> isn't one of the 3 enum values, any <code>id</code> is duplicated, any <code>(term, category)</code> pair is duplicated</li>
+      <li>Run manually before committing content changes; optionally wired into the GitHub Actions build (Section 7) as a pre-deploy check that fails the build on invalid content</li>
+    </ul>
+  </details>
+
+  <p><strong>Boundary with runtime app:</strong> nothing in <code>content-pipeline/</code> is imported by the app's source (<code>src/</code>) or included in the Vite build — it's a standalone Node/TS tooling folder with its own <code>package.json</code> scripts, documented in the README (Section 8) as "how content is authored," clearly separated from "how the app runs."</p>
+</section>
+
+<section id="s7" class="section-card">
+  <h3>Section 7 — Project Structure, Build &amp; Deployment</h3>
+
+  <p><strong>Repo structure:</strong></p>
+  <pre><code>skill-flip/
+├── content-pipeline/
+│   ├── source/engineering-ladder.md
+│   ├── prompt-template.md
+│   ├── rubric.md
+│   └── validate-glossary.ts
+├── data/
+│   └── glossary.json
+├── src/
+│   ├── types/glossary.ts
+│   ├── components/
+│   │   ├── Card.ts             (Section 2)
+│   │   ├── BrowseGrid.ts       (Section 3)
+│   │   ├── FilterBar.ts        (Section 3)
+│   │   └── LearnMode.ts        (Section 4)
+│   ├── lib/
+│   │   ├── filters.ts          (applyFilters, Section 3)
+│   │   ├── learnAlgorithm.ts   (weighted draw, Section 4)
+│   │   └── storage.ts          (localStorage read/write helpers)
+│   ├── styles/theme.css        (Section 5 CSS variables)
+│   └── main.ts
+├── index.html
+├── vite.config.ts
+├── package.json
+├── tsconfig.json
+├── .github/workflows/deploy.yml
+└── README.md</code></pre>
+
+  <p><strong>Vite config:</strong> <code>base: '/skill-flip/'</code> (or the actual repo name) so asset paths resolve correctly under GitHub Pages' project-site subpath; <code>build.outDir: 'dist'</code>.</p>
+
+  <p><strong>Deployment</strong> (<code>.github/workflows/deploy.yml</code>): triggers on push to <code>main</code>. Steps: checkout → <code>npm ci</code> → <code>npm run validate-glossary</code> (fails the build on bad content, per Section 6) → <code>npm run build</code> → deploy <code>dist/</code> to the <code>gh-pages</code> branch (or GitHub Pages' native Actions deployment, <code>actions/deploy-pages</code>). Live URL: <code>https://&lt;username&gt;.github.io/skill-flip/</code>.</p>
+
+  <p><strong>Local development:</strong> <code>npm install</code> then <code>npm run dev</code> (Vite dev server with HMR) — documented as the "getting started" path in the README for anyone cloning the repo.</p>
+
+  <p><strong>No environment variables / secrets needed</strong> — fully static, no API keys, no backend to configure.</p>
+</section>
+
+<section id="s8" class="section-card">
+  <h3>Section 8 — Documentation (README)</h3>
+  <p><strong>README.md structure</strong> (this is itself a portfolio artifact, per the success criteria):</p>
+  <ol class="tight" style="padding-left:20px;">
+    <li><strong>Project title + one-line pitch</strong> — e.g. "Skill Flip — an interactive flashcard lexicon of Senior/Regular Java &amp; Backend engineering terms."</li>
+    <li><strong>Live demo link</strong> (GitHub Pages URL) prominently at the top, plus a screenshot or short GIF of the flip/learn interaction (satisfies the "demo-able" success criterion for visitors who don't click through to the live link).</li>
+    <li><strong>Why this exists</strong> — 2-3 sentences: personal study tool built from a structured Engineering Ladder taxonomy, doubling as a portfolio piece.</li>
+    <li><strong>Features list</strong>: flip cards, category/level filtering, full-text search, weighted learn mode, EN/PL translations.</li>
+    <li><strong>Tech stack</strong> — Vite + TypeScript, no framework, deployed via GitHub Actions to GitHub Pages.</li>
+    <li><strong>Getting started</strong> — clone, <code>npm install</code>, <code>npm run dev</code>.</li>
+    <li><strong>Adding new glossary entries</strong> (the explicitly requested "instructions for adding new cards"):
+      <ul class="tight">
+        <li>Edit <code>data/glossary.json</code> directly for a single manual entry (schema documented inline: <code>term</code>, <code>description</code>, <code>category</code>, <code>level</code>, <code>translationPl</code>), OR</li>
+        <li>Use the content pipeline (<code>content-pipeline/</code>) for bulk/AI-assisted additions from a new source document — link to <code>content-pipeline/prompt-template.md</code> and <code>rubric.md</code>.</li>
+        <li>Always run <code>npm run validate-glossary</code> before committing.</li>
+      </ul>
+    </li>
+    <li><strong>Project structure</strong> — brief annotated version of the Section 7 tree, so a reviewer can navigate the repo quickly.</li>
+    <li><strong>License</strong> — creator's choice (e.g. MIT), not a product decision for this spec.</li>
+  </ol>
+
+  <p><strong>Tone:</strong> written for two audiences at once — clear enough for the creator's own future reference ("how do I add a card again?"), and polished enough to read well to a recruiter skimming it in under a minute. No filler ("This project was bootstrapped with...") — every section earns its place per the success criteria.</p>
+</section>
+
+</main>
+
+<footer class="note">
+  Feature Specification companion — restructured view of <a href="feature-spec.md" target="_blank" rel="noopener">feature-spec.md</a>. Content is identical to the markdown source; this page only reorganizes it for faster scanning.
+</footer>
+
+</body>
+</html>

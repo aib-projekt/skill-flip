@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Brief — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin-top:20px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+header { margin-bottom:6px; }
+header .meta { font-size:12px; color:var(--dim); margin-top:4px; }
+.hero-note { background:var(--accent-soft); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; font-size:13px; color:var(--text); margin:14px 0; }
+
+.layer-label { display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--accent); background:var(--accent-soft); border-radius:99px;
+  padding:2px 10px; margin-bottom:8px; }
+
+.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media (max-width:700px) { .persona-grid { grid-template-columns:1fr; } }
+.persona-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; }
+.persona-card h3 { margin-top:0; }
+.persona-card .role { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+
+.decision-approach { font-weight:650; }
+
+.mockup-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
+@media (max-width:700px) { .mockup-grid { grid-template-columns:1fr; } }
+.mockup-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:12px 16px; }
+.mockup-card .file { font-size:12px; margin-top:6px; }
+
+.correction { border-left:3px solid var(--warn); background:var(--warn-soft); border-radius:0 var(--radius) var(--radius) 0;
+  padding:10px 14px; margin:10px 0; font-size:13px; }
+
+.toc { font-size:13px; color:var(--dim); margin:10px 0 20px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+
+ul.tight li { margin-bottom:4px; }
+.ref-list a { display:inline-block; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../analysis/design-context.md" target="_blank" rel="noopener">Design Context</a>
+  <a href="../analysis/problem-statement.md" target="_blank" rel="noopener">Problem Statement</a>
+  <a href="../analysis/personas.md" target="_blank" rel="noopener">Personas</a>
+  <a href="../analysis/alternatives.html">Alternatives</a>
+  <a href="../analysis/design-decisions.html">Design Decisions</a>
+  <a href="../analysis/feature-spec.html">Feature Spec</a>
+  <span class="here">Product Brief</span>
+  <a href="product-brief.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Product Brief</span>
+  <span class="badge" style="background:var(--ok-soft); color:var(--ok);">Final &middot; Ready for Handoff</span>
+  <h1>Skill Flip — Engineering Lexicon</h1>
+  <div class="meta">Task: 2026-07-01-lexicon-engineering-terms &middot; Top-level hero artifact for the whole design workflow</div>
+</header>
+
+<div class="hero-note">
+  This is the <strong>top-level handoff document</strong> for the entire design workflow — a layered brief (Core Brief &rarr; Personas &rarr; Design Decisions &rarr; Mockup References &rarr; References) that stands on its own for an operator picking up development, while linking down to full detail in each supporting artifact.
+</div>
+
+<div class="tiles">
+  <div class="tile"><b>2</b><span>personas</span></div>
+  <div class="tile"><b>7</b><span>key decisions</span></div>
+  <div class="tile"><b>3</b><span>open risks</span></div>
+  <div class="tile"><b>4</b><span>design decisions (layer 2)</span></div>
+  <div class="tile"><b>4</b><span>mockups reviewed</span></div>
+</div>
+
+<section class="tldr">
+  <h2 id="tldr">TL;DR</h2>
+  <div class="card">
+    A personal, mobile-first flashcard web app for reviewing curated Java/Backend engineering vocabulary (Regular/Senior), sourced from a 12-category Engineering Ladder taxonomy — doubling as a public, portfolio-quality GitHub repo. Built as a client-only Vite + vanilla TypeScript static site (no backend), with a shared single-card component (flip, swipe, bilingual EN/PL) for Learn Mode, a flippable grid for Browse/Filter/Search, a bucketed weighted-random learn algorithm, a documented AI-assisted content pipeline, and a visual identity drawn from the creator's GitHub org avatar. Fully specified across 8 implementation-ready sections and validated against 4 interactive mockups. <strong>Ready for development handoff.</strong>
+  </div>
+
+  <h2 id="key-decisions">Key Decisions</h2>
+  <div class="card">
+    <ul class="tight">
+      <li>Client-only, static site (Vite + vanilla TypeScript, no framework) deployed via GitHub Actions to GitHub Pages — no backend, no environment secrets.</li>
+      <li>Both goals — personal study utility and public portfolio quality — are equal priority; neither was scoped down for the other.</li>
+      <li>Content is curated &amp; rewritten (not transcribed) from the Engineering Ladder source via an AI-assisted generation pass, documented as a reusable, checked-in pipeline (prompt template + rubric + validation script).</li>
+      <li>Learn Mode uses a bucketed weighted-random draw (not binary in/out, not full spaced repetition) — <code>dont_know</code> cards weighted 4x, graduate to <code>know</code> after 2 consecutive correct marks.</li>
+      <li>One shared single-card component (tap-to-flip, Prev/Next, swipe accelerators) serves Learn Mode; a flippable grid serves Browse/Filter/Search — reducing duplication while serving both the Creator's focused review and the Recruiter's fast-scan needs.</li>
+      <li>Polish translation covers both the term AND the full definition (<code>translationPl</code> + <code>descriptionPl</code>) — revised during mockup review from an initial term-only assumption.</li>
+      <li>Visual identity is a CSS custom-property palette derived from the AiB Projekt GitHub avatar (muted navy/steel/sage/chartreuse/ice/cream), plus one deliberate non-avatar terracotta accent for the "don't know" state.</li>
+    </ul>
+  </div>
+
+  <h2 id="risks">Open Questions / Risks</h2>
+  <div class="card">
+    <table>
+      <tr><th style="width:80px;">Severity</th><th>Item</th></tr>
+      <tr>
+        <td><span class="sev warning">warning</span></td>
+        <td>~150-term content-authoring effort (via the AI-assisted pipeline + creator review) is a larger undertaking than the app-building effort itself — no fixed timeline.</td>
+      </tr>
+      <tr>
+        <td><span class="sev info">info</span></td>
+        <td>The learn-mode graduation threshold (2 consecutive "know" marks) and bucket weights (4/2/1) are configurable constants — may need tuning after real usage.</td>
+      </tr>
+      <tr>
+        <td><span class="sev info">info</span></td>
+        <td>Per-category badge-color assignment, the 100%-mastery celebratory state, and the README license choice are left as implementation-time details, not specified here.</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#layer0">Layer 0: Core Brief</a> &middot;
+  <a href="#layer1">Layer 1: Persona Cards</a> &middot;
+  <a href="#layer2">Layer 2: Design Decisions</a> &middot;
+  <a href="#layer3">Layer 3: Mockup References</a> &middot;
+  <a href="#references">References</a>
+</nav>
+
+<main>
+
+<h2 id="layer0"><span class="layer-label">Layer 0</span><br>Core Brief</h2>
+
+<div class="card">
+  <h3>Problem Statement</h3>
+  <p>There's no personal, well-organized tool for reviewing the Java/Backend Senior-level engineering vocabulary defined in the Engineering Ladder taxonomy, and no polished, public artifact demonstrating that knowledge (and frontend craft) to recruiters or visitors. The raw source material (~150 skill bullets across 12 categories) exists but isn't in a reviewable, flashcard-friendly shape.</p>
+  <p>Full detail: <a href="../analysis/problem-statement.md" target="_blank" rel="noopener"><code>analysis/problem-statement.md</code></a></p>
+</div>
+
+<div class="card">
+  <h3>Target Users</h3>
+  <p>Two equal-priority personas — see <a href="#layer1">Layer 1</a> below for full cards.</p>
+</div>
+
+<div class="card">
+  <h3>Feature Overview</h3>
+  <table>
+    <tr><th style="width:170px;">Area</th><th>Summary</th></tr>
+    <tr>
+      <td>Data model</td>
+      <td>Typed <code>GlossaryEntry</code> (<code>id</code>, <code>term</code>, <code>description</code>, <code>translationPl</code>, <code>descriptionPl</code>, <code>category</code>, <code>level</code>) loaded from <code>data/glossary.json</code>.</td>
+    </tr>
+    <tr>
+      <td>Card &amp; flip interaction</td>
+      <td>Single shared component — tap-to-flip, Prev/Next, swipe accelerators, a separate "(i)" toggle revealing the full Polish translation without affecting flip/navigation state.</td>
+    </tr>
+    <tr>
+      <td>Browse / Filter / Search</td>
+      <td>Category (12 values) + level (Junior/Regular/Senior) filters, full-text search across term/description/translation, a responsive flippable-tile grid, live result counts and category counts, a friendly empty state.</td>
+    </tr>
+    <tr>
+      <td>Learn Mode</td>
+      <td>Bucketed weighted-random draw (<code>unseen</code>/<code>know</code>/<code>dont_know</code>), always resumable with no session concept, live progress readout, a reset-progress control.</td>
+    </tr>
+    <tr>
+      <td>Visual design</td>
+      <td>Mobile-first responsive layout, CSS custom-property palette from the AiB Projekt GitHub avatar, system sans-serif + monospace accent typography, reduced-motion support.</td>
+    </tr>
+    <tr>
+      <td>Content pipeline</td>
+      <td>Documented prompt template, curation rubric, and validation script (<code>npm run validate-glossary</code>), checked in under <code>content-pipeline/</code>, fully separated from runtime app code.</td>
+    </tr>
+    <tr>
+      <td>Project structure, build &amp; deployment</td>
+      <td>Vite build, GitHub Actions &rarr; GitHub Pages, no secrets/env vars needed.</td>
+    </tr>
+    <tr>
+      <td>Documentation</td>
+      <td>Dual-audience README (creator's future reference + recruiter skim), including explicit instructions for adding new glossary entries.</td>
+    </tr>
+  </table>
+  <p style="margin-top:10px;">Full detail (implementation-ready, all 8 sections): <a href="../analysis/feature-spec.html"><code>analysis/feature-spec.html</code></a></p>
+</div>
+
+<div class="card">
+  <h3>Constraints</h3>
+  <ul class="tight">
+    <li>Client-only, static site — no backend/server, deployable to GitHub Pages</li>
+    <li>Data/UI separated via <code>data/glossary.json</code></li>
+    <li>Content curated &amp; rewritten via AI-assisted generation pass, reviewed by the creator</li>
+    <li>Mobile-first, touch-friendly responsive design</li>
+    <li>Visual identity from the AiB Projekt GitHub avatar palette</li>
+    <li>No cross-device sync (localStorage only — accepted limitation, not a gap)</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>Success Criteria</h3>
+  <ul class="tight">
+    <li>Used for real, repeated study sessions (not abandoned after week one)</li>
+    <li>Demo-able as a strong first impression (CV/portfolio/LinkedIn link)</li>
+    <li>Recruiter-readable codebase and README</li>
+    <li>Full curated coverage of all 12 Engineering Ladder categories</li>
+    <li>Learn Mode's weighted resurfacing feels smart, not gimmicky</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3>Acceptance Criteria <span style="font-weight:400; color:var(--dim); font-size:12px;">(condensed from feature-spec.md)</span></h3>
+  <ul class="tight">
+    <li><code>glossary.json</code> validates against the <code>GlossaryEntry</code> schema with zero errors from <code>npm run validate-glossary</code></li>
+    <li>Card flips via tap, keyboard (spacebar), and reads correctly to screen readers (front/back both in DOM, <code>backface-visibility</code> hidden)</li>
+    <li>Search matches term, description, and both Polish fields; category/level filters combine correctly with search</li>
+    <li>Learn Mode's weighted draw demonstrably favors <code>dont_know</code> cards over multiple draws; graduation and demotion rules behave per Section 4's pseudocode</li>
+    <li>Site builds and deploys via the GitHub Actions workflow to a working GitHub Pages URL with zero manual steps beyond <code>git push</code></li>
+    <li>README covers project pitch, live link, tech stack, getting started, and "adding new glossary entries" (manual + pipeline paths)</li>
+  </ul>
+</div>
+
+<h2 id="layer1"><span class="layer-label">Layer 1</span><br>Persona Cards</h2>
+
+<div class="persona-grid">
+  <div class="persona-card">
+    <div class="role">Primary &middot; Learner</div>
+    <h3>The Creator</h3>
+    <p>Backend/Java engineer studying toward Senior-level roles. Short, frequent (5-10 min) mobile study sessions during commute/downtime. Needs Learn Mode to resume instantly with zero setup friction; occasionally browses/filters outside Learn Mode to look something up directly.</p>
+  </div>
+  <div class="persona-card">
+    <div class="role">Secondary &middot; Evaluator</div>
+    <h3>The Recruiter/Visitor</h3>
+    <p>Technical recruiter, hiring manager, or peer engineer browsing a portfolio. Arrives via a CV/LinkedIn/GitHub link, lands directly on the live demo, and expects to interact (flip/filter/search) within seconds — no reading required first. May click through to the repo/README afterward for more depth.</p>
+  </div>
+</div>
+<p>Full detail + user journeys: <a href="../analysis/personas.md" target="_blank" rel="noopener"><code>analysis/personas.md</code></a></p>
+
+<h2 id="layer2"><span class="layer-label">Layer 2</span><br>Design Decisions</h2>
+
+<div class="card" style="padding:0;">
+  <table>
+    <tr><th>Decision Area</th><th>Selected Approach</th><th>Why</th></tr>
+    <tr>
+      <td>Tech stack</td>
+      <td class="decision-approach">Vite + vanilla TypeScript, no framework</td>
+      <td>Modern tooling signal + type-safe glossary schema without framework over-engineering for a 3-mode, ~150-entry app</td>
+    </tr>
+    <tr>
+      <td>Learn-mode algorithm</td>
+      <td class="decision-approach">Bucketed weighted-random draw (4/2/1 weights, 2-mark graduation)</td>
+      <td>Matches explicit "not binary, not full SRS" requirement; simple, explainable, doubles as progress UI</td>
+    </tr>
+    <tr>
+      <td>Interaction model</td>
+      <td class="decision-approach">Single-card-with-controls (Learn Mode) + flippable grid (Browse/Filter/Search)</td>
+      <td>One shared component minimizes duplication; grid serves the "show full coverage fast" recruiter need</td>
+    </tr>
+    <tr>
+      <td>Content pipeline</td>
+      <td class="decision-approach">Documented, checked-in artifact (prompt + rubric + validation script)</td>
+      <td>Makes the "curated, not transcribed" quality bar demonstrable and reusable, not just claimed</td>
+    </tr>
+  </table>
+</div>
+<p>
+  Full alternatives considered, trade-offs, and evidence: <a href="../analysis/alternatives.html"><code>analysis/alternatives.html</code></a>
+  &middot; Selected approach rationale: <a href="../analysis/design-decisions.html"><code>analysis/design-decisions.html</code></a>
+</p>
+
+<h2 id="layer3"><span class="layer-label">Layer 3</span><br>Mockup References</h2>
+
+<p>Four interactive mockups were built and reviewed via the visual companion, covering both personas' primary journeys:</p>
+
+<div class="mockup-grid">
+  <div class="mockup-card">
+    <strong>Learn Mode — Card Front</strong>
+    <div>Term side, category/level badges, progress stats</div>
+    <div class="file"><a href="../analysis/mockups/learn-mode-card-front.html">analysis/mockups/learn-mode-card-front.html</a></div>
+  </div>
+  <div class="mockup-card">
+    <strong>Learn Mode — Card Back (Flipped)</strong>
+    <div>Definition + know/don't-know marking + PL translation toggle</div>
+    <div class="file"><a href="../analysis/mockups/learn-mode-card-back-flipped.html">analysis/mockups/learn-mode-card-back-flipped.html</a></div>
+  </div>
+  <div class="mockup-card">
+    <strong>Browse — Filter and Grid</strong>
+    <div>Category/level filters, search, flippable tile grid</div>
+    <div class="file"><a href="../analysis/mockups/browse-filter-and-grid.html">analysis/mockups/browse-filter-and-grid.html</a></div>
+  </div>
+  <div class="mockup-card">
+    <strong>Browse — Empty State</strong>
+    <div>Zero-result friendly empty state with clear-filters CTA</div>
+    <div class="file"><a href="../analysis/mockups/browse-empty-state.html">analysis/mockups/browse-empty-state.html</a></div>
+  </div>
+</div>
+
+<p>Two corrections surfaced during mockup review and were folded back into the spec:</p>
+<div class="correction">Card-back layout bug — fixed-aspect-ratio box overflowing on longer definitions, now grows with content.</div>
+<div class="correction">Scope gap — Polish translation initially specced as term-only, corrected to cover the full definition (<code>descriptionPl</code> added to the schema).</div>
+
+<h2 id="references">References</h2>
+
+<div class="card ref-list">
+  <ul class="tight">
+    <li><a href="../analysis/design-context.md" target="_blank" rel="noopener"><code>analysis/design-context.md</code></a> — unified synthesis of all context sources</li>
+    <li><a href="../analysis/problem-statement.md" target="_blank" rel="noopener"><code>analysis/problem-statement.md</code></a> — full problem statement, constraints, success criteria</li>
+    <li><a href="../analysis/personas.md" target="_blank" rel="noopener"><code>analysis/personas.md</code></a> — persona cards + user journeys</li>
+    <li><a href="../analysis/alternatives.html"><code>analysis/alternatives.html</code></a> — solution exploration (4 decision areas, 14 alternatives)</li>
+    <li><a href="../analysis/design-decisions.html"><code>analysis/design-decisions.html</code></a> — selected approach, rationale, trade-offs</li>
+    <li><a href="../analysis/feature-spec.html"><code>analysis/feature-spec.html</code></a> — full 8-section implementation-ready specification</li>
+    <li><a href="../analysis/mockups/">analysis/mockups/</a> — interactive visual prototypes</li>
+  </ul>
+</div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specification — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+.toc { font-size:13px; margin:10px 0 20px; }
+.toc a { margin-right: 4px; }
+.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:700px) { .scope-grid { grid-template-columns:1fr; } }
+.scope-grid .card h3 { margin-top:0; }
+.in-scope { border-left:4px solid var(--ok); }
+.out-scope { border-left:4px solid var(--dim); }
+.story-card { border-left:4px solid var(--accent); }
+.reuse-none { border-left:4px solid var(--warn); background:var(--warn-soft); }
+.corrected { border-left:4px solid var(--info); background:var(--info-soft); }
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+.chip { background:var(--accent-soft); color:var(--accent); border-radius:99px; padding:2px 10px; font-size:12px; }
+.screen-table td:first-child { white-space:nowrap; font-weight:600; }
+ul.tight { margin:6px 0; padding-left:20px; }
+ul.tight li { margin:3px 0; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">&larr; Dashboard</a>
+  <span class="here">Spec</span>
+  <a href="spec.md" target="_blank" rel="noopener" class="md">md twin &#8599;</a>
+</nav>
+
+<header>
+  <span class="badge">Specification</span>
+  <h1>Skill Flip &mdash; Engineering Lexicon (Implementation)</h1>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>10</b><span>core requirements</span></div>
+  <div class="tile"><b>0 reuse / 14 new</b><span>components</span></div>
+  <div class="tile"><b>4</b><span>visual screens</span></div>
+  <div class="tile"><b>2</b><span>topbars (per-view)</span></div>
+  <div class="tile"><b>Low&ndash;Med</b><span>risk level</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>Build the full Skill Flip flashcard app &mdash; Vite + vanilla TypeScript, client-only static site &mdash; exactly per the 8-section authoritative feature spec, plus one addition: a small <code>AppShell.ts</code> for manual Learn/Browse view-swap (no router). This pass ships the complete app, build, deploy pipeline, and content-authoring tooling, but populates <code>data/glossary.json</code> with only a <strong>Java-category starter subset (~15-20 terms)</strong>, not the full ~150-term/12-category glossary. Greenfield repo &mdash; no existing code to reuse.</p>
+
+  <h3>Key Decisions</h3>
+  <ul class="tight">
+    <li>Follow <code>feature-spec.md</code>'s 8 sections verbatim as the desired-state target &mdash; already implementation-ready, validated against mockups.</li>
+    <li>Add <code>src/components/AppShell.ts</code>: manual view-swap between Learn and Browse, no routing library, no URL/hash state &mdash; resolves the gap-analysis finding.</li>
+    <li>Ship a Java-only starter content subset (~15-20 terms, Regular + Senior) as <code>data/glossary.json</code>; full 150-term set is a deferred follow-up using the pipeline built here.</li>
+    <li>Vitest as test framework (pairs with Vite, zero extra config) &mdash; spec is silent by design, this is a sensible default.</li>
+    <li>npm as package manager; fresh git init; repo target <code>aib-projekt/skill-flip</code> (Vite <code>base: '/skill-flip/'</code>, Pages URL <code>https://aib-projekt.github.io/skill-flip/</code>); MIT license.</li>
+  </ul>
+
+  <h3>Open Questions / Risks</h3>
+  <ul class="tight">
+    <li>Full ~150-term, 12-category content authoring remains a follow-up pass &mdash; not part of this pass's completion criteria. A ~15-20 entry starter set still fully exercises every interaction/algorithm path.</li>
+    <li>Per-category badge-color mapping, the 100%-mastery celebratory banner, and exact "Reset progress" placement are implementation-time details the spec itself leaves open &mdash; not escalated as decisions.</li>
+  </ul>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#goal">Goal</a> &middot;
+  <a href="#stories">User Stories</a> &middot;
+  <a href="#requirements">Core Requirements</a> &middot;
+  <a href="#visual">Visual Design</a> &middot;
+  <a href="#reuse">Reusable Components</a> &middot;
+  <a href="#technical">Technical Approach</a> &middot;
+  <a href="#content-scope">Content Scope</a> &middot;
+  <a href="#guidance">Implementation Guidance</a> &middot;
+  <a href="#scope">In/Out of Scope</a> &middot;
+  <a href="#success">Success Criteria</a>
+</nav>
+
+<main>
+
+<h2 id="goal">Goal</h2>
+<div class="card">
+  <p>Ship a working, deployed, portfolio-quality flashcard web app for reviewing curated Java/Backend engineering terms &mdash; flip-card Learn Mode with weighted spaced-style resurfacing, a filterable/searchable Browse grid, bilingual (EN/PL) content, and a documented content-authoring pipeline &mdash; built entirely client-side and hosted on GitHub Pages.</p>
+</div>
+
+<h2 id="stories">User Stories</h2>
+<div class="card story-card">
+  <ul class="tight">
+    <li>As the <b>Creator/Learner</b>, I want to open the app and immediately resume Learn Mode (no setup step) so that I can review terms in short, frequent study sessions.</li>
+    <li>As the <b>Creator/Learner</b>, I want cards I mark "don't know" to reappear more often than ones I know, so that review time concentrates on my weak spots.</li>
+    <li>As the <b>Creator/Learner</b>, I want to see the Polish translation of a term and its definition on demand (not forced), so the English definition stays primary but a lookup is one tap away.</li>
+    <li>As the <b>Recruiter/Visitor</b>, I want to land on a live, interactive demo and flip/filter/search within seconds with no reading required, so I can quickly assess craft.</li>
+    <li>As the <b>Recruiter/Visitor</b>, I want to browse all terms by category/level with live counts, so I can scan breadth of coverage fast.</li>
+    <li>As the <b>Creator (maintainer)</b>, I want clear instructions/tooling for adding new glossary entries, so growing from ~15-20 to ~150 terms later is straightforward and reproducible.</li>
+  </ul>
+</div>
+
+<h2 id="requirements">Core Requirements</h2>
+<table>
+<thead><tr><th>#</th><th>Requirement</th><th>Spec section</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Typed <code>GlossaryEntry</code> data model, runtime <code>fetch()</code> of <code>data/glossary.json</code>, loud failure on empty/error</td><td>Data model</td></tr>
+<tr><td>2</td><td>Shared <code>Card</code> component &mdash; flip, Prev/Next, swipe, keyboard, independent "(i)" translation toggle</td><td>Card &amp; flip</td></tr>
+<tr><td>3</td><td>Browse/Filter/Search &mdash; sticky filter bar, search input <b>debounced 200ms</b> before re-running <code>applyFilters</code>, category chips w/ live counts, level toggle, responsive grid, live result count, empty state</td><td>Browse</td></tr>
+<tr><td>4</td><td>Learn Mode &mdash; weighted draw (4/2/1), graduation/demotion, progress stats, reset control, always-resumable</td><td>Learn Mode</td></tr>
+<tr><td>5</td><td><b>AppShell</b> &mdash; owns <i>only</i> the bottom tab bar + outer container's max-width variant (no router); each view renders its own distinct topbar; <code>progress-stats</code> appears in <b>both</b> Learn and Browse topbars</td><td>Gap-analysis addition (corrected)</td></tr>
+<tr><td>6</td><td>Visual theming &mdash; avatar-derived CSS palette + terracotta accent, responsive breakpoints, reduced-motion</td><td>Visual design</td></tr>
+<tr><td>7</td><td>Content pipeline &mdash; prompt template, rubric, <code>validate-glossary.ts</code>, decoupled from <code>src/</code></td><td>Content pipeline</td></tr>
+<tr><td>8</td><td>Starter content &mdash; ~15-20 curated Java entries, Regular + Senior levels, passes validation</td><td>Content scope</td></tr>
+<tr><td>9</td><td>Build &amp; deploy &mdash; Vite, GitHub Actions &rarr; GitHub Pages, zero secrets</td><td>Build/deploy</td></tr>
+<tr><td>10</td><td>Dual-audience README &mdash; pitch, live link, stack, getting started, adding entries, license</td><td>Documentation</td></tr>
+</tbody>
+</table>
+
+<div class="card corrected">
+  <h3 style="margin-top:0">AppShell &amp; topbar ownership &mdash; corrected scope (Req. 5)</h3>
+  <p><b>AppShell owns only</b> the persistent bottom tab bar and the outer container's max-width variant (480px for Learn, 900px "wide" for Browse, per the mockups) &mdash; manual show/hide between the two views, no router, no URL/hash state, Learn Mode progress unaffected by switching.</p>
+  <p><b>AppShell does not own a shared topbar.</b> Each view owns and renders its own distinct topbar content:</p>
+  <ul class="tight">
+    <li><b>Learn Mode's topbar</b>: exit-to-browse icon + <code>progress-stats</code> + reset-progress icon</li>
+    <li><b>Browse's topbar</b>: brand label + <code>progress-stats</code></li>
+  </ul>
+  <p><code>progress-stats</code> (live mastered/shaky/new counts) is rendered in <b>both</b> views' topbars, not Learn Mode only &mdash; confirmed by direct inspection of all 4 mockup files: <code>browse-filter-and-grid.html</code> and <code>browse-empty-state.html</code> render identical <code>.progress-stats</code> markup to the Learn Mode screens. The underlying bucket-count computation is shared (one function reads <code>localStorage</code> learn-progress), but each view's own topbar component is responsible for rendering it.</p>
+</div>
+
+<h2 id="visual">Visual Design</h2>
+<div class="card">
+  <p>Mockups in <code>analysis/design-context/</code> are <b>binding inputs</b> &mdash; implementation-planner will attach <code>Visual References</code> to UI task groups. Fidelity level: <b>pixel-level</b> &mdash; the mockups' inline CSS is the actual production styling, not a rough guide.</p>
+  <table class="screen-table">
+  <thead><tr><th>Screen</th><th>Mockup file</th><th>Key elements</th></tr></thead>
+  <tbody>
+  <tr><td>learn-mode-card-front</td><td><code><a href="../analysis/design-context/mockups/learn-mode-card-front.html" target="_blank" rel="noopener">learn-mode-card-front.html</a></code></td><td><code>.app-shell</code> (max-width 480px); <code>.topbar</code> with exit-to-browse icon + <code>.progress-stats</code> (mastered/shaky/new, monospace) + reset-progress icon; 3:4 card-shell (category/level badges, term, flip-hint); nav-row (Prev/Next + swipe hint); bottombar (Learn active)</td></tr>
+  <tr><td>learn-mode-card-back</td><td><code><a href="../analysis/design-context/mockups/learn-mode-card-back-flipped.html" target="_blank" rel="noopener">learn-mode-card-back-flipped.html</a></code></td><td>Same topbar/bottombar; card grows with content (not fixed aspect-ratio &mdash; corrected post-review), "(i)" toggle reveals translationPl + descriptionPl together, mark-row (Know/Don't know, only when flipped)</td></tr>
+  <tr><td>browse-filter-grid</td><td><code><a href="../analysis/design-context/mockups/browse-filter-and-grid.html" target="_blank" rel="noopener">browse-filter-and-grid.html</a></code></td><td><code>.app-shell.wide</code> (max-width 900px); <code>.topbar</code> with brand + <code>.progress-stats</code>; sticky filter-bar (search, category chips w/ counts + overflow, level toggle); live result-count; responsive tile grid (3/2/1 columns); bottombar (Browse active)</td></tr>
+  <tr><td>browse-empty-state</td><td><code><a href="../analysis/design-context/mockups/browse-empty-state.html" target="_blank" rel="noopener">browse-empty-state.html</a></code></td><td>Same filter-bar/topbar/bottombar; empty-state icon + heading + "Clear filters" CTA replacing the grid</td></tr>
+  </tbody>
+  </table>
+  <p><b>Result-count note:</b> mockups show "N of 150 terms" as placeholder copy; actual UI must render the true count against the loaded array length (e.g. "6 of 18 terms") &mdash; counter logic is dataset-size-agnostic, no special-casing needed.</p>
+  <p><b>Shared components:</b></p>
+  <div class="chip-row">
+    <span class="chip">card-shell</span>
+    <span class="chip">grid-tile</span>
+    <span class="chip">progress-stats &mdash; in both topbars</span>
+    <span class="chip">filter-bar</span>
+    <span class="chip">bottombar-tabs (&rarr; AppShell.ts)</span>
+  </div>
+</div>
+
+<h2 id="reuse">Reusable Components</h2>
+<div class="card reuse-none">
+  <h3 style="margin-top:0">Existing Code to Leverage</h3>
+  <p><b>None.</b> Confirmed by Phase 1 codebase analysis: zero source files, no package manifests, no git repository &mdash; pure greenfield. No sibling code, no existing components or patterns to search for. The 4 approved mockups and <code>feature-spec.md</code> serve as the pattern source instead of prior code.</p>
+</div>
+<div class="card">
+  <h3 style="margin-top:0">New Components Required</h3>
+  <table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+  <tr><td><code>src/types/glossary.ts</code></td><td>GlossaryEntry, Category, Level, Glossary types</td></tr>
+  <tr><td><code>src/components/Card.ts</code></td><td>Shared flip/nav/swipe/translation-toggle component</td></tr>
+  <tr><td><code>src/components/BrowseGrid.ts</code></td><td>Filtered grid of flippable tiles, reuses Card</td></tr>
+  <tr><td><code>src/components/FilterBar.ts</code></td><td>Search input, category chips, level toggle</td></tr>
+  <tr><td><code>src/components/LearnMode.ts</code></td><td>Single-card Learn view, own topbar (exit icon + progress-stats + reset icon), progress stats, reset control</td></tr>
+  <tr><td><code>src/components/AppShell.ts</code></td><td><b>New &mdash; gap-analysis addition.</b> Owns <i>only</i> the bottom tab bar and the outer container's max-width variant (480px Learn / 900px "wide" Browse); manual show/hide, no router/URL state. Does <b>not</b> own a shared topbar &mdash; <code>LearnMode.ts</code> and <code>BrowseGrid.ts</code> each render their own distinct topbar (both including <code>progress-stats</code>, computed from the same shared <code>storage.ts</code> read).</td></tr>
+  <tr><td><code>src/lib/filters.ts</code></td><td><code>applyFilters</code> pure function</td></tr>
+  <tr><td><code>src/lib/learnAlgorithm.ts</code></td><td>Weighted-draw + bucket-transition logic</td></tr>
+  <tr><td><code>src/lib/storage.ts</code></td><td>localStorage read/write helpers</td></tr>
+  <tr><td><code>src/lib/config.ts</code></td><td>BUCKET_WEIGHTS, GRADUATION_THRESHOLD constants</td></tr>
+  <tr><td><code>src/styles/theme.css</code></td><td>CSS custom-property palette + breakpoints + motion rules</td></tr>
+  <tr><td><code>src/main.ts</code></td><td>Entry point: fetch glossary, mount AppShell</td></tr>
+  <tr><td><code>content-pipeline/*</code></td><td>Authoring tooling, decoupled from <code>src/</code></td></tr>
+  <tr><td><code>data/glossary.json</code></td><td>Starter content &mdash; ~15-20 Java-category entries</td></tr>
+  </tbody>
+  </table>
+  <details>
+    <summary>Why AppShell.ts instead of folding into main.ts</summary>
+    <p>Keeps <code>main.ts</code> a thin bootstrap (fetch data, mount shell) and isolates the one piece of app-wide UI state (active view) in a single, testable place &mdash; consistent with the spec's existing file-per-concern pattern (e.g. <code>FilterBar.ts</code> separate from <code>BrowseGrid.ts</code>). Minimum addition needed to resolve the gap; no router, no state-management library, no hash-based deep-linking, matching the spec's explicit no-framework/no-state-library discipline.</p>
+  </details>
+</div>
+
+<h2 id="technical">Technical Approach</h2>
+<div class="card">
+  <p><b>Data flow:</b> <code>main.ts</code> fetches <code>data/glossary.json</code> once &rarr; validates non-empty array (visible error on failure) &rarr; holds in memory &rarr; mounts <code>AppShell</code>. AppShell renders LearnMode or BrowseGrid+FilterBar based on active tab; both feed the same <code>Card</code> component via two different queue-construction strategies (filtered list-order subset vs. weighted-random draw sequence).</p>
+  <p><b>State boundaries:</b></p>
+  <ul class="tight">
+    <li>Filter/search state &mdash; in-memory only, resets on reload (deliberate, not persisted)</li>
+    <li>Learn progress &mdash; <code>localStorage</code> key <code>skillflip:learn-progress</code>, written immediately on every mark</li>
+    <li>Card view state (<code>isFlipped</code>, <code>direction</code>, <code>isTranslationVisible</code>) &mdash; local to each Card instance</li>
+    <li>Active tab &mdash; owned by AppShell, in-memory, no persistence (always starts on Learn)</li>
+  </ul>
+  <p><b>Integration seam requiring care:</b> the shared <code>Card</code> component must accept an ordered queue + index from either call site without knowing which one constructed it &mdash; build and verify Card in isolation first, against both mockup screens, before wiring Browse or Learn Mode to it.</p>
+  <p><b>Content pipeline boundary:</b> standalone Node/TS tooling, no imports either direction with <code>src/</code>; <code>validate-glossary.ts</code> run manually and as a GitHub Actions pre-deploy gate.</p>
+  <p><b>Repo/deploy:</b> fresh git init; root <code>.gitignore</code> merges Node/Vite defaults with existing <code>.idea/.gitignore</code> (preserve <code>.claude/</code> and <code>.maister/</code>); Vite <code>base: '/skill-flip/'</code>; deploy workflow triggers on push to <code>main</code>; live at <code>https://aib-projekt.github.io/skill-flip/</code>; no secrets/env vars.</p>
+</div>
+
+<h2 id="content-scope">Content Scope for This Pass</h2>
+<div class="card">
+  <p>This implementation builds the <b>complete, production-ready application and tooling</b> &mdash; every component, algorithm, style, pipeline script, and deployment step is fully implemented and functional. What is intentionally scoped smaller is the <b>shipped dataset</b>:</p>
+  <ul class="tight">
+    <li><code>data/glossary.json</code> ships with <b>~15-20 hand-curated Java-category entries</b>, spanning Regular and Senior levels, authored/reviewed using the same pipeline being built in this pass &mdash; demonstrating the pipeline works, not just documenting it.</li>
+    <li>The full ~150-term, 12-category glossary is explicitly <b>out of scope for this pass</b> &mdash; a documented follow-up task reusing <code>validate-glossary.ts</code> and <code>prompt-template.md</code> unchanged.</li>
+    <li>This scoping does not simplify or stub any app logic: filtering across 12 category values still works correctly even when only "Java" has entries; the weighted-draw algorithm, graduation/demotion rules, and search all operate identically regardless of dataset size.</li>
+  </ul>
+</div>
+
+<h2 id="guidance">Implementation Guidance</h2>
+<div class="card">
+  <h3 style="margin-top:0">Testing Approach</h3>
+  <ul class="tight">
+    <li>2-8 focused tests per implementation step group (scaffolding/types, Card, Browse/Filter/Search, Learn Mode, AppShell, content pipeline, deploy/docs)</li>
+    <li>Test framework: <b>Vitest</b> (pairs with Vite, no extra TS config)</li>
+    <li>Prioritize unit tests for pure logic with explicit acceptance criteria: <code>applyFilters</code>, <code>learnAlgorithm</code> (weighted draw, graduation, demotion, previous-card exclusion, full-mastery fallback), <code>storage.ts</code> round-trip</li>
+    <li>Manual/exploratory verification (mockups as reference oracle) for flip/swipe/keyboard interaction, theming, breakpoints</li>
+    <li>Test verification runs only new tests per group, not the entire suite</li>
+  </ul>
+  <h3>Standards Compliance</h3>
+  <p>No <code>.maister/docs/standards/</code> directory exists in this project &mdash; confirmed absent, no project-specific standards to reference. Conventions instead come from the authoritative feature spec: PascalCase for types/component files, camelCase for lib/utility modules, lowercase-kebab-case for <code>GlossaryEntry.id</code> slugs, two-tier CSS custom-property naming (<code>--color-*</code> raw &rarr; <code>--bg-*</code>/<code>--text-*</code>/<code>--accent-*</code> semantic).</p>
+</div>
+
+<h2 id="scope">In / Out of Scope</h2>
+<div class="scope-grid">
+  <div class="card in-scope">
+    <h3 style="margin-top:0">In Scope</h3>
+    <ul class="tight">
+      <li>Full app: data model, Card, Browse/Filter/Search, Learn Mode, AppShell, theming</li>
+      <li>Content pipeline tooling (prompt template, rubric, validator)</li>
+      <li>~15-20 term Java-category starter dataset</li>
+      <li>Build &amp; GitHub Pages deployment via Actions</li>
+      <li>Dual-audience README</li>
+    </ul>
+  </div>
+  <div class="card out-scope">
+    <h3 style="margin-top:0">Out of Scope</h3>
+    <ul class="tight">
+      <li>Full ~150-term, 12-category content authoring (follow-up pass)</li>
+      <li>Cross-device sync of Learn Mode progress</li>
+      <li>Full spaced-repetition scheduling algorithms</li>
+      <li>Multi-language UI beyond existing PL data fields</li>
+      <li>Hash/history-API routing (manual view-swap only)</li>
+      <li>User accounts, backend, server-side persistence</li>
+      <li>100%-mastery celebratory banner (nice-to-have, not v1)</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="success">Success Criteria</h2>
+<div class="card">
+  <ul class="tight">
+    <li><code>npm run validate-glossary</code> passes with zero errors against the starter dataset (~15-20 entries; all 12 Category / 3 Level enum values accepted by schema even though only Java is populated; no duplicate ids or (term, category) pairs)</li>
+    <li><code>Card</code> flips via tap, click, and spacebar; front/back both in DOM (<code>backface-visibility: hidden</code>, not <code>display:none</code>); real <code>&lt;button&gt;</code> trigger</li>
+    <li>Browse search matches term, description, translationPl, descriptionPl; filters combine correctly; live counts reflect actual loaded entries, not hardcoded to 150</li>
+    <li>Empty state renders with working "Clear filters" CTA on zero-result filter combinations</li>
+    <li>Weighted draw demonstrably favors <code>dont_know</code> (unit-tested); graduation/demotion/exclusion/full-mastery-fallback behave per spec</li>
+    <li>Progress stats accurate and live, rendered in <b>both</b> the Learn Mode topbar and the Browse topbar; reset-progress clears localStorage after confirmation</li>
+    <li>AppShell switches Learn/Browse with no lost progress, no reload/URL change</li>
+    <li><code>npm run build</code> succeeds; Actions workflow validates &rarr; builds &rarr; deploys to a working Pages URL</li>
+    <li>README covers pitch, live link, stack, getting started, adding entries (manual + pipeline), MIT license</li>
+    <li>Git initialized with merged <code>.gitignore</code>; <code>.claude/</code> and <code>.maister/</code> untouched</li>
+  </ul>
+</div>
+
+</main>
+</body>
+</html>

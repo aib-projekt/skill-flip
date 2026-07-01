@@ -1,0 +1,186 @@
+orchestrator:
+  started_phase: phase-8
+  completed_phases: ["phase-1", "phase-2", "phase-5", "phase-6", "phase-7"]
+  skipped_phases:
+    phase-3: "has_reproducible_defect=false — new feature build, no TDD red/green gate"
+    phase-4: "analysis/design-context/mockups/ already populated from product-design handoff — no ASCII mockup regeneration needed"
+  failed_phases: []
+  auto_fix_attempts: {}
+  options:
+    html_output: true
+    spec_audit_enabled: true
+    spec_audit_verdict: "pass-with-concerns"
+    spec_audit_issue_counts: {critical: 0, high: 1, medium: 5, low: 4}
+    skip_test_suite: true
+    e2e_enabled: true
+    user_docs_enabled: true
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    sequential: null
+  created: "2026-07-01T13:50:39Z"
+  updated: "2026-07-01T14:31:54Z"
+  task_path: .maister/tasks/development/2026-07-01-skill-flip-engineering-lexicon
+  task_ids:
+    phase-1: "10"
+    phase-2: "11"
+    phase-3: "12"
+    phase-4: "13"
+    phase-5: "14"
+    phase-6: "15"
+    phase-7: "16"
+    phase-8: "17"
+    phase-9: "18"
+    phase-10: "19"
+    phase-11: "20"
+    phase-12: "21"
+    phase-13: "22"
+    phase-14: "23"
+
+task:
+  title: "Skill Flip - Engineering Lexicon (Implementation)"
+  description: "Implement the Skill Flip engineering lexicon flashcard app per the approved product-design brief: Vite + vanilla TypeScript, client-only, glossary data model, single-card flip/learn-mode component + browse grid, bucketed weighted-random learn algorithm, documented AI content pipeline, GitHub Pages deployment."
+  status: in_progress
+  tags: ["flashcards", "portfolio", "static-site"]
+  priority: null
+
+task_context:
+  risk_level: "low-medium"
+  clarifications_resolved: true
+  repo_target: "aib-projekt/skill-flip"
+  vite_base_path: "/skill-flip/"
+  pages_url: "https://aib-projekt.github.io/skill-flip/"
+  git_init: true
+  license: "MIT"
+  content_scope_this_pass: "starter subset (~15-20 terms, one category)"
+  scope_expanded: null
+  architecture_decision: null
+  task_characteristics:
+    has_reproducible_defect: false
+    modifies_existing_code: false
+    creates_new_entities: true
+    involves_data_operations: true
+    ui_heavy: true
+  research_reference:
+    path: null
+    research_question: null
+    research_type: null
+    confidence_level: null
+  design_reference:
+    source: "product-design"
+    product_design_path: ".maister/tasks/product-design/2026-07-01-lexicon-engineering-terms/"
+    mockup_count: 4
+    has_brief: true
+    index_path: "analysis/design-context/INDEX.md"
+  project_context:
+    project_doc_paths: []
+  phase_summaries:
+    research: {summary: null, key_findings: [], recommended_approach: null}
+    design:
+      summary: "4 approved interactive mockups (Learn Mode card front/back, Browse filter+grid, Browse empty state) plus a shared card/grid tile component and filter bar, ingested from the completed product-design task. Binding inputs to implementation."
+      screen_count: 4
+      component_count: 5
+      index_path: "analysis/design-context/INDEX.md"
+      artifacts:
+        - path: "analysis/design-context/INDEX.md"
+          label: "Design Context Index"
+          html: null
+        - path: "analysis/design-context/brief.md"
+          label: "Product Brief (ingested)"
+          html: null
+    codebase_analysis:
+      summary: "Confirmed clean greenfield state (no source code, no git repo) with a fully implementation-ready 8-section feature spec and 4 validated mockups already in place — build can proceed directly to scaffolding."
+      key_files:
+        - ".maister/tasks/product-design/2026-07-01-lexicon-engineering-terms/outputs/product-brief.md"
+        - ".maister/tasks/product-design/2026-07-01-lexicon-engineering-terms/analysis/feature-spec.md"
+        - "analysis/design-context/brief.md"
+      primary_language: "TypeScript (planned)"
+      artifacts:
+        - path: "analysis/codebase-analysis.md"
+          label: "Codebase Analysis"
+          html: null
+    clarifications:
+      - decision: "Initialize git now, as part of this build"
+        rationale: "Needed for the GitHub Actions deploy workflow to have something to attach to"
+      - decision: "Target repo aib-projekt/skill-flip"
+        rationale: "Matches the GitHub org already referenced for the visual palette and working directory name"
+      - decision: "Author a starter subset (~15-20 terms) this pass, not the full ~150-term glossary"
+        rationale: "Keeps this implementation pass focused on the app + pipeline; full authoring deferred to a follow-up pass"
+      - decision: "MIT license"
+        rationale: "Standard permissive default for a personal portfolio project"
+    gap_analysis:
+      summary: "Pure greenfield build against a complete spec — the only gap found is that the mockups show a persistent Learn/Browse tab bar with no described implementation mechanism in the spec's file tree. Data lifecycle 100% complete, no orphaned operations, no dead ends in either persona's journey."
+      integration_points:
+        - "Shared Card component consumed by both LearnMode.ts and BrowseGrid.ts via common queue+index interface"
+        - "Tab-bar switching between Learn/Browse views (mechanism resolved via decision gate)"
+        - "GitHub Actions -> GitHub Pages deploy, gated by npm run validate-glossary"
+        - "No legacy integration constraints — pure greenfield"
+      artifacts:
+        - path: "analysis/gap-analysis.md"
+          label: "Gap Analysis"
+          html: null
+    scope_clarifications:
+      scope_expanded: false
+      summary: "View-switching between Learn/Browse resolved: manual view-swap via AppShell.ts, no routing library."
+      decisions:
+        - decision: "AppShell.ts, manual view-swap for Learn/Browse tab navigation"
+          rationale: "Matches spec's no-framework/no-state-library discipline; no deep-linkable sub-states"
+      artifacts:
+        - path: "analysis/scope-clarifications.md"
+          label: "Scope Clarifications"
+          html: null
+    ui_mockups: {components_designed: [], summary: null}
+    specification:
+      summary: "Ship a deployed, portfolio-quality client-only flashcard app for reviewing curated Java/Backend engineering terms, with flip-card Learn Mode, Browse/Filter/Search, and a documented content pipeline. Covers all 8 authoritative feature-spec sections plus AppShell.ts."
+      requirements_count: 10
+      new_components_needed: 14
+      test_groups_estimated: 7
+      decisions:
+        - decision: "Follow feature-spec.md's 8 sections verbatim"
+          rationale: "already implementation-ready and mockup-validated"
+        - decision: "Add AppShell.ts for manual Learn/Browse view-swap"
+          rationale: "resolves the gap-analysis finding; no router needed per spec's own no-framework discipline"
+        - decision: "Ship Java-only ~15-20 term starter subset"
+          rationale: "per Phase 1 clarification; full ~150-term glossary deferred to a follow-up pass"
+        - decision: "Vitest as test framework"
+          rationale: "pairs with Vite, zero extra config, spec is silent by design"
+      risks:
+        - "Full 150-term content authoring remains a follow-up pass, not part of this pass's completion criteria"
+        - "Badge-color mapping, mastery banner, and reset-progress placement are implementation-time defaults, not open decisions"
+      artifacts:
+        - path: "implementation/spec.md"
+          label: "Specification"
+          html: "implementation/spec.html"
+    spec_audit:
+      summary: "Independent audit verdict: pass-with-concerns (0 critical, 1 high, 5 medium, 4 low). High/Medium findings (search debounce timing dropped; AppShell/topbar ownership ambiguity vs. mockup HTML showing progress-stats in both Learn and Browse topbars) patched directly into spec.md before proceeding."
+      decisions:
+        - decision: "Patched spec.md: added 200ms debounce detail, clarified AppShell owns only bottom tab bar (not a shared topbar), clarified progress-stats renders in both Learn and Browse topbars"
+          rationale: "Audit found a real, evidence-based fidelity gap against the binding mockup HTML — cheaper to fix at spec stage than after implementation"
+      risks:
+        - "Per-category badge-color mapping: 9 of 12 categories have zero mockup precedent (Low, no spec change required)"
+        - "Reset-progress confirmation exact copy left to implementation discretion (Low, consistent with other deferred wording choices)"
+      artifacts:
+        - path: "verification/spec-audit.md"
+          label: "Specification Audit"
+          html: null
+    architecture_decision: {decision: null, summary: null}
+    implementation_plan:
+      summary: "9 task groups, 52 steps, 34-58 tests. Waves: (1) Scaffolding/Git/Data Model solo; (2) Card Component, Filters/Learn Algorithm/Storage, Content Pipeline in parallel; (3) Browse UI + Learn Mode UI in parallel; (4) AppShell & Wiring; (5) Build/Deploy/Docs; (6) Test Review & Gap Analysis. All 4 mockup screens + 5 shared components covered per visual-coverage.md."
+      task_groups_count: 9
+      total_steps: 52
+      artifacts:
+        - path: "implementation/implementation-plan.md"
+          label: "Implementation Plan"
+          html: "implementation/implementation-plan.html"
+        - path: "implementation/visual-coverage.md"
+          label: "Visual Coverage"
+          html: null
+      decisions:
+        - decision: "9 task groups organized by specialty, parallel wave dispatch (no --sequential)"
+          rationale: "Dependency graph allows Groups 2/3/7 and 4/5 to run concurrently"
+        - decision: "progress-stats computation (Group 3) split from rendering (Groups 4/5, independent per-view topbars)"
+          rationale: "Matches spec-audit-corrected AppShell/topbar ownership — no shared topbar component"
+      risks:
+        - "theme.css and package.json are appended by multiple groups per wave — must be serialized even when groups run concurrently"
+        - "TaskCreate/TaskUpdate tools unavailable to the planner subagent — markdown checkboxes + HTML progress markers are the resumable tracking source instead of Task items"

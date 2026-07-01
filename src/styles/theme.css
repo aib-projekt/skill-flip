@@ -1,0 +1,64 @@
+/*
+ * Skill Flip theme — CSS custom-property palette.
+ *
+ * Tier 1: raw palette, copied verbatim from the mockups' `:root` block
+ * (analysis/design-context/mockups/learn-mode-card-front.html and siblings).
+ * Tier 2: semantic aliases (--bg-*, --text-*, --accent-*) that components
+ * should reference instead of the raw --color-* values directly.
+ */
+
+:root {
+  /* Tier 1: raw palette (verbatim from mockups) */
+  --color-navy: #1c2b3a;
+  --color-steel: #5b7086;
+  --color-ice: #d7e2e6;
+  --color-sage: #6f8a72;
+  --color-chartreuse: #e3e8ad;
+  --color-cream: #f7f7f2;
+  --accent-dont-know: #b5765f;
+
+  /* Tier 2: semantic aliases */
+  --bg-page: var(--color-cream);
+  --bg-surface: var(--color-cream);
+  --bg-topbar: var(--color-navy);
+  --bg-card-front: var(--color-ice);
+  --bg-badge-category: var(--color-steel);
+  --bg-badge-level-senior: var(--color-navy);
+
+  --text-primary: var(--color-navy);
+  --text-inverse: var(--color-cream);
+  --text-muted: var(--color-steel);
+  --text-level-senior: var(--color-chartreuse);
+
+  --accent-know: var(--color-sage);
+  --accent-unseen: var(--color-ice);
+  --accent-dont-know-fg: var(--accent-dont-know);
+}
+
+* ,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card-inner {
+    transition: none !important;
+  }
+}

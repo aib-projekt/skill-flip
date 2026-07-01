@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Plan — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin:0 0 4px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:100px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+.toc { font-size:12.5px; margin:10px 0 4px; color:var(--dim); }
+.toc a { color:var(--dim); }
+
+.deps { font-size:12px; color:var(--dim); margin:4px 0 10px; }
+.deps b { color:var(--text); }
+.chip-row { display:flex; gap:6px; flex-wrap:wrap; margin:8px 0; }
+.file-chip { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11.5px;
+  background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:5px; }
+
+.vref { background:var(--info-soft); border:1px solid var(--border); border-radius:8px;
+  padding:10px 12px; margin:10px 0; font-size:12.5px; }
+.vref .vref-item { margin-bottom:8px; }
+.vref .vref-item:last-child { margin-bottom:0; }
+.vref .k { color:var(--dim); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; }
+
+ul.steps { list-style:none; margin:6px 0; padding:0; }
+ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
+.step.todo::before  { content:"☐ "; color:var(--dim); }
+.step.done::before  { content:"☑ "; color:var(--ok); }
+.step.done          { color:var(--dim); }
+.group.todo .g-badge::after { content:"pending"; background:var(--warn-soft); color:var(--warn);
+  font-size:10.5px; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:99px; margin-left:8px; }
+.group.done .g-badge::after { content:"✓ completed"; color:var(--ok); background:var(--ok-soft);
+  font-size:10.5px; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:99px; margin-left:8px; }
+
+.wave-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:10px 0 18px; }
+.wave { background:var(--surface); border:1px dashed var(--border); border-radius:8px; padding:8px 12px; font-size:12.5px; }
+.wave b { display:block; font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; }
+.arrow { color:var(--dim); font-size:16px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="spec.html">Spec</a>
+  <span class="here">Plan</span>
+  <a href="visual-coverage.md" target="_blank" rel="noopener" class="md">visual-coverage.md ↗</a>
+  <a href="implementation-plan.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Implementation Plan</span>
+  <h1>Skill Flip — Engineering Lexicon</h1>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>9</b><span>task groups</span></div>
+  <div class="tile"><b>52</b><span>total steps</span></div>
+  <div class="tile"><b>34–58</b><span>expected tests</span></div>
+  <div class="tile"><b>6</b><span>execution waves</span></div>
+  <div class="tile"><b>4 / 4</b><span>screens covered</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>9 task groups, ~52 steps total. Execution order: Group 1 (scaffold/types/git) unblocks everything; Groups 2 (Card), 3 (pure lib logic), and 7 (content pipeline + starter data) then run in parallel; Groups 4 (Browse UI) and 5 (Learn Mode UI) each depend on 2+3 and can run in parallel with each other; Group 6 (AppShell wiring) depends on 4+5; Group 8 (build/deploy/docs) depends on 6+7; Group 9 (test review) closes it out. Theming is folded into each UI group (mockup CSS copied near-verbatim) rather than a standalone pass.</p>
+
+  <h3>Key Decisions</h3>
+  <ul>
+    <li>Theming is not a standalone group — palette/tokens seeded once in Group 1, each UI group (2, 4, 5, 6) appends only its own component-scoped rules copied from the mockups.</li>
+    <li><code>filters.ts</code>, <code>learnAlgorithm.ts</code>, and <code>storage.ts</code> grouped together (Group 3) — pure/stateless, no DOM dependency, independently unit-testable.</li>
+    <li>Content pipeline + starter content is one group (Group 7) — validator and dataset developed together, zero dependency on UI, runs fully in parallel.</li>
+    <li>AppShell (Group 6) scheduled <em>after</em> Browse and Learn Mode, not before — it mounts/toggles already-built views rather than being stubbed against.</li>
+    <li>Per spec-audit fix: Groups 4 and 5 each own and render their own topbar (both including <code>progress-stats</code>); AppShell (Group 6) owns only the bottom tab bar and the two container width variants — never a shared topbar.</li>
+  </ul>
+
+  <h3>Open Questions / Risks</h3>
+  <ul>
+    <li>Card's public interface (Group 2) must cleanly support both <code>'full'</code> (Learn Mode) and <code>'tile'</code> (Browse grid) variants — build and manually verify in isolation before Groups 4/5 start, or both will need rework.</li>
+    <li>Only 3 of 12 category badge colors have mockup precedent (<code>cat-api</code>, <code>cat-java</code>, <code>cat-data</code>) — Groups 4/5 must extrapolate a consistent, accessible-contrast scheme for the rest; only Java renders content this pass, but all 12 chips must still be structurally correct at 0-count.</li>
+    <li><code>content-pipeline/</code>'s validator (Group 7) has no prescribed library — assume a small hand-written validator; if a schema library is used instead, confirm it's devDependency-only and never imported into <code>src/</code>.</li>
+  </ul>
+</section>
+
+<div class="toc">
+  Contents:
+  <a href="#groups">Task Groups</a> ·
+  <a href="#order">Execution Order</a> ·
+  <a href="#standards">Standards</a> ·
+  <a href="#coverage">Visual Coverage</a>
+</div>
+
+<h2 id="order">Execution Order &amp; Waves</h2>
+<div class="wave-row">
+  <div class="wave"><b>Wave 1</b>Group 1</div>
+  <span class="arrow">→</span>
+  <div class="wave"><b>Wave 2 (parallel)</b>Group 2 · Group 3 · Group 7</div>
+  <span class="arrow">→</span>
+  <div class="wave"><b>Wave 3 (parallel)</b>Group 4 · Group 5</div>
+  <span class="arrow">→</span>
+  <div class="wave"><b>Wave 4</b>Group 6</div>
+  <span class="arrow">→</span>
+  <div class="wave"><b>Wave 5</b>Group 8</div>
+  <span class="arrow">→</span>
+  <div class="wave"><b>Wave 6</b>Group 9</div>
+</div>
+<p style="font-size:12.5px;color:var(--dim)">Shared-file contention: <code>src/styles/theme.css</code> (Groups 1,2,4,5,6) and <code>package.json</code> (Groups 1,7,8) are appended to by multiple groups within a wave — the executor should serialize writes to these two files even when the owning groups run concurrently.</p>
+
+<h2 id="groups">Task Groups</h2>
+
+<section data-group="1" class="group todo">
+<div class="card">
+  <h3>Group 1 — Scaffolding, Git &amp; Data Model <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> None</div>
+  <div class="chip-row">
+    <span class="file-chip">package.json</span><span class="file-chip">tsconfig.json</span><span class="file-chip">vite.config.ts</span>
+    <span class="file-chip">.gitignore</span><span class="file-chip">index.html</span><span class="file-chip">src/main.ts</span>
+    <span class="file-chip">src/types/glossary.ts</span><span class="file-chip">src/lib/config.ts</span>
+    <span class="file-chip">src/styles/theme.css</span><span class="file-chip">data/glossary.json</span>
+    <span class="file-chip">src/types/glossary.test.ts</span>
+  </div>
+  <ul class="steps">
+    <li data-step="1.1" class="step todo">Write 3 tests: GlossaryEntry shape, fixture type-check, 12-category/3-level enum completeness</li>
+    <li data-step="1.2" class="step todo"><code>git init</code>; merge <code>.idea/.gitignore</code> into root <code>.gitignore</code>; verify <code>.claude/</code>/<code>.maister/</code> untouched</li>
+    <li data-step="1.3" class="step todo">Scaffold package.json/tsconfig/vite.config (base <code>/skill-flip/</code>) + Vitest</li>
+    <li data-step="1.4" class="step todo">Minimal index.html + stub main.ts (fetch + log count)</li>
+    <li data-step="1.5" class="step todo">Write GlossaryEntry/Category/Level/Glossary types</li>
+    <li data-step="1.6" class="step todo">Write config.ts constants (BUCKET_WEIGHTS, GRADUATION_THRESHOLD)</li>
+    <li data-step="1.7" class="step todo">Seed theme.css palette + reduced-motion block</li>
+    <li data-step="1.8" class="step todo">Create 3-entry glossary.json fixture stub</li>
+    <li data-step="1.9" class="step todo">Run the 3 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 3 tests pass · dev/build succeed against stub · git repo + merged .gitignore, <code>.claude/</code>/<code>.maister/</code> untouched · 12-value Category enum present.</p>
+</div>
+</section>
+
+<section data-group="2" class="group todo">
+<div class="card">
+  <h3>Group 2 — Card Component <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> Group 1</div>
+  <div class="chip-row">
+    <span class="file-chip">src/components/Card.ts</span><span class="file-chip">src/components/Card.test.ts</span>
+    <span class="file-chip">src/styles/theme.css</span>
+  </div>
+  <div class="vref">
+    <div class="vref-item"><span class="k">mockup</span> learn-mode-card-front.html · <span class="k">element</span> screen:learn-mode-card-front<br>
+      <span class="k">locator</span> <code>.card-shell</code>/<code>.card-inner</code>/<code>.card-face.card-front</code><br>
+      <span class="k">acceptance</span> front: category+level badge, 30px/650 term, flip-hint text, 3:4 aspect-ratio box, perspective:1200px; flip via tap/click/spacebar; both faces in DOM via <code>backface-visibility:hidden</code>.</div>
+    <div class="vref-item"><span class="k">mockup</span> learn-mode-card-back-flipped.html · <span class="k">element</span> screen:learn-mode-card-back<br>
+      <span class="k">locator</span> <code>.card-shell-back</code>/<code>.card-back</code>/<code>.back-top</code>/<code>.translation-pop</code><br>
+      <span class="k">acceptance</span> back grows with content (min-height:340px, NOT fixed aspect-ratio); small uppercase term + circular "(i)" info-btn; "(i)" reveals <code>.pl-term</code> + <code>.pl-desc</code> together, independent of flip state; flip trigger is a real <code>&lt;button&gt;</code>.</div>
+  </div>
+  <ul class="steps">
+    <li data-step="2.1" class="step todo">Write 6 tests: flip toggle (click), flip toggle (spacebar), both faces always in DOM, real button trigger, independent translation toggle, Prev/Next resets CardViewState</li>
+    <li data-step="2.2" class="step todo">Implement Card.ts with 'full'/'tile' variant flag</li>
+    <li data-step="2.3" class="step todo">Flip interaction: click/tap + spacebar, backface-visibility:hidden</li>
+    <li data-step="2.4" class="step todo">Prev/Next nav + swipe gesture detection (active only when flipped)</li>
+    <li data-step="2.5" class="step todo">"(i)" translation toggle rendering pl-term + pl-desc</li>
+    <li data-step="2.6" class="step todo">Append Card CSS to theme.css from both mockups</li>
+    <li data-step="2.7" class="step todo">Manual verify against both mockup screens before Group 4/5 start</li>
+    <li data-step="2.8" class="step todo">Run the 6 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 6 tests pass · flip via tap/click/spacebar · front+back both in DOM · real button trigger · matches both Visual Reference acceptance bullets.</p>
+</div>
+</section>
+
+<section data-group="3" class="group todo">
+<div class="card">
+  <h3>Group 3 — Filters, Learn Algorithm &amp; Storage <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> Group 1</div>
+  <div class="chip-row">
+    <span class="file-chip">src/lib/filters.ts</span><span class="file-chip">src/lib/filters.test.ts</span>
+    <span class="file-chip">src/lib/learnAlgorithm.ts</span><span class="file-chip">src/lib/learnAlgorithm.test.ts</span>
+    <span class="file-chip">src/lib/storage.ts</span><span class="file-chip">src/lib/storage.test.ts</span>
+  </div>
+  <ul class="steps">
+    <li data-step="3.1" class="step todo">Write 8 tests: category filter, level filter, search across 4 fields, combined AND semantics, weighted draw favors dont_know, graduation/demotion, previous-card exclusion w/ single-card fallback, storage round-trip+reset</li>
+    <li data-step="3.2" class="step todo">Implement applyFilters pure function</li>
+    <li data-step="3.3" class="step todo">Implement weighted-draw + bucket-transition logic</li>
+    <li data-step="3.4" class="step todo">Full-mastery uniform-random fallback</li>
+    <li data-step="3.5" class="step todo">storage.ts read/write/reset + shared computeBucketCounts helper</li>
+    <li data-step="3.6" class="step todo">Run the 8 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 8 tests pass · search matches all 4 text fields · filters combine correctly · weighted draw favors dont_know · graduation/demotion/exclusion/fallback all correct · computeBucketCounts is the single shared function for both topbars.</p>
+</div>
+</section>
+
+<section data-group="4" class="group todo">
+<div class="card">
+  <h3>Group 4 — Browse / Filter / Search UI <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> <b>Group 2</b>, <b>Group 3</b></div>
+  <div class="chip-row">
+    <span class="file-chip">src/components/FilterBar.ts</span><span class="file-chip">src/components/BrowseGrid.ts</span>
+    <span class="file-chip">src/components/BrowseGrid.test.ts</span><span class="file-chip">src/styles/theme.css</span>
+  </div>
+  <div class="vref">
+    <div class="vref-item"><span class="k">mockup</span> browse-filter-and-grid.html · <span class="k">element</span> screen:browse-filter-grid<br>
+      <span class="k">locator</span> <code>.app-shell.wide &gt; .topbar</code> + <code>.filter-bar</code><br>
+      <span class="k">acceptance</span> Browse's own topbar (brand + progress-stats, NOT a shared AppShell topbar); sticky filter-bar with 200ms-debounced search, category chips with live counts + overflow chip, level segmented control; result-count reads actual dataset length (not "150"); grid 3/2/1 columns per documented breakpoints.</div>
+    <div class="vref-item"><span class="k">mockup</span> browse-empty-state.html · <span class="k">element</span> screen:browse-empty-state<br>
+      <span class="k">locator</span> <code>.empty-state</code><br>
+      <span class="k">acceptance</span> zero results replaces grid with empty-state (icon+heading+helper+Clear filters), filter-bar/topbar remain functional, Clear filters resets all state.</div>
+  </div>
+  <ul class="steps">
+    <li data-step="4.1" class="step todo">Write 6 tests: search debounce (fake timers), chip toggle, level toggle, result-count uses actual length, empty state renders/clears, Clear filters resets state</li>
+    <li data-step="4.2" class="step todo">Implement FilterBar.ts (debounced search, category chips, overflow, level toggle)</li>
+    <li data-step="4.3" class="step todo">Implement BrowseGrid.ts (own topbar via computeBucketCounts, applyFilters wiring, tile grid, empty-state swap)</li>
+    <li data-step="4.4" class="step todo">Append Browse CSS to theme.css from both mockups</li>
+    <li data-step="4.5" class="step todo">Run the 6 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 6 tests pass · search matches all 4 fields, filters combine, counts reflect actual data · empty state + Clear filters work · progress-stats rendered in Browse's own topbar · matches both Visual Reference acceptance bullets.</p>
+</div>
+</section>
+
+<section data-group="5" class="group todo">
+<div class="card">
+  <h3>Group 5 — Learn Mode UI <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> <b>Group 2</b>, <b>Group 3</b></div>
+  <div class="chip-row">
+    <span class="file-chip">src/components/LearnMode.ts</span><span class="file-chip">src/components/LearnMode.test.ts</span>
+    <span class="file-chip">src/styles/theme.css</span>
+  </div>
+  <div class="vref">
+    <div class="vref-item"><span class="k">mockup</span> learn-mode-card-front.html · <span class="k">element</span> screen:learn-mode-card-front<br>
+      <span class="k">locator</span> <code>.topbar</code> + <code>.nav-row</code><br>
+      <span class="k">acceptance</span> Learn's own topbar: exit-to-browse icon, progress-stats (via computeBucketCounts), reset-progress icon — distinct 3-part layout from Browse's brand+stats; nav-row: Prev, swipe-hint, Next.</div>
+    <div class="vref-item"><span class="k">mockup</span> learn-mode-card-back-flipped.html · <span class="k">element</span> screen:learn-mode-card-back<br>
+      <span class="k">locator</span> <code>.mark-row</code><br>
+      <span class="k">acceptance</span> mark-row rendered only when flipped; Know it → consecutive-know increment + graduation check; Don't know → immediate demotion + counter reset; both advance to next weighted-drawn card.</div>
+  </div>
+  <ul class="steps">
+    <li data-step="5.1" class="step todo">Write 6 tests: no-setup initial draw, mark-row visibility tied to flip state, Know it persists+advances, Don't know persists+advances, stats reflect live counts, reset requires confirmation</li>
+    <li data-step="5.2" class="step todo">Implement LearnMode.ts (own topbar, single Card in 'full' variant, wired nav/swipe)</li>
+    <li data-step="5.3" class="step todo">Wire mark actions to learnAlgorithm + immediate storage write-on-every-mark</li>
+    <li data-step="5.4" class="step todo">Reset-progress control with confirmation gate</li>
+    <li data-step="5.5" class="step todo">Append Learn Mode CSS to theme.css</li>
+    <li data-step="5.6" class="step todo">Run the 6 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 6 tests pass · live mastered/shaky/new counts in Learn's own topbar · reset clears localStorage after confirmation · always-resumable, no session step · matches both Visual Reference acceptance bullets.</p>
+</div>
+</section>
+
+<section data-group="6" class="group todo">
+<div class="card">
+  <h3>Group 6 — AppShell &amp; Wiring <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> <b>Group 4</b>, <b>Group 5</b></div>
+  <div class="chip-row">
+    <span class="file-chip">src/components/AppShell.ts</span><span class="file-chip">src/components/AppShell.test.ts</span>
+    <span class="file-chip">src/main.ts</span><span class="file-chip">src/styles/theme.css</span>
+  </div>
+  <div class="vref">
+    <div class="vref-item"><span class="k">mockup</span> learn-mode-card-front.html · <span class="k">element</span> component:bottombar-tabs<br>
+      <span class="k">locator</span> <code>.app-shell</code> (480px) + <code>.bottombar</code><br>
+      <span class="k">acceptance</span> AppShell owns ONLY the tab bar + width variant; no shared topbar rendered by AppShell itself — each view supplies its own.</div>
+    <div class="vref-item"><span class="k">mockup</span> browse-filter-and-grid.html · <span class="k">element</span> component:bottombar-tabs<br>
+      <span class="k">locator</span> <code>.app-shell.wide</code> (900px)<br>
+      <span class="k">acceptance</span> switching to Browse swaps to 900px wide container + BrowseGrid content, bottombar persists, no reload/URL change; Learn progress (in localStorage) survives the switch.</div>
+  </div>
+  <ul class="steps">
+    <li data-step="6.1" class="step todo">Write 5 tests: defaults to Learn, Browse tab swap + wide variant, Learn tab swap back + 480px variant, no reload/hash change, localStorage progress survives switch</li>
+    <li data-step="6.2" class="step todo">Implement AppShell.ts (manual show/hide, in-memory active-tab state, bottombar, width toggle)</li>
+    <li data-step="6.3" class="step todo">Wire main.ts: fetch + validate non-empty + visible error state + mount AppShell</li>
+    <li data-step="6.4" class="step todo">Append app-shell/bottombar CSS to theme.css</li>
+    <li data-step="6.5" class="step todo">Run the 5 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 5 tests pass · switches views with no lost progress, no reload/URL change · visible error state on fetch failure/empty array · matches both Visual Reference acceptance bullets.</p>
+</div>
+</section>
+
+<section data-group="7" class="group todo">
+<div class="card">
+  <h3>Group 7 — Content Pipeline &amp; Starter Content <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> Group 1</div>
+  <div class="chip-row">
+    <span class="file-chip">content-pipeline/prompt-template.md</span><span class="file-chip">content-pipeline/rubric.md</span>
+    <span class="file-chip">content-pipeline/validate-glossary.ts</span><span class="file-chip">content-pipeline/validate-glossary.test.ts</span>
+    <span class="file-chip">content-pipeline/source/engineering-ladder.md</span><span class="file-chip">data/glossary.json</span>
+    <span class="file-chip">package.json</span>
+  </div>
+  <ul class="steps">
+    <li data-step="7.1" class="step todo">Write 5 tests: valid fixture passes, bad category fails, bad level fails, duplicate id fails, duplicate (term,category) fails</li>
+    <li data-step="7.2" class="step todo">Implement validate-glossary.ts</li>
+    <li data-step="7.3" class="step todo">Wire npm run validate-glossary script, confirm decoupled from src/</li>
+    <li data-step="7.4" class="step todo">Write prompt-template.md + rubric.md</li>
+    <li data-step="7.5" class="step todo">Author ~15-20 Java-category entries (Regular+Senior) into glossary.json</li>
+    <li data-step="7.6" class="step todo">Run validate-glossary against real dataset, fix until zero errors</li>
+    <li data-step="7.7" class="step todo">Run the 5 tests only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 5 tests pass · validate-glossary passes with zero errors against ~15-20 entry starter set · zero content-pipeline↔src imports either direction.</p>
+</div>
+</section>
+
+<section data-group="8" class="group todo">
+<div class="card">
+  <h3>Group 8 — Build, Deploy &amp; Documentation <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> <b>Group 6</b>, <b>Group 7</b></div>
+  <div class="chip-row">
+    <span class="file-chip">vite.config.ts</span><span class="file-chip">.github/workflows/deploy.yml</span>
+    <span class="file-chip">README.md</span><span class="file-chip">LICENSE</span>
+  </div>
+  <ul class="steps">
+    <li data-step="8.1" class="step todo">Write 2 checks: dist/ base-path smoke test, vite.config base-path shape check</li>
+    <li data-step="8.2" class="step todo">Confirm/finalize base:'/skill-flip/'</li>
+    <li data-step="8.3" class="step todo">Write deploy.yml (checkout→npm ci→validate-glossary→build→deploy on push to main)</li>
+    <li data-step="8.4" class="step todo">Add MIT LICENSE</li>
+    <li data-step="8.5" class="step todo">Write dual-audience README.md</li>
+    <li data-step="8.6" class="step todo">Run the 2 checks only</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> 2 checks pass · build succeeds · workflow runs validate→build→deploy on push to main · README covers pitch/link/stack/getting-started/manual+pipeline entry paths/MIT.</p>
+</div>
+</section>
+
+<section data-group="9" class="group todo">
+<div class="card">
+  <h3>Group 9 — Test Review &amp; Gap Analysis <span class="g-badge"></span></h3>
+  <div class="deps"><b>Dependencies:</b> All previous groups (1–8)</div>
+  <div class="chip-row">
+    <span class="file-chip">src/**/*.test.ts</span><span class="file-chip">content-pipeline/*.test.ts</span>
+  </div>
+  <ul class="steps">
+    <li data-step="9.1" class="step todo">Review 36 existing tests/checks from Groups 1–8</li>
+    <li data-step="9.2" class="step todo">Analyze gaps: tile-variant coverage, full-mastery fallback distribution, fetch-failure error state, zero-count category chip rendering</li>
+    <li data-step="9.3" class="step todo">Write up to 10 additional strategic tests</li>
+    <li data-step="9.4" class="step todo">Run feature-specific tests only (~36–46 total)</li>
+  </ul>
+  <p style="font-size:12.5px"><b>Acceptance:</b> ~36–46 tests pass · no more than 10 added in this group · every spec.md Success Criteria bullet traceable to a passing test or documented manual check.</p>
+</div>
+</section>
+
+<h2 id="standards">Standards Compliance</h2>
+<div class="card">
+  <p>No <code>.maister/docs/standards/</code> directory exists. Conventions come from <code>implementation/spec.md</code>'s Implementation Guidance:</p>
+  <ul>
+    <li>PascalCase for types/component files (<code>Card.ts</code>, <code>BrowseGrid.ts</code>, <code>LearnMode.ts</code>, <code>AppShell.ts</code>)</li>
+    <li>camelCase for lib/utility modules (<code>filters.ts</code>, <code>learnAlgorithm.ts</code>, <code>storage.ts</code>, <code>config.ts</code>)</li>
+    <li>lowercase-kebab-case for <code>GlossaryEntry.id</code> slugs</li>
+    <li>Two-tier CSS custom-property naming (<code>--color-*</code> raw palette → <code>--bg-*</code>/<code>--text-*</code>/<code>--accent-*</code> semantic aliases)</li>
+  </ul>
+</div>
+
+<h2 id="coverage">Visual Coverage</h2>
+<div class="card">
+  <table>
+    <tr><th>Screen / Component</th><th>Covered By</th><th>Status</th></tr>
+    <tr><td><code>screen:learn-mode-card-front</code></td><td>Group 2, Group 5, Group 6</td><td class="pass">✓</td></tr>
+    <tr><td><code>screen:learn-mode-card-back</code></td><td>Group 2, Group 5</td><td class="pass">✓</td></tr>
+    <tr><td><code>screen:browse-filter-grid</code></td><td>Group 2, Group 4, Group 6</td><td class="pass">✓</td></tr>
+    <tr><td><code>screen:browse-empty-state</code></td><td>Group 4</td><td class="pass">✓</td></tr>
+    <tr><td><code>component:card-shell</code></td><td>Group 2</td><td class="pass">✓</td></tr>
+    <tr><td><code>component:grid-tile</code></td><td>Group 2, Group 4</td><td class="pass">✓</td></tr>
+    <tr><td><code>component:progress-stats</code></td><td>Group 3 (computation), Group 4 &amp; 5 (rendering)</td><td class="pass">✓</td></tr>
+    <tr><td><code>component:filter-bar</code></td><td>Group 4</td><td class="pass">✓</td></tr>
+    <tr><td><code>component:bottombar-tabs</code></td><td>Group 6</td><td class="pass">✓</td></tr>
+  </table>
+  <p style="font-size:12.5px;color:var(--dim);margin-top:10px">All 4 screens and all 5 shared components covered — no uncovered items. Full matrix: <a href="visual-coverage.md" target="_blank" rel="noopener">visual-coverage.md ↗</a></p>
+</div>
+
+</body>
+</html>

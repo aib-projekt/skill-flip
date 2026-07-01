@@ -1,0 +1,21 @@
+{
+  "name": "skill-flip",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Skill Flip — an interactive flashcard app for reviewing curated engineering lexicon terms.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4"
+  }
+}

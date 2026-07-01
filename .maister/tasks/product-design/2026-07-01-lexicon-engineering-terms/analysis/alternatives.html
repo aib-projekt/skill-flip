@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solution Exploration — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* page-specific extensions */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+header .meta { color:var(--dim); font-size:12.5px; margin-top:2px; }
+.toc { font-size:13px; color:var(--dim); margin:10px 0 6px; }
+.toc a { color:var(--accent); }
+
+.alt-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px; margin:14px 0; }
+.alt-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:14px 16px; }
+.alt-card.recommended { border:2px solid var(--accent); background:var(--accent-soft); position:relative; }
+.alt-card.recommended::before { content:"Recommended"; position:absolute; top:-11px; right:12px;
+  background:var(--accent); color:#fff; font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 9px; border-radius:99px; }
+.alt-card h4 { margin:2px 0 8px; font-size:14.5px; }
+.alt-card .tag { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-bottom:8px; background:var(--border); color:var(--dim); }
+.alt-card.recommended .tag { background:var(--accent); color:#fff; }
+.alt-card ul { margin:6px 0; padding-left:18px; }
+.alt-card .lbl { font-weight:650; font-size:12px; color:var(--dim); text-transform:uppercase;
+  letter-spacing:.03em; margin-top:8px; display:block; }
+.rec-banner { background:var(--ok-soft); border:1px solid var(--ok); border-radius:var(--radius);
+  padding:10px 16px; margin:12px 0; font-size:13.5px; }
+.rec-banner b { color:var(--ok); }
+.decision-area-header { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.section-divider { border:none; border-top:1px solid var(--border); margin:24px 0; }
+.hmw-list { padding-left:20px; }
+.risk-list { padding-left:0; list-style:none; }
+.risk-list li { background:var(--warn-soft); border-left:3px solid var(--warn); border-radius:6px;
+  padding:8px 12px; margin:8px 0; }
+.decision-list { padding-left:0; list-style:none; }
+.decision-list li { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+  border-radius:6px; padding:8px 12px; margin:8px 0; }
+.assumptions { padding-left:20px; }
+.confidence-badge { display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase;
+  padding:2px 9px; border-radius:99px; background:var(--info-soft); color:var(--info); }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="design-context.md" target="_blank" rel="noopener" class="md">Design Context (md) ↗</a>
+  <a href="problem-statement.md" target="_blank" rel="noopener" class="md">Problem Statement (md) ↗</a>
+  <a href="personas.md" target="_blank" rel="noopener" class="md">Personas (md) ↗</a>
+  <a href="design-decisions.html">Design Decisions</a>
+  <span class="here">Solution Exploration</span>
+  <a href="alternatives.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <h1>Solution Exploration <span class="badge">Solution Exploration</span></h1>
+  <div class="meta">Skill Flip — Engineering Lexicon &middot; task: 2026-07-01-lexicon-engineering-terms</div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>4</b><span>decision areas</span></div>
+  <div class="tile"><b>14</b><span>alternatives explored</span></div>
+  <div class="tile"><b>4</b><span>recommended approaches</span></div>
+  <div class="tile"><b>3</b><span>open questions / risks</span></div>
+</div>
+
+<section class="tldr">
+  <div class="card">
+    <h2 style="margin-top:0">TL;DR</h2>
+    <p>Four open decision areas explored: tech stack, learn-mode weighting algorithm, card/navigation model, and content-pipeline packaging. Recommendation: <b>Vite + vanilla JS/TS (no framework)</b> for the stack, a <b>bucketed weighted-random draw</b> (not decaying weights, not full SRS) for resurfacing, a <b>single-card-with-controls model with swipe gestures layered on top</b> for interaction, and a <b>documented, checked-in AI generation pipeline</b> (prompt template + review checklist) as a repo artifact in its own right. All four choices favor "recruiter-readable craft" without tipping into over-engineering, matching the equal-priority personal-study/portfolio goals.</p>
+
+    <h2>Key Decisions</h2>
+    <ul class="decision-list">
+      <li>Recommend <b>Vite + vanilla TS</b> over plain HTML/CSS/JS — small, well-understood build step signals frontend craft to recruiters at near-zero complexity cost, and TS gives free type-checking against <code>glossary.json</code>. <br><span class="lbl">Trade-off accepted</span> one more toolchain dependency (npm) for a project that could technically run with zero tooling.</li>
+      <li>Recommend <b>bucketed weighted-random resurfacing</b> (3 buckets: new/unseen, know, don't-know, with don't-know drawn ~3-4x more often) over decaying-weight or streak-based models. <br><span class="lbl">Trade-off accepted</span> less "adaptive" than a true SRS, but matches the explicit non-goal of full spaced repetition and is trivially explainable in a README.</li>
+      <li>Recommend <b>single-card-with-controls</b> (Prev/Flip/Next + swipe-left/right layered on top) over a full swipeable Tinder-style stack or a grid-of-flippable-cards. <br><span class="lbl">Trade-off accepted</span> less flashy than a physics-based swipe stack, but far more robust for filtering/search state and keyboard/desktop parity.</li>
+      <li>Recommend packaging the AI content-generation step as a <b>documented, versioned pipeline</b> (prompt template + rubric + <code>npm run validate-glossary</code> script) rather than an undocumented one-off. <br><span class="lbl">Trade-off accepted</span> extra authoring time upfront, but this becomes a visible portfolio artifact in itself.</li>
+    </ul>
+
+    <h2>Open Questions / Risks</h2>
+    <ul class="risk-list">
+      <li><span class="sev warning">open</span>The bucketed algorithm needs a concrete rule for "when does a don't-know card graduate back to a lower-priority bucket" — deferred to specification-creator to pin exact thresholds (e.g., 2 consecutive "know" marks).</li>
+      <li><span class="sev warning">open</span>Search scope (term-only vs. term+description+translation) still needs a convergence decision; treated as in-scope for the navigation-model discussion but the exact fields are a specification-level detail.</li>
+      <li><span class="sev warning">open</span>If the creator's real usage skews heavily toward desktop instead of mobile, the swipe-gesture investment (interaction model) delivers less value than assumed — worth revisiting after a few real sessions.</li>
+    </ul>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#reframing">Problem Reframing</a> ·
+  <a href="#area-1">Area 1: Tech Stack</a> ·
+  <a href="#area-2">Area 2: Learn-Mode Algorithm</a> ·
+  <a href="#area-3">Area 3: Card / Navigation Model</a> ·
+  <a href="#area-4">Area 4: Content Pipeline</a> ·
+  <a href="#tradeoffs">Trade-Off Analysis</a> ·
+  <a href="#preferences">User Preferences</a> ·
+  <a href="#recommended">Recommended Approach</a> ·
+  <a href="#why-not">Why Not Others</a> ·
+  <a href="#deferred">Deferred Ideas</a>
+</nav>
+
+<main>
+
+<section id="reframing">
+  <h2>Problem Reframing</h2>
+  <div class="card">
+    <span class="lbl">Research Question</span>
+    <p>How should Skill Flip be built — across tech stack, learn-mode algorithm, and interaction design — so that it is genuinely useful for real repeated study <i>and</i> reads as a polished, recruiter-facing portfolio piece, without over-engineering any single part?</p>
+    <span class="lbl">How Might We Questions</span>
+    <ol class="hmw-list">
+      <li>How might we choose a tech stack that demonstrates frontend craft to recruiters without adding maintenance burden disproportionate to a ~150-term static content app?</li>
+      <li>How might we make "don't-know" cards resurface noticeably more often in Learn Mode without building (or appearing to have built) a full spaced-repetition scheduler?</li>
+      <li>How might we design a card/navigation model that feels satisfying and mobile-native (flip, swipe) while still supporting filter/search/learn-mode as first-class, discoverable surfaces?</li>
+      <li>How might we treat the AI-assisted content-generation pass as a documented, trustworthy pipeline rather than an invisible one-time hack — given that content quality is equally important to the portfolio goal as the app itself?</li>
+    </ol>
+  </div>
+</section>
+
+<section id="area-1">
+  <div class="decision-area-header"><h2 style="margin:0">Decision Area 1: Tech Stack</h2></div>
+
+  <div class="alt-grid">
+    <div class="alt-card">
+      <span class="tag">Alternative 1A</span>
+      <h4>Vanilla HTML/CSS/JS, zero build step</h4>
+      <p>Plain <code>index.html</code>, hand-written modular JS (ES modules), CSS custom properties, <code>fetch()</code> of <code>data/glossary.json</code> at runtime. No <code>package.json</code>, no bundler.</p>
+      <span class="lbl">Strengths</span>
+      <p>Lowest barrier to entry; deploys to GitHub Pages with no CI build step; zero dependency-rot risk; matches user's stated "default lean."</p>
+      <span class="lbl">Weaknesses</span>
+      <p>No type checking against <code>glossary.json</code> schema; organization relies on developer discipline; under-sells "frontend craft" relative to effort in visual/interaction design.</p>
+      <span class="lbl">Best when</span>
+      <p>Fastest time-to-deploy is primary and the audience specifically values minimalism/no-dependencies as the craft signal.</p>
+    </div>
+
+    <div class="alt-card recommended">
+      <span class="tag">Alternative 1B</span>
+      <h4>Vite + vanilla TypeScript (no UI framework)</h4>
+      <p>Vite as dev server/bundler, TypeScript for data model and app logic, native DOM APIs. Ships as static assets via <code>vite build</code> + GitHub Actions deploy workflow.</p>
+      <span class="lbl">Strengths</span>
+      <p>Recruiter-visible tooling literacy signal without component-framework overhead; TS interfaces give compile-time safety against malformed content; Vite HMR speeds iterative polish; GitHub Actions build step is itself a demonstrable DevOps artifact.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Adds node_modules/npm as a local-run prerequisite; introduces a build step that can break in CI; slightly more initial setup than 1A.</p>
+      <span class="lbl">Best when</span>
+      <p>The recruiter/portfolio goal is weighted at least as heavily as raw simplicity, and the creator is comfortable maintaining a small, standard toolchain.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 1C</span>
+      <h4>Lightweight framework (Svelte or Preact) via Vite</h4>
+      <p>Adds a minimal reactive UI framework on top of Vite to manage card state, filters, and learn-mode reactivity declaratively.</p>
+      <span class="lbl">Strengths</span>
+      <p>Component-based structure reads as "modern frontend"; reactive state is less error-prone than manual DOM manipulation once several UI surfaces interact.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>More tooling than a ~150-entry static dataset needs — risks reading as over-engineered; adds a dependency the creator (backend-leaning) must maintain; increases bundle size/cognitive overhead relative to actual UI complexity.</p>
+      <span class="lbl">Best when</span>
+      <p>The interaction surface were expected to grow substantially beyond flip/filter/search/learn — not the case here.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 1D</span>
+      <h4>Static-site generator (11ty/Astro) + vanilla JS islands</h4>
+      <p>SSG pre-renders card markup from <code>glossary.json</code> at build time, with small vanilla/Alpine.js scripts hydrating interactivity client-side.</p>
+      <span class="lbl">Strengths</span>
+      <p>Fast initial paint (all 150 cards pre-rendered); plausible "SSG vs SPA trade-offs" signal; islands architecture is a legitimately modern pattern.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Overkill for a single-page, client-only tool with no SEO requirement; adds a second learning curve (SSG templating); deployment story only marginally different from Vite for meaningfully more setup.</p>
+      <span class="lbl">Best when</span>
+      <p>The site had many distinct pages/routes — not the case here.</p>
+    </div>
+  </div>
+
+  <div class="rec-banner"><b>Recommendation:</b> Alternative 1B (Vite + vanilla TypeScript, no framework).</div>
+</section>
+
+<hr class="section-divider">
+
+<section id="area-2">
+  <div class="decision-area-header"><h2 style="margin:0">Decision Area 2: Learn-Mode Weighting Algorithm</h2></div>
+
+  <div class="alt-grid">
+    <div class="alt-card">
+      <span class="tag">Alternative 2A</span>
+      <h4>Binary in/out filtering (baseline, rejected by user)</h4>
+      <p>Cards marked "know" are removed from rotation entirely; only "don't know" and unseen cards shown, random order, until pool empty.</p>
+      <span class="lbl">Strengths</span>
+      <p>Trivial to implement and explain; guarantees zero repetition of mastered content.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Explicitly ruled out by the user ("not simple binary in/out"); a mis-tapped "know" disappears with no correction path short of a full reset; no reinforcement of learned material.</p>
+      <span class="lbl">Best when</span>
+      <p>N/A — included only to establish the baseline the user already rejected.</p>
+    </div>
+
+    <div class="alt-card recommended">
+      <span class="tag">Alternative 2B</span>
+      <h4>Bucketed weighted-random draw</h4>
+      <p>Three buckets per card in localStorage: <code>unseen</code>, <code>know</code>, <code>dont_know</code>. Weighted pool draw, e.g. dont_know weight 4, unseen weight 2, know weight 1. Graduates dont_know&rarr;know after N consecutive "know" marks; know&rarr;dont_know immediately on any miss.</p>
+      <span class="lbl">Strengths</span>
+      <p>Directly implements "don't-know cards appear more often" with a rule explainable in two sentences; buckets double as a satisfying progress readout ("38 mastered, 12 shaky, 100 unseen"); tunable weights leave room for a future "difficulty" knob; recovers gracefully from mis-taps via the N-consecutive-know threshold.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Fixed weights are a blunt instrument (10x "don't know" gets same odds as 1x); requires deciding and documenting the graduation threshold N (flagged as an open question).</p>
+      <span class="lbl">Best when</span>
+      <p>The goal is "noticeably smarter than random, honestly simpler than SRS" — exactly the stated success criterion.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 2C</span>
+      <h4>Decaying-weight / streak-based scoring</h4>
+      <p>Running numeric score per card (+1 per "know," -2 per "don't know," floor/ceiling applied). Draw probability inversely proportional to score, continuously rather than discrete buckets.</p>
+      <span class="lbl">Strengths</span>
+      <p>More granular than fixed buckets — distinguishes "shaky twice" from "shaky once"; still far short of full SRS.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Harder to explain simply or reason about while coding; harder to expose as a friendly progress UI; more edge cases to tune for marginal benefit at this dataset size.</p>
+      <span class="lbl">Best when</span>
+      <p>The card set were large (thousands+) or a per-card "difficulty score" were specifically wanted — neither applies here.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 2D</span>
+      <h4>Simplified SM-2-lite (interval-based, no dates)</h4>
+      <p>Borrows the SRS idea of increasing review interval on success, but as an in-session "review position offset" — a missed card re-inserts 3-5 cards ahead in the current shuffled queue instead of just being weighted for the next draw.</p>
+      <span class="lbl">Strengths</span>
+      <p>Guarantees a missed card resurfaces within the same session, which weighted-random (2B) doesn't strictly guarantee; still no calendar/date logic.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Requires modeling an explicit ordered queue with insertions — meaningfully more complexity for a benefit that matters less given the Creator's frequent-short-sessions-across-days pattern, where cross-session weighting (2B) already accumulates pressure; conflates "session queue" and "long-term mastery tracking."</p>
+      <span class="lbl">Best when</span>
+      <p>Sessions were long enough (30+ min) that in-session resurfacing materially matters — not the Creator's actual 5-10 minute pattern.</p>
+    </div>
+  </div>
+
+  <div class="rec-banner"><b>Recommendation:</b> Alternative 2B (bucketed weighted-random draw), with the graduation threshold (N consecutive "know" marks) to be pinned in specification.</div>
+</section>
+
+<hr class="section-divider">
+
+<section id="area-3">
+  <div class="decision-area-header"><h2 style="margin:0">Decision Area 3: Card / Flip Interaction &amp; Navigation Model</h2></div>
+
+  <div class="alt-grid">
+    <div class="alt-card recommended">
+      <span class="tag">Alternative 3A</span>
+      <h4>Single-card-with-controls</h4>
+      <p>One card visible at a time, large tap target. Tap/click to flip, Prev/Next buttons (or arrow keys) to navigate, swipe-left/right layered on top as a mobile accelerator (not a replacement). Filter bar/search live above the card; Learn Mode reuses the same component with the weighted draw feeding "Next."</p>
+      <span class="lbl">Strengths</span>
+      <p>One shared component serves Browse, Filter/Search results, and Learn Mode — least duplication, most visual consistency; explicit button controls give discoverable affordances for a Recruiter who won't read instructions; swipe layered on top serves real mobile usage without being load-bearing; naturally mobile-first and touch-friendly.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Less immediately "impressive" in a screenshot than a fanned card-stack; swipe+buttons both means slightly more interaction-state logic (debouncing) than a swipe-only design.</p>
+      <span class="lbl">Best when</span>
+      <p>The same navigation surface must serve multiple modes (browse, filtered subset, learn-mode queue) with consistent, discoverable interaction — exactly this project's requirement.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 3B</span>
+      <h4>Swipeable card stack (Tinder-style)</h4>
+      <p>Cards rendered as a physical stack; swipe right = "know," swipe left = "don't know," flip via tap before swiping. Only the top card is interactive; next card peeks behind.</p>
+      <span class="lbl">Strengths</span>
+      <p>Visually the most polished/native-feeling on mobile — a strong "wow" moment for a recruiter's first seconds; swipe-to-know/don't-know mapping is intuitive and fast once learned.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Overloads swipe with different meanings per mode unless the whole app is redesigned around it, conflicting with Filter/Search's list/grid needs; awkward keyboard/desktop parity; harder to make accessible; couples "mark know/don't-know" to "move to next card," removing the ability to browse without recording a judgment.</p>
+      <span class="lbl">Best when</span>
+      <p>The entire app were learn-mode-only with no separate browse/filter/search surface — not the case here.</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 3C</span>
+      <h4>Grid of flippable cards</h4>
+      <p>Filter/search results render as a CSS grid of card-back tiles (term only); tapping flips a tile in place. Learn Mode either reuses the grid (highlighting a "focus" card) or switches to a single-card view.</p>
+      <span class="lbl">Strengths</span>
+      <p>Great for Browse/Filter/Search specifically — lets a Recruiter see "many cards at once," communicating scope/coverage fast; natural responsive layout needs no custom navigation logic (browser scroll handles "next").</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Poor fit for Learn Mode itself — diffuses the focused, one-at-a-time value and makes weighted resurfacing hard to present meaningfully; requires maintaining two distinct navigation paradigms rather than one shared component.</p>
+      <span class="lbl">Best when</span>
+      <p>The primary use case were reference lookup (scan like a dictionary), not active recall practice — true for part of the Creator's journey but not for Learn Mode.</p>
+    </div>
+  </div>
+
+  <div class="rec-banner"><b>Recommendation:</b> Alternative 3A (single-card-with-controls, swipe layered on top) as the primary/shared model for Learn Mode and single-card focus, with a lightweight combination borrowing from 3C for the Browse/Filter/Search results view specifically — a legitimate hybrid, not scope creep, since both surfaces are already required by existing constraints.</div>
+</section>
+
+<hr class="section-divider">
+
+<section id="area-4">
+  <div class="decision-area-header"><h2 style="margin:0">Decision Area 4: AI Content-Generation Pipeline Packaging</h2></div>
+
+  <div class="alt-grid">
+    <div class="alt-card">
+      <span class="tag">Alternative 4A</span>
+      <h4>Undocumented one-off</h4>
+      <p>Run the AI-assisted generation pass once locally, hand-edit output, commit only the final <code>data/glossary.json</code>. No prompt, rubric, or script checked in.</p>
+      <span class="lbl">Strengths</span>
+      <p>Fastest to ship; keeps the repo focused purely on the app.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>A curious reviewer asking "how was this content made" finds nothing; regenerating/improving entries later requires reconstructing the approach from memory; misses a chance to demonstrate a second skill (prompt engineering / pipeline design).</p>
+      <span class="lbl">Best when</span>
+      <p>Time is extremely constrained and the pipeline truly is a throwaway step — weak fit given 12-category curation is realistically iterative.</p>
+    </div>
+
+    <div class="alt-card recommended">
+      <span class="tag">Alternative 4B</span>
+      <h4>Documented pipeline as a repo artifact</h4>
+      <p>Check in a <code>content/</code> (or <code>scripts/</code>) folder: the generation prompt template, a short rubric for a good curated entry, and a small validation script (<code>npm run validate-glossary</code>) checking every entry against the schema before it's shippable.</p>
+      <span class="lbl">Strengths</span>
+      <p>Directly demonstrates "curated, not transcribed" quality bar; validation script is real tooling craft a recruiter will notice and catches real content bugs; prompt template is reusable for future categories/refreshes; cleanly separates authoring tooling from runtime app code.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Extra authoring time to write rubric and validation script; slight risk of the tooling itself becoming over-engineered if scope isn't capped.</p>
+      <span class="lbl">Best when</span>
+      <p>The content-authoring process is itself worth showcasing (true here) and there's a realistic chance of expanding/revisiting content later (also true).</p>
+    </div>
+
+    <div class="alt-card">
+      <span class="tag">Alternative 4C</span>
+      <h4>Fully manual curation, no AI assist</h4>
+      <p>Skip AI-assisted generation entirely; hand-write all ~150 definitions directly from the Engineering Ladder bullets.</p>
+      <span class="lbl">Strengths</span>
+      <p>No ambiguity about authorship/voice; avoids any "AI-generated content" perception risk with a skeptical reviewer.</p>
+      <span class="lbl">Weaknesses</span>
+      <p>Directly contradicts the already-made Key Decision (AI-assisted generation + creator review); substantially higher authoring time working against realistic full 12-category coverage.</p>
+      <span class="lbl">Best when</span>
+      <p>N/A for this project — included to confirm the already-decided direction is still evidence-backed.</p>
+    </div>
+  </div>
+
+  <div class="rec-banner"><b>Recommendation:</b> Alternative 4B (documented pipeline as a repo artifact).</div>
+</section>
+
+<hr class="section-divider">
+
+<section id="tradeoffs">
+  <h2>Trade-Off Analysis</h2>
+  <div class="card">
+    <table>
+      <thead>
+        <tr><th>Alternative</th><th>Technical Feasibility</th><th>User Impact</th><th>Simplicity</th><th>Risk</th><th>Scalability</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>1A</b> Vanilla HTML/CSS/JS</td><td>High — trivial to implement</td><td>Medium — works fine, less "wow"</td><td>Highest</td><td>Low (nothing to break)</td><td>Low (manual file wiring caps growth)</td></tr>
+        <tr><td><b>1B</b> Vite + vanilla TS <span class="badge">recommended</span></td><td>High — standard, well-documented tooling</td><td>High — fast dev loop, type-safe content</td><td>High</td><td>Low-Medium (build step can break, but Vite is mature)</td><td>Medium-High (TS types + modules scale with content growth)</td></tr>
+        <tr><td><b>1C</b> Svelte/Preact + Vite</td><td>Medium — more moving parts</td><td>Medium — no visible end-user benefit</td><td>Medium-Low</td><td>Medium (framework version churn, over-fit risk)</td><td>High (best for growing UI complexity — not needed here)</td></tr>
+        <tr><td><b>1D</b> SSG + islands</td><td>Medium — right tool, wrong job</td><td>Low — no benefit for single-view SPA</td><td>Low</td><td>Medium (two paradigms to maintain)</td><td>Medium (scales for multi-page, irrelevant here)</td></tr>
+        <tr><td><b>2A</b> Binary in/out</td><td>High</td><td>Low — explicitly rejected by user</td><td>Highest</td><td>Low</td><td>Low (no nuance as content grows)</td></tr>
+        <tr><td><b>2B</b> Bucketed weighted draw <span class="badge">recommended</span></td><td>High — simple state machine</td><td>High — noticeably smarter, explainable</td><td>High</td><td>Low</td><td>High (buckets scale cleanly to more content/categories)</td></tr>
+        <tr><td><b>2C</b> Decaying/streak score</td><td>Medium — more tuning required</td><td>Medium — marginal gain over 2B at this scale</td><td>Medium</td><td>Medium (tuning/edge-case risk)</td><td>Medium (better at scale, but 150 cards doesn't need it)</td></tr>
+        <tr><td><b>2D</b> Session-queue reinsertion</td><td>Medium — queue mutation logic</td><td>Medium — helps only within-session</td><td>Medium</td><td>Medium (queue-state bugs)</td><td>Medium</td></tr>
+        <tr><td><b>3A</b> Single-card + controls <span class="badge">recommended</span></td><td>High</td><td>High — discoverable + serves all 3 modes</td><td>High</td><td>Low</td><td>High (same component scales to more categories/filters)</td></tr>
+        <tr><td><b>3B</b> Swipeable stack</td><td>Medium — gesture/physics work</td><td>High on mobile, poor on desktop</td><td>Medium</td><td>Medium (accessibility, mode-conflation risk)</td><td>Low-Medium (hard to extend to filter/search)</td></tr>
+        <tr><td><b>3C</b> Grid of flippable cards</td><td>High for browse; poor for learn</td><td>High for scanning/coverage impression, poor for focused review</td><td>Medium (two paradigms if used everywhere)</td><td>Low-Medium</td><td>High for content growth (grid handles more items easily)</td></tr>
+        <tr><td><b>4A</b> Undocumented pipeline</td><td>High (least work)</td><td>Low — invisible to reviewer</td><td>Highest</td><td>Medium (process loss over time)</td><td>Low (nothing reusable)</td></tr>
+        <tr><td><b>4B</b> Documented pipeline <span class="badge">recommended</span></td><td>High</td><td>High — visible craft signal + catches data bugs</td><td>Medium-High</td><td>Low</td><td>High (reusable for future categories/content refresh)</td></tr>
+        <tr><td><b>4C</b> Fully manual, no AI</td><td>Medium (slow)</td><td>Medium</td><td>High</td><td>Medium (misses stated deadline pressure / coverage risk)</td><td>Low</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <span class="lbl">Perspective notes</span>
+    <ul>
+      <li><b>Technical feasibility</b> favors the recommended options across the board — none require exotic technology, all are well-trodden patterns.</li>
+      <li><b>User impact</b> was evaluated separately for the two personas: the Creator values low-friction, resumable, honestly-adaptive Learn Mode (favors 1B/2B/3A); the Recruiter values instant legibility and a strong first few seconds (favors 1B, 3A's discoverability, 3C's scannability for the browse surface, and 4B's visible process craft).</li>
+      <li><b>Simplicity</b> is the strongest pull toward 1A/2A in isolation, but both lose out once weighed against explicit user decisions and success criteria that call for more than the simplest possible baseline.</li>
+      <li><b>Risk</b> is low across all recommended options — this reflects a genuinely low-risk problem space (static content app, no backend, no user data beyond local prefs) rather than the recommendations being conservative for its own sake.</li>
+      <li><b>Scalability</b> matters less than usual here (content capped at ~150 terms, no user growth), but still favors options (1B, 2B, 3A, 4B) that would gracefully absorb "add a 13th category later" without a rewrite.</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="preferences">
+  <h2>User Preferences</h2>
+  <div class="card">
+    <p>No live user-dialogue preferences were supplied to this phase (alternatives are generated purely from evidence per this agent's scope). The following stated constraints and decisions from prior phases function as binding preferences, not open trade-offs:</p>
+    <ul>
+      <li>Client-only static site, deployable to GitHub Pages (non-negotiable).</li>
+      <li><code>data/glossary.json</code> schema with <code>term</code>, <code>description</code>, <code>category</code>, <code>level</code>, translation field (non-negotiable).</li>
+      <li>Mobile-first, touch-friendly, flip + swipe named explicitly (non-negotiable design target, though not mandating swipe-only).</li>
+      <li>Learn Mode must be "weighted, not binary, not full SRS" (non-negotiable, already narrows Decision Area 2 to bucketed/streak/session-queue style options).</li>
+      <li>Visual identity from the AiB Projekt avatar palette (non-negotiable, orthogonal to the alternatives above — applies as a styling layer regardless of stack/interaction choice).</li>
+      <li>Both personas (Creator, Recruiter) are equal priority — no alternative above may be recommended solely on the strength of one persona's benefit without checking the other.</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="recommended">
+  <h2>Recommended Approach</h2>
+  <div class="card" style="border:2px solid var(--accent); background:var(--accent-soft);">
+    <table>
+      <tbody>
+        <tr><td><b>Tech stack</b></td><td>Vite + vanilla TypeScript, no UI framework (Alternative 1B)</td></tr>
+        <tr><td><b>Learn-mode algorithm</b></td><td>Bucketed weighted-random draw with a consecutive-know graduation rule (Alternative 2B)</td></tr>
+        <tr><td><b>Interaction model</b></td><td>Single-card-with-controls as the shared primary component (swipe layered on top for mobile), combined with a lightweight grid view specifically for Browse/Filter/Search results (Alternative 3A, informed by 3C for the non-learn-mode surface)</td></tr>
+        <tr><td><b>Content pipeline</b></td><td>Documented, checked-in generation prompt + rubric + validation script (Alternative 4B)</td></tr>
+      </tbody>
+    </table>
+
+    <span class="lbl">Primary rationale</span>
+    <p>Each recommendation sits at the same point on its own spectrum — meaningfully more considered than the "default minimal" option, but deliberately short of the "maximal/impressive-looking" option that would risk over-engineering relative to this app's actual scope (~150 static entries, three interaction modes, no backend, no multi-user concerns). This consistency matters because the two personas' success criteria pull in complementary rather than opposite directions once the scope is right-sized: a recruiter evaluating engineering judgment is at least as impressed by a well-reasoned, right-sized architecture as by maximal visual flash, and the Creator's actual usage pattern (short, frequent mobile sessions) is best served by predictable, low-friction interactions rather than novelty.</p>
+
+    <span class="lbl">Key trade-offs accepted</span>
+    <ul>
+      <li>Choosing Vite over vanilla JS accepts a build-tool dependency (npm/node) in exchange for type safety and a more demonstrable toolchain.</li>
+      <li>Choosing bucketed weighting over decaying/streak scoring accepts coarser granularity in exchange for explainability and lower implementation risk — appropriate given the ~150-card scale.</li>
+      <li>Choosing single-card-with-controls over a swipe-only stack accepts a slightly less flashy first-glance demo in exchange for one shared, robust component across all three modes and full desktop/accessibility parity.</li>
+      <li>Choosing a documented content pipeline over a quiet one-off accepts extra authoring overhead in exchange for a second, visible craft artifact and future reusability.</li>
+    </ul>
+
+    <span class="lbl">Key assumptions (if wrong, revisit)</span>
+    <ol class="assumptions">
+      <li>The creator is comfortable with a small Node/npm toolchain as a backend engineer — if this project is meant to also showcase "I can ship without any JS tooling at all," Alternative 1A becomes more attractive.</li>
+      <li>The ~150-card dataset size stays roughly fixed — if it were to grow 5-10x, decaying-weight scoring (2C) or true SRS would earn back the complexity cost.</li>
+      <li>Real usage skews mobile as described in personas.md — if desktop review turns out to dominate, the swipe-gesture investment in 3A delivers less relative value (though the button controls still work fine either way).</li>
+      <li>The creator will actually maintain and reuse the content pipeline (4B) rather than running it once and abandoning it — if content truly is one-and-done, 4A's lower overhead becomes more justifiable, though the visible-craft argument for 4B still holds for the portfolio goal.</li>
+    </ol>
+
+    <span class="lbl">Confidence</span>
+    <p><span class="confidence-badge">High</span> for Decision Areas 1, 2, and 4 (strong, direct evidence from explicit constraints and success criteria). <span class="confidence-badge">Medium-High</span> for Decision Area 3 (the single-card + grid-hybrid combination is a reasoned synthesis rather than a single clean-cut alternative — specification-creator should pin down exactly how the grid view and single-card view share state/transition between each other).</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<section id="why-not">
+  <h2>Why Not Others</h2>
+  <details>
+    <summary>Show rejected-alternative rationale (10 items)</summary>
+    <div class="card">
+      <ul>
+        <li><b>1A (Vanilla HTML/CSS/JS)</b>: Rejected as primary recommendation only because the portfolio goal is equally weighted with the study-tool goal, and 1B achieves nearly the same simplicity with added type-safety and a more visible-craft toolchain at low additional cost. Still a fully legitimate choice if the creator prioritizes absolute zero-dependency purity.</li>
+        <li><b>1C (Svelte/Preact)</b>: Rejected as introducing framework overhead disproportionate to the app's actual UI complexity (3 modes, ~150 static records, no complex cross-cutting state) — risks reading as over-engineered to a sharp technical reviewer.</li>
+        <li><b>1D (SSG + islands)</b>: Rejected as solving problems (multi-page routing, SEO, build-time content collections) this project doesn't have.</li>
+        <li><b>2A (Binary in/out)</b>: Rejected outright — explicitly ruled out by the user's own stated requirement.</li>
+        <li><b>2C (Decaying/streak score)</b>: Rejected as adding tuning complexity and losing the clean "X mastered / Y shaky" progress readout, for a granularity benefit that doesn't matter at ~150 cards.</li>
+        <li><b>2D (Session-queue reinsertion)</b>: Rejected as solving for intra-session resurfacing guarantees when the Creator's actual usage pattern (frequent short sessions across days) benefits more from cross-session persistent weighting, which 2B already provides.</li>
+        <li><b>3B (Swipeable stack)</b>: Rejected as the primary/sole model because it conflates "mark know/don't-know" with "navigate," which breaks the stated need to browse/filter without recording a learn-mode judgment, and because it doesn't gracefully serve desktop visitors or the filter/search results surface.</li>
+        <li><b>3C (Grid of flippable cards) as sole model</b>: Rejected as a poor fit for focused Learn Mode review, though retained as a good fit specifically for the Browse/Filter/Search results surface (folded into the recommendation as a hybrid, not a rejected alternative).</li>
+        <li><b>4A (Undocumented pipeline)</b>: Rejected as forfeiting a visible craft-and-process signal that costs relatively little to produce and directly supports the "recruiter-readable" and "portfolio-quality" success criteria.</li>
+        <li><b>4C (Fully manual, no AI)</b>: Rejected as contradicting an already-made Key Decision and working against the full-12-category-coverage success criterion under realistic time constraints.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<hr class="section-divider">
+
+<section id="deferred">
+  <h2>Deferred Ideas</h2>
+  <div class="card">
+    <ul>
+      <li><b>Cloud sync / account system</b> for cross-device learn-mode progress — explicitly out of scope per constraint #7 ("No cross-device sync... accepted limitation, not a gap to solve"). Noted here only to confirm it was considered and intentionally deferred, not overlooked.</li>
+      <li><b>Spaced-repetition-proper mode as an opt-in "advanced" toggle</b> (i.e., offering both the lightweight bucketed mode and a true SM-2 style scheduler as a user preference) — a plausible future enhancement once the lightweight version has been used in practice long enough to know if it's insufficient, but adding it now would be solving a problem not yet observed to exist. Deferred.</li>
+      <li><b>Multi-language support beyond EN/PL</b> (e.g., a third language, or a full i18n framework for UI chrome, not just term translation) — no evidence this is needed; the current PL-translation field is a data requirement, not a UI localization requirement. Deferred.</li>
+      <li><b>Public content-contribution workflow</b> (e.g., accepting community-submitted glossary entries via PR, with automated validation-script gating) — a natural extension of the Alternative 4B validation script, but the current problem statement frames this as a personal tool with a portfolio side-effect, not a community project. Worth revisiting only if the repo gains external contributor interest post-launch. Deferred.</li>
+      <li><b>Analytics/telemetry on which terms are hardest across a hypothetical multi-user base</b> — irrelevant given the single-user, localStorage-only design; would require the cross-device sync capability that is explicitly out of scope. Deferred.</li>
+    </ul>
+    <p style="color:var(--dim); font-size:12.5px;">No out-of-scope ideas were incorporated into the alternatives above; all four explored decision areas map directly to constraints or open questions already present in <code>problem-statement.md</code> and <code>design-context.md</code>.</p>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

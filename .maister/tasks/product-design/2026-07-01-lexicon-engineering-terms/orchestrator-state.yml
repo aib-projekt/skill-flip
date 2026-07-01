@@ -1,0 +1,222 @@
+orchestrator:
+  started_phase: phase-8
+  completed_phases: ["phase-0", "phase-1", "phase-2", "phase-3", "phase-4", "phase-5", "phase-6", "phase-7", "phase-8"]
+  failed_phases: []
+  auto_fix_attempts: {}
+  options:
+    e2e_enabled: null
+    user_docs_enabled: null
+    code_review_enabled: null
+    sequential: null
+    html_output: true
+    visual_enabled: null
+  created: "2026-07-01T10:18:57Z"
+  updated: "2026-07-01T13:47:09Z"
+  task_path: .maister/tasks/product-design/2026-07-01-lexicon-engineering-terms
+  task_ids:
+    phase-0: "1"
+    phase-1: "2"
+    phase-2: "3"
+    phase-3: "4"
+    phase-4: "5"
+    phase-5: "6"
+    phase-6: "7"
+    phase-7: "8"
+    phase-8: "9"
+
+task:
+  title: "Skill Flip - Engineering Lexicon"
+  description: "Personal interactive HTML flashcard lexicon of Java/Backend engineering terms (Regular/Senior), built from an Engineering Ladder taxonomy. Dual purpose: personal study tool + public GitHub portfolio piece."
+  status: completed
+  tags: ["flashcards", "portfolio", "static-site"]
+  priority: null
+
+design_context:
+  design_characteristics:
+    is_greenfield: true
+    is_enhancement: false
+    is_ui_focused: true
+    is_backend: false
+    is_complex: true
+    is_simple: false
+  complexity_level: "complex"
+  next_phase: "Phase 7: Visual Prototyping"
+  collected_urls: []
+  research_topics: []
+  user_files_list:
+    - "context/Skill Flip.md"
+    - "context/Engineering Ladder.md"
+  project_doc_paths: []
+  project_context_summary: null
+  refinement_iterations:
+    phase_2: 0
+    phase_3: 0
+    phase_5: 0
+    phase_6_sections: {}
+    phase_7: 0
+  visual_companion:
+    available: true
+    port: 3847
+    pid: null
+    fallback_to_ascii: false
+  research_reference:
+    path: null
+    research_question: null
+  phase_summaries:
+    context_synthesis:
+      summary: "Personal client-only flashcard app for engineering terms, sourced from a 12-category Engineering Ladder taxonomy. Stack undecided; content curation approach undecided."
+      sources_count: 2
+      decisions:
+        - decision: "Treat as greenfield, client-only design (no backend)"
+          rationale: "No existing codebase/docs; user's requirements (GH Pages, static JSON + localStorage) imply a static site"
+      risks:
+        - "Tech stack undecided: vanilla JS vs Vite vs Claude's suggestion — needs a convergence decision (Phase 5)"
+        - "Scope of full-text search unclear: term only, or description/translations too?"
+        - "Content volume/curation approach unknown: transcribe Engineering Ladder verbatim vs curate a subset with authored definitions"
+        - "Portfolio audience (recruiters/visitors) affects README tone and onboarding, not just personal use"
+      artifacts:
+        - path: "analysis/design-context.md"
+          label: "Unified Design Context"
+          html: null
+    problem_exploration:
+      summary: "Mobile-first, client-only flashcard app; both personal-study and portfolio goals equal priority; content curated (not transcribed) via AI-assisted pass; weighted learn-mode resurfacing; visual identity from AiB Projekt GitHub avatar palette."
+      problem_statement: "No personal, organized tool exists for reviewing Java/Backend Senior-level vocabulary from the Engineering Ladder taxonomy, and no polished public artifact demonstrates that knowledge to recruiters."
+      constraints:
+        - "Client-only static site, no backend, deployable to GitHub Pages"
+        - "Data/UI separated via data/glossary.json (term, description, category, level, PL translation)"
+        - "Content curated & rewritten via AI-assisted generation pass, reviewed by creator"
+        - "Mobile-first, touch-friendly responsive design"
+        - "Visual identity from AiB Projekt GitHub avatar palette (navy/charcoal, steel blue-gray, sage green, pale chartreuse, ice-blue, cream)"
+        - "Tech stack decision deferred to alternatives/convergence phase"
+        - "No cross-device sync (localStorage only)"
+      success_criteria:
+        - "Used for real, repeated study sessions"
+        - "Demo-able as a strong first impression (CV/portfolio/LinkedIn)"
+        - "Recruiter-readable codebase and README"
+        - "Full coverage of all 12 Engineering Ladder categories"
+        - "Learn mode's weighted resurfacing feels smart, not gimmicky"
+      decisions:
+        - decision: "Curate & rewrite content via AI-assisted pass rather than transcribe verbatim"
+          rationale: "Ladder bullets are ability statements, not term+definition pairs; quality matters equally to portfolio goal"
+        - decision: "Mobile-first design"
+          rationale: "Actual study sessions happen on mobile during downtime"
+        - decision: "Lightweight weighted resurfacing for learn mode (not binary in/out, not full spaced repetition)"
+          rationale: "User wants more than a stat counter but explicitly ruled out full SRS complexity"
+        - decision: "Visual identity from AiB Projekt GitHub avatar palette"
+          rationale: "Explicit user direction, ties project to existing brand presence"
+      risks:
+        - "Weighted resurfacing algorithm needs concrete, simple definition during spec — risk of over-engineering"
+        - "AI content-generation pipeline needs clear boundary from the shipped app's runtime behavior"
+        - "~150-term content authoring effort is larger than the app-building effort; timeline not fixed"
+      artifacts:
+        - path: "analysis/problem-statement.md"
+          label: "Problem Statement"
+          html: null
+    persona_exploration:
+      summary: "Two personas: the Creator (primary, short frequent mobile study sessions) and the Recruiter/Visitor (secondary, immediate interactive demo on arrival)."
+      personas:
+        - "The Creator (Primary — Learner): backend/Java engineer, short frequent mobile study sessions"
+        - "The Recruiter/Visitor (Secondary — Evaluator): arrives via shared link, expects immediate interactive demo"
+      user_journeys:
+        - "Creator: commute/break -> Learn Mode -> weighted card review -> know/don't-know marking -> auto-saved progress"
+        - "Recruiter: shared link -> live demo -> flips/filters/searches without reading docs -> forms impression -> may click through to repo/README after"
+      decisions:
+        - decision: "Learn Mode resumes instantly, no configuration step"
+          rationale: "Creator's usage pattern is short frequent bursts, not long deliberate sessions"
+        - decision: "Live GitHub Pages demo is the primary landing experience for Recruiter persona"
+          rationale: "Recruiters try the interactive demo immediately rather than reading docs first"
+      risks: []
+      artifacts:
+        - path: "analysis/personas.md"
+          label: "Personas"
+          html: null
+    idea_generation:
+      summary: "4 decision areas, 14 alternatives: tech stack (Vite+TS recommended), learn-mode algorithm (bucketed weighted-random recommended), interaction model (single-card+controls recommended), content pipeline (documented pipeline recommended)."
+      alternatives_count: 14
+      artifacts:
+        - path: "analysis/alternatives.md"
+          label: "Solution Exploration"
+          html: "analysis/alternatives.html"
+    idea_convergence:
+      summary: "Converged on Vite+TS stack, bucketed weighted-random learn algorithm, single-card+grid hybrid interaction model, documented content pipeline. All four recommended alternatives selected."
+      selected_approach: "Vite + vanilla TS; bucketed weighted-random draw; single-card-with-controls + grid hybrid; documented content pipeline"
+      trade_offs_accepted:
+        - "Vite over vanilla JS: npm/node dependency for type safety and demonstrable toolchain"
+        - "Bucketed weighting over decaying/streak scoring: coarser granularity for explainability and lower risk"
+        - "Single-card+grid hybrid over pure swipe-stack: less flashy demo for robust shared component + desktop/keyboard parity"
+        - "Documented content pipeline over quiet one-off: extra upfront authoring time for visible craft artifact + reusability"
+      key_decisions:
+        - "Tech stack: Vite + vanilla TypeScript, no framework"
+        - "Learn-mode algorithm: bucketed weighted-random draw with consecutive-know graduation"
+        - "Interaction model: single-card-with-controls (Learn Mode) + flippable grid (Browse/Filter/Search)"
+        - "Content pipeline: documented prompt template + rubric + validation script"
+      risks:
+        - "Graduation threshold N needs a concrete default pinned in specification"
+        - "Single-card/grid hybrid state-sharing needs to be defined in specification"
+        - "Validation-script scope must stay capped, not grow into a full CLI"
+      artifacts:
+        - path: "analysis/design-decisions.md"
+          label: "Design Decisions"
+          html: "analysis/design-decisions.html"
+    feature_specification:
+      summary: "8-section implementation-ready spec: data model, card/flip interaction, browse/filter/search, learn mode algorithm, visual theming, content pipeline, project structure/deployment, README. Depth-verified. Revised during Phase 7 mockup review to add descriptionPl (full Polish definition translation, not just term)."
+      sections_count: 8
+      spec_sections:
+        section_1_data_model: "approved"
+        section_2_card_interaction: "approved (revised once — translation hidden behind (i) toggle)"
+        section_3_browse_filter_search: "approved"
+        section_4_learn_mode: "approved"
+        section_5_visual_design: "approved"
+        section_6_content_pipeline: "approved"
+        section_7_project_structure_deployment: "approved"
+        section_8_documentation: "approved"
+      decisions:
+        - decision: "GlossaryEntry schema fixed with id/term/description/translationPl/category/level"
+          rationale: "Validation-script-enforced, not runtime-enforced, to keep the app simple"
+        - decision: "Translation hidden behind separate (i) toggle, not shown by default on card back"
+          rationale: "User feedback during Section 2 review — keeps definition primary"
+        - decision: "Bucketed weighted-random draw: weights 4/2/1, graduation after 2 consecutive know-marks"
+          rationale: "Concrete pinning of the algorithm left open after Phase 5"
+        - decision: "Added a non-avatar terracotta accent color for dont-know state"
+          rationale: "Avatar palette had no warning/attention color; flagged and approved by user"
+      risks:
+        - "Per-category badge-color assignment left as implementation detail"
+        - "No special UI for 100% mastery edge case (nice-to-have banner deferred)"
+        - "License choice for README left to creator"
+      artifacts:
+        - path: "analysis/feature-spec.md"
+          label: "Feature Specification"
+          html: "analysis/feature-spec.html"
+    visual_prototyping:
+      summary: "4 mockups via visual companion: Learn Mode card front, Learn Mode card back (flipped), Browse filter+grid, Browse empty state. One layout bug found and fixed (card-back overflow), one spec gap surfaced and resolved (PL translation now covers full definition, not just term)."
+      mockup_references:
+        - "analysis/mockups/learn-mode-card-front.html"
+        - "analysis/mockups/learn-mode-card-back-flipped.html"
+        - "analysis/mockups/browse-filter-and-grid.html"
+        - "analysis/mockups/browse-empty-state.html"
+      decisions:
+        - decision: "Card-back layout grows with content (min-height) instead of a fixed aspect-ratio box"
+          rationale: "Fixed-ratio box caused longer definitions to overflow into the mark/nav controls below"
+        - decision: "descriptionPl (full translated definition) added to GlossaryEntry schema"
+          rationale: "Mockup review surfaced that term-only translation was an unconfirmed assumption from Section 1; user wants full bilingual support"
+      risks: []
+      artifacts:
+        - path: "analysis/mockups/learn-mode-card-front.html"
+          label: "Learn Mode — Card Front"
+          html: "analysis/mockups/learn-mode-card-front.html"
+        - path: "analysis/mockups/learn-mode-card-back-flipped.html"
+          label: "Learn Mode — Card Back (Flipped)"
+          html: "analysis/mockups/learn-mode-card-back-flipped.html"
+        - path: "analysis/mockups/browse-filter-and-grid.html"
+          label: "Browse — Filter and Grid"
+          html: "analysis/mockups/browse-filter-and-grid.html"
+        - path: "analysis/mockups/browse-empty-state.html"
+          label: "Browse — Empty State"
+          html: "analysis/mockups/browse-empty-state.html"
+    review_handoff:
+      summary: "Layered product brief assembled (Core Brief, Personas, Design Decisions, Mockup References, References) and approved on first review. Visual companion server shut down."
+      brief_layers: ["Layer 0: Core Brief", "Layer 1: Persona Cards", "Layer 2: Design Decisions", "Layer 3: Mockup References", "References"]
+      artifacts:
+        - path: "outputs/product-brief.md"
+          label: "Product Brief"
+          html: "outputs/product-brief.html"

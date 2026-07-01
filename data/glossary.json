@@ -1,0 +1,29 @@
+[
+  {
+    "id": "java-generics",
+    "term": "Generics",
+    "description": "Type parameters that allow classes and methods to operate on typed objects while providing compile-time type safety.",
+    "translationPl": "Generyki",
+    "descriptionPl": "Parametry typu pozwalające klasom i metodom operować na typowanych obiektach, zapewniając bezpieczeństwo typów w czasie kompilacji.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-streams",
+    "term": "Streams API",
+    "description": "A sequence of elements supporting sequential and parallel functional-style operations such as map, filter, and reduce.",
+    "translationPl": "Streams API",
+    "descriptionPl": "Sekwencja elementów wspierająca sekwencyjne i równoległe operacje w stylu funkcyjnym, takie jak map, filter i reduce.",
+    "category": "Java",
+    "level": "Regular"
+  },
+  {
+    "id": "java-jvm-memory-model",
+    "term": "JVM Memory Model",
+    "description": "How the JVM organizes runtime memory into heap, stack, and metaspace, and how garbage collection interacts with each region.",
+    "translationPl": "Model pamięci JVM",
+    "descriptionPl": "Sposób, w jaki JVM organizuje pamięć w czasie działania na stertę, stos i metaspace, oraz jak garbage collector współdziała z każdym z tych obszarów.",
+    "category": "Java",
+    "level": "Senior"
+  }
+]

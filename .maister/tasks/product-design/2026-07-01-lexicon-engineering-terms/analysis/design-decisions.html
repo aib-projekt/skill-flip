@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Decisions — Skill Flip: Engineering Lexicon</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+header { margin-bottom:4px; }
+header .meta { color:var(--dim); font-size:12.5px; margin-top:4px; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 4px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+
+.decision-card { border:1px solid var(--border); border-left:4px solid var(--accent); }
+.decision-card h3 { margin:0 0 6px; font-size:14.5px; }
+.decision-card .selected { color:var(--accent); font-weight:650; }
+.decision-card .considered { font-size:12.5px; color:var(--dim); margin-top:8px; }
+
+ul.risks { margin:6px 0; padding-left:18px; }
+ul.risks li { margin:6px 0; }
+
+.assumptions ol { padding-left:20px; margin:6px 0; }
+.assumptions li { margin:6px 0; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="design-context.md" target="_blank" rel="noopener" class="md" style="margin-left:0;">Design Context (md) ↗</a>
+  <a href="problem-statement.md" target="_blank" rel="noopener" class="md">Problem Statement (md) ↗</a>
+  <a href="personas.md" target="_blank" rel="noopener" class="md">Personas (md) ↗</a>
+  <span class="here">Design Decisions</span>
+  <a href="alternatives.html">Alternatives</a>
+  <a href="design-decisions.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Design Decisions</span>
+  <h1>Skill Flip — Engineering Lexicon</h1>
+  <div class="meta">Task: 2026-07-01-lexicon-engineering-terms · Source: <code>analysis/design-decisions.md</code></div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>4</b><span>decision areas</span></div>
+  <div class="tile"><b>4</b><span>trade-offs accepted</span></div>
+  <div class="tile"><b>4</b><span>key assumptions</span></div>
+  <div class="tile"><b>3</b><span>open risks</span></div>
+</div>
+
+<section class="tldr">
+  <div class="card">
+    <h2 style="margin-top:0;">TL;DR</h2>
+    <p>Four decision areas converged, all on the brainstormer's recommended alternative: <strong>Vite + vanilla TypeScript</strong> (no framework) for the stack, a <strong>bucketed weighted-random draw</strong> for learn-mode resurfacing, a <strong>single-card-with-controls model</strong> (shared across Learn Mode/focus, hybridized with a flippable grid for Browse/Filter/Search), and a <strong>documented, checked-in AI content-generation pipeline</strong> (prompt template + rubric + validation script). Every choice sits at the "considered, not maximal" point on its spectrum — enough craft signal for the portfolio goal without over-engineering relative to a ~150-entry static app.</p>
+
+    <h2>Key Decisions</h2>
+    <div class="card decision-card">
+      <h3>Tech stack <span class="selected">— Vite + vanilla TypeScript, no framework</span></h3>
+      <p>Signals modern tooling literacy and gives compile-time safety on the glossary schema, without the maintenance/over-engineering risk of a UI framework for a 3-mode, ~150-entry app.</p>
+      <div class="considered">Full alternatives: <a href="alternatives.html">Alternatives — Decision Area 1</a></div>
+    </div>
+    <div class="card decision-card">
+      <h3>Learn-mode algorithm <span class="selected">— bucketed weighted-random draw</span></h3>
+      <p><code>unseen</code>/<code>know</code>/<code>dont_know</code> buckets, <code>dont_know</code> weighted ~3-4x, graduates after N consecutive "know" marks, drops back on any miss. Matches the explicit "not binary, not full SRS" constraint and doubles as a simple progress readout.</p>
+      <div class="considered">Full alternatives: <a href="alternatives.html">Alternatives — Decision Area 2</a></div>
+    </div>
+    <div class="card decision-card">
+      <h3>Interaction model <span class="selected">— single-card-with-controls</span></h3>
+      <p>Tap-to-flip, Prev/Next, swipe layered on top — the shared component for Learn Mode and focused review, hybridized with a flippable grid specifically for Browse/Filter/Search results. One shared component minimizes duplication; the grid serves the "show full coverage fast" recruiter need without compromising Learn Mode's focus.</p>
+      <div class="considered">Full alternatives: <a href="alternatives.html">Alternatives — Decision Area 3</a></div>
+    </div>
+    <div class="card decision-card">
+      <h3>Content pipeline <span class="selected">— documented, checked-in artifact</span></h3>
+      <p>Generation prompt template + curation rubric + a validation script (<code>npm run validate-glossary</code>). Makes the "curated, not transcribed" quality bar demonstrable, not just claimed, and becomes a second visible craft signal alongside the app itself.</p>
+      <div class="considered">Full alternatives: <a href="alternatives.html">Alternatives — Decision Area 4</a></div>
+    </div>
+
+    <h2>Open Questions / Risks</h2>
+    <ul class="risks">
+      <li><span class="sev warning">warning</span>The bucketed algorithm's exact graduation threshold (N consecutive "know" marks) is deferred to specification — recommend pinning a concrete default (e.g. N=2) there.</li>
+      <li><span class="sev warning">warning</span>The single-card ↔ grid hybrid for Decision Area 3 is a reasoned synthesis, not a single clean alternative — specification needs to define exactly how state/transitions are shared between the two views.</li>
+      <li><span class="sev info">info</span>Validation-script scope must stay capped at "check the data," not grow into a full content-management CLI (noted as a risk in the alternatives doc).</li>
+    </ul>
+  </div>
+</section>
+
+<div class="toc">Contents: <a href="#selected-approach">Selected Approach</a> · <a href="#rationale">Rationale</a> · <a href="#tradeoffs">Trade-Offs Accepted</a> · <a href="#assumptions">Key Assumptions</a></div>
+
+<main>
+  <section id="selected-approach">
+    <h2>Selected Approach</h2>
+    <div class="card">
+      <p>All four decision areas were resolved in favor of the solution-brainstormer's recommended alternative, after full trade-off review with the user:</p>
+      <table>
+        <thead>
+          <tr><th>Decision Area</th><th>Selected</th><th>Alternatives Considered</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tech stack</td>
+            <td><strong>Vite + vanilla TypeScript (no framework)</strong></td>
+            <td>Vanilla HTML/CSS/JS (zero build); Svelte/Preact + Vite; SSG + JS islands</td>
+          </tr>
+          <tr>
+            <td>Learn-mode algorithm</td>
+            <td><strong>Bucketed weighted-random draw</strong></td>
+            <td>Binary in/out (rejected pre-brainstorm); decaying/streak scoring; simplified SM-2-lite in-session reinsertion</td>
+          </tr>
+          <tr>
+            <td>Interaction model</td>
+            <td><strong>Single-card-with-controls (Learn Mode/focus) + flippable grid (Browse/Filter/Search)</strong></td>
+            <td>Swipeable Tinder-style stack; grid-of-flippable-cards as sole model</td>
+          </tr>
+          <tr>
+            <td>Content pipeline</td>
+            <td><strong>Documented pipeline as repo artifact</strong></td>
+            <td>Undocumented one-off; fully manual curation (no AI)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-bottom:0; color:var(--dim); font-size:12.5px;">Full alternatives, pros/cons, trade-off matrix, and evidence links: <a href="alternatives.html">Alternatives</a> (<a href="alternatives.md" target="_blank" rel="noopener" class="md">md twin ↗</a>).</p>
+    </div>
+  </section>
+
+  <section id="rationale">
+    <h2>Rationale</h2>
+    <div class="card">
+      <p>Each selection sits at the same relative point on its spectrum: meaningfully more considered than the "default minimal" option, but deliberately short of the "maximal/flashy" option that would risk over-engineering relative to this app's actual scope (~150 static entries, three interaction modes, no backend, no multi-user concerns). This consistency matters because the two personas' needs — the Creator's low-friction frequent mobile use, and the Recruiter's instant legibility and first-impression polish — turn out to pull in the same direction once scope is right-sized, rather than trading off against each other.</p>
+    </div>
+  </section>
+
+  <section id="tradeoffs">
+    <h2>Trade-Offs Accepted</h2>
+    <table>
+      <thead>
+        <tr><th>Trade-off</th><th>Accepts</th><th>In exchange for</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Vite over vanilla JS</strong></td>
+          <td>An npm/node build-tool dependency</td>
+          <td>Type safety and a more demonstrable toolchain</td>
+        </tr>
+        <tr>
+          <td><strong>Bucketed weighting over decaying/streak scoring</strong></td>
+          <td>Coarser granularity</td>
+          <td>Explainability and lower implementation risk — appropriate at ~150-card scale</td>
+        </tr>
+        <tr>
+          <td><strong>Single-card+grid hybrid over a pure swipe-stack</strong></td>
+          <td>A slightly less flashy first-glance demo</td>
+          <td>One robust shared component plus full desktop/keyboard parity, and the ability to browse without recording a learn-mode judgment</td>
+        </tr>
+        <tr>
+          <td><strong>Documented content pipeline over a quiet one-off</strong></td>
+          <td>Extra upfront authoring time</td>
+          <td>A second visible craft artifact and future reusability (adding more categories later)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="assumptions">
+    <h2>Key Assumptions <span style="color:var(--dim); font-weight:400; font-size:12px;">(carried from alternatives.md)</span></h2>
+    <div class="card assumptions">
+      <ol>
+        <li>The creator is comfortable with a small Node/npm toolchain (reasonable for a backend engineer).</li>
+        <li>The ~150-card dataset size stays roughly fixed; if it grew 5-10x, a richer weighting model might earn back its complexity cost.</li>
+        <li>Real usage skews mobile, as described in the personas — if desktop review dominates instead, the swipe-gesture investment delivers less relative value (though button controls work fine either way).</li>
+        <li>The content pipeline will actually be reused/maintained, not run once and abandoned — if truly one-and-done, the documentation overhead is less justified, though the visible-craft argument still holds for the portfolio goal.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>
