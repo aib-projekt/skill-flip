@@ -1,6 +1,6 @@
 orchestrator:
-  started_phase: phase-13
-  completed_phases: ["phase-1", "phase-2", "phase-5", "phase-6", "phase-7", "phase-8", "phase-10", "phase-11", "phase-12"]
+  started_phase: phase-14
+  completed_phases: ["phase-1", "phase-2", "phase-5", "phase-6", "phase-7", "phase-8", "phase-10", "phase-11", "phase-12", "phase-13", "phase-14"]
   skipped_phases:
     phase-3: "has_reproducible_defect=false — new feature build, no TDD red/green gate"
     phase-4: "analysis/design-context/mockups/ already populated from product-design handoff — no ASCII mockup regeneration needed"
@@ -22,7 +22,7 @@ orchestrator:
     production_check_enabled: true
     sequential: null
   created: "2026-07-01T13:50:39Z"
-  updated: "2026-07-01T19:54:37Z"
+  updated: "2026-07-01T20:07:28Z"
   task_path: .maister/tasks/development/2026-07-01-skill-flip-engineering-lexicon
   task_ids:
     phase-1: "10"
@@ -43,7 +43,7 @@ orchestrator:
 task:
   title: "Skill Flip - Engineering Lexicon (Implementation)"
   description: "Implement the Skill Flip engineering lexicon flashcard app per the approved product-design brief: Vite + vanilla TypeScript, client-only, glossary data model, single-card flip/learn-mode component + browse grid, bucketed weighted-random learn algorithm, documented AI content pipeline, GitHub Pages deployment."
-  status: in_progress
+  status: completed
   tags: ["flashcards", "portfolio", "static-site"]
   priority: null
 
@@ -225,6 +225,16 @@ task_context:
         - path: "verification/visual-fidelity.md"
           label: "Visual Fidelity (4/4 match)"
           html: "verification/visual-fidelity.html"
+    user_docs:
+      summary: "End-user guide covering Learn Mode (flip, translation reveal, marking, plain-English resurfacing explanation, reset) and Browse Mode (search, filter, tile flip, empty-state recovery), plus Learn/Browse tab switching. 8 real screenshots captured live from the running app."
+      decisions:
+        - decision: "Used a cached Chromium binary (leftover from a prior playwright install) via a scratchpad-only Node script rather than only inline preview viewing"
+          rationale: "Produces genuine on-disk PNG files for the guide despite the sandbox's Chrome/Playwright-MCP channel limitation; no project files touched"
+      risks: []
+      artifacts:
+        - path: "documentation/user-guide.md"
+          label: "User Guide"
+          html: null
     implementation_plan:
       summary: "9 task groups, 52 steps, 34-58 tests. Waves: (1) Scaffolding/Git/Data Model solo; (2) Card Component, Filters/Learn Algorithm/Storage, Content Pipeline in parallel; (3) Browse UI + Learn Mode UI in parallel; (4) AppShell & Wiring; (5) Build/Deploy/Docs; (6) Test Review & Gap Analysis. All 4 mockup screens + 5 shared components covered per visual-coverage.md."
       task_groups_count: 9
@@ -244,6 +254,14 @@ task_context:
       risks:
         - "theme.css and package.json are appended by multiple groups per wave — must be serialized even when groups run concurrently"
         - "TaskCreate/TaskUpdate tools unavailable to the planner subagent — markdown checkboxes + HTML progress markers are the resumable tracking source instead of Task items"
+    finalization:
+      summary: "Workflow finalized: 14/14 phases executed (3 skipped by documented precondition — no reproducible defect for TDD gates, mockups already ingested from product-design for ASCII regeneration). Task status set to completed."
+      decisions: []
+      risks:
+        - "Full ~150-term/12-category content authoring remains a follow-up pass, not part of this pass's completion criteria"
+        - "Live GitHub Pages deploy unconfirmed — no git remote configured in this sandbox; requires pushing to aib-projekt/skill-flip and enabling Actions as the Pages source"
+        - "npm audit reports 5 vulnerabilities in transitive devDependencies (typical vite/vitest/esbuild toolchain range), not addressed this pass"
+      artifacts: []
 
 verification_context:
   last_status: passed
