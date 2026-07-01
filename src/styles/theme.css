@@ -62,3 +62,252 @@ body {
     transition: none !important;
   }
 }
+
+/*
+ * Card component (spec Section 2) — copied largely verbatim from both
+ * mockups' inline <style> blocks:
+ *   - analysis/design-context/mockups/learn-mode-card-front.html (front,
+ *     fixed 3:4 aspect-ratio box, perspective:1200px)
+ *   - analysis/design-context/mockups/learn-mode-card-back-flipped.html
+ *     (back, content-driven min-height:340px — NOT the front's fixed box)
+ *
+ * `.card-shell` carries the front's fixed aspect-ratio box by default.
+ * `.card-shell.card-shell-back` (applied once isFlipped === true) drops the
+ * aspect-ratio and lets `.card-back`'s min-height/content drive the height,
+ * per the back mockup's corrected (content-grows) behavior.
+ */
+
+.card-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+}
+
+.card-shell {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 3 / 4;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+/*
+ * Back-flipped state: drop the front's fixed aspect-ratio box and let
+ * `.card-back`'s min-height/content drive the height instead (per the back
+ * mockup's corrected, content-grows behavior — not the fixed box).
+ */
+.card-shell.card-shell-back {
+  aspect-ratio: auto;
+  height: auto;
+}
+
+.card-shell-tile {
+  max-width: 100%;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.card-shell-back .card-inner {
+  height: auto;
+}
+
+.card-face {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(28, 43, 58, 0.15);
+  /* Both faces stay mounted in the DOM at all times (screen-reader
+     accessible); backface-visibility + visibility (never display:none)
+     is what hides the non-active face. */
+  backface-visibility: hidden;
+}
+
+.card-front {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-card-front);
+  border: 1px solid var(--color-steel);
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  text-align: center;
+}
+
+/* Once flipped, the front is visually hidden (not removed) and taken out of
+   flow so the back can size itself to its own content below. */
+.card-shell-back .card-front {
+  visibility: hidden;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card-back {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-surface, #fff);
+  border: 1px solid var(--color-steel);
+  text-align: left;
+  padding: 24px;
+  min-height: 340px;
+  height: auto;
+  visibility: hidden;
+}
+
+/* Flipped state: back face becomes the normal-flow box driving the
+   shell's (min-height, content-grown) size instead of the front's fixed
+   aspect-ratio box. */
+.card-shell-back .card-back {
+  position: static;
+  visibility: visible;
+}
+
+.flip-trigger {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.card-front .flip-trigger {
+  text-align: center;
+}
+
+.card-back .flip-trigger {
+  align-items: stretch;
+  text-align: left;
+  cursor: pointer;
+}
+
+.badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin: 0 4px 14px;
+  background: var(--bg-badge-category);
+  color: var(--text-inverse);
+}
+
+.badge[class*='level-senior'] {
+  background: var(--bg-badge-level-senior);
+  color: var(--text-level-senior);
+}
+
+.term {
+  font-size: 30px;
+  margin: 8px 0 18px;
+  font-weight: 650;
+}
+
+.flip-hint {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.back-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.term-small {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.info-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--color-steel);
+  background: var(--color-ice);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-style: italic;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.info-btn.active {
+  background: var(--bg-topbar);
+  color: var(--text-level-senior);
+  border-color: var(--bg-topbar);
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.translation-pop {
+  font-size: 13px;
+  background: var(--color-chartreuse);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.pl-term {
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 6px;
+}
+
+.pl-desc {
+  margin: 0;
+  font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.45;
+}
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 340px;
+  gap: 10px;
+}
+
+.nav-btn {
+  background: var(--bg-topbar);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.nav-btn:hover {
+  background: var(--color-steel);
+}
+
+.swipe-hint {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-align: center;
+  flex: 1;
+}
