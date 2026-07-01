@@ -26,19 +26,19 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
 **Dependencies:** None
 **Files to Modify:** `package.json`, `tsconfig.json`, `vite.config.ts`, `vitest.config.ts` (or vite.config.ts test block), `.gitignore`, `index.html`, `src/main.ts`, `src/types/glossary.ts`, `src/lib/config.ts`, `src/styles/theme.css`, `data/glossary.json` (fixture stub), `src/types/glossary.test.ts`
 
-- [ ] 1.0 Complete scaffolding, git initialization, and core data model
-  - [ ] 1.1 Write 3 focused tests for the data model / fixture loading contract:
+- [x] 1.0 Complete scaffolding, git initialization, and core data model
+  - [x] 1.1 Write 3 focused tests for the data model / fixture loading contract:
     - `GlossaryEntry` shape accepts all required fields (`id`, `term`, `description`, `translationPl`, `descriptionPl`, `category`, `level`)
     - a fixture array of 3+ entries type-checks against `Glossary`
     - `Category` enum includes exactly the 12 taxonomy values (Java, Spring/JEE, Data Storage, DevOps, Cloud Engineering, Testing, Soft Skills, + remaining 5 per `Engineering Ladder.md` taxonomy) and `Level` includes exactly Junior/Regular/Senior
-  - [ ] 1.2 Run `git init`; merge existing `.idea/.gitignore` rules (`/shelf/`, `/workspace.xml`, `/httpRequests/`, `/queries/`, `/dataSources/`, `/dataSources.local.xml`) into a new root `.gitignore` alongside standard Node/Vite ignores (`node_modules/`, `dist/`, `.env*`, editor files); explicitly verify `.claude/` and `.maister/` are NOT added to any ignore rule (must remain tracked/visible)
-  - [ ] 1.3 Scaffold `package.json` (npm), `tsconfig.json` (strict mode), `vite.config.ts` with `base: '/skill-flip/'`, and Vitest wired via `npm test` / `npm run test`
-  - [ ] 1.4 Create minimal `index.html` entry point (mounts `#app`, loads `src/main.ts` as module) and stub `src/main.ts` (fetches `data/glossary.json`, logs count — real `AppShell` mount comes in Group 6)
-  - [ ] 1.5 Write `src/types/glossary.ts`: `GlossaryEntry`, `Category` (12-value union/enum), `Level` (`Junior`|`Regular`|`Senior`), `Glossary` (`GlossaryEntry[]`) types
-  - [ ] 1.6 Write `src/lib/config.ts`: `BUCKET_WEIGHTS = { dont_know: 4, unseen: 2, know: 1 }`, `GRADUATION_THRESHOLD = 2`
-  - [ ] 1.7 Seed `src/styles/theme.css` with the CSS custom-property palette copied verbatim from the mockups' `:root` block (`--color-navy:#1c2b3a`, `--color-steel:#5b7086`, `--color-ice:#d7e2e6`, `--color-sage:#6f8a72`, `--color-chartreuse:#e3e8ad`, `--color-cream:#f7f7f2`, `--accent-dont-know:#b5765f`) plus the two-tier semantic aliases (`--bg-*`, `--text-*`, `--accent-*`), base `body`/font-family rules, and a `@media (prefers-reduced-motion: reduce)` block disabling flip/transition animations
-  - [ ] 1.8 Create a 3-entry `data/glossary.json` fixture stub (placeholder Java terms) so `fetch()` has something to load during Groups 2-6; replaced with the real ~15-20 term set in Group 7
-  - [ ] 1.9 Ensure scaffolding tests pass
+  - [x] 1.2 Run `git init`; merge existing `.idea/.gitignore` rules (`/shelf/`, `/workspace.xml`, `/httpRequests/`, `/queries/`, `/dataSources/`, `/dataSources.local.xml`) into a new root `.gitignore` alongside standard Node/Vite ignores (`node_modules/`, `dist/`, `.env*`, editor files); explicitly verify `.claude/` and `.maister/` are NOT added to any ignore rule (must remain tracked/visible)
+  - [x] 1.3 Scaffold `package.json` (npm), `tsconfig.json` (strict mode), `vite.config.ts` with `base: '/skill-flip/'`, and Vitest wired via `npm test` / `npm run test`
+  - [x] 1.4 Create minimal `index.html` entry point (mounts `#app`, loads `src/main.ts` as module) and stub `src/main.ts` (fetches `data/glossary.json`, logs count — real `AppShell` mount comes in Group 6)
+  - [x] 1.5 Write `src/types/glossary.ts`: `GlossaryEntry`, `Category` (12-value union/enum), `Level` (`Junior`|`Regular`|`Senior`), `Glossary` (`GlossaryEntry[]`) types
+  - [x] 1.6 Write `src/lib/config.ts`: `BUCKET_WEIGHTS = { dont_know: 4, unseen: 2, know: 1 }`, `GRADUATION_THRESHOLD = 2`
+  - [x] 1.7 Seed `src/styles/theme.css` with the CSS custom-property palette copied verbatim from the mockups' `:root` block (`--color-navy:#1c2b3a`, `--color-steel:#5b7086`, `--color-ice:#d7e2e6`, `--color-sage:#6f8a72`, `--color-chartreuse:#e3e8ad`, `--color-cream:#f7f7f2`, `--accent-dont-know:#b5765f`) plus the two-tier semantic aliases (`--bg-*`, `--text-*`, `--accent-*`), base `body`/font-family rules, and a `@media (prefers-reduced-motion: reduce)` block disabling flip/transition animations
+  - [x] 1.8 Create a 3-entry `data/glossary.json` fixture stub (placeholder Java terms) so `fetch()` has something to load during Groups 2-6; replaced with the real ~15-20 term set in Group 7
+  - [x] 1.9 Ensure scaffolding tests pass
     - Run ONLY the 3 tests written in 1.1
     - Do NOT run entire test suite
 
