@@ -1,6 +1,6 @@
 orchestrator:
-  started_phase: phase-11
-  completed_phases: ["phase-1", "phase-2", "phase-5", "phase-6", "phase-7", "phase-8", "phase-10"]
+  started_phase: phase-12
+  completed_phases: ["phase-1", "phase-2", "phase-5", "phase-6", "phase-7", "phase-8", "phase-10", "phase-11"]
   skipped_phases:
     phase-3: "has_reproducible_defect=false — new feature build, no TDD red/green gate"
     phase-4: "analysis/design-context/mockups/ already populated from product-design handoff — no ASCII mockup regeneration needed"
@@ -13,6 +13,7 @@ orchestrator:
     spec_audit_verdict: "pass-with-concerns"
     spec_audit_issue_counts: {critical: 0, high: 1, medium: 5, low: 4}
     skip_test_suite: true
+    verification_status: "passed"
     e2e_enabled: true
     user_docs_enabled: true
     code_review_enabled: true
@@ -21,7 +22,7 @@ orchestrator:
     production_check_enabled: true
     sequential: null
   created: "2026-07-01T13:50:39Z"
-  updated: "2026-07-01T15:34:20Z"
+  updated: "2026-07-01T19:39:02Z"
   task_path: .maister/tasks/development/2026-07-01-skill-flip-engineering-lexicon
   task_ids:
     phase-1: "10"
@@ -187,6 +188,30 @@ task_context:
         - path: "implementation/work-log.md"
           label: "Work Log"
           html: null
+    verification:
+      summary: "Post-fix verdict: Passed. Completeness (100%), production-readiness (GO), reality-check (GO), pragmatic review (appropriate) all clean. Code review's 1 Critical + 2 Warnings + 1 Info fixed and re-verified (zero regressions); 2 items left as documented, not-genuinely-fixable."
+      decisions:
+        - decision: "Fixed all 4 fixable issues (1 critical, 2 warnings, 1 info) directly rather than delegating"
+          rationale: "innerHTML sink, duplicated badge-slug/progress-stats logic, dev-only path-traversal guard were all low-risk, mechanical fixes"
+      risks:
+        - "LearnMode.ts's generic click/keydown flip-state re-derivation left as-is (architectural, tested, works)"
+        - "npm audit vulnerabilities remain tracked only in work-log, not a durable tracker (process note)"
+      artifacts:
+        - path: "verification/implementation-verification.md"
+          label: "Implementation Verification (Passed, post-fix)"
+          html: "verification/implementation-verification.html"
+        - path: "verification/code-review-report.md"
+          label: "Code Review"
+          html: null
+        - path: "verification/pragmatic-review.md"
+          label: "Pragmatic Review"
+          html: null
+        - path: "verification/production-readiness-report.md"
+          label: "Production Readiness"
+          html: null
+        - path: "verification/reality-check.md"
+          label: "Reality Check"
+          html: null
     implementation_plan:
       summary: "9 task groups, 52 steps, 34-58 tests. Waves: (1) Scaffolding/Git/Data Model solo; (2) Card Component, Filters/Learn Algorithm/Storage, Content Pipeline in parallel; (3) Browse UI + Learn Mode UI in parallel; (4) AppShell & Wiring; (5) Build/Deploy/Docs; (6) Test Review & Gap Analysis. All 4 mockup screens + 5 shared components covered per visual-coverage.md."
       task_groups_count: 9
@@ -206,3 +231,22 @@ task_context:
       risks:
         - "theme.css and package.json are appended by multiple groups per wave — must be serialized even when groups run concurrently"
         - "TaskCreate/TaskUpdate tools unavailable to the planner subagent — markdown checkboxes + HTML progress markers are the resumable tracking source instead of Task items"
+
+verification_context:
+  last_status: passed
+  issues_found:
+    - {severity: critical, category: security, description: "innerHTML injection sink in Card.ts:207", fixed: true}
+    - {severity: warning, category: duplication, description: "duplicated category-badge-slug logic (Card.ts/BrowseGrid.ts)", fixed: true}
+    - {severity: warning, category: duplication, description: "duplicated progress-stats rendering (BrowseGrid.ts/LearnMode.ts)", fixed: true}
+    - {severity: warning, category: architecture, description: "LearnMode.ts re-derives flip state via generic listening", fixed: false}
+    - {severity: info, category: security, description: "dev-only path-traversal gap in serveRootData middleware", fixed: true}
+    - {severity: info, category: code-quality, description: "unbounded consecutiveKnowCount / redundant inline style.display", fixed: true}
+  fixes_applied:
+    - "Card.ts: replaced innerHTML template-string with DOM-API node construction"
+    - "Card.ts/theme.css: removed redundant inline style.display, moved to CSS .is-visible class"
+    - "Card.ts/BrowseGrid.ts: exported and reused shared categoryBadgeClass"
+    - "New src/components/progressStats.ts: shared renderProgressStats used by both BrowseGrid.ts and LearnMode.ts"
+    - "vite.config.ts: added path-containment guard to serveRootData dev middleware"
+  decisions_made:
+    - "User selected 'Fix all fixable issues' — applied all 4 fixable findings, left 2 non-fixable/process items documented"
+  reverify_count: 1

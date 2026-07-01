@@ -1,12 +1,12 @@
 window.MAISTER_DATA = {
-  generated: "2026-07-01T15:34:20Z",
+  generated: "2026-07-01T19:39:02Z",
   task: {
     title: "Skill Flip - Engineering Lexicon (Implementation)",
     type: "development",
     status: "in_progress",
     description: "Implement the Skill Flip engineering lexicon flashcard app per the approved product-design brief: Vite + vanilla TypeScript, client-only, glossary data model, single-card flip/learn-mode component + browse grid, bucketed weighted-random learn algorithm, documented AI content pipeline, GitHub Pages deployment.",
     path: ".maister/tasks/development/2026-07-01-skill-flip-engineering-lexicon",
-    current_activity: "Verifying implementation"
+    current_activity: "Running E2E tests"
   },
   characteristics: {
     has_reproducible_defect: false,
@@ -26,10 +26,28 @@ window.MAISTER_DATA = {
     { id: "phase-8", name: "Execute implementation", icon_hint: "code", status: "completed", started: "2026-07-01T14:31:54Z", completed: "2026-07-01T15:31:11Z", skip_reason: null, summary: "All 9 task groups (52 steps) implemented across 6 parallel waves: scaffolding/git/data model, Card component, filters/learn algorithm/storage, Browse UI, Learn Mode UI, AppShell wiring, content pipeline + 20-term starter dataset, build/deploy/docs, final test review. 50 tests/checks passing, typecheck clean. Manually verified live in browser.", decisions: [{decision: "Fixed Node/jsdom localStorage conflict globally via vitest.setup.ts", rationale: "Would have repeated across every group touching localStorage"}, {decision: "Card tile variant in BrowseGrid uses hand-built flat DOM", rationale: "Card.ts's tile-variant DOM didn't match the mockup's flat markup"}], risks: ["Full ~150-term content authoring deferred to a follow-up pass", "Live GitHub Pages deploy unconfirmed — needs Pages source enabled + first push", "npm audit: 5 vulnerabilities in transitive devDependencies, typical toolchain range"], artifacts: [{path: "implementation/implementation-plan.md", label: "Implementation Plan (complete)", html: "implementation/implementation-plan.html"}, {path: "implementation/work-log.md", label: "Work Log", html: null}], gate: {question: "Continue to verification?", answer: "Yes, continue"} },
     { id: "phase-9", name: "Verify test passes (TDD Green)", icon_hint: "verify", status: "skipped", started: null, completed: null, skip_reason: "Phase 3 (TDD Red) was not executed", summary: null, decisions: [], risks: [], artifacts: [], gate: null },
     { id: "phase-10", name: "Prompt verification options", icon_hint: "verify", status: "completed", started: "2026-07-01T15:32:31Z", completed: "2026-07-01T15:34:20Z", skip_reason: null, summary: "All standard verifications enabled: code review, pragmatic review, reality check, production readiness, E2E, user docs.", decisions: [], risks: [], artifacts: [], gate: {question: "Which verifications to run?", answer: "All standard + E2E + user docs"} },
-    { id: "phase-11", name: "Verify implementation & resolve issues", icon_hint: "verify", status: "in_progress", started: "2026-07-01T15:34:20Z", completed: null, skip_reason: null, summary: null, decisions: [], risks: [], artifacts: [], gate: null },
-    { id: "phase-12", name: "Run E2E tests", icon_hint: "verify", status: "pending", started: null, completed: null, skip_reason: null, summary: null, decisions: [], risks: [], artifacts: [], gate: null },
+    { id: "phase-11", name: "Verify implementation & resolve issues", icon_hint: "verify", status: "completed", started: "2026-07-01T15:34:20Z", completed: "2026-07-01T19:39:02Z", skip_reason: null, summary: "Post-fix verdict: Passed. Completeness (100%), production-readiness (GO), reality-check (GO), pragmatic review (appropriate) all clean. Code review's 1 Critical + 2 Warnings + 1 Info fixed and re-verified (zero regressions); 2 items left as documented, not-genuinely-fixable.", decisions: [{decision: "Fixed all 4 fixable issues directly rather than delegating", rationale: "innerHTML sink, duplicated badge-slug/progress-stats logic, dev-only path-traversal guard were all low-risk, mechanical fixes"}], risks: ["LearnMode.ts's generic click/keydown flip-state re-derivation left as-is (architectural, tested, works)", "npm audit vulnerabilities remain tracked only in work-log, not a durable tracker"], artifacts: [{path: "verification/implementation-verification.md", label: "Implementation Verification (Passed, post-fix)", html: "verification/implementation-verification.html"}, {path: "verification/code-review-report.md", label: "Code Review", html: null}, {path: "verification/pragmatic-review.md", label: "Pragmatic Review", html: null}, {path: "verification/production-readiness-report.md", label: "Production Readiness", html: null}, {path: "verification/reality-check.md", label: "Reality Check", html: null}], gate: {question: "Continue to Phase 12?", answer: "Yes, continue"} },
+    { id: "phase-12", name: "Run E2E tests", icon_hint: "verify", status: "in_progress", started: "2026-07-01T19:39:02Z", completed: null, skip_reason: null, summary: null, decisions: [], risks: [], artifacts: [], gate: null },
     { id: "phase-13", name: "Generate user documentation", icon_hint: "docs", status: "pending", started: null, completed: null, skip_reason: null, summary: null, decisions: [], risks: [], artifacts: [], gate: null },
     { id: "phase-14", name: "Finalize workflow", icon_hint: "done", status: "pending", started: null, completed: null, skip_reason: null, summary: null, decisions: [], risks: [], artifacts: [], gate: null }
   ],
-  verification: { status: null, issues: [], fixes: [], reverify_count: 0 }
+  verification: {
+    status: "passed",
+    issues: [
+      {severity: "critical", category: "security", description: "innerHTML injection sink in Card.ts:207", fixable: true, fixed: true},
+      {severity: "warning", category: "duplication", description: "duplicated category-badge-slug logic (Card.ts/BrowseGrid.ts)", fixable: true, fixed: true},
+      {severity: "warning", category: "duplication", description: "duplicated progress-stats rendering (BrowseGrid.ts/LearnMode.ts)", fixable: true, fixed: true},
+      {severity: "warning", category: "architecture", description: "LearnMode.ts re-derives flip state via generic listening", fixable: false, fixed: false},
+      {severity: "info", category: "security", description: "dev-only path-traversal gap in serveRootData middleware", fixable: true, fixed: true},
+      {severity: "info", category: "code-quality", description: "unbounded consecutiveKnowCount / redundant inline style.display", fixable: true, fixed: true}
+    ],
+    fixes: [
+      "Card.ts: replaced innerHTML template-string with DOM-API node construction",
+      "Card.ts/theme.css: removed redundant inline style.display, moved to CSS .is-visible class",
+      "Card.ts/BrowseGrid.ts: exported and reused shared categoryBadgeClass",
+      "New src/components/progressStats.ts: shared renderProgressStats used by both BrowseGrid.ts and LearnMode.ts",
+      "vite.config.ts: added path-containment guard to serveRootData dev middleware"
+    ],
+    reverify_count: 1
+  }
 }
