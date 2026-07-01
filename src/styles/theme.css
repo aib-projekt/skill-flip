@@ -264,11 +264,16 @@ body {
 }
 
 .translation-pop {
+  display: none;
   font-size: 13px;
   background: var(--color-chartreuse);
   color: var(--text-primary);
   padding: 10px 12px;
   border-radius: 8px;
+}
+
+.translation-pop.is-visible {
+  display: block;
 }
 
 .pl-term {
@@ -406,4 +411,281 @@ body {
 .mark-btn.dont-know {
   background: var(--accent-dont-know-fg);
   color: #fff;
+}
+
+/*
+ * Browse / Filter / Search (spec Section 3) — copied largely verbatim from
+ * both mockups' inline <style> blocks:
+ *   - analysis/design-context/mockups/browse-filter-and-grid.html
+ *   - analysis/design-context/mockups/browse-empty-state.html
+ *
+ * `.topbar`/`.progress-stats`/`.stat.*`/`.dot` are already defined above
+ * (Group 5, Learn Mode) and are reused as-is here — Browse's topbar only
+ * adds `.brand`, since both views render the identical progress-stats
+ * format in their own distinct topbar (spec-audit correction: no shared
+ * AppShell topbar component).
+ */
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.app-shell.wide {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-page);
+}
+
+.filter-bar {
+  position: sticky;
+  top: 0;
+  background: var(--bg-page);
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-ice);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-steel);
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cat-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--color-ice);
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.chip.active {
+  background: var(--bg-topbar);
+  color: var(--text-inverse);
+}
+
+.chip.more {
+  background: none;
+  border: 1px dashed var(--color-steel);
+  color: var(--color-steel);
+  cursor: default;
+}
+
+.level-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--color-ice);
+  padding: 4px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.lvl {
+  border: none;
+  background: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  cursor: pointer;
+  color: var(--color-steel);
+}
+
+.lvl.active {
+  background: #fff;
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+.result-count {
+  padding: 10px 20px 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 16px 20px 28px;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.tile {
+  background: var(--color-ice);
+  border: 1px solid var(--color-steel);
+  border-radius: 14px;
+  padding: 16px;
+  min-height: 110px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tile.flipped {
+  background: var(--bg-surface, #fff);
+}
+
+.tile h3 {
+  margin: 8px 0 0;
+  font-size: 16px;
+}
+
+.tile-hint {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tile-desc {
+  font-size: 12.5px;
+  line-height: 1.4;
+  margin: 6px 0 0;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 8px;
+}
+
+.empty-icon {
+  font-size: 40px;
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.empty-state h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.empty-state p {
+  margin: 0 0 14px;
+  color: var(--color-steel);
+  font-size: 14px;
+}
+
+.clear-btn {
+  background: var(--bg-topbar);
+  color: var(--text-inverse);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.clear-btn:hover {
+  background: var(--color-steel);
+}
+
+/*
+ * AppShell (final integration point, Group 6) — outer container width
+ * variants and bottom tab bar, copied verbatim from both mockups' inline
+ * <style> blocks:
+ *   - analysis/design-context/mockups/learn-mode-card-front.html (`.app-shell`,
+ *     480px, the Learn-active default)
+ *   - analysis/design-context/mockups/browse-filter-and-grid.html
+ *     (`.app-shell.wide`, 900px, already defined above)
+ *
+ * AppShell owns ONLY this width variant + `.bottombar` — no shared topbar
+ * (each mounted view supplies its own, per Groups 4/5).
+ */
+
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-page);
+}
+
+.bottombar {
+  display: flex;
+  border-top: 1px solid var(--color-ice);
+  margin-top: auto;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  color: var(--color-steel);
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  color: var(--text-primary);
+  font-weight: 650;
+  border-top: 2px solid var(--color-sage);
+  margin-top: -1px;
+}
+
+/*
+ * main.ts bootstrap error state — not part of the mockups (no fetch-failure
+ * screen was designed), styled minimally to keep the failure visible rather
+ * than a silent blank #app.
+ */
+
+.app-error {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 8px;
+}
+
+.app-error h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--accent-dont-know-fg);
+}
+
+.app-error p {
+  margin: 0;
+  color: var(--color-steel);
+  font-size: 14px;
 }

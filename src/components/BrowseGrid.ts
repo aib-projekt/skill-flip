@@ -1,8 +1,8 @@
-import { createCard } from './Card';
+import { createCard, categoryBadgeClass } from './Card';
 import { createFilterBar } from './FilterBar';
 import { applyFilters } from '../lib/filters';
 import type { BrowseFilterState } from '../lib/filters';
-import { computeBucketCounts } from '../lib/storage';
+import { renderProgressStats } from './progressStats';
 import type { Glossary } from '../types/glossary';
 
 /**
@@ -40,33 +40,6 @@ export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridIn
 
   const progressStats = document.createElement('div');
   progressStats.className = 'progress-stats';
-
-  function renderProgressStats(): void {
-    const counts = computeBucketCounts(entries);
-    progressStats.innerHTML = '';
-
-    const know = document.createElement('span');
-    know.className = 'stat know';
-    know.textContent = `${counts.mastered} mastered`;
-
-    const dot1 = document.createElement('span');
-    dot1.className = 'dot';
-    dot1.innerHTML = '&middot;';
-
-    const dontKnow = document.createElement('span');
-    dontKnow.className = 'stat dontknow';
-    dontKnow.textContent = `${counts.shaky} shaky`;
-
-    const dot2 = document.createElement('span');
-    dot2.className = 'dot';
-    dot2.innerHTML = '&middot;';
-
-    const unseen = document.createElement('span');
-    unseen.className = 'stat unseen';
-    unseen.textContent = `${counts.new} new`;
-
-    progressStats.append(know, dot1, dontKnow, dot2, unseen);
-  }
 
   topbar.append(brand, progressStats);
 
@@ -151,7 +124,7 @@ export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridIn
       tile.innerHTML = '';
 
       const badge = document.createElement('span');
-      badge.className = `badge cat-${entry.category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
+      badge.className = `badge ${categoryBadgeClass(entry.category)}`;
       badge.textContent = entry.category;
       tile.appendChild(badge);
 
@@ -207,12 +180,12 @@ export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridIn
     }
   }
 
-  renderProgressStats();
+  renderProgressStats(progressStats, entries);
   renderContent();
 
   return {
     element: root,
-    refreshStats: () => renderProgressStats(),
+    refreshStats: () => renderProgressStats(progressStats, entries),
     destroy: () => {
       filterBar.destroy();
     },

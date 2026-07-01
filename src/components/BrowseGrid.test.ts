@@ -141,6 +141,47 @@ describe('BrowseGrid / FilterBar integration', () => {
     expect(grid.element.querySelector('.grid')).not.toBeNull();
   });
 
+  it('renders a 0-count chip for a category with zero entries in the loaded dataset (Group 9 gap)', () => {
+    const grid = createBrowseGrid({ entries: fixture });
+
+    // The starter fixture only has Java and DevOps entries; all other 10
+    // taxonomy categories must still render as visible/overflow chips at
+    // count 0 rather than being omitted entirely. "Cloud Engineering" is
+    // within the first 5 (visible, non-overflow) categories.
+    const cloudChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Cloud Engineering')
+    );
+    expect(cloudChip).toBeTruthy();
+    expect(cloudChip?.textContent).toBe('Cloud Engineering (0)');
+
+    // Categories beyond the visible-chip count collapse into a "+N more" overflow chip.
+    const moreChip = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChip).not.toBeNull();
+    expect(moreChip?.textContent).toMatch(/^\+\d+ more$/);
+  });
+
+  it("renders live mastered/shaky/new progress-stats in Browse's own topbar, shared computation with Learn Mode (Group 9 gap)", () => {
+    const grid = createBrowseGrid({ entries: fixture });
+
+    const statsBefore = grid.element.querySelector('.topbar .progress-stats');
+    expect(statsBefore).not.toBeNull();
+    expect(statsBefore?.textContent).toContain('0 mastered');
+    expect(statsBefore?.textContent).toContain('0 shaky');
+    expect(statsBefore?.textContent).toContain(`${fixture.length} new`);
+
+    // refreshStats() re-reads localStorage (e.g. after a reset/mark elsewhere)
+    // and updates Browse's own topbar without needing to remount the component.
+    localStorage.setItem(
+      'skillflip:learn-progress',
+      JSON.stringify({ 'java-generics': { bucket: 'know', consecutiveKnowCount: 2 } })
+    );
+    grid.refreshStats();
+
+    const statsAfter = grid.element.querySelector('.topbar .progress-stats');
+    expect(statsAfter?.textContent).toContain('1 mastered');
+    expect(statsAfter?.textContent).toContain(`${fixture.length - 1} new`);
+  });
+
   it('"Clear filters" resets all filter state and restores the full unfiltered grid', () => {
     const grid = createBrowseGrid({ entries: fixture });
     const search = grid.element.querySelector<HTMLInputElement>('.search-input');

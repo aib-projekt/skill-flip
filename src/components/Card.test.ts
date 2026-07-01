@@ -120,4 +120,26 @@ describe('Card', () => {
     prevBtn?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onNavigate).toHaveBeenCalledWith('prev');
   });
+
+  it("variant: 'tile' omits the nav-row and applies tile modifier classes, while flip/translation state still work (Group 9 gap: only exercised indirectly via BrowseGrid before this)", () => {
+    const card = createCard({ entry: entryA, variant: 'tile' });
+
+    // No Prev/Next nav row for the tile variant (Browse grid tiles don't navigate).
+    expect(card.element.querySelector('.nav-row')).toBeNull();
+
+    // Tile modifier classes are applied to the root and card-shell.
+    expect(card.element.classList.contains('card-root-tile')).toBe(true);
+    expect(card.element.querySelector('.card-shell')?.classList.contains('card-shell-tile')).toBe(true);
+
+    // The flip and translation-toggle state machine still functions identically
+    // to the 'full' variant even though no nav row is rendered.
+    expect(card.getState().isFlipped).toBe(false);
+    const front = card.element.querySelector<HTMLElement>('.card-front .flip-trigger');
+    front?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(card.getState().isFlipped).toBe(true);
+
+    const infoBtn = card.element.querySelector<HTMLElement>('.info-btn');
+    infoBtn?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(card.getState().isTranslationVisible).toBe(true);
+  });
 });

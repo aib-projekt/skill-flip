@@ -1,11 +1,30 @@
+import { createAppShell } from './components/AppShell';
 import type { Glossary } from './types/glossary';
 
 /**
- * Scaffolding-stage bootstrap. Fetches the glossary fixture and logs the
- * entry count so `npm run dev` / `npm run build` have a working, verifiable
- * app shell during Groups 2-6. The real `AppShell` mount replaces this in
- * Group 6.
+ * Bootstrap: fetches the glossary, validates it, and mounts `AppShell` — the
+ * final integration point tying together all UI groups (Group 6). Any
+ * fetch/parse/empty-array failure renders a visible error state into `#app`
+ * rather than leaving a silent blank screen.
  */
+
+function renderError(appEl: HTMLDivElement | null, message: string): void {
+  if (!appEl) return;
+  appEl.innerHTML = '';
+
+  const errorBox = document.createElement('div');
+  errorBox.className = 'app-error';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Unable to load Skill Flip';
+
+  const detail = document.createElement('p');
+  detail.textContent = message;
+
+  errorBox.append(heading, detail);
+  appEl.appendChild(errorBox);
+}
+
 async function bootstrap(): Promise<void> {
   const appEl = document.querySelector<HTMLDivElement>('#app');
 
@@ -21,16 +40,14 @@ async function bootstrap(): Promise<void> {
       throw new Error('Glossary fixture is empty or malformed.');
     }
 
-    console.log(`Skill Flip: loaded ${glossary.length} glossary entries.`);
-
     if (appEl) {
-      appEl.textContent = `Skill Flip scaffold: loaded ${glossary.length} glossary entries.`;
+      appEl.innerHTML = '';
+      const appShell = createAppShell({ entries: glossary });
+      appEl.appendChild(appShell.element);
     }
   } catch (error) {
     console.error('Skill Flip: failed to load glossary.', error);
-    if (appEl) {
-      appEl.textContent = 'Skill Flip: failed to load glossary data.';
-    }
+    renderError(appEl, 'Something went wrong loading the glossary data. Please try again later.');
   }
 }
 

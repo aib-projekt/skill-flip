@@ -1,9 +1,10 @@
 /// <reference types="vitest/config" />
 import { existsSync, mkdirSync, copyFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, sep } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 
 const rootDir = import.meta.dirname;
+const dataDir = resolve(rootDir, 'data');
 
 /**
  * Serves and bundles the repo-root `data/` directory (the single source of
@@ -15,9 +16,18 @@ function serveRootData(): Plugin {
   return {
     name: 'serve-root-data',
     configureServer(server) {
-      server.middlewares.use((req, _res, next) => {
+      server.middlewares.use((req, res, next) => {
         if (req.url?.startsWith('/data/')) {
-          req.url = `/@fs${resolve(rootDir, req.url.slice(1))}`;
+          const resolved = resolve(rootDir, req.url.slice(1));
+          // Reject any request whose resolved path (e.g. via `..` segments)
+          // escapes `data/` — dev-server-only guard, since this middleware
+          // otherwise rewrites straight to an `@fs` filesystem path.
+          if (resolved !== dataDir && !resolved.startsWith(dataDir + sep)) {
+            res.statusCode = 403;
+            res.end('Forbidden');
+            return;
+          }
+          req.url = `/@fs${resolved}`;
         }
         next();
       });

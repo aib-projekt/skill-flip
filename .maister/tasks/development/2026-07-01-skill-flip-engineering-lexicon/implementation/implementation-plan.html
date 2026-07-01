@@ -228,7 +228,7 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
 </div>
 </section>
 
-<section data-group="4" class="group todo">
+<section data-group="4" class="group done">
 <div class="card">
   <h3>Group 4 — Browse / Filter / Search UI <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> <b>Group 2</b>, <b>Group 3</b></div>
@@ -245,17 +245,17 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
       <span class="k">acceptance</span> zero results replaces grid with empty-state (icon+heading+helper+Clear filters), filter-bar/topbar remain functional, Clear filters resets all state.</div>
   </div>
   <ul class="steps">
-    <li data-step="4.1" class="step todo">Write 6 tests: search debounce (fake timers), chip toggle, level toggle, result-count uses actual length, empty state renders/clears, Clear filters resets state</li>
-    <li data-step="4.2" class="step todo">Implement FilterBar.ts (debounced search, category chips, overflow, level toggle)</li>
-    <li data-step="4.3" class="step todo">Implement BrowseGrid.ts (own topbar via computeBucketCounts, applyFilters wiring, tile grid, empty-state swap)</li>
-    <li data-step="4.4" class="step todo">Append Browse CSS to theme.css from both mockups</li>
-    <li data-step="4.5" class="step todo">Run the 6 tests only</li>
+    <li data-step="4.1" class="step done">Write 6 tests: search debounce (fake timers), chip toggle, level toggle, result-count uses actual length, empty state renders/clears, Clear filters resets state</li>
+    <li data-step="4.2" class="step done">Implement FilterBar.ts (debounced search, category chips, overflow, level toggle)</li>
+    <li data-step="4.3" class="step done">Implement BrowseGrid.ts (own topbar via computeBucketCounts, applyFilters wiring, tile grid, empty-state swap)</li>
+    <li data-step="4.4" class="step done">Append Browse CSS to theme.css from both mockups</li>
+    <li data-step="4.5" class="step done">Run the 6 tests only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 6 tests pass · search matches all 4 fields, filters combine, counts reflect actual data · empty state + Clear filters work · progress-stats rendered in Browse's own topbar · matches both Visual Reference acceptance bullets.</p>
 </div>
 </section>
 
-<section data-group="5" class="group todo">
+<section data-group="5" class="group done">
 <div class="card">
   <h3>Group 5 — Learn Mode UI <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> <b>Group 2</b>, <b>Group 3</b></div>
@@ -272,18 +272,18 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
       <span class="k">acceptance</span> mark-row rendered only when flipped; Know it → consecutive-know increment + graduation check; Don't know → immediate demotion + counter reset; both advance to next weighted-drawn card.</div>
   </div>
   <ul class="steps">
-    <li data-step="5.1" class="step todo">Write 6 tests: no-setup initial draw, mark-row visibility tied to flip state, Know it persists+advances, Don't know persists+advances, stats reflect live counts, reset requires confirmation</li>
-    <li data-step="5.2" class="step todo">Implement LearnMode.ts (own topbar, single Card in 'full' variant, wired nav/swipe)</li>
-    <li data-step="5.3" class="step todo">Wire mark actions to learnAlgorithm + immediate storage write-on-every-mark</li>
-    <li data-step="5.4" class="step todo">Reset-progress control with confirmation gate</li>
-    <li data-step="5.5" class="step todo">Append Learn Mode CSS to theme.css</li>
-    <li data-step="5.6" class="step todo">Run the 6 tests only</li>
+    <li data-step="5.1" class="step done">Write 6 tests: no-setup initial draw, mark-row visibility tied to flip state, Know it persists+advances, Don't know persists+advances, stats reflect live counts, reset requires confirmation</li>
+    <li data-step="5.2" class="step done">Implement LearnMode.ts (own topbar, single Card in 'full' variant, wired nav/swipe)</li>
+    <li data-step="5.3" class="step done">Wire mark actions to learnAlgorithm + immediate storage write-on-every-mark</li>
+    <li data-step="5.4" class="step done">Reset-progress control with confirmation gate</li>
+    <li data-step="5.5" class="step done">Append Learn Mode CSS to theme.css</li>
+    <li data-step="5.6" class="step done">Run the 6 tests only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 6 tests pass · live mastered/shaky/new counts in Learn's own topbar · reset clears localStorage after confirmation · always-resumable, no session step · matches both Visual Reference acceptance bullets.</p>
 </div>
 </section>
 
-<section data-group="6" class="group todo">
+<section data-group="6" class="group done">
 <div class="card">
   <h3>Group 6 — AppShell &amp; Wiring <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> <b>Group 4</b>, <b>Group 5</b></div>
@@ -300,11 +300,11 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
       <span class="k">acceptance</span> switching to Browse swaps to 900px wide container + BrowseGrid content, bottombar persists, no reload/URL change; Learn progress (in localStorage) survives the switch.</div>
   </div>
   <ul class="steps">
-    <li data-step="6.1" class="step todo">Write 5 tests: defaults to Learn, Browse tab swap + wide variant, Learn tab swap back + 480px variant, no reload/hash change, localStorage progress survives switch</li>
-    <li data-step="6.2" class="step todo">Implement AppShell.ts (manual show/hide, in-memory active-tab state, bottombar, width toggle)</li>
-    <li data-step="6.3" class="step todo">Wire main.ts: fetch + validate non-empty + visible error state + mount AppShell</li>
-    <li data-step="6.4" class="step todo">Append app-shell/bottombar CSS to theme.css</li>
-    <li data-step="6.5" class="step todo">Run the 5 tests only</li>
+    <li data-step="6.1" class="step done">Write 5 tests: defaults to Learn, Browse tab swap + wide variant, Learn tab swap back + 480px variant, no reload/hash change, localStorage progress survives switch</li>
+    <li data-step="6.2" class="step done">Implement AppShell.ts (manual show/hide, in-memory active-tab state, bottombar, width toggle)</li>
+    <li data-step="6.3" class="step done">Wire main.ts: fetch + validate non-empty + visible error state + mount AppShell</li>
+    <li data-step="6.4" class="step done">Append app-shell/bottombar CSS to theme.css</li>
+    <li data-step="6.5" class="step done">Run the 5 tests only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 5 tests pass · switches views with no lost progress, no reload/URL change · visible error state on fetch failure/empty array · matches both Visual Reference acceptance bullets.</p>
 </div>
@@ -333,7 +333,7 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
 </div>
 </section>
 
-<section data-group="8" class="group todo">
+<section data-group="8" class="group done">
 <div class="card">
   <h3>Group 8 — Build, Deploy &amp; Documentation <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> <b>Group 6</b>, <b>Group 7</b></div>
@@ -342,18 +342,18 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
     <span class="file-chip">README.md</span><span class="file-chip">LICENSE</span>
   </div>
   <ul class="steps">
-    <li data-step="8.1" class="step todo">Write 2 checks: dist/ base-path smoke test, vite.config base-path shape check</li>
-    <li data-step="8.2" class="step todo">Confirm/finalize base:'/skill-flip/'</li>
-    <li data-step="8.3" class="step todo">Write deploy.yml (checkout→npm ci→validate-glossary→build→deploy on push to main)</li>
-    <li data-step="8.4" class="step todo">Add MIT LICENSE</li>
-    <li data-step="8.5" class="step todo">Write dual-audience README.md</li>
-    <li data-step="8.6" class="step todo">Run the 2 checks only</li>
+    <li data-step="8.1" class="step done">Write 2 checks: dist/ base-path smoke test, vite.config base-path shape check</li>
+    <li data-step="8.2" class="step done">Confirm/finalize base:'/skill-flip/'</li>
+    <li data-step="8.3" class="step done">Write deploy.yml (checkout→npm ci→validate-glossary→build→deploy on push to main)</li>
+    <li data-step="8.4" class="step done">Add MIT LICENSE</li>
+    <li data-step="8.5" class="step done">Write dual-audience README.md</li>
+    <li data-step="8.6" class="step done">Run the 2 checks only</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> 2 checks pass · build succeeds · workflow runs validate→build→deploy on push to main · README covers pitch/link/stack/getting-started/manual+pipeline entry paths/MIT.</p>
 </div>
 </section>
 
-<section data-group="9" class="group todo">
+<section data-group="9" class="group done">
 <div class="card">
   <h3>Group 9 — Test Review &amp; Gap Analysis <span class="g-badge"></span></h3>
   <div class="deps"><b>Dependencies:</b> All previous groups (1–8)</div>
@@ -361,10 +361,10 @@ ul.steps li.step { padding:3px 0 3px 4px; font-size:13px; }
     <span class="file-chip">src/**/*.test.ts</span><span class="file-chip">content-pipeline/*.test.ts</span>
   </div>
   <ul class="steps">
-    <li data-step="9.1" class="step todo">Review 36 existing tests/checks from Groups 1–8</li>
-    <li data-step="9.2" class="step todo">Analyze gaps: tile-variant coverage, full-mastery fallback distribution, fetch-failure error state, zero-count category chip rendering</li>
-    <li data-step="9.3" class="step todo">Write up to 10 additional strategic tests</li>
-    <li data-step="9.4" class="step todo">Run feature-specific tests only (~36–46 total)</li>
+    <li data-step="9.1" class="step done">Review 36 existing tests/checks from Groups 1–8</li>
+    <li data-step="9.2" class="step done">Analyze gaps: tile-variant coverage, full-mastery fallback distribution, fetch-failure error state, zero-count category chip rendering</li>
+    <li data-step="9.3" class="step done">Write up to 10 additional strategic tests</li>
+    <li data-step="9.4" class="step done">Run feature-specific tests only (~36–46 total)</li>
   </ul>
   <p style="font-size:12.5px"><b>Acceptance:</b> ~36–46 tests pass · no more than 10 added in this group · every spec.md Success Criteria bullet traceable to a passing test or documented manual check.</p>
 </div>

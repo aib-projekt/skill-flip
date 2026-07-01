@@ -51,7 +51,7 @@ export interface CardInstance {
 
 const SWIPE_MIN_DISTANCE_PX = 40;
 
-function categoryBadgeClass(category: GlossaryEntry['category']): string {
+export function categoryBadgeClass(category: GlossaryEntry['category']): string {
   return `cat-${category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`;
 }
 
@@ -147,6 +147,9 @@ export function createCard(options: CreateCardOptions): CardInstance {
 
   const plTerm = document.createElement('div');
   plTerm.className = 'pl-term';
+  const plTermPrefix = document.createTextNode('PL: ');
+  const plTermStrong = document.createElement('strong');
+  plTerm.append(plTermPrefix, plTermStrong);
 
   const plDesc = document.createElement('p');
   plDesc.className = 'pl-desc';
@@ -204,7 +207,7 @@ export function createCard(options: CreateCardOptions): CardInstance {
     termSmall.textContent = entry.term;
     descriptionEl.textContent = entry.description;
 
-    plTerm.innerHTML = `PL: <strong>${entry.translationPl}</strong>`;
+    plTermStrong.textContent = entry.translationPl;
     plDesc.textContent = entry.descriptionPl;
 
     shell.classList.toggle('is-flipped', state.isFlipped);
@@ -213,7 +216,6 @@ export function createCard(options: CreateCardOptions): CardInstance {
 
     infoBtn.classList.toggle('active', state.isTranslationVisible);
     translationPop.classList.toggle('is-visible', state.isTranslationVisible);
-    translationPop.style.display = state.isTranslationVisible ? '' : 'none';
   }
 
   // --- Interaction handlers ------------------------------------------------

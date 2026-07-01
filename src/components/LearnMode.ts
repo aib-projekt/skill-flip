@@ -2,7 +2,8 @@ import { createCard } from './Card';
 import type { CardInstance } from './Card';
 import { drawNextCard, applyMark } from '../lib/learnAlgorithm';
 import type { Mark } from '../lib/learnAlgorithm';
-import { readProgress, writeProgress, resetProgress, computeBucketCounts } from '../lib/storage';
+import { readProgress, writeProgress, resetProgress } from '../lib/storage';
+import { renderProgressStats } from './progressStats';
 import type { Glossary, GlossaryEntry } from '../types/glossary';
 
 /**
@@ -88,34 +89,6 @@ export function createLearnMode(options: CreateLearnModeOptions): LearnModeInsta
   root.append(topbar, learnStage);
 
   // --- Rendering -------------------------------------------------------------
-  function renderProgressStats(): void {
-    const counts = computeBucketCounts(entries);
-
-    progressStats.innerHTML = '';
-
-    const knowStat = document.createElement('span');
-    knowStat.className = 'stat know';
-    knowStat.textContent = `${counts.mastered} mastered`;
-
-    const dot1 = document.createElement('span');
-    dot1.className = 'dot';
-    dot1.textContent = '·';
-
-    const dontKnowStat = document.createElement('span');
-    dontKnowStat.className = 'stat dontknow';
-    dontKnowStat.textContent = `${counts.shaky} shaky`;
-
-    const dot2 = document.createElement('span');
-    dot2.className = 'dot';
-    dot2.textContent = '·';
-
-    const unseenStat = document.createElement('span');
-    unseenStat.className = 'stat unseen';
-    unseenStat.textContent = `${counts.new} new`;
-
-    progressStats.append(knowStat, dot1, dontKnowStat, dot2, unseenStat);
-  }
-
   function renderMarkRow(): void {
     // `.mark-row` is rendered ONLY when the current card is flipped —
     // absent/not interactive on the front face (spec-audit binding
@@ -164,7 +137,7 @@ export function createLearnMode(options: CreateLearnModeOptions): LearnModeInsta
 
     card.setEntry(state.currentEntry);
     renderMarkRow();
-    renderProgressStats();
+    renderProgressStats(progressStats, entries);
   }
 
   function confirmReset(): void {
@@ -177,7 +150,7 @@ export function createLearnMode(options: CreateLearnModeOptions): LearnModeInsta
 
     resetProgress();
     renderMarkRow();
-    renderProgressStats();
+    renderProgressStats(progressStats, entries);
   }
 
   exitBtn.addEventListener('click', () => {
@@ -196,7 +169,7 @@ export function createLearnMode(options: CreateLearnModeOptions): LearnModeInsta
     if (key === ' ' || key === 'Spacebar') renderMarkRow();
   });
 
-  renderProgressStats();
+  renderProgressStats(progressStats, entries);
   renderMarkRow();
 
   return {

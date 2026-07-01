@@ -8,8 +8,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:build",
     "test:watch": "vitest",
+    "test:build": "node --experimental-strip-types --test scripts/verify-build.test.ts",
     "validate-glossary": "node --experimental-strip-types content-pipeline/validate-glossary.ts"
   },
   "devDependencies": {

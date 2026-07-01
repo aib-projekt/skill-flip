@@ -131,18 +131,18 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
   locator: `.empty-state` block (selectors `.empty-state`, `.empty-icon`, `.clear-btn`)
   acceptance: when `applyFilters` yields zero results, `.grid` is replaced entirely by `.empty-state` (icon + "No terms match" heading + helper text "Try clearing a filter or search a different term." + `.clear-btn` "Clear filters" button) while `.filter-bar` and topbar remain visible and functional; clicking "Clear filters" resets search + category + level state and re-renders the grid
 
-- [ ] 4.0 Complete Browse/Filter/Search UI
-  - [ ] 4.1 Write 6 focused tests for `BrowseGrid`/`FilterBar` integration:
+- [x] 4.0 Complete Browse/Filter/Search UI
+  - [x] 4.1 Write 6 focused tests for `BrowseGrid`/`FilterBar` integration:
     - typing in search debounces 200ms before `applyFilters` is invoked (fake timers)
     - category chip toggle updates the multi-select filter state and re-renders the grid
     - level segmented control selection narrows results correctly
     - result count renders `"N of {dataset.length} terms"` using the actual loaded array length, not a hardcoded number
     - empty state renders (grid replaced by `.empty-state`) when filters yield zero matches, and disappears once a match exists
     - "Clear filters" button resets all filter state and restores the full unfiltered grid
-  - [ ] 4.2 Implement `FilterBar.ts`: search input with 200ms debounce timer, category chips with live per-category counts computed from the current dataset (all 12 category labels always rendered, count 0 where absent), `+N more` overflow chip, level segmented control
-  - [ ] 4.3 Implement `BrowseGrid.ts`: renders its own topbar (`.brand` + `.progress-stats` via `computeBucketCounts` from Group 3's `storage.ts`), mounts `FilterBar`, runs `applyFilters` on state change, renders `.result-count`, renders `.grid` of `Card` instances in `'tile'` variant (collapsed term-only by default, flips in place on tap to show description — no Prev/Next/swipe/translation-toggle chrome for tiles), and swaps in `.empty-state` + wired "Clear filters" CTA when the filtered result set is empty
-  - [ ] 4.4 Append Browse-specific CSS to `theme.css` (`.topbar` brand variant, `.filter-bar`, `.search-input`, `.cat-chips`, `.chip`, `.chip.active`, `.chip.more`, `.level-toggle`, `.lvl`, `.result-count`, `.grid` with the 3 documented breakpoints, `.tile`, `.tile.flipped`, `.empty-state`, `.empty-icon`, `.clear-btn`) copied from both mockups' inline styles
-  - [ ] 4.5 Ensure Browse tests pass
+  - [x] 4.2 Implement `FilterBar.ts`: search input with 200ms debounce timer, category chips with live per-category counts computed from the current dataset (all 12 category labels always rendered, count 0 where absent), `+N more` overflow chip, level segmented control
+  - [x] 4.3 Implement `BrowseGrid.ts`: renders its own topbar (`.brand` + `.progress-stats` via `computeBucketCounts` from Group 3's `storage.ts`), mounts `FilterBar`, runs `applyFilters` on state change, renders `.result-count`, renders `.grid` of `Card` instances in `'tile'` variant (collapsed term-only by default, flips in place on tap to show description — no Prev/Next/swipe/translation-toggle chrome for tiles), and swaps in `.empty-state` + wired "Clear filters" CTA when the filtered result set is empty
+  - [x] 4.4 Append Browse-specific CSS to `theme.css` (`.topbar` brand variant, `.filter-bar`, `.search-input`, `.cat-chips`, `.chip`, `.chip.active`, `.chip.more`, `.level-toggle`, `.lvl`, `.result-count`, `.grid` with the 3 documented breakpoints, `.tile`, `.tile.flipped`, `.empty-state`, `.empty-icon`, `.clear-btn`) copied from both mockups' inline styles
+  - [x] 4.5 Ensure Browse tests pass
     - Run ONLY the 6 tests written in 4.1
     - Do NOT run entire test suite
 
@@ -168,19 +168,19 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
   locator: `.mark-row` block (selectors `.mark-row`, `.mark-btn.dont-know`, `.mark-btn.know`)
   acceptance: `.mark-row` (Don't know / Know it buttons) is rendered ONLY when the current card is flipped (`isFlipped === true`) — absent/not interactive on the front face; "Know it" increments consecutive-know count and triggers `learnAlgorithm`'s graduation check; "Don't know" immediately demotes to `dont_know` bucket and resets the consecutive counter; both buttons trigger advancement to the next weighted-drawn card after marking
 
-- [ ] 5.0 Complete Learn Mode UI
-  - [ ] 5.1 Write 6 focused tests for `LearnMode`:
+- [x] 5.0 Complete Learn Mode UI
+  - [x] 5.1 Write 6 focused tests for `LearnMode`:
     - initial mount draws a card via `learnAlgorithm` with no setup/session step required (always-resumable — no "start session" gate)
     - `.mark-row` (Know it / Don't know) is absent when the current card is unflipped, present when flipped
     - marking "Know it" persists via `storage.ts` and advances to a new weighted-drawn card
     - marking "Don't know" persists demotion via `storage.ts` and advances to a new card
     - progress-stats header reflects live `computeBucketCounts` output against the current dataset after a mark
     - reset-progress control shows a confirmation step before calling `storage.ts`'s `resetProgress()`, and does nothing if confirmation is declined
-  - [ ] 5.2 Implement `LearnMode.ts`: renders its own topbar (exit-to-browse icon, `.progress-stats` via `computeBucketCounts`, reset-progress icon), mounts a single `Card` in `'full'` variant fed by `learnAlgorithm`'s weighted draw, wires Prev/Next nav and swipe callbacks from Card to mark actions
-  - [ ] 5.3 Wire mark actions (Know it / Don't know) to `learnAlgorithm.ts`'s bucket-transition logic and `storage.ts`'s immediate write-on-every-mark (not just on exit), then trigger the next weighted draw excluding the just-shown card
-  - [ ] 5.4 Implement reset-progress control: icon button opens a confirmation (native `confirm()` or an in-app confirm affordance — copy left to implementation discretion per spec-audit Finding 7) before calling `resetProgress()`
-  - [ ] 5.5 Append Learn Mode-specific CSS to `theme.css` (`.learn-stage`, `.topbar` icon-btn variant, `.icon-btn`, `.nav-row`, `.nav-btn`, `.swipe-hint`, `.mark-row`, `.mark-btn.know`, `.mark-btn.dont-know`) copied from the mockups' inline styles
-  - [ ] 5.6 Ensure Learn Mode tests pass
+  - [x] 5.2 Implement `LearnMode.ts`: renders its own topbar (exit-to-browse icon, `.progress-stats` via `computeBucketCounts`, reset-progress icon), mounts a single `Card` in `'full'` variant fed by `learnAlgorithm`'s weighted draw, wires Prev/Next nav and swipe callbacks from Card to mark actions
+  - [x] 5.3 Wire mark actions (Know it / Don't know) to `learnAlgorithm.ts`'s bucket-transition logic and `storage.ts`'s immediate write-on-every-mark (not just on exit), then trigger the next weighted draw excluding the just-shown card
+  - [x] 5.4 Implement reset-progress control: icon button opens a confirmation (native `confirm()` or an in-app confirm affordance — copy left to implementation discretion per spec-audit Finding 7) before calling `resetProgress()`
+  - [x] 5.5 Append Learn Mode-specific CSS to `theme.css` (`.learn-stage`, `.topbar` icon-btn variant, `.icon-btn`, `.nav-row`, `.nav-btn`, `.swipe-hint`, `.mark-row`, `.mark-btn.know`, `.mark-btn.dont-know`) copied from the mockups' inline styles
+  - [x] 5.6 Ensure Learn Mode tests pass
     - Run ONLY the 6 tests written in 5.1
     - Do NOT run entire test suite
 
@@ -206,17 +206,17 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
   locator: `.app-shell.wide` wrapper (selector `.app-shell.wide` max-width:900px)
   acceptance: switching to Browse swaps the outer container to the 900px "wide" variant and shows `BrowseGrid`'s topbar/filter-bar/grid in place of Learn Mode's content, with the same `.bottombar` persisting and its active tab flipped to Browse; no full page reload or URL/hash change occurs on switch; Learn Mode's in-memory state is not torn down destructively (its actual progress lives in `localStorage` per Group 3/5, so switching tabs never loses it regardless)
 
-- [ ] 6.0 Complete AppShell view-swap wiring
-  - [ ] 6.1 Write 5 focused tests for `AppShell`:
+- [x] 6.0 Complete AppShell view-swap wiring
+  - [x] 6.1 Write 5 focused tests for `AppShell`:
     - defaults to Learn tab active on initial mount (per mockups' default state)
     - clicking the Browse tab swaps visible content to `BrowseGrid` and applies the 900px wide container variant
     - clicking the Learn tab swaps back to `LearnMode` and applies the 480px container variant
     - switching tabs does not trigger a page reload or alter `window.location` (no router/hash state)
     - Learn Mode progress (a `localStorage` write made before switching to Browse) is still present after switching back to Learn
-  - [ ] 6.2 Implement `AppShell.ts`: manual show/hide of two top-level view containers (`LearnMode`, `BrowseGrid`), owns active-tab state in memory only (no persistence, no URL/hash), renders `.bottombar` with two `.tab-btn` elements, toggles the outer container's max-width class (480px / 900px wide) based on active tab
-  - [ ] 6.3 Wire `main.ts`: fetch `data/glossary.json` via `fetch()`, validate non-empty array (visible error state on fetch failure or empty array — no silent blank screen), mount `AppShell` with the loaded glossary
-  - [ ] 6.4 Append `.app-shell` / `.app-shell.wide` / `.bottombar` / `.tab-btn` CSS to `theme.css` copied from the mockups' inline styles
-  - [ ] 6.5 Ensure AppShell tests pass
+  - [x] 6.2 Implement `AppShell.ts`: manual show/hide of two top-level view containers (`LearnMode`, `BrowseGrid`), owns active-tab state in memory only (no persistence, no URL/hash), renders `.bottombar` with two `.tab-btn` elements, toggles the outer container's max-width class (480px / 900px wide) based on active tab
+  - [x] 6.3 Wire `main.ts`: fetch `data/glossary.json` via `fetch()`, validate non-empty array (visible error state on fetch failure or empty array — no silent blank screen), mount `AppShell` with the loaded glossary
+  - [x] 6.4 Append `.app-shell` / `.app-shell.wide` / `.bottombar` / `.tab-btn` CSS to `theme.css` copied from the mockups' inline styles
+  - [x] 6.5 Ensure AppShell tests pass
     - Run ONLY the 5 tests written in 6.1
     - Do NOT run entire test suite
 
@@ -259,15 +259,15 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
 **Dependencies:** Group 6 (AppShell/main.ts complete), Group 7 (validate-glossary + real content)
 **Files to Modify:** `vite.config.ts` (confirm base path), `.github/workflows/deploy.yml`, `README.md`, `LICENSE`
 
-- [ ] 8.0 Complete build, deployment pipeline, and documentation
-  - [ ] 8.1 Write 2 focused tests:
+- [x] 8.0 Complete build, deployment pipeline, and documentation
+  - [x] 8.1 Write 2 focused tests:
     - `npm run build` produces a `dist/` output containing `index.html` with asset paths correctly prefixed by `/skill-flip/` (base path smoke test — can be a script-based assertion rather than a Vitest unit test, run via the same `npm test` gate)
     - a lightweight config-shape test confirming `vite.config.ts` exports `base: '/skill-flip/'`
-  - [ ] 8.2 Confirm/finalize `vite.config.ts`'s `base: '/skill-flip/'` setting against the real build output
-  - [ ] 8.3 Write `.github/workflows/deploy.yml`: triggered on push to `main`, steps = checkout → `npm ci` → `npm run validate-glossary` → `npm run build` → deploy `dist/` to GitHub Pages, no environment variables/secrets required
-  - [ ] 8.4 Add `LICENSE` file (MIT, per clarifications)
-  - [ ] 8.5 Write dual-audience `README.md`: project pitch, live link (`https://aib-projekt.github.io/skill-flip/`), tech stack, getting-started steps (`npm install`, `npm run dev`), project structure overview, adding new glossary entries (both manual-edit and content-pipeline paths), MIT license mention
-  - [ ] 8.6 Ensure build/deploy tests pass
+  - [x] 8.2 Confirm/finalize `vite.config.ts`'s `base: '/skill-flip/'` setting against the real build output
+  - [x] 8.3 Write `.github/workflows/deploy.yml`: triggered on push to `main`, steps = checkout → `npm ci` → `npm run validate-glossary` → `npm run build` → deploy `dist/` to GitHub Pages, no environment variables/secrets required
+  - [x] 8.4 Add `LICENSE` file (MIT, per clarifications)
+  - [x] 8.5 Write dual-audience `README.md`: project pitch, live link (`https://aib-projekt.github.io/skill-flip/`), tech stack, getting-started steps (`npm install`, `npm run dev`), project structure overview, adding new glossary entries (both manual-edit and content-pipeline paths), MIT license mention
+  - [x] 8.6 Ensure build/deploy tests pass
     - Run ONLY the 2 tests/checks written in 8.1
     - Do NOT run entire test suite
 
@@ -282,11 +282,11 @@ Expected Tests: 34-58 (see per-group ranges; Group 9 adds up to 10 more on top o
 **Dependencies:** All previous groups (1-8)
 **Files to Modify:** `tests/**/*.test.ts` equivalents — i.e. any of `src/**/*.test.ts`, `content-pipeline/*.test.ts` (appended to, not replaced)
 
-- [ ] 9.0 Review and fill critical gaps
-  - [ ] 9.1 Review tests from all previous groups (3 + 6 + 8 + 6 + 6 + 5 + 5 + 2 = 36 existing tests/checks)
-  - [ ] 9.2 Analyze gaps for this feature only — likely candidates: Card `variant='tile'` behavior not separately covered by Group 2's tests (only exercised indirectly via Group 4), full-mastery uniform-random fallback distribution shape, AppShell error-state rendering when `fetch()` fails, empty-category chip rendering when a category has zero entries
-  - [ ] 9.3 Write up to 10 additional strategic tests covering the highest-value gaps identified in 9.2
-  - [ ] 9.4 Run feature-specific tests only (expect ~36-46 total across the whole feature)
+- [x] 9.0 Review and fill critical gaps
+  - [x] 9.1 Review tests from all previous groups (3 + 6 + 8 + 6 + 6 + 5 + 5 + 2 = 36 existing tests/checks)
+  - [x] 9.2 Analyze gaps for this feature only — likely candidates: Card `variant='tile'` behavior not separately covered by Group 2's tests (only exercised indirectly via Group 4), full-mastery uniform-random fallback distribution shape, AppShell error-state rendering when `fetch()` fails, empty-category chip rendering when a category has zero entries
+  - [x] 9.3 Write up to 10 additional strategic tests covering the highest-value gaps identified in 9.2
+  - [x] 9.4 Run feature-specific tests only (expect ~36-46 total across the whole feature)
 
 **Acceptance Criteria:**
 - All feature tests pass (~36-46 total)
