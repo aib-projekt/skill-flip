@@ -55,6 +55,8 @@ function defaultState(): BrowseFilterState {
 
 export function createFilterBar(options: CreateFilterBarOptions): FilterBarInstance {
   const state: BrowseFilterState = defaultState();
+  /** Display-only concern (not part of `BrowseFilterState`): whether the overflow categories are expanded. */
+  let showAllCategories = false;
 
   const root = document.createElement('div');
   root.className = 'filter-bar';
@@ -93,8 +95,8 @@ export function createFilterBar(options: CreateFilterBarOptions): FilterBarInsta
   function renderChips(): void {
     catChips.innerHTML = '';
     const counts = categoryCounts();
-    const visible = ALL_CATEGORIES.slice(0, VISIBLE_CATEGORY_CHIP_COUNT);
-    const overflow = ALL_CATEGORIES.slice(VISIBLE_CATEGORY_CHIP_COUNT);
+    const visible = showAllCategories ? ALL_CATEGORIES : ALL_CATEGORIES.slice(0, VISIBLE_CATEGORY_CHIP_COUNT);
+    const overflow = showAllCategories ? [] : ALL_CATEGORIES.slice(VISIBLE_CATEGORY_CHIP_COUNT);
 
     for (const category of visible) {
       const chip = document.createElement('span');
@@ -109,6 +111,10 @@ export function createFilterBar(options: CreateFilterBarOptions): FilterBarInsta
       const moreChip = document.createElement('span');
       moreChip.className = 'chip more';
       moreChip.textContent = `+${overflow.length} more`;
+      moreChip.addEventListener('click', () => {
+        showAllCategories = true;
+        renderChips();
+      });
       catChips.appendChild(moreChip);
     }
   }

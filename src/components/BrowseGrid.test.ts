@@ -160,6 +160,37 @@ describe('BrowseGrid / FilterBar integration', () => {
     expect(moreChip?.textContent).toMatch(/^\+\d+ more$/);
   });
 
+  it('clicking the "+N more" overflow chip reveals the remaining category chips, wired into the same filter toggle', () => {
+    const grid = createBrowseGrid({ entries: fixture });
+
+    // "Software Engineering" is the 12th (last) taxonomy category, beyond
+    // the first 5 visible chips, so it starts out collapsed into "+N more".
+    const softwareEngChipBefore = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Engineering')
+    );
+    expect(softwareEngChipBefore).toBeUndefined();
+
+    const moreChip = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChip).not.toBeNull();
+    moreChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    // Expanding removes the overflow chip and renders all 12 categories.
+    expect(grid.element.querySelector('.chip.more')).toBeNull();
+    const softwareEngChipAfter = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Engineering')
+    );
+    expect(softwareEngChipAfter).toBeTruthy();
+
+    // The newly revealed chip must actually participate in filtering, not
+    // just render inertly.
+    softwareEngChipAfter!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const softwareEngChipActive = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Engineering')
+    );
+    expect(softwareEngChipActive?.classList.contains('active')).toBe(true);
+    expect(grid.element.querySelector('.empty-state')).not.toBeNull();
+  });
+
   it("renders live mastered/shaky/new progress-stats in Browse's own topbar, shared computation with Learn Mode (Group 9 gap)", () => {
     const grid = createBrowseGrid({ entries: fixture });
 

@@ -485,7 +485,7 @@ body {
   background: none;
   border: 1px dashed var(--color-steel);
   color: var(--color-steel);
-  cursor: default;
+  cursor: pointer;
 }
 
 .level-toggle {
