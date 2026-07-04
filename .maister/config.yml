@@ -1,0 +1,7 @@
+# Maister project configuration.
+# html_output — generate the operator dashboard (dashboard.html + dashboard-data.js,
+# auto-opened in your browser) and the HTML companion reports (.html twins of spec,
+# implementation plan, verification, and research/design outputs). Set to false for
+# markdown-only runs. Markdown artifacts, their TL;DR summary blocks, and
+# orchestrator-state.yml are produced regardless. Default: true.
+html_output: true
