@@ -24,13 +24,34 @@ that can silently drift out of sync as the ladder document evolves.
 4. Curate, review against `content-pipeline/rubric.md`, and append the
    result to `data/glossary.json`.
 
-## Starter dataset provenance (this pass)
+## Starter dataset provenance (first pass)
 
-The ~15-20 entries shipped in `data/glossary.json` for this pass were all
-curated from the `### Java` section (`Regular` and `Senior` subsections) of
-the canonical document above. The remaining 11 categories and the
-`Junior` level are defined in the schema (`src/types/glossary.ts`) and
-accepted by `validate-glossary.ts`, but intentionally have zero entries in
-this pass — populating them is the explicitly deferred follow-up work this
-pipeline exists to support (see `implementation/spec.md`, "Content Scope
-for This Pass").
+The first ~15-20 entries shipped in `data/glossary.json` were all curated
+from the `### Java` section (`Regular` and `Senior` subsections) of the
+canonical document above. The remaining 11 categories were an explicitly
+deferred follow-up at that point.
+
+## Full-coverage pass (second pass)
+
+The remaining 11 categories (Soft Skills, Management, Mentoring, Problem
+Solving, API Development, Cloud Engineering, Data Storage, DevOps, Software
+Engineering, Spring/JEE, Testing) were subsequently curated from every
+remaining bullet in the canonical document, bringing `data/glossary.json`
+to full coverage of all 12 categories. Judgment calls made during this pass,
+per `prompt-template.md`'s guidance to flag deviations:
+
+- **Soft Skills** has no `Regular`/`Senior` split in the source document (a
+  flat bullet list). All entries were curated as `Regular`, since these are
+  baseline expectations rather than senior-specific skills.
+- **Consumer-Driven Contract Testing (CDC/Pact)** and **End-to-End (E2E)
+  Testing** appear under the source's `### Software Engineering` section,
+  but were curated into the `Testing` category instead, since that's where
+  a learner would expect to find them and the `Testing` section separately
+  references the same concepts.
+- A handful of source bullets that named the same concept already covered
+  elsewhere (e.g. `SOLID - deep understanding` under Senior Software
+  Engineering, duplicating the Regular `SOLID Principles` entry; `Idempotency`
+  appearing in both API Development and implicitly in Testing) were not
+  re-curated as separate entries — `validate-glossary.ts` disallows duplicate
+  `(term, category)` pairs, and a second, near-identical flashcard in the same
+  category wouldn't teach anything new.

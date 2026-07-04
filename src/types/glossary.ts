@@ -1,10 +1,10 @@
 /**
  * Core data model for the Skill Flip engineering lexicon.
  *
- * `Category` carries the full 12-value taxonomy from `Engineering Ladder.md`
- * even though this pass's starter dataset (`data/glossary.json`) only
- * populates the `Java` category. Filtering and chip-rendering logic must
- * treat all 12 values as first-class even when some have zero entries.
+ * `Category` carries the full 12-value taxonomy from `Engineering Ladder.md`,
+ * all of which are populated in `data/glossary.json`. Filtering and
+ * chip-rendering logic must still treat all 12 values as first-class even if
+ * a future edit leaves one at zero entries.
  */
 
 export type Category =

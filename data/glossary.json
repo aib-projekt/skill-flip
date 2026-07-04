@@ -178,5 +178,1256 @@
     "descriptionPl": "Opakowania kolekcji (np. `Collections.synchronizedList`) lub dedykowane klasy (np. `ConcurrentHashMap`) zapewniające bezpieczny wątkowo dostęp do kolekcji — od prostego blokowania całej kolekcji po precyzyjne, bardziej wydajne projekty współbieżne.",
     "category": "Java",
     "level": "Senior"
+  },
+  {
+    "id": "soft-skills-communication",
+    "term": "Communication",
+    "description": "The ability to convey information clearly and effectively so that the listener understands both the message and its intent, covering both speaking and active listening.",
+    "translationPl": "Komunikacja",
+    "descriptionPl": "Umiejętność jasnego i skutecznego przekazywania informacji tak, aby odbiorca rozumiał zarówno treść, jak i intencję komunikatu, obejmująca zarówno mówienie, jak i aktywne słuchanie.",
+    "category": "Soft Skills",
+    "level": "Regular"
+  },
+  {
+    "id": "soft-skills-interview-etiquette",
+    "term": "Interview Etiquette",
+    "description": "Professional behavior expected during an interview or client-facing interaction, including punctuality, respectful treatment of others, appropriate appearance, and maintaining a pleasant atmosphere.",
+    "translationPl": "Etykieta podczas rozmowy kwalifikacyjnej",
+    "descriptionPl": "Profesjonalne zachowanie oczekiwane podczas rozmowy kwalifikacyjnej lub kontaktu z klientem, obejmujące punktualność, szacunek wobec innych, odpowiedni wygląd oraz dbałość o przyjemną atmosferę rozmowy.",
+    "category": "Soft Skills",
+    "level": "Regular"
+  },
+  {
+    "id": "soft-skills-professional-ethics",
+    "term": "Professional Ethics",
+    "description": "A consistent standard of honest, responsible conduct at work, reflected in taking ownership of one's commitments and acting with integrity even when no one is checking.",
+    "translationPl": "Etyka zawodowa",
+    "descriptionPl": "Spójny standard uczciwego i odpowiedzialnego postępowania w pracy, przejawiający się w braniu odpowiedzialności za swoje zobowiązania i działaniu w sposób rzetelny, nawet gdy nikt tego nie kontroluje.",
+    "category": "Soft Skills",
+    "level": "Regular"
+  },
+  {
+    "id": "soft-skills-growth-mindset",
+    "term": "Growth Mindset",
+    "description": "An openness to constructive feedback and a proactive habit of identifying one's own skill gaps and areas for improvement, rather than treating criticism as a threat.",
+    "translationPl": "Nastawienie na rozwój (growth mindset)",
+    "descriptionPl": "Otwartość na konstruktywną informację zwrotną oraz proaktywny nawyk identyfikowania własnych braków i obszarów do rozwoju, zamiast traktowania krytyki jako zagrożenia.",
+    "category": "Soft Skills",
+    "level": "Regular"
+  },
+  {
+    "id": "soft-skills-relationship-building",
+    "term": "Relationship Building",
+    "description": "The interpersonal skill of earning trust through authenticity and transparency, and of maintaining positive working relationships through active listening and consistent, sincere behavior.",
+    "translationPl": "Budowanie relacji",
+    "descriptionPl": "Umiejętność interpersonalna polegająca na zdobywaniu zaufania poprzez autentyczność i transparentność oraz utrzymywaniu pozytywnych relacji zawodowych dzięki aktywnemu słuchaniu i spójnemu, szczeremu zachowaniu.",
+    "category": "Soft Skills",
+    "level": "Regular"
+  },
+  {
+    "id": "management-task-delegation",
+    "term": "Task Delegation",
+    "description": "Assigning ownership of specific work items to the right team members based on their skills and capacity, while retaining accountability for the overall outcome.",
+    "translationPl": "Delegowanie zadań",
+    "descriptionPl": "Przydzielanie odpowiedzialności za konkretne zadania właściwym członkom zespołu na podstawie ich umiejętności i dostępności, przy jednoczesnym zachowaniu odpowiedzialności za końcowy wynik.",
+    "category": "Management",
+    "level": "Regular"
+  },
+  {
+    "id": "management-project-management",
+    "term": "Project Management",
+    "description": "Planning, coordinating, and tracking the activities, timelines, and resources of a project so a team delivers agreed-upon outcomes.",
+    "translationPl": "Zarządzanie projektem",
+    "descriptionPl": "Planowanie, koordynowanie i śledzenie działań, harmonogramu oraz zasobów projektu, tak aby zespół dostarczył uzgodnione rezultaty.",
+    "category": "Management",
+    "level": "Regular"
+  },
+  {
+    "id": "management-strategic-planning",
+    "term": "Strategic Planning",
+    "description": "Defining long-term goals and the roadmap of activities needed to reach them, aligning a team's day-to-day work with the organization's broader direction.",
+    "translationPl": "Planowanie strategiczne",
+    "descriptionPl": "Określanie długoterminowych celów oraz planu działań potrzebnych do ich osiągnięcia, tak aby bieżąca praca zespołu była spójna z szerszym kierunkiem rozwoju organizacji.",
+    "category": "Management",
+    "level": "Senior"
+  },
+  {
+    "id": "management-process-optimization",
+    "term": "Process Optimization",
+    "description": "Analyzing an existing workflow to find bottlenecks or waste, then redesigning it to improve speed, quality, or team efficiency.",
+    "translationPl": "Optymalizacja procesów",
+    "descriptionPl": "Analiza istniejącego procesu pracy w celu znalezienia wąskich gardeł lub marnotrawstwa, a następnie jego przeprojektowanie w celu poprawy szybkości, jakości lub efektywności zespołu.",
+    "category": "Management",
+    "level": "Senior"
+  },
+  {
+    "id": "mentoring-active-mentoring",
+    "term": "Mentoring",
+    "description": "Guiding less experienced engineers (juniors or interns) through hands-on support, code review, and feedback so they develop their technical skills faster than working alone.",
+    "translationPl": "Mentoring",
+    "descriptionPl": "Prowadzenie mniej doświadczonych inżynierów (juniorów lub stażystów) poprzez praktyczne wsparcie, przeglądy kodu i informację zwrotną, tak aby rozwijali swoje umiejętności techniczne szybciej niż pracując samodzielnie.",
+    "category": "Mentoring",
+    "level": "Regular"
+  },
+  {
+    "id": "mentoring-program-leadership",
+    "term": "Mentoring Program Leadership",
+    "description": "Designing and running a structured mentoring initiative across a whole team, rather than a single one-on-one relationship, to systematically support the career growth of less experienced staff.",
+    "translationPl": "Prowadzenie programu mentoringowego",
+    "descriptionPl": "Projektowanie i prowadzenie ustrukturyzowanej inicjatywy mentoringowej obejmującej cały zespół, a nie pojedynczą relację jeden na jeden, w celu systematycznego wspierania rozwoju kariery mniej doświadczonych pracowników.",
+    "category": "Mentoring",
+    "level": "Senior"
+  },
+  {
+    "id": "problem-solving-complex-problem-solving",
+    "term": "Complex Problem Solving",
+    "description": "Breaking down an ambiguous or multi-faceted technical problem into smaller, analyzable parts and working through them methodically to reach a correct solution.",
+    "translationPl": "Rozwiązywanie złożonych problemów",
+    "descriptionPl": "Rozkładanie niejednoznacznego lub wieloaspektowego problemu technicznego na mniejsze, możliwe do analizy części i metodyczne przechodzenie przez nie w celu znalezienia poprawnego rozwiązania.",
+    "category": "Problem Solving",
+    "level": "Regular"
+  },
+  {
+    "id": "problem-solving-technical-writing",
+    "term": "Technical Writing",
+    "description": "Producing clear functional documentation before and after implementing a solution, often supported by structured problem-solving tools such as flowcharts, SWOT analysis, or the 5 Whys.",
+    "translationPl": "Dokumentacja techniczna",
+    "descriptionPl": "Tworzenie jasnej dokumentacji funkcjonalnej przed i po wdrożeniu rozwiązania, często wspierane strukturalnymi narzędziami do rozwiązywania problemów, takimi jak diagramy przepływu, analiza SWOT czy metoda 5 Whys.",
+    "category": "Problem Solving",
+    "level": "Regular"
+  },
+  {
+    "id": "problem-solving-advanced-data-analysis",
+    "term": "Advanced Data Analysis",
+    "description": "Examining data in depth to identify patterns, root causes, or trends, and drawing sound conclusions that inform a technical or business decision.",
+    "translationPl": "Zaawansowana analiza danych",
+    "descriptionPl": "Dogłębne badanie danych w celu zidentyfikowania wzorców, przyczyn źródłowych lub trendów oraz wyciąganie trafnych wniosków, które wspierają decyzję techniczną lub biznesową.",
+    "category": "Problem Solving",
+    "level": "Senior"
+  },
+  {
+    "id": "problem-solving-creative-problem-solving",
+    "term": "Creative Problem Solving",
+    "description": "Proposing novel solutions to problems that already have a conventional answer, by questioning assumptions and exploring alternative approaches rather than defaulting to the obvious fix.",
+    "translationPl": "Kreatywne rozwiązywanie problemów",
+    "descriptionPl": "Proponowanie nowatorskich rozwiązań dla problemów, które mają już konwencjonalną odpowiedź, poprzez kwestionowanie założeń i szukanie alternatywnych podejść zamiast automatycznego sięgania po oczywiste rozwiązanie.",
+    "category": "Problem Solving",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-http-https",
+    "term": "HTTP/HTTPS",
+    "description": "The application-layer protocol used for client-server communication on the web; HTTPS is HTTP layered over TLS encryption so exchanged data can't be read or tampered with in transit.",
+    "translationPl": "HTTP/HTTPS",
+    "descriptionPl": "Protokół warstwy aplikacji używany do komunikacji klient-serwer w sieci; HTTPS to HTTP działające nad szyfrowaniem TLS, dzięki czemu przesyłane dane nie mogą zostać odczytane ani zmodyfikowane w trakcie transmisji.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-client-server-architecture",
+    "term": "Client-Server Architecture",
+    "description": "A design where a client sends requests to a separate server that holds the data or logic and returns responses, decoupling the two so they can be developed, scaled, and deployed independently.",
+    "translationPl": "Architektura klient-serwer",
+    "descriptionPl": "Model, w którym klient wysyła żądania do oddzielnego serwera przechowującego dane lub logikę i otrzymuje odpowiedzi, co pozwala rozwijać, skalować i wdrażać obie strony niezależnie od siebie.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-http-methods",
+    "term": "HTTP Methods (Verbs)",
+    "description": "The standard verbs (GET, POST, PUT, PATCH, DELETE) that express the intent of an HTTP request, such as reading, creating, fully replacing, partially updating, or removing a resource.",
+    "translationPl": "Metody (czasowniki) HTTP",
+    "descriptionPl": "Standardowe czasowniki (GET, POST, PUT, PATCH, DELETE) wyrażające intencję żądania HTTP, takie jak odczyt, utworzenie, pełne zastąpienie, częściowa aktualizacja lub usunięcie zasobu.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-http-status-codes",
+    "term": "HTTP Status Codes",
+    "description": "Three-digit codes returned in an HTTP response that indicate the outcome of a request, grouped by class such as 2xx for success, 4xx for client errors, and 5xx for server errors.",
+    "translationPl": "Kody statusu HTTP",
+    "descriptionPl": "Trzycyfrowe kody zwracane w odpowiedzi HTTP, wskazujące wynik żądania, pogrupowane w klasy takie jak 2xx dla sukcesu, 4xx dla błędów po stronie klienta oraz 5xx dla błędów po stronie serwera.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-json-xml",
+    "term": "JSON and XML Data Formats",
+    "description": "The two common structured text formats for representing data in API requests and responses; JSON is lightweight and maps naturally to objects/arrays, while XML uses nested tags and is more verbose but supports schemas and namespaces.",
+    "translationPl": "Formaty danych JSON i XML",
+    "descriptionPl": "Dwa popularne, ustrukturyzowane formaty tekstowe do reprezentowania danych w żądaniach i odpowiedziach API; JSON jest lekki i naturalnie odwzorowuje obiekty/tablice, natomiast XML wykorzystuje zagnieżdżone znaczniki i jest bardziej rozbudowany, ale wspiera schematy i przestrzenie nazw.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-postman",
+    "term": "API Testing Tools (Postman)",
+    "description": "Client applications like Postman that let a developer manually send HTTP requests to an API, inspect responses, and save requests into reusable collections without writing a consuming application.",
+    "translationPl": "Narzędzia do testowania API (Postman)",
+    "descriptionPl": "Aplikacje klienckie, takie jak Postman, pozwalające programiście ręcznie wysyłać żądania HTTP do API, sprawdzać odpowiedzi oraz zapisywać żądania w postaci wielokrotnie używanych kolekcji bez konieczności pisania aplikacji konsumującej.",
+    "category": "API Development",
+    "level": "Junior"
+  },
+  {
+    "id": "api-development-idempotency",
+    "term": "Idempotency",
+    "description": "A property of an operation where making the same request multiple times produces the same end result as making it once, which lets clients safely retry a failed call without side effects.",
+    "translationPl": "Idempotentność",
+    "descriptionPl": "Właściwość operacji, dzięki której wielokrotne wykonanie tego samego żądania daje taki sam efekt końcowy jak jego jednorazowe wykonanie, co pozwala klientowi bezpiecznie ponawiać nieudane wywołanie bez efektów ubocznych.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-oauth2",
+    "term": "OAuth2",
+    "description": "An authorization framework that lets a user grant a third-party application limited access to their resources on another service, without sharing their password, via short-lived access tokens.",
+    "translationPl": "OAuth2",
+    "descriptionPl": "Framework autoryzacyjny pozwalający użytkownikowi udzielić aplikacji trzeciej strony ograniczonego dostępu do swoich zasobów w innym serwisie, bez udostępniania hasła, za pomocą krótkotrwałych tokenów dostępu.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-jwt",
+    "term": "JWT (JSON Web Token)",
+    "description": "A compact, self-contained token format that encodes claims (such as user identity and permissions) as a signed JSON payload, letting a server verify a request's authenticity without a database lookup.",
+    "translationPl": "JWT (JSON Web Token)",
+    "descriptionPl": "Zwarty, samowystarczalny format tokenu kodujący dane (np. tożsamość użytkownika i uprawnienia) jako podpisany ładunek JSON, co pozwala serwerowi zweryfikować autentyczność żądania bez odpytywania bazy danych.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-versioning",
+    "term": "API Versioning",
+    "description": "A strategy for evolving an API without breaking existing consumers, commonly done by encoding a version in the URL path, a request header, or the media type of the response.",
+    "translationPl": "Wersjonowanie API",
+    "descriptionPl": "Strategia rozwijania API bez psucia działania dotychczasowych konsumentów, realizowana zazwyczaj przez umieszczenie numeru wersji w ścieżce URL, nagłówku żądania lub typie zwracanych danych (media type).",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-error-handling",
+    "term": "API Error Handling",
+    "description": "Designing consistent, informative error responses (status code plus structured error body) so API consumers can reliably detect and react to failures instead of guessing from ad-hoc messages.",
+    "translationPl": "Obsługa błędów w API",
+    "descriptionPl": "Projektowanie spójnych i informatywnych odpowiedzi błędu (kod statusu wraz ze ustrukturyzowaną treścią błędu), dzięki czemu konsumenci API mogą niezawodnie wykrywać i reagować na awarie zamiast zgadywać na podstawie przypadkowych komunikatów.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-server-side-validation",
+    "term": "Server-Side Validation",
+    "description": "Checking incoming request data against business and format rules on the server before processing it, so the API never trusts client-supplied input at face value.",
+    "translationPl": "Walidacja po stronie serwera",
+    "descriptionPl": "Sprawdzanie danych przychodzących w żądaniu pod kątem reguł biznesowych i formatu po stronie serwera przed ich przetworzeniem, dzięki czemu API nigdy nie ufa bezkrytycznie danym dostarczonym przez klienta.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-caching-strategies",
+    "term": "API Caching Strategies",
+    "description": "Techniques for storing and reusing previous API responses (e.g. via ETags, Cache-Control headers, or a reverse-proxy cache) to reduce latency and backend load for repeated requests.",
+    "translationPl": "Strategie buforowania (cache) w API",
+    "descriptionPl": "Techniki przechowywania i ponownego wykorzystywania wcześniejszych odpowiedzi API (np. za pomocą nagłówków ETag, Cache-Control lub cache w reverse proxy) w celu zmniejszenia opóźnień i obciążenia backendu przy powtarzających się żądaniach.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-openapi",
+    "term": "OpenAPI Specification",
+    "description": "A standardized, language-agnostic format for describing an API's endpoints, request/response shapes, and authentication, which can be used to auto-generate documentation and client code.",
+    "translationPl": "Specyfikacja OpenAPI",
+    "descriptionPl": "Zestandaryzowany, niezależny od języka format opisu endpointów API, kształtu żądań/odpowiedzi oraz uwierzytelniania, wykorzystywany do automatycznego generowania dokumentacji i kodu klienta.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-graphql-basics",
+    "term": "GraphQL Basics",
+    "description": "A query language for APIs where clients request exactly the fields they need via queries, modify data via mutations, and receive real-time updates via subscriptions, avoiding the over- and under-fetching common in REST.",
+    "translationPl": "Podstawy GraphQL",
+    "descriptionPl": "Język zapytań dla API, w którym klient żąda dokładnie tych pól, których potrzebuje, za pomocą zapytań (queries), modyfikuje dane za pomocą mutacji, a subskrypcje dostarczają aktualizacje w czasie rzeczywistym, unikając typowego dla REST pobierania zbyt małej lub zbyt dużej ilości danych.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-key-token-auth",
+    "term": "API Key / Token Authentication",
+    "description": "A simple authentication scheme where a client includes a pre-issued secret key or token with each request, letting the server identify and authorize the caller without a full login flow.",
+    "translationPl": "Uwierzytelnianie kluczem API / tokenem",
+    "descriptionPl": "Prosty schemat uwierzytelniania, w którym klient dołącza do każdego żądania wcześniej wydany tajny klucz lub token, co pozwala serwerowi zidentyfikować i autoryzować wywołującego bez pełnego procesu logowania.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-richardson-maturity-model",
+    "term": "Richardson Maturity Model (REST Maturity Levels)",
+    "description": "A four-level model (0-3) that measures how fully an API embraces REST principles, progressing from a single RPC-style endpoint to full use of resources, HTTP verbs, and hypermedia controls (HATEOAS).",
+    "translationPl": "Model dojrzałości Richardsona (poziomy REST)",
+    "descriptionPl": "Czteropoziomowy model (0-3) mierzący, w jakim stopniu API stosuje zasady REST, od pojedynczego endpointu w stylu RPC aż po pełne wykorzystanie zasobów, czasowników HTTP i mechanizmów hipermedialnych (HATEOAS).",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-amqp",
+    "term": "AMQP (Advanced Message Queuing Protocol)",
+    "description": "An open, broker-based messaging protocol used by systems like RabbitMQ to reliably route and deliver messages between producers and consumers with guarantees such as acknowledgments and durable queues.",
+    "translationPl": "AMQP (Advanced Message Queuing Protocol)",
+    "descriptionPl": "Otwarty protokół komunikatów oparty na brokerze, wykorzystywany przez systemy takie jak RabbitMQ do niezawodnego przekazywania i dostarczania wiadomości między producentami a konsumentami, z gwarancjami takimi jak potwierdzenia odbioru i trwałe kolejki.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-kafka-protocol",
+    "term": "Kafka Protocol",
+    "description": "The wire protocol behind Apache Kafka's distributed log, used by producers and consumers to publish and read ordered, partitioned streams of events at high throughput.",
+    "translationPl": "Protokół Kafki",
+    "descriptionPl": "Protokół komunikacyjny stojący za rozproszonym logiem Apache Kafka, wykorzystywany przez producentów i konsumentów do publikowania i odczytywania uporządkowanych, podzielonych na partycje strumieni zdarzeń przy wysokiej przepustowości.",
+    "category": "API Development",
+    "level": "Regular"
+  },
+  {
+    "id": "api-development-scalable-architecture",
+    "term": "Scalable API Architecture",
+    "description": "Designing an API's structure, contracts, and dependencies so it can handle growing load and evolving requirements without a costly rewrite, e.g. through statelessness, clear resource boundaries, and horizontal scaling.",
+    "translationPl": "Skalowalna architektura API",
+    "descriptionPl": "Projektowanie struktury, kontraktów i zależności API tak, aby mogło obsłużyć rosnące obciążenie i zmieniające się wymagania bez kosztownego przepisywania, np. dzięki bezstanowości, jasnym granicom zasobów i skalowaniu horyzontalnemu.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-observability",
+    "term": "API Observability (Monitoring & Logging)",
+    "description": "Instrumenting an API with metrics, structured logs, and traces so its health, performance, and failures can be observed and diagnosed in production rather than only inferred from user reports.",
+    "translationPl": "Observability API (monitoring i logowanie)",
+    "descriptionPl": "Wyposażenie API w metryki, ustrukturyzowane logi i ślady (traces), tak aby jego kondycję, wydajność i awarie można było obserwować i diagnozować na produkcji, zamiast wnioskować o nich wyłącznie ze zgłoszeń użytkowników.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-advanced-graphql",
+    "term": "Advanced GraphQL (Schema Stitching & Performance)",
+    "description": "Techniques for scaling GraphQL beyond a single service, such as stitching multiple schemas into one unified graph, and optimizing resolver performance to avoid N+1-style query storms.",
+    "translationPl": "Zaawansowany GraphQL (łączenie schematów i wydajność)",
+    "descriptionPl": "Techniki skalowania GraphQL poza pojedynczy serwis, takie jak łączenie wielu schematów w jeden spójny graf (schema stitching) oraz optymalizacja wydajności resolverów w celu uniknięcia lawinowych zapytań w stylu N+1.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-deprecation",
+    "term": "API Deprecation & Backwards Compatibility",
+    "description": "The practice of evolving or retiring an API endpoint without breaking existing consumers immediately, typically via deprecation notices, sunset timelines, and maintaining old behavior alongside the new.",
+    "translationPl": "Wycofywanie API i zgodność wsteczna",
+    "descriptionPl": "Praktyka rozwijania lub wycofywania endpointu API bez natychmiastowego psucia działania dotychczasowych konsumentów, zwykle poprzez ostrzeżenia o wycofaniu, harmonogram wygaszania oraz utrzymywanie starego zachowania obok nowego.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-gateway",
+    "term": "API Gateway",
+    "description": "A single entry point that sits in front of one or more backend services to handle cross-cutting concerns like routing, authentication, rate limiting, and request/response transformation.",
+    "translationPl": "API Gateway",
+    "descriptionPl": "Pojedynczy punkt wejścia stojący przed jedną lub wieloma usługami backendowymi, obsługujący kwestie przekrojowe takie jak routing, uwierzytelnianie, ograniczanie liczby żądań (rate limiting) oraz transformację żądań i odpowiedzi.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-openid-connect",
+    "term": "OpenID Connect",
+    "description": "An identity layer built on top of OAuth2 that adds a standardized way to verify a user's identity and obtain basic profile information, in addition to OAuth2's authorization-only scope.",
+    "translationPl": "OpenID Connect",
+    "descriptionPl": "Warstwa tożsamości zbudowana na bazie OAuth2, dodająca zestandaryzowany sposób weryfikacji tożsamości użytkownika i pobrania podstawowych informacji o profilu, wykraczający poza czysto autoryzacyjny zakres OAuth2.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "api-development-legacy-protocols",
+    "term": "Legacy Network Protocols (FTP/SFTP, SMTP)",
+    "description": "Older, still widely used application-layer protocols for file transfer (FTP, and its encrypted variant SFTP) and email delivery (SMTP), which integration APIs sometimes need to interoperate with alongside modern HTTP-based services.",
+    "translationPl": "Starsze protokoły sieciowe (FTP/SFTP, SMTP)",
+    "descriptionPl": "Starsze, wciąż szeroko stosowane protokoły warstwy aplikacji do przesyłania plików (FTP oraz jego szyfrowany wariant SFTP) i dostarczania poczty (SMTP), z którymi API integracyjne czasem muszą współpracować obok nowoczesnych usług opartych na HTTP.",
+    "category": "API Development",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-cloud-computing",
+    "term": "Cloud Computing",
+    "description": "Delivering computing resources (servers, storage, databases, networking) on demand over the internet from a provider's infrastructure, so teams pay for usage instead of owning and operating physical hardware.",
+    "translationPl": "Cloud computing (przetwarzanie w chmurze)",
+    "descriptionPl": "Dostarczanie zasobów obliczeniowych (serwerów, pamięci masowej, baz danych, sieci) na żądanie przez internet z infrastruktury dostawcy, dzięki czemu zespoły płacą za zużycie zamiast posiadać i utrzymywać fizyczny sprzęt.",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-vertical-horizontal-scaling",
+    "term": "Vertical vs Horizontal Scaling",
+    "description": "Two ways to handle more load: vertical scaling adds more resources (CPU/RAM) to a single machine, while horizontal scaling adds more machines and distributes load across them.",
+    "translationPl": "Skalowanie wertykalne a horyzontalne",
+    "descriptionPl": "Dwa sposoby obsługi większego obciążenia: skalowanie wertykalne dodaje więcej zasobów (CPU/RAM) do pojedynczej maszyny, natomiast skalowanie horyzontalne dodaje kolejne maszyny i rozkłada obciążenie pomiędzy nie.",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-service-models",
+    "term": "Cloud Service Models (IaaS/PaaS/SaaS)",
+    "description": "A spectrum of how much of the stack a cloud provider manages: IaaS gives raw virtualized infrastructure, PaaS manages the runtime/platform so teams just deploy code, and SaaS delivers a fully managed, ready-to-use application.",
+    "translationPl": "Modele usług chmurowych (IaaS/PaaS/SaaS)",
+    "descriptionPl": "Spektrum tego, jak dużą częścią stosu zarządza dostawca chmury: IaaS udostępnia surową, zwirtualizowaną infrastrukturę, PaaS zarządza środowiskiem uruchomieniowym, dzięki czemu zespół jedynie wdraża kod, a SaaS dostarcza w pełni zarządzaną, gotową do użycia aplikację.",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-hyperscaler",
+    "term": "Hyperscaler",
+    "description": "A cloud provider (such as AWS, Azure, or Google Cloud) that operates a global-scale network of data centers offering a vast, elastic catalog of services far beyond what a private data center could economically provide.",
+    "translationPl": "Hyperscaler",
+    "descriptionPl": "Dostawca chmury (taki jak AWS, Azure czy Google Cloud), który utrzymuje globalną sieć centrów danych, oferując ogromny, elastyczny katalog usług, wykraczający daleko poza to, co mogłoby ekonomicznie zapewnić prywatne centrum danych.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-managed-services",
+    "term": "Managed Cloud Services",
+    "description": "Cloud offerings where the provider operates the underlying infrastructure and maintenance (patching, backups, scaling) of a component like a database or message queue, so the consuming team only manages its configuration and usage.",
+    "translationPl": "Usługi zarządzane w chmurze",
+    "descriptionPl": "Usługi chmurowe, w których dostawca obsługuje infrastrukturę i utrzymanie (aktualizacje, kopie zapasowe, skalowanie) komponentu takiego jak baza danych czy kolejka wiadomości, dzięki czemu korzystający z niej zespół zarządza jedynie jej konfiguracją i użyciem.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-hybrid-architecture",
+    "term": "Hybrid Cloud Architecture",
+    "description": "An architecture that combines on-premises infrastructure with one or more public clouds, connecting them so workloads and data can move between environments based on cost, latency, or compliance needs.",
+    "translationPl": "Architektura chmury hybrydowej",
+    "descriptionPl": "Architektura łącząca infrastrukturę lokalną (on-premises) z jedną lub kilkoma chmurami publicznymi, tak aby obciążenia i dane mogły przemieszczać się między środowiskami w zależności od kosztów, opóźnień lub wymogów zgodności.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-cloud-native-adaptation",
+    "term": "Cloud-Native Adaptation",
+    "description": "Reworking an application's design and deployment so it takes advantage of cloud characteristics like elasticity and managed services, ranging from a minimal lift-and-shift to a full refactor into cloud-native patterns.",
+    "translationPl": "Adaptacja do chmury (cloud-native)",
+    "descriptionPl": "Dostosowanie projektu i sposobu wdrażania aplikacji tak, aby wykorzystywała cechy chmury, takie jak elastyczność i usługi zarządzane, od minimalnego przeniesienia (lift-and-shift) po pełny refaktoring w kierunku wzorców cloud-native.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-iac",
+    "term": "Infrastructure as Code (IaC)",
+    "description": "Defining and provisioning infrastructure (servers, networks, services) through versioned configuration files rather than manual clicks, using tools like Terraform, Azure Bicep, or CloudFormation for repeatable, auditable deployments.",
+    "translationPl": "Infrastructure as Code (IaC)",
+    "descriptionPl": "Definiowanie i tworzenie infrastruktury (serwerów, sieci, usług) za pomocą wersjonowanych plików konfiguracyjnych zamiast ręcznych operacji, przy użyciu narzędzi takich jak Terraform, Azure Bicep czy CloudFormation, co zapewnia powtarzalne i możliwe do zaudytowania wdrożenia.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-jdbc",
+    "term": "JDBC (Java Database Connectivity)",
+    "description": "The standard Java API for connecting to and executing SQL statements against a relational database, providing the low-level foundation that higher-level tools like ORMs are built on top of.",
+    "translationPl": "JDBC (Java Database Connectivity)",
+    "descriptionPl": "Standardowe API Javy do łączenia się z relacyjną bazą danych i wykonywania na niej zapytań SQL, stanowiące niskopoziomowy fundament, na którym budowane są narzędzia wyższego poziomu, takie jak ORM-y.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-orm",
+    "term": "ORM (Object-Relational Mapping)",
+    "description": "A technique (implemented by frameworks like Hibernate or Spring Data) that maps database rows to application objects automatically, so developers work with objects instead of writing raw SQL for most operations.",
+    "translationPl": "ORM (mapowanie obiektowo-relacyjne)",
+    "descriptionPl": "Technika (realizowana przez frameworki takie jak Hibernate czy Spring Data), która automatycznie mapuje wiersze bazy danych na obiekty aplikacji, dzięki czemu programiści pracują na obiektach zamiast pisać surowe zapytania SQL do większości operacji.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-nosql-types",
+    "term": "NoSQL Database Types",
+    "description": "The main families of non-relational databases — document, key-value, column-family, and graph — each structuring and querying data differently to fit a specific access pattern better than a generic relational model.",
+    "translationPl": "Typy baz danych NoSQL",
+    "descriptionPl": "Główne rodziny nierelacyjnych baz danych — dokumentowe, klucz-wartość, kolumnowe i grafowe — z których każda inaczej strukturyzuje i odpytuje dane, dopasowując się lepiej do konkretnego wzorca dostępu niż ogólny model relacyjny.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-relational-vs-nosql",
+    "term": "Relational vs NoSQL Databases",
+    "description": "Relational databases enforce a fixed schema and strong consistency via tables and relations (via SQL and ACID transactions), while NoSQL databases trade some of that structure or consistency for flexible schemas and easier horizontal scaling.",
+    "translationPl": "Bazy relacyjne a NoSQL",
+    "descriptionPl": "Bazy relacyjne wymuszają stały schemat i silną spójność za pomocą tabel i relacji (SQL, transakcje ACID), natomiast bazy NoSQL rezygnują częściowo z tej struktury lub spójności na rzecz elastycznych schematów i łatwiejszego skalowania horyzontalnego.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-sql-subqueries",
+    "term": "SQL Subqueries",
+    "description": "A query nested inside another SQL query, used to compute an intermediate result (e.g. a filter list or aggregate) that the outer query then consumes, instead of requiring a separate round trip.",
+    "translationPl": "Podzapytania SQL",
+    "descriptionPl": "Zapytanie zagnieżdżone wewnątrz innego zapytania SQL, wykorzystywane do obliczenia wyniku pośredniego (np. listy filtrującej lub agregatu), który jest następnie wykorzystywany przez zapytanie zewnętrzne, bez konieczności osobnego zapytania do bazy.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-query-optimization",
+    "term": "Query Execution Plans & Optimization",
+    "description": "The database engine's chosen strategy for executing a given query (e.g. which indexes to use, join order), which can be inspected as an execution plan and tuned to reduce query cost.",
+    "translationPl": "Plany wykonania zapytań i ich optymalizacja",
+    "descriptionPl": "Wybrana przez silnik bazy danych strategia wykonania danego zapytania (np. które indeksy wykorzystać, w jakiej kolejności złączyć tabele), którą można podejrzeć jako plan wykonania i dostroić w celu obniżenia kosztu zapytania.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-locking",
+    "term": "Optimistic vs Pessimistic Locking",
+    "description": "Two strategies for preventing conflicting concurrent updates: pessimistic locking blocks other transactions from touching a row until the lock is released, while optimistic locking allows concurrent access and only detects a conflict at write time (e.g. via a version column).",
+    "translationPl": "Blokowanie optymistyczne a pesymistyczne",
+    "descriptionPl": "Dwie strategie zapobiegania kolidującym, równoczesnym aktualizacjom: blokowanie pesymistyczne blokuje innym transakcjom dostęp do wiersza aż do zwolnienia blokady, natomiast blokowanie optymistyczne dopuszcza równoczesny dostęp i wykrywa konflikt dopiero w momencie zapisu (np. za pomocą kolumny wersji).",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-transactions",
+    "term": "Database Transactions",
+    "description": "A group of database operations executed as a single all-or-nothing unit, guaranteeing that either every operation in the group succeeds and is committed, or none of them take effect.",
+    "translationPl": "Transakcje bazodanowe",
+    "descriptionPl": "Grupa operacji na bazie danych wykonywana jako jedna, niepodzielna jednostka: albo wszystkie operacje w grupie się powiodą i zostaną zatwierdzone, albo żadna z nich nie odniesie skutku.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-lazy-eager-loading",
+    "term": "Lazy vs Eager Loading",
+    "description": "Two strategies for fetching related entities in an ORM: lazy loading defers fetching a related entity until it's actually accessed, while eager loading fetches it immediately alongside the parent entity.",
+    "translationPl": "Lazy loading a eager loading",
+    "descriptionPl": "Dwie strategie pobierania powiązanych encji w ORM: lazy loading odracza pobranie powiązanej encji do momentu jej faktycznego użycia, natomiast eager loading pobiera ją od razu razem z encją nadrzędną.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-entity-annotations",
+    "term": "JPA Entity Annotations",
+    "description": "Annotations such as `@Entity`, `@Id`, `@Column`, and `@OneToMany` that declaratively map a plain Java class and its fields onto a database table and its columns/relationships for the ORM to manage.",
+    "translationPl": "Adnotacje encji JPA",
+    "descriptionPl": "Adnotacje takie jak `@Entity`, `@Id`, `@Column` czy `@OneToMany`, które deklaratywnie mapują zwykłą klasę Javy oraz jej pola na tabelę bazy danych i jej kolumny/relacje, tak aby ORM mógł nimi zarządzać.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-jpa-query-methods",
+    "term": "JPA Query Methods (Native, Criteria API, HQL)",
+    "description": "The different ways to build a database query in JPA: derived query methods and HQL express queries against entities in an SQL-like syntax, the Criteria API builds them programmatically and type-safely, and native queries drop down to raw SQL when needed.",
+    "translationPl": "Metody budowania zapytań w JPA (natywne, Criteria API, HQL)",
+    "descriptionPl": "Różne sposoby budowania zapytań do bazy danych w JPA: metody wyprowadzone (derived) i HQL wyrażają zapytania do encji w składni podobnej do SQL, Criteria API buduje je programistycznie w sposób bezpieczny typowo, a zapytania natywne pozwalają zejść do surowego SQL, gdy jest to potrzebne.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-query-logging",
+    "term": "SQL Query Logging",
+    "description": "Enabling the ORM or driver to print or log the actual SQL statements it sends to the database, which is essential for diagnosing unexpected queries, N+1 problems, or performance issues.",
+    "translationPl": "Logowanie zapytań SQL",
+    "descriptionPl": "Włączenie w ORM lub sterowniku wypisywania bądź logowania faktycznych zapytań SQL wysyłanych do bazy danych, co jest niezbędne do diagnozowania nieoczekiwanych zapytań, problemu N+1 lub problemów z wydajnością.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-n-plus-one",
+    "term": "N+1 Query Problem",
+    "description": "A performance anti-pattern where fetching N parent entities lazily triggers one additional query per entity to load a related collection, resulting in N+1 total queries instead of one efficient join or batch fetch.",
+    "translationPl": "Problem N+1 zapytań",
+    "descriptionPl": "Antywzorzec wydajnościowy, w którym pobranie N encji nadrzędnych z leniwym ładowaniem powiązań uruchamia dodatkowe zapytanie dla każdej z nich, dając w efekcie N+1 zapytań zamiast jednego wydajnego złączenia (join) lub pobrania wsadowego.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-jpa",
+    "term": "JPA (Java Persistence API)",
+    "description": "A Java specification that standardizes how objects are mapped to relational database tables and managed through an entity manager, with Hibernate being its most widely used implementation.",
+    "translationPl": "JPA (Java Persistence API)",
+    "descriptionPl": "Specyfikacja Javy standaryzująca sposób mapowania obiektów na tabele relacyjnej bazy danych i zarządzania nimi za pomocą entity managera, dla której Hibernate jest najczęściej stosowaną implementacją.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-entity-state-management",
+    "term": "JPA Entity State Management",
+    "description": "Understanding the lifecycle states an entity can be in (transient, managed, detached, removed) and the pitfalls of mixing native SQL access with ORM-managed entities, which can leave the persistence context out of sync with the database.",
+    "translationPl": "Zarządzanie stanem encji JPA",
+    "descriptionPl": "Zrozumienie stanów cyklu życia encji (przejściowy, zarządzany, odłączony, usunięty) oraz pułapek wynikających z mieszania dostępu przez natywny SQL z encjami zarządzanymi przez ORM, co może rozsynchronizować kontekst persystencji z bazą danych.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-dirty-checking",
+    "term": "Hibernate Dirty Checking",
+    "description": "Hibernate's mechanism of automatically detecting changes made to a managed entity's fields since it was loaded, and generating the corresponding UPDATE statement at flush time without the developer writing it explicitly.",
+    "translationPl": "Dirty checking w Hibernate",
+    "descriptionPl": "Mechanizm Hibernate polegający na automatycznym wykrywaniu zmian wprowadzonych w polach zarządzanej encji od momentu jej wczytania i generowaniu odpowiedniego zapytania UPDATE w momencie flush, bez konieczności ręcznego pisania go przez programistę.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-cache-levels",
+    "term": "Hibernate Cache Levels (L1/L2)",
+    "description": "Hibernate's two caching tiers: the first-level cache is scoped to a single session and always on, while the optional second-level cache is shared across sessions to avoid repeated database hits for the same entities.",
+    "translationPl": "Poziomy cache w Hibernate (L1/L2)",
+    "descriptionPl": "Dwa poziomy buforowania w Hibernate: cache pierwszego poziomu jest ograniczony do pojedynczej sesji i zawsze aktywny, natomiast opcjonalny cache drugiego poziomu jest współdzielony między sesjami, aby unikać powtarzających się zapytań do bazy o te same encje.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-entity-graph",
+    "term": "JPA Entity Graph",
+    "description": "A declarative way to specify, per query, exactly which related entities/fields should be eagerly fetched, letting a single query load a custom shape of data without changing the entity's default fetch strategy.",
+    "translationPl": "Entity Graph w JPA",
+    "descriptionPl": "Deklaratywny sposób określenia dla konkretnego zapytania, które dokładnie powiązane encje/pola mają zostać pobrane od razu, co pozwala jednym zapytaniem załadować niestandardowy kształt danych bez zmiany domyślnej strategii pobierania encji.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-transaction-propagation",
+    "term": "Transaction Propagation",
+    "description": "The rule that determines what happens when a method running inside an existing transaction calls another transactional method — e.g. joining the same transaction, suspending it, or starting a nested one.",
+    "translationPl": "Propagacja transakcji",
+    "descriptionPl": "Reguła określająca, co dzieje się, gdy metoda działająca w ramach istniejącej transakcji wywołuje inną metodę transakcyjną — np. dołączenie do tej samej transakcji, jej zawieszenie lub rozpoczęcie transakcji zagnieżdżonej.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-isolation-levels",
+    "term": "Transaction Isolation Levels",
+    "description": "Settings (e.g. Read Committed, Repeatable Read, Serializable) that control how much one transaction can see of another transaction's uncommitted or concurrent changes, trading off consistency against concurrency.",
+    "translationPl": "Poziomy izolacji transakcji",
+    "descriptionPl": "Ustawienia (np. Read Committed, Repeatable Read, Serializable) kontrolujące, w jakim stopniu jedna transakcja może widzieć niezatwierdzone lub równoległe zmiany innej transakcji, równoważąc spójność danych z poziomem współbieżności.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-distributed-databases",
+    "term": "Distributed Databases",
+    "description": "Databases whose data is spread across multiple nodes or locations rather than a single machine, introducing challenges like network latency, partial failures, and consistency trade-offs governed by results such as the CAP theorem.",
+    "translationPl": "Bazy danych rozproszone",
+    "descriptionPl": "Bazy danych, których dane są rozłożone na wielu węzłach lub lokalizacjach zamiast pojedynczej maszyny, co wprowadza wyzwania takie jak opóźnienia sieciowe, częściowe awarie oraz kompromisy dotyczące spójności opisywane np. przez twierdzenie CAP.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-partitioning",
+    "term": "Database Partitioning (Sharding)",
+    "description": "Splitting a large table or dataset into smaller, independent pieces (partitions or shards) distributed across storage or nodes, so queries and writes can be spread out instead of bottlenecking on one place.",
+    "translationPl": "Partycjonowanie bazy danych (sharding)",
+    "descriptionPl": "Podział dużej tabeli lub zbioru danych na mniejsze, niezależne części (partycje lub shardy) rozłożone na różne dyski lub węzły, dzięki czemu zapytania i zapisy mogą być rozproszone zamiast tworzyć wąskie gardło w jednym miejscu.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-docker-compose",
+    "term": "Docker Compose",
+    "description": "A tool for defining and running multi-container Docker applications from a single YAML file, letting a developer start an entire local stack (app, database, cache, etc.) with one command.",
+    "translationPl": "Docker Compose",
+    "descriptionPl": "Narzędzie do definiowania i uruchamiania wielokontenerowych aplikacji Docker za pomocą jednego pliku YAML, pozwalające programiście uruchomić cały lokalny stos (aplikację, bazę danych, cache itd.) jedną komendą.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-ci-cd-pipelines",
+    "term": "CI/CD Pipelines (GitHub Actions / Jenkins)",
+    "description": "Automated workflows, defined in tools like GitHub Actions or Jenkins, that build, test, and deploy code on every change, catching integration problems early and removing manual steps from releases.",
+    "translationPl": "Pipeline'y CI/CD (GitHub Actions / Jenkins)",
+    "descriptionPl": "Zautomatyzowane przepływy pracy, definiowane w narzędziach takich jak GitHub Actions czy Jenkins, które budują, testują i wdrażają kod przy każdej zmianie, wychwytując problemy integracyjne wcześnie i eliminując ręczne kroki z procesu wydania.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-dockerfile-instructions",
+    "term": "Dockerfile Instructions (FROM, RUN, CMD, ENTRYPOINT, ENV)",
+    "description": "The core keywords used to author a Dockerfile: `FROM` sets the base image, `RUN` executes build-time commands, `ENV` sets environment variables, and `CMD`/`ENTRYPOINT` define what runs when the resulting container starts.",
+    "translationPl": "Instrukcje Dockerfile (FROM, RUN, CMD, ENTRYPOINT, ENV)",
+    "descriptionPl": "Podstawowe słowa kluczowe używane do pisania Dockerfile: `FROM` ustawia obraz bazowy, `RUN` wykonuje polecenia w czasie budowania, `ENV` ustawia zmienne środowiskowe, a `CMD`/`ENTRYPOINT` określają, co uruchamia się przy starcie wynikowego kontenera.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-image-build-process",
+    "term": "Docker Image Build Process (Base Images & Registries)",
+    "description": "The layered process of building a Docker image from a base image plus each Dockerfile instruction, and the role of container registries as versioned storage from which those images are pulled and pushed.",
+    "translationPl": "Proces budowania obrazu Docker (obrazy bazowe i rejestry)",
+    "descriptionPl": "Warstwowy proces budowania obrazu Docker na bazie obrazu bazowego oraz kolejnych instrukcji z Dockerfile, a także rola rejestrów kontenerów jako wersjonowanego miejsca przechowywania, z którego te obrazy są pobierane i do którego są wysyłane.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-adapter-pattern",
+    "term": "Adapter Pattern",
+    "description": "A structural design pattern that wraps an existing class with a new interface expected by client code, letting incompatible interfaces work together without modifying the original class.",
+    "translationPl": "Wzorzec Adapter",
+    "descriptionPl": "Strukturalny wzorzec projektowy, który opakowuje istniejącą klasę nowym interfejsem oczekiwanym przez kod klienta, umożliwiając współpracę niekompatybilnych interfejsów bez modyfikowania oryginalnej klasy.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-builder-pattern",
+    "term": "Builder Pattern",
+    "description": "A creational design pattern that constructs a complex object step by step through a fluent chain of method calls, avoiding constructors with many optional parameters.",
+    "translationPl": "Wzorzec Builder",
+    "descriptionPl": "Kreacyjny wzorzec projektowy, który buduje złożony obiekt krok po kroku poprzez płynny łańcuch wywołań metod, unikając konstruktorów z wieloma opcjonalnymi parametrami.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-decorator-pattern",
+    "term": "Decorator Pattern",
+    "description": "A structural design pattern that attaches additional behavior to an object dynamically by wrapping it in one or more decorator objects sharing the same interface, instead of using subclassing.",
+    "translationPl": "Wzorzec Decorator",
+    "descriptionPl": "Strukturalny wzorzec projektowy, który dynamicznie dodaje obiektowi dodatkowe zachowanie poprzez opakowanie go w jeden lub więcej obiektów dekorujących współdzielących ten sam interfejs, zamiast korzystać z dziedziczenia.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-solid",
+    "term": "SOLID Principles",
+    "description": "Five object-oriented design principles (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) that guide code toward being easier to maintain, extend, and test.",
+    "translationPl": "Zasady SOLID",
+    "descriptionPl": "Pięć zasad projektowania obiektowego (pojedynczej odpowiedzialności, otwarte/zamknięte, podstawienia Liskov, segregacji interfejsów, odwrócenia zależności), które ukierunkowują kod na łatwiejsze utrzymanie, rozszerzanie i testowanie.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-tree-data-structures",
+    "term": "Tree Data Structures (Binary, Red-Black, AVL, B+)",
+    "description": "Hierarchical data structures built from linked nodes; binary search trees keep ordered data with fast lookup, while self-balancing variants like Red-Black, AVL, and B+ trees guarantee that lookup, insert, and delete stay logarithmic even in the worst case.",
+    "translationPl": "Struktury drzewiaste (binarne, Red-Black, AVL, B+)",
+    "descriptionPl": "Hierarchiczne struktury danych zbudowane z połączonych węzłów; drzewa BST przechowują uporządkowane dane z szybkim wyszukiwaniem, natomiast samobalansujące się warianty, takie jak Red-Black, AVL czy B+, gwarantują logarytmiczną złożoność wyszukiwania, wstawiania i usuwania nawet w najgorszym przypadku.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-priority-queue",
+    "term": "Priority Queue",
+    "description": "An abstract data type where each element has an associated priority, and removal always returns the element with the highest (or lowest) priority first, typically implemented internally with a heap.",
+    "translationPl": "Kolejka priorytetowa",
+    "descriptionPl": "Abstrakcyjny typ danych, w którym każdy element ma przypisany priorytet, a usunięcie zawsze zwraca element o najwyższym (lub najniższym) priorytecie jako pierwszy, zwykle implementowany wewnętrznie za pomocą kopca (heap).",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-recursion",
+    "term": "Recursion (Recursive Algorithms)",
+    "description": "A technique where a function solves a problem by calling itself on a smaller version of the same problem until it reaches a base case, well suited to naturally hierarchical or self-similar problems.",
+    "translationPl": "Rekurencja (algorytmy rekurencyjne)",
+    "descriptionPl": "Technika, w której funkcja rozwiązuje problem, wywołując samą siebie dla mniejszej wersji tego samego problemu, aż osiągnie przypadek bazowy, dobrze pasująca do problemów o naturze hierarchicznej lub samopodobnej.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-tree-traversal",
+    "term": "Tree Traversal (DFS & BFS)",
+    "description": "Systematic strategies for visiting every node in a tree or graph: depth-first search (DFS) explores as far as possible down one branch before backtracking, while breadth-first search (BFS) explores level by level outward from the start node.",
+    "translationPl": "Przechodzenie drzewa (DFS i BFS)",
+    "descriptionPl": "Systematyczne strategie odwiedzania każdego węzła drzewa lub grafu: przeszukiwanie w głąb (DFS) eksploruje jak najdalej jedną gałąź przed cofnięciem się, natomiast przeszukiwanie wszerz (BFS) eksploruje poziom po poziomie od węzła startowego.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-cqrs",
+    "term": "CQRS (Command Query Responsibility Segregation)",
+    "description": "An architectural pattern that separates the model used to write data (commands) from the model used to read it (queries), allowing each side to be optimized, scaled, or evolved independently.",
+    "translationPl": "CQRS (rozdzielenie odpowiedzialności komend i zapytań)",
+    "descriptionPl": "Wzorzec architektoniczny rozdzielający model używany do zapisu danych (komendy) od modelu używanego do ich odczytu (zapytania), co pozwala optymalizować, skalować i rozwijać obie strony niezależnie od siebie.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-ddd",
+    "term": "Domain-Driven Design (DDD)",
+    "description": "An approach to software design that structures code around a rich model of the business domain, built in close collaboration with domain experts and expressed using their shared, precise vocabulary (ubiquitous language).",
+    "translationPl": "Domain-Driven Design (DDD)",
+    "descriptionPl": "Podejście do projektowania oprogramowania, które buduje kod wokół bogatego modelu domeny biznesowej, tworzonego w ścisłej współpracy z ekspertami dziedzinowymi i wyrażanego przy użyciu ich wspólnego, precyzyjnego słownictwa (ubiquitous language).",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-event-storming",
+    "term": "Event Storming",
+    "description": "A collaborative workshop technique where domain experts and engineers map a business process as a timeline of domain events on sticky notes, used to quickly surface a shared understanding of a complex domain.",
+    "translationPl": "Event Storming",
+    "descriptionPl": "Technika warsztatowa polegająca na wspólnym mapowaniu przez ekspertów dziedzinowych i inżynierów procesu biznesowego jako osi czasu zdarzeń domenowych na karteczkach, wykorzystywana do szybkiego wypracowania wspólnego zrozumienia złożonej domeny.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-event-sourcing",
+    "term": "Event Sourcing",
+    "description": "A persistence pattern where every state change is stored as an immutable event in an append-only log, and current state is derived by replaying those events, rather than only storing the latest snapshot.",
+    "translationPl": "Event Sourcing",
+    "descriptionPl": "Wzorzec persystencji, w którym każda zmiana stanu jest zapisywana jako niemodyfikowalne zdarzenie w logu typu append-only, a aktualny stan jest odtwarzany poprzez odtworzenie tych zdarzeń, zamiast przechowywania wyłącznie najnowszego zrzutu stanu.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-event-schema-registry",
+    "term": "Event Schema Registry",
+    "description": "A central service that stores and versions the schemas of events flowing through a streaming platform, so producers and consumers can validate compatibility and evolve event formats safely over time.",
+    "translationPl": "Rejestr schematów zdarzeń",
+    "descriptionPl": "Centralna usługa przechowująca i wersjonująca schematy zdarzeń przepływających przez platformę strumieniową, dzięki czemu producenci i konsumenci mogą weryfikować zgodność i bezpiecznie rozwijać format zdarzeń w czasie.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-integration-events",
+    "term": "Integration Events",
+    "description": "Events published by one service to notify other, independently-owned services that something relevant happened, forming the backbone of asynchronous communication between bounded contexts in a distributed system.",
+    "translationPl": "Zdarzenia integracyjne",
+    "descriptionPl": "Zdarzenia publikowane przez jedną usługę, aby poinformować inne, niezależnie zarządzane usługi, że wydarzyło się coś istotnego, stanowiące podstawę asynchronicznej komunikacji między kontekstami ograniczonymi w systemie rozproszonym.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-microservices",
+    "term": "Microservices Architecture",
+    "description": "An architectural style that structures an application as a set of small, independently deployable services, each owning a specific business capability and communicating over the network.",
+    "translationPl": "Architektura mikroserwisów",
+    "descriptionPl": "Styl architektoniczny strukturyzujący aplikację jako zestaw małych, niezależnie wdrażanych usług, z których każda odpowiada za konkretną zdolność biznesową i komunikuje się z innymi przez sieć.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-monolith",
+    "term": "Monolithic Architecture",
+    "description": "An architectural style where an entire application is built and deployed as a single unit, which simplifies development and deployment early on but can become harder to scale or change in isolation as it grows.",
+    "translationPl": "Architektura monolityczna",
+    "descriptionPl": "Styl architektoniczny, w którym cała aplikacja jest budowana i wdrażana jako pojedyncza jednostka, co upraszcza wczesny rozwój i wdrażanie, ale wraz ze wzrostem aplikacji może utrudniać jej skalowanie lub zmienianie w izolacji.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-functional-programming",
+    "term": "Functional Programming Concepts",
+    "description": "A programming paradigm built around pure functions, immutability, and composing behavior by passing functions as values, aiming to reduce hidden state and side effects compared to imperative styles.",
+    "translationPl": "Koncepcje programowania funkcyjnego",
+    "descriptionPl": "Paradygmat programowania zbudowany wokół czystych funkcji, niezmienności danych oraz komponowania zachowania poprzez przekazywanie funkcji jako wartości, którego celem jest ograniczenie ukrytego stanu i efektów ubocznych w porównaniu do stylu imperatywnego.",
+    "category": "Software Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "software-engineering-observer-pattern",
+    "term": "Observer Pattern",
+    "description": "A behavioral design pattern where an object (the subject) maintains a list of dependents (observers) and automatically notifies them of any state change, decoupling the subject from the specifics of what happens in response.",
+    "translationPl": "Wzorzec Observer",
+    "descriptionPl": "Behawioralny wzorzec projektowy, w którym obiekt (podmiot) utrzymuje listę zależnych obserwatorów i automatycznie powiadamia ich o każdej zmianie stanu, odseparowując podmiot od szczegółów tego, co dzieje się w odpowiedzi.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-proxy-pattern",
+    "term": "Proxy Pattern",
+    "description": "A structural design pattern that provides a surrogate object standing in for a real object, controlling access to it — for example to add lazy initialization, access control, caching, or logging transparently.",
+    "translationPl": "Wzorzec Proxy",
+    "descriptionPl": "Strukturalny wzorzec projektowy dostarczający zastępczy obiekt reprezentujący obiekt docelowy i kontrolujący dostęp do niego — na przykład w celu dodania leniwej inicjalizacji, kontroli dostępu, buforowania lub logowania w sposób przezroczysty.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-visitor-pattern",
+    "term": "Visitor Pattern",
+    "description": "A behavioral design pattern that lets a new operation be added to a group of related classes without modifying them, by having each class accept a visitor object that implements the operation for that specific type.",
+    "translationPl": "Wzorzec Visitor",
+    "descriptionPl": "Behawioralny wzorzec projektowy pozwalający dodać nową operację do grupy powiązanych klas bez ich modyfikowania — każda klasa akceptuje obiekt odwiedzający (visitor), który implementuje operację dla danego konkretnego typu.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-chain-of-responsibility",
+    "term": "Chain of Responsibility Pattern",
+    "description": "A behavioral design pattern that passes a request along a chain of handler objects until one of them handles it, decoupling the sender of a request from knowing which handler will process it.",
+    "translationPl": "Wzorzec Chain of Responsibility",
+    "descriptionPl": "Behawioralny wzorzec projektowy przekazujący żądanie wzdłuż łańcucha obiektów obsługujących, dopóki jeden z nich go nie obsłuży, odseparowując nadawcę żądania od wiedzy o tym, który obiekt je przetworzy.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-state-machine",
+    "term": "State Machine (Pattern)",
+    "description": "A model that represents an object as being in exactly one of a finite set of states at a time, with well-defined transitions between states triggered by events, making complex conditional behavior explicit and easier to reason about.",
+    "translationPl": "Automat stanów (State Machine)",
+    "descriptionPl": "Model reprezentujący obiekt jako znajdujący się w danym momencie dokładnie w jednym z określonej liczby stanów, z jasno zdefiniowanymi przejściami między stanami wywoływanymi przez zdarzenia, co czyni złożone zachowanie warunkowe jawnym i łatwiejszym do analizy.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-transactional-outbox",
+    "term": "Transactional Outbox Pattern",
+    "description": "A pattern that reliably publishes an event as part of the same local database transaction that changes state, by first writing the event to an 'outbox' table and having a separate process relay it to a message broker, avoiding lost or duplicated events.",
+    "translationPl": "Wzorzec Transactional Outbox",
+    "descriptionPl": "Wzorzec niezawodnie publikujący zdarzenie w ramach tej samej lokalnej transakcji bazodanowej, która zmienia stan — poprzez zapisanie zdarzenia najpierw do tabeli 'outbox', a następnie przekazanie go przez osobny proces do brokera wiadomości, co pozwala uniknąć utraty lub zdublowania zdarzeń.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-retry-pattern",
+    "term": "Retry Pattern",
+    "description": "A resilience pattern that automatically re-attempts a failed operation (often with backoff and a limited number of tries), on the assumption that many failures in distributed systems are transient and will succeed on a later attempt.",
+    "translationPl": "Wzorzec Retry",
+    "descriptionPl": "Wzorzec odporności automatycznie ponawiający nieudaną operację (często z narastającym opóźnieniem i ograniczoną liczbą prób), przy założeniu, że wiele awarii w systemach rozproszonych ma charakter przejściowy i kolejna próba się powiedzie.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-circuit-breaker",
+    "term": "Circuit Breaker Pattern",
+    "description": "A resilience pattern that stops calling a downstream dependency after it fails repeatedly, 'opening the circuit' to fail fast and give the dependency time to recover, instead of piling up more failing requests against it.",
+    "translationPl": "Wzorzec Circuit Breaker",
+    "descriptionPl": "Wzorzec odporności, który przestaje wywoływać zależną usługę po jej wielokrotnej awarii, 'otwierając obwód', aby szybko zwracać błąd i dać zależności czas na odzyskanie sprawności, zamiast kierować do niej kolejne, skazane na porażkę żądania.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-domain-events",
+    "term": "Domain Events",
+    "description": "Events that represent something meaningful that happened within a single bounded context's domain model, used internally to decouple side effects from the code that triggered them, distinct from integration events sent across service boundaries.",
+    "translationPl": "Zdarzenia domenowe",
+    "descriptionPl": "Zdarzenia reprezentujące coś istotnego, co wydarzyło się w modelu domenowym pojedynczego kontekstu ograniczonego, wykorzystywane wewnętrznie do odseparowania efektów ubocznych od kodu, który je wywołał, w odróżnieniu od zdarzeń integracyjnych wysyłanych poza granice usługi.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-graph-data-structures",
+    "term": "Graph Data Structures",
+    "description": "A structure of nodes connected by edges, which may be directed or undirected, weighted or unweighted, used to model relationships (networks, dependencies, routes) that trees are too rigid to represent.",
+    "translationPl": "Struktury danych grafowe",
+    "descriptionPl": "Struktura złożona z węzłów połączonych krawędziami, które mogą być skierowane lub nieskierowane, ważone lub nieważone, wykorzystywana do modelowania relacji (sieci, zależności, tras), których drzewa nie są w stanie odwzorować.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-merkle-tree",
+    "term": "Merkle Tree",
+    "description": "A tree of hashes where each non-leaf node's hash is derived from its children's hashes, letting large datasets be verified for integrity or efficiently compared for differences without transferring the entire dataset.",
+    "translationPl": "Drzewo Merkle",
+    "descriptionPl": "Drzewo skrótów (hashy), w którym hash każdego węzła niebędącego liściem wynika z hashy jego dzieci, co pozwala zweryfikować integralność dużych zbiorów danych lub efektywnie porównać je pod kątem różnic bez przesyłania całego zbioru.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-graph-search-algorithms",
+    "term": "Graph Search Algorithms (Dijkstra, A*)",
+    "description": "Algorithms for finding the shortest or lowest-cost path between nodes in a weighted graph; Dijkstra's algorithm guarantees the optimal path by exploring outward by cost, while A* speeds this up using a heuristic that estimates remaining distance to the goal.",
+    "translationPl": "Algorytmy przeszukiwania grafów (Dijkstra, A*)",
+    "descriptionPl": "Algorytmy służące do znajdowania najkrótszej lub najtańszej ścieżki między węzłami w grafie ważonym; algorytm Dijkstry gwarantuje ścieżkę optymalną, eksplorując graf według rosnącego kosztu, natomiast A* przyspiesza ten proces, wykorzystując heurystykę szacującą pozostały dystans do celu.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-big-o",
+    "term": "Big-O Notation (Runtime Analysis)",
+    "description": "A mathematical notation describing how an algorithm's running time or memory usage grows relative to input size in the worst case, used to compare the scalability of different algorithms independent of hardware.",
+    "translationPl": "Notacja Big-O (analiza złożoności)",
+    "descriptionPl": "Notacja matematyczna opisująca, jak czas działania lub zużycie pamięci algorytmu rośnie względem rozmiaru danych wejściowych w najgorszym przypadku, wykorzystywana do porównywania skalowalności różnych algorytmów niezależnie od sprzętu.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-advanced-debugging",
+    "term": "Advanced Debugging Techniques",
+    "description": "Techniques that go beyond basic breakpoints — such as inspecting call stacks and memory dumps, decompiling unavailable source, debugging multithreaded applications, and using hot reload to iterate without restarting — to diagnose issues that don't reproduce with simple step-through debugging.",
+    "translationPl": "Zaawansowane techniki debugowania",
+    "descriptionPl": "Techniki wykraczające poza podstawowe punkty przerwania — takie jak analiza stosu wywołań i zrzutów pamięci, dekompilacja niedostępnego kodu źródłowego, debugowanie aplikacji wielowątkowych oraz korzystanie z hot reload do iterowania bez restartu — służące diagnozowaniu problemów, które nie odtwarzają się przy prostym debugowaniu krok po kroku.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "software-engineering-saga-pattern",
+    "term": "Saga Pattern",
+    "description": "A pattern for managing a long-running business transaction that spans multiple services, by breaking it into a sequence of local transactions each with a corresponding compensating action to undo it if a later step fails.",
+    "translationPl": "Wzorzec Saga",
+    "descriptionPl": "Wzorzec zarządzania długotrwałą transakcją biznesową rozciągniętą na wiele usług, poprzez podzielenie jej na sekwencję lokalnych transakcji, z których każda ma odpowiadającą jej akcję kompensującą cofającą zmiany, jeśli kolejny krok się nie powiedzie.",
+    "category": "Software Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-caching",
+    "term": "Spring Caching",
+    "description": "Spring's caching abstraction (enabled via `@EnableCaching` and used with `@Cacheable`) that transparently stores a method's return value keyed by its arguments, skipping re-execution on subsequent calls with the same inputs.",
+    "translationPl": "Cache w Springu",
+    "descriptionPl": "Abstrakcja buforowania w Springu (włączana przez `@EnableCaching` i używana z `@Cacheable`), która w przezroczysty sposób zapisuje wynik metody pod kluczem zależnym od jej argumentów, pomijając ponowne wykonanie przy kolejnych wywołaniach z tymi samymi argumentami.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-bean-vs-component",
+    "term": "@Bean vs @Component",
+    "description": "Two ways to register a Spring-managed bean: `@Component` marks a class itself for auto-detection via classpath scanning, while `@Bean` is used on a method inside a `@Configuration` class to explicitly construct and register an instance, useful for third-party classes you can't annotate directly.",
+    "translationPl": "@Bean a @Component",
+    "descriptionPl": "Dwa sposoby rejestrowania beana zarządzanego przez Springa: `@Component` oznacza samą klasę do automatycznego wykrycia poprzez skanowanie classpath, natomiast `@Bean` stosuje się na metodzie wewnątrz klasy `@Configuration`, aby jawnie utworzyć i zarejestrować instancję — przydatne dla klas zewnętrznych, których nie można bezpośrednio zaadnotować.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-dependency-injection",
+    "term": "Dependency Injection (Spring)",
+    "description": "Spring's core mechanism for supplying a class's dependencies from outside rather than having it construct them itself, done via constructor, setter, or field injection, and resolved automatically from the application context.",
+    "translationPl": "Wstrzykiwanie zależności w Springu",
+    "descriptionPl": "Podstawowy mechanizm Springa polegający na dostarczaniu zależności klasy z zewnątrz zamiast tworzenia ich samodzielnie przez tę klasę — realizowany przez wstrzykiwanie przez konstruktor, setter lub pole, i rozwiązywany automatycznie z kontekstu aplikacji.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-strategy-pattern",
+    "term": "Strategy Pattern",
+    "description": "A behavioral design pattern that defines a family of interchangeable algorithms behind a common interface, letting the calling code select and swap the algorithm used at runtime — commonly implemented in Spring by injecting a specific bean implementation.",
+    "translationPl": "Wzorzec Strategy",
+    "descriptionPl": "Behawioralny wzorzec projektowy definiujący rodzinę wymiennych algorytmów za wspólnym interfejsem, pozwalający kodowi wywołującemu wybrać i podmienić używany algorytm w czasie działania — w Springu realizowany zwykle przez wstrzyknięcie konkretnej implementacji beana.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-global-exception-handling",
+    "term": "Global Exception Handling (@ControllerAdvice)",
+    "description": "A centralized way to catch and translate exceptions thrown anywhere in a Spring web application's controllers into consistent HTTP error responses, using `@ControllerAdvice` combined with `@ExceptionHandler` methods.",
+    "translationPl": "Globalna obsługa wyjątków (@ControllerAdvice)",
+    "descriptionPl": "Scentralizowany sposób przechwytywania i tłumaczenia wyjątków rzucanych gdziekolwiek w kontrolerach aplikacji webowej Spring na spójne odpowiedzi błędu HTTP, przy użyciu `@ControllerAdvice` w połączeniu z metodami `@ExceptionHandler`.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-spring-data",
+    "term": "Spring Data",
+    "description": "A Spring project that eliminates most boilerplate data-access code by letting developers declare repository interfaces (e.g. extending `JpaRepository`) whose query implementations Spring generates automatically.",
+    "translationPl": "Spring Data",
+    "descriptionPl": "Projekt Springa eliminujący większość szablonowego kodu dostępu do danych, pozwalający programiście zadeklarować interfejsy repozytoriów (np. rozszerzające `JpaRepository`), dla których Spring automatycznie generuje implementacje zapytań.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-spring-security",
+    "term": "Spring Security",
+    "description": "Spring's framework for securing an application, handling authentication (who is the user) and authorization (what they're allowed to do) through a configurable chain of filters.",
+    "translationPl": "Spring Security",
+    "descriptionPl": "Framework Springa do zabezpieczania aplikacji, obsługujący uwierzytelnianie (kim jest użytkownik) oraz autoryzację (co wolno mu robić) za pomocą konfigurowalnego łańcucha filtrów.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-externalized-configuration",
+    "term": "Externalized Configuration (@Value / application.properties)",
+    "description": "Keeping configuration values (URLs, credentials, feature flags) outside the compiled code in files like `application.properties`/`.yml`, and injecting them into beans with `@Value` or `@ConfigurationProperties` so behavior can change per environment without a rebuild.",
+    "translationPl": "Konfiguracja zewnętrzna (@Value / application.properties)",
+    "descriptionPl": "Przechowywanie wartości konfiguracyjnych (adresów URL, poświadczeń, flag funkcji) poza skompilowanym kodem, w plikach takich jak `application.properties`/`.yml`, i wstrzykiwanie ich do beanów za pomocą `@Value` lub `@ConfigurationProperties`, dzięki czemu zachowanie aplikacji można zmieniać per środowisko bez ponownej kompilacji.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-bean-scopes",
+    "term": "Spring Bean Scopes",
+    "description": "Settings (singleton, prototype, request, session, etc.) that control how many instances of a bean Spring creates and how long each instance lives, with singleton — one shared instance per context — being the default.",
+    "translationPl": "Zasięgi (scope) beanów w Springu",
+    "descriptionPl": "Ustawienia (singleton, prototype, request, session itd.) kontrolujące, ile instancji beana tworzy Spring i jak długo żyje każda z nich, przy czym singleton — jedna współdzielona instancja na kontekst — jest zasięgiem domyślnym.",
+    "category": "Spring/JEE",
+    "level": "Regular"
+  },
+  {
+    "id": "spring-jee-reactive-webflux",
+    "term": "Reactive Programming (Spring WebFlux)",
+    "description": "A non-blocking, event-driven programming model built on the Reactive Streams standard, implemented in Spring by WebFlux, which handles requests with a small pool of threads instead of one thread per request for higher throughput under I/O-bound load.",
+    "translationPl": "Programowanie reaktywne (Spring WebFlux)",
+    "descriptionPl": "Nieblokujący, sterowany zdarzeniami model programowania oparty na standardzie Reactive Streams, zaimplementowany w Springu jako WebFlux, który obsługuje żądania niewielką pulą wątków zamiast jednego wątku na żądanie, zapewniając wyższą przepustowość przy obciążeniu ograniczonym operacjami I/O.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-spel",
+    "term": "Spring Expression Language (SpEL)",
+    "description": "An expression language embedded in Spring that lets configuration and annotations (like `@Value` or security rules) reference and evaluate bean properties, methods, and logical expressions at runtime rather than only static text.",
+    "translationPl": "Spring Expression Language (SpEL)",
+    "descriptionPl": "Język wyrażeń wbudowany w Springa, pozwalający konfiguracji i adnotacjom (takim jak `@Value` czy reguły bezpieczeństwa) odwoływać się i ewaluować właściwości beanów, metody oraz wyrażenia logiczne w czasie działania, zamiast jedynie statycznego tekstu.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-aop",
+    "term": "Aspect-Oriented Programming (AOP)",
+    "description": "A paradigm supported by Spring that factors out cross-cutting concerns (logging, transactions, security checks) into separate aspects applied to target methods via pointcuts, instead of scattering that code throughout business logic.",
+    "translationPl": "Programowanie zorientowane aspektowo (AOP)",
+    "descriptionPl": "Paradygmat wspierany przez Springa, wydzielający przekrojowe kwestie (logowanie, transakcje, kontrolę bezpieczeństwa) do osobnych aspektów, stosowanych do docelowych metod za pomocą pointcutów, zamiast rozpraszania tego kodu w całej logice biznesowej.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-custom-annotations",
+    "term": "Custom Annotations (Spring)",
+    "description": "User-defined annotations (often combined with an AOP aspect or a `BeanPostProcessor`) that let a team attach their own declarative behavior or metadata to classes and methods, following the same style as Spring's built-in annotations.",
+    "translationPl": "Własne adnotacje (Spring)",
+    "descriptionPl": "Adnotacje definiowane przez zespół (często w połączeniu z aspektem AOP lub `BeanPostProcessor`), pozwalające dołączyć własne, deklaratywne zachowanie lub metadane do klas i metod, w stylu spójnym z wbudowanymi adnotacjami Springa.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-dispatcher-servlet",
+    "term": "DispatcherServlet",
+    "description": "The front controller at the core of Spring MVC that receives every incoming HTTP request first and routes it to the appropriate handler (controller method), coordinating the whole request-processing pipeline.",
+    "translationPl": "DispatcherServlet",
+    "descriptionPl": "Kontroler frontowy stanowiący rdzeń Spring MVC, który jako pierwszy odbiera każde przychodzące żądanie HTTP i kieruje je do odpowiedniego handlera (metody kontrolera), koordynując cały potok przetwarzania żądania.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-filters-vs-interceptors",
+    "term": "Filters vs Interceptors",
+    "description": "Two ways to hook into request processing in a Spring web app: servlet filters run outside Spring's context on the raw request/response before the DispatcherServlet, while interceptors run inside Spring MVC and have access to the resolved handler and model.",
+    "translationPl": "Filtry a interceptory",
+    "descriptionPl": "Dwa sposoby dołączenia się do przetwarzania żądania w aplikacji webowej Spring: filtry serwletowe działają poza kontekstem Springa, na surowym żądaniu/odpowiedzi jeszcze przed DispatcherServlet, natomiast interceptory działają wewnątrz Spring MVC i mają dostęp do rozpoznanego handlera oraz modelu.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-autoconfiguration",
+    "term": "Spring Boot Autoconfiguration",
+    "description": "Spring Boot's mechanism of automatically configuring beans based on what's present on the classpath and in properties, so common setups (like a data source when a JDBC driver is found) work out of the box without manual configuration.",
+    "translationPl": "Autokonfiguracja w Spring Boot",
+    "descriptionPl": "Mechanizm Spring Boot automatycznie konfigurujący beany na podstawie tego, co znajduje się na classpath i we właściwościach, dzięki czemu typowe konfiguracje (np. źródło danych, gdy wykryty zostanie sterownik JDBC) działają od razu, bez ręcznej konfiguracji.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "spring-jee-starters",
+    "term": "Spring Boot Starters",
+    "description": "Curated dependency bundles (e.g. `spring-boot-starter-web`) that pull in a coherent set of libraries and their compatible versions for a given use case, and building a custom starter packages a team's own reusable autoconfiguration the same way.",
+    "translationPl": "Startery Spring Boot",
+    "descriptionPl": "Wyselekcjonowane zestawy zależności (np. `spring-boot-starter-web`), które dociągają spójny zbiór bibliotek i ich zgodnych wersji dla danego zastosowania; zbudowanie własnego startera pakuje w ten sam sposób autokonfigurację wielokrotnego użytku danego zespołu.",
+    "category": "Spring/JEE",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-mocking",
+    "term": "Mocking (Unit Testing)",
+    "description": "Replacing a real dependency with a controllable fake object in a unit test, so the test can isolate the behavior of the unit under test from the dependency's own behavior, latency, or side effects.",
+    "translationPl": "Mockowanie (testy jednostkowe)",
+    "descriptionPl": "Zastąpienie prawdziwej zależności kontrolowalnym obiektem zastępczym (mockiem) w teście jednostkowym, tak aby test mógł odizolować zachowanie testowanej jednostki od zachowania, opóźnień czy efektów ubocznych samej zależności.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-unit-test-best-practices",
+    "term": "Unit Test Structure & Best Practices (SRP, Naming, Setup)",
+    "description": "Conventions that keep unit tests maintainable: each test should verify one behavior (single responsibility), have a name that describes what it checks, and use shared setup/teardown code without hiding what's actually being tested.",
+    "translationPl": "Struktura i dobre praktyki testów jednostkowych (SRP, nazewnictwo, setup)",
+    "descriptionPl": "Konwencje utrzymujące testy jednostkowe w dobrej kondycji: każdy test powinien weryfikować jedno zachowanie (zasada pojedynczej odpowiedzialności), mieć nazwę opisującą to, co sprawdza, oraz korzystać ze wspólnego kodu setup/teardown bez ukrywania tego, co faktycznie jest testowane.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-integration-testing-fundamentals",
+    "term": "Integration Testing Fundamentals",
+    "description": "Testing that multiple components (e.g. a service and a real database) work correctly together, which requires extra care preparing realistic test cases and handling tests that run concurrently against shared state.",
+    "translationPl": "Podstawy testów integracyjnych",
+    "descriptionPl": "Testowanie poprawnej współpracy wielu komponentów (np. usługi i prawdziwej bazy danych), co wymaga dodatkowej dbałości o przygotowanie realistycznych przypadków testowych oraz obsługę testów uruchamianych współbieżnie na współdzielonym stanie.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-design-patterns",
+    "term": "Testing Design Patterns",
+    "description": "Reusable structuring techniques for test code, such as the Page Object pattern for UI tests, Test Data Builders for constructing fixtures, or Object Mother for producing ready-made test entities, aimed at keeping test suites readable and maintainable.",
+    "translationPl": "Wzorce projektowe w testach",
+    "descriptionPl": "Wielokrotnie używane techniki strukturyzowania kodu testowego, takie jak wzorzec Page Object dla testów UI, Test Data Builder do budowania danych testowych czy Object Mother do tworzenia gotowych encji testowych, mające na celu utrzymanie czytelności i łatwości utrzymania zestawów testów.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-test-data-management",
+    "term": "Test Data Management",
+    "description": "The practice of deliberately generating or sourcing the data a test runs against — covering realistic edge cases and avoiding brittle, hard-coded values — so test results are both reliable and meaningful.",
+    "translationPl": "Zarządzanie danymi testowymi",
+    "descriptionPl": "Praktyka świadomego generowania lub pozyskiwania danych, na których działa test — obejmująca realistyczne przypadki brzegowe i unikanie kruchych, zaszytych na sztywno wartości — tak aby wyniki testów były zarówno wiarygodne, jak i znaczące.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-tdd",
+    "term": "Test-Driven Development (TDD)",
+    "description": "A development workflow where a failing test is written before the implementation code, which is then written just enough to make the test pass, followed by refactoring — keeping the codebase covered by design rather than as an afterthought.",
+    "translationPl": "Test-Driven Development (TDD)",
+    "descriptionPl": "Sposób pracy, w którym najpierw pisze się nieprzechodzący test, a dopiero potem kod implementacji — dokładnie tyle, aby test przeszedł — po czym następuje refaktoryzacja; dzięki temu pokrycie testami wynika z projektu, a nie jest dodawane później.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-bdd",
+    "term": "Behavior-Driven Development (BDD)",
+    "description": "An extension of TDD that describes expected behavior in a structured, near-natural-language format (e.g. Given/When/Then), making tests readable as executable specifications shared between developers and non-technical stakeholders.",
+    "translationPl": "Behavior-Driven Development (BDD)",
+    "descriptionPl": "Rozszerzenie TDD opisujące oczekiwane zachowanie w ustrukturyzowanym, zbliżonym do naturalnego języka formacie (np. Given/When/Then), dzięki czemu testy są czytelne jako wykonywalne specyfikacje współdzielone przez programistów i osoby nietechniczne.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-acceptance-testing",
+    "term": "Acceptance Testing",
+    "description": "Testing performed from the end user's or business's perspective to confirm a feature meets the agreed-upon requirements, typically the final check before a feature is considered done.",
+    "translationPl": "Testy akceptacyjne",
+    "descriptionPl": "Testowanie przeprowadzane z perspektywy użytkownika końcowego lub biznesu, mające potwierdzić, że funkcjonalność spełnia uzgodnione wymagania — zwykle ostatnia weryfikacja przed uznaniem funkcjonalności za gotową.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-performance-testing",
+    "term": "Performance Testing",
+    "description": "Testing that measures a system's responsiveness, throughput, and stability under expected or peak load, used to catch bottlenecks and validate capacity before they become production incidents.",
+    "translationPl": "Testy wydajnościowe",
+    "descriptionPl": "Testowanie mierzące czas odpowiedzi, przepustowość i stabilność systemu pod spodziewanym lub szczytowym obciążeniem, wykorzystywane do wychwycenia wąskich gardeł i zweryfikowania wydajności zanim staną się incydentem produkcyjnym.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-continuous-integration",
+    "term": "Continuous Integration (CI)",
+    "description": "The practice of merging code changes into a shared branch frequently and automatically building and testing them on every merge, so integration problems are caught within minutes instead of accumulating over weeks.",
+    "translationPl": "Continuous Integration (CI)",
+    "descriptionPl": "Praktyka częstego scalania zmian w kodzie do współdzielonej gałęzi oraz automatycznego budowania i testowania ich przy każdym scaleniu, dzięki czemu problemy integracyjne są wykrywane w ciągu minut, a nie kumulują się przez tygodnie.",
+    "category": "Testing",
+    "level": "Regular"
+  },
+  {
+    "id": "testing-environment-from-scratch",
+    "term": "Test Environment Provisioning (From Scratch)",
+    "description": "Building an integration test's environment (database, containers, dependencies) fully from a clean, known state for every run, rather than reusing a shared environment, to guarantee isolation and reproducibility.",
+    "translationPl": "Przygotowanie środowiska testowego od zera",
+    "descriptionPl": "Budowanie środowiska testu integracyjnego (bazy danych, kontenerów, zależności) w pełni od czystego, znanego stanu przy każdym uruchomieniu, zamiast korzystania ze współdzielonego środowiska, aby zagwarantować izolację i powtarzalność wyników.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-time-based-tests",
+    "term": "Time-Based / Time-Dependent Testing",
+    "description": "Testing logic that depends on the passage of time (schedules, expirations, timeouts) by controlling or simulating the clock in tests, instead of relying on real wall-clock delays that make tests slow and flaky.",
+    "translationPl": "Testowanie logiki zależnej od czasu",
+    "descriptionPl": "Testowanie logiki zależnej od upływu czasu (harmonogramów, wygasania, limitów czasu) poprzez kontrolowanie lub symulowanie zegara w testach, zamiast polegania na rzeczywistych opóźnieniach, które czynią testy wolnymi i niestabilnymi.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-idempotency",
+    "term": "Test Idempotency & Repeatability",
+    "description": "Designing a test so that running it multiple times (or re-running it after a partial failure) always produces the same result and leaves the system in the same state, without manual cleanup between runs.",
+    "translationPl": "Idempotentność i powtarzalność testów",
+    "descriptionPl": "Zaprojektowanie testu tak, aby jego wielokrotne uruchomienie (lub ponowne uruchomienie po częściowej awarii) zawsze dawało ten sam wynik i pozostawiało system w tym samym stanie, bez konieczności ręcznego czyszczenia między uruchomieniami.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-contract-testing",
+    "term": "Consumer-Driven Contract Testing (CDC/Pact)",
+    "description": "A testing approach where a service consumer defines the exact request/response contract it expects, and the provider is tested against that same contract (e.g. with Pact), catching breaking API changes without needing full end-to-end integration tests.",
+    "translationPl": "Testy kontraktowe sterowane przez konsumenta (CDC/Pact)",
+    "descriptionPl": "Podejście testowe, w którym konsument usługi definiuje dokładny kontrakt żądania/odpowiedzi, jakiego oczekuje, a dostawca usługi jest testowany względem tego samego kontraktu (np. za pomocą Pact), co pozwala wychwycić przełamujące zgodność zmiany w API bez potrzeby pełnych testów end-to-end.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-e2e-testing",
+    "term": "End-to-End (E2E) Testing",
+    "description": "Testing an entire application flow through its real, deployed-like stack (UI, backend, database) exactly as a user would experience it, verifying that all the integrated pieces work correctly together.",
+    "translationPl": "Testy End-to-End (E2E)",
+    "descriptionPl": "Testowanie całego przepływu aplikacji przez jej rzeczywisty, zbliżony do produkcyjnego stos (UI, backend, baza danych), dokładnie tak, jak doświadczyłby go użytkownik, weryfikujące poprawną współpracę wszystkich zintegrowanych elementów.",
+    "category": "Testing",
+    "level": "Senior"
   }
 ]
