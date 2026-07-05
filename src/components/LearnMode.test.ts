@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createLearnMode } from './LearnMode';
 import { readProgress, writeProgress } from '../lib/storage';
 import type { Glossary } from '../types/glossary';
+import type { Category, Level } from '../types/glossary';
 
 function makeEntry(id: string, term = id): Glossary[number] {
   return {
@@ -121,5 +122,92 @@ describe('LearnMode', () => {
     expect(readProgress()).toEqual({});
 
     confirmSpy.mockRestore();
+  });
+
+  it('updateFilter(subset, filterState) immediately redraws from the new subset, not the original entries', () => {
+    const learnMode = createLearnMode({ entries });
+
+    const subset: Glossary = [makeEntry('only-one', 'OnlyOneTerm')];
+    learnMode.updateFilter(subset, { selectedCategories: [], selectedLevel: 'All' });
+
+    expect(learnMode.getState().currentEntry.id).toBe('only-one');
+    expect(learnMode.element.querySelector('.term')?.textContent).toBe('OnlyOneTerm');
+  });
+
+  it('updateFilter([], filterState) renders .empty-state in place of .card-shell with no .mark-row, and never calls drawNextCard', () => {
+    const learnMode = createLearnMode({ entries });
+
+    learnMode.updateFilter([], { selectedCategories: [], selectedLevel: 'All' });
+
+    expect(learnMode.element.querySelector('.card-shell')).toBeNull();
+    expect(learnMode.element.querySelector('.empty-state')).not.toBeNull();
+    expect(learnMode.element.querySelector('.mark-row')).toBeNull();
+  });
+
+  it('.filter-chip is absent for a default filter, and shows the correct label for an active filter (joined + overflow formats)', () => {
+    const learnMode = createLearnMode({ entries });
+
+    expect(learnMode.element.querySelector('.filter-chip')).toBeNull();
+
+    learnMode.updateFilter(entries, { selectedCategories: ['Java'], selectedLevel: 'Senior' });
+    let chip = learnMode.element.querySelector('.filter-chip');
+    expect(chip).not.toBeNull();
+    expect(chip?.textContent).toContain('Java');
+    expect(chip?.textContent).toContain('Senior');
+
+    const twoCats: Category[] = ['Java', 'DevOps'];
+    learnMode.updateFilter(entries, { selectedCategories: twoCats, selectedLevel: 'All' });
+    chip = learnMode.element.querySelector('.filter-chip');
+    expect(chip?.textContent).toContain('Java, DevOps');
+
+    const threeCats: Category[] = ['Java', 'DevOps', 'Testing'];
+    learnMode.updateFilter(entries, { selectedCategories: threeCats, selectedLevel: 'All' as Level | 'All' });
+    chip = learnMode.element.querySelector('.filter-chip');
+    expect(chip?.textContent).toContain('Java +2 more');
+
+    learnMode.updateFilter(entries, { selectedCategories: [], selectedLevel: 'All' });
+    expect(learnMode.element.querySelector('.filter-chip')).toBeNull();
+  });
+
+  it('clicking .filter-chip invokes onClearFilter exactly once with no other direct side effect', () => {
+    const onClearFilter = vi.fn();
+    const learnMode = createLearnMode({
+      entries,
+      onClearFilter,
+      filterState: { selectedCategories: ['Java'], selectedLevel: 'All' },
+    });
+
+    const shownBefore = learnMode.getState().currentEntry.id;
+
+    const chip = learnMode.element.querySelector<HTMLElement>('.filter-chip');
+    expect(chip).not.toBeNull();
+    chip?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(onClearFilter).toHaveBeenCalledTimes(1);
+    // LearnMode itself performs no state mutation — same card still shown.
+    expect(learnMode.getState().currentEntry.id).toBe(shownBefore);
+  });
+
+  it('progress-stats reflect computeBucketCounts of the current filtered subset, both immediately after updateFilter and after a mark within it', () => {
+    const learnMode = createLearnMode({ entries });
+
+    const subset: Glossary = [makeEntry('x'), makeEntry('y')];
+    learnMode.updateFilter(subset, { selectedCategories: [], selectedLevel: 'All' });
+
+    let stats = learnMode.element.querySelector('.progress-stats');
+    expect(stats?.textContent).toContain('2 new');
+    expect(stats?.textContent).toContain('0 shaky');
+
+    const shownId = learnMode.getState().currentEntry.id;
+    flipCurrentCard(learnMode.element);
+    learnMode.element
+      .querySelector<HTMLElement>('.mark-btn.dont-know')
+      ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(readProgress()[shownId]?.bucket).toBe('dont_know');
+
+    stats = learnMode.element.querySelector('.progress-stats');
+    expect(stats?.textContent).toContain('1 shaky');
+    expect(stats?.textContent).toContain('1 new');
   });
 });

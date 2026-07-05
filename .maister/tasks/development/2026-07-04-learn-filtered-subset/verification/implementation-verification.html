@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Verification — Learn Mode Filtered Subset</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:100px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+.verdict-banner { display:flex; align-items:center; gap:14px; padding:18px 20px; border-radius:var(--radius);
+  background:var(--ok-soft); border:1px solid var(--ok); margin:16px 0; }
+.verdict-banner .vb-icon { font-size:32px; line-height:1; }
+.verdict-banner .vb-text b { display:block; font-size:17px; color:var(--ok); }
+.verdict-banner .vb-text span { font-size:12.5px; color:var(--dim); }
+
+.resolved { color:var(--ok); font-weight:600; }
+.skipped { color:var(--dim); font-weight:600; }
+
+.check-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:10px; margin:14px 0; }
+.check-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; }
+.check-card h3 { margin:0 0 6px; font-size:13px; }
+.check-card p { margin:0; font-size:12.5px; color:var(--dim); }
+
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 20px; }
+.toc a { margin-right:4px; }
+
+.fix-item { border-left:3px solid var(--ok); padding-left:12px; margin:12px 0; }
+.fix-item h3 { margin:0 0 4px; font-size:13.5px; }
+.skip-item { border-left:3px solid var(--dim); padding-left:12px; margin:12px 0; }
+
+ul.checklist { list-style:none; padding-left:0; margin:0; }
+ul.checklist li { padding:4px 0 4px 24px; position:relative; }
+ul.checklist li::before { content:"\2713"; position:absolute; left:0; color:var(--ok); font-weight:700; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">&larr; Dashboard</a>
+  <span class="here">Verification</span>
+  <a href="implementation-verification.md" target="_blank" rel="noopener" class="md">md twin &#8599;</a>
+</nav>
+
+<header>
+  <span class="badge">Implementation Verification Report</span>
+  <h1>Learn Mode &mdash; Filtered Subset</h1>
+</header>
+
+<div class="verdict-banner">
+  <div class="vb-icon">&#9989;</div>
+  <div class="vb-text">
+    <b>Passed (post-fix)</b>
+    <span>Was &#9888;&#65039; Passed with Issues pre-fix &mdash; all 4 fixable issues resolved and re-verified in this same round. No critical/blocking issues at any point, no deployment blockers.</span>
+  </div>
+</div>
+
+<div class="tiles">
+  <div class="tile"><b>32/32</b><span>plan steps</span></div>
+  <div class="tile"><b>66/66</b><span>tests passing (post-fix)</span></div>
+  <div class="tile"><b>7/7</b><span>standards compliant</span></div>
+  <div class="tile"><b>4</b><span>issues fixed</span></div>
+  <div class="tile"><b>2</b><span>issues skipped (scoped out)</span></div>
+</div>
+
+<section class="tldr">
+  <h2>TL;DR</h2>
+  <div class="card">
+    <p>Verdict: <b>&#9989; Passed</b> (post-fix). Implementation is 100% complete against the plan (32/32 steps), standards-compliant, fully documented, and functionally solves the real user problem end-to-end (independently re-verified: 65/65 tests pre-fix, 66/66 post-fix, <code>tsc --noEmit</code> clean). The verification round surfaced 4 fixable issues (1 spec-compliance gap, 2 robustness gaps, 1 DRY nit) &mdash; all 4 were fixed and re-verified in this same round; see Fix &amp; Re-Verification History below. No critical/blocking issues at any point, no deployment blockers.</p>
+  </div>
+
+  <h2>Open Questions / Risks</h2>
+  <div class="card">
+    <p>None outstanding. All issues identified during verification were resolved (see Fix &amp; Re-Verification History). Two informational, non-actionable items remain on record: <code>AppShell.destroy()</code>'s doc comment overpromising listener cleanup (pre-existing, out of scope), and the optional cosmetic <code>aria-hidden</code> wrap for the filter-chip's "&#10005;" glyph (not applied &mdash; purely cosmetic, no functional impact).</p>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#executive-summary">Executive Summary</a> &middot;
+  <a href="#plan-verification">Plan Verification</a> &middot;
+  <a href="#test-suite">Test Suite</a> &middot;
+  <a href="#standards">Standards Compliance</a> &middot;
+  <a href="#documentation">Documentation</a> &middot;
+  <a href="#optional-reviews">Optional Reviews</a> &middot;
+  <a href="#overall-assessment">Overall Assessment</a> &middot;
+  <a href="#issues">Issues</a> &middot;
+  <a href="#fix-history">Fix &amp; Re-Verification History</a> &middot;
+  <a href="#recommendations">Recommendations</a> &middot;
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<main>
+
+<h2 id="executive-summary">Executive Summary</h2>
+<div class="card">
+  <p>All 6 implementation task groups (32 steps) are complete and independently spot-checked against the real code, not just plan checkboxes. The core feature &mdash; Learn Mode drawing only from Browse's persisted category/level filter &mdash; works end-to-end, confirmed by an independent re-run of the full test suite (65/65) and a hand-traced propagation chain (FilterBar &rarr; BrowseGrid &rarr; AppShell &rarr; storage.ts + LearnMode). Two optional reviews (pragmatic, code quality) surfaced real, scoped, easily-fixable gaps that don't block the core user journey but should be addressed before calling this feature complete.</p>
+</div>
+
+<h2 id="plan-verification">Implementation Plan Verification</h2>
+<div class="check-grid">
+  <div class="check-card">
+    <h3><span class="pass">&#9679;</span> Status</h3>
+    <p>Complete &mdash; 32/32 steps across 6 task groups</p>
+  </div>
+  <div class="check-card">
+    <h3>Spot-checked directly against code</h3>
+    <p><code>EmptyState.ts</code>, <code>storage.ts</code>, <code>AppShell.ts</code>, <code>FilterBar.ts</code>, <code>BrowseGrid.ts</code>, <code>LearnMode.ts</code> all match the plan's exact interface/behavior claims</p>
+  </div>
+  <div class="check-card">
+    <h3>Dead code</h3>
+    <p>Old <code>BrowseGrid.renderEmptyState()</code> fully removed, no dead code left behind</p>
+  </div>
+  <div class="check-card">
+    <h3>Scope</h3>
+    <p>Working tree diff matches the plan's declared file scope exactly &mdash; no scope creep</p>
+  </div>
+</div>
+<p style="font-size:12.5px;color:var(--dim);">Full detail: <a href="implementation-completeness.md" target="_blank" rel="noopener">verification/implementation-completeness.md &#8599;</a></p>
+
+<h2 id="test-suite">Test Suite Results</h2>
+<div class="card">
+  <p><code>skip_test_suite: true</code> (full suite already passed during implementation) &mdash; but <b>independently re-run twice</b> during this verification round anyway (once by production-readiness-checker, once by reality-assessor, both from a cold shell):</p>
+  <ul class="checklist">
+    <li><b>65 passed, 0 failed</b> (63 vitest across 10 files + 2 build-verification checks)</li>
+    <li><code>npx tsc --noEmit</code> clean</li>
+    <li><code>npm run build</code> succeeds (17.86 kB JS / 8.62 kB CSS gzip)</li>
+  </ul>
+</div>
+
+<h2 id="standards">Standards Compliance</h2>
+<div class="card">
+  <p><span class="pass">Compliant</span> &mdash; 7/7 applicable standards actively verified against real code (not just citation presence): <code>global/coding-style.md</code>, <code>global/minimal-implementation.md</code>, <code>global/error-handling.md</code>, <code>global/commenting.md</code>, <code>frontend/components.md</code>, <code>frontend/accessibility.md</code>, <code>testing/test-writing.md</code></p>
+  <p><span class="sev info">info</span> <code>LearnMode.ts:100-101</code> retains a couple of group-numbered ("Group 5") comments that lean changelog-style rather than timeless &mdash; trivial, non-blocking</p>
+</div>
+
+<h2 id="documentation">Documentation Completeness</h2>
+<div class="card">
+  <p><span class="pass">Complete</span> &mdash; <code>work-log.md</code> has dated entries for every wave/group with standards/tests/files/notes; all 9 <code>spec.md</code> requirements traced to plan steps and code with test evidence</p>
+</div>
+
+<h2 id="optional-reviews">Optional Review Results</h2>
+
+<div class="card">
+  <h3>Code Review <span style="font-weight:400;color:var(--dim);font-size:12px;">(<a href="code-review-report.md" target="_blank" rel="noopener">verification/code-review-report.md &#8599;</a>)</span></h3>
+  <p><span class="sev critical">0 critical</span><span class="sev warning">3 warning</span><span class="sev info">5 info</span> &mdash; 12 files analyzed. No XSS/injection risk (all new DOM construction uses <code>textContent</code>/<code>createElement</code>, never <code>innerHTML</code> with interpolated data). No memory leaks in new listeners.</p>
+  <ol>
+    <li><span class="sev warning">warning</span> <i>(verified reproducible)</i> <code>readFilterState()</code> validates "is an object" but not field types &mdash; a <code>'{}'</code> value under <code>skillflip:browse-filter-state</code> parses successfully, passes the shape check, and reaches <code>AppShell.ts:54</code>'s spread into <code>filterState</code>, leaving <code>selectedCategories: undefined</code>. This crashes <code>applyFilters</code> (<code>src/lib/filters.ts:29</code>, <code>state.selectedCategories.length</code>) on the very next render, surfacing to the user as a misleading "glossary data" bootstrap error until they manually clear localStorage.</li>
+    <li><span class="sev warning">warning</span> Unguarded <code>localStorage.setItem</code> in <code>writeProgress</code>/<code>writeFilterState</code> &mdash; a <code>QuotaExceededError</code>/<code>SecurityError</code> would throw unhandled from inside a synchronous click handler.</li>
+    <li><span class="sev warning">warning</span> <code>AppShell.destroy()</code>'s doc comment overpromises &mdash; it doesn't remove its own tab-bar/exit-button listeners, only tears down nested view instances. Not a practical leak (page-lifetime singleton, one construction site), but worth tightening the comment. Pre-existing pattern predating this feature &mdash; <b>not fixed as part of this round</b>.</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h3>Pragmatic Review <span style="font-weight:400;color:var(--dim);font-size:12px;">(<a href="pragmatic-review.md" target="_blank" rel="noopener">verification/pragmatic-review.md &#8599;</a>)</span></h3>
+  <p><span class="sev critical">0 critical</span><span class="sev warning">0 high</span><span class="badge" style="background:var(--warn-soft);color:var(--warn);">2 medium</span><span class="badge" style="background:var(--info-soft);color:var(--info);">2 low</span>. Overall: complexity matches the project's existing baseline (component-factory pattern, vanilla TS, zero deps); no speculative abstractions; every new option/method has exactly one confirmed caller.</p>
+  <ol>
+    <li><b>Medium</b> <i>(verified against spec.md Requirement 8)</i> <code>BrowseGrid.ts</code> still calls <code>renderProgressStats</code> with the full unfiltered <code>entries</code> at both call sites (<code>BrowseGrid.ts:175, 180</code>), never the filtered subset, and never re-renders on filter change (<code>renderContent()</code> at lines 155-173 has no <code>renderProgressStats</code> call at all). Only Learn Mode's side of Requirement 8 was implemented &mdash; the completeness checker's verification table only cited <code>LearnMode.ts</code> line numbers for this requirement and never checked <code>BrowseGrid.ts</code>'s call sites against the same requirement.</li>
+    <li><b>Medium</b> <code>{selectedCategories, selectedLevel}</code> shape is declared independently three times: <code>PersistedFilterState</code> (<code>storage.ts:40-43</code>), <code>LearnModeFilterSummary</code> (<code>LearnMode.ts:35-38</code>, byte-for-byte identical), and inlined twice more inside <code>AppShell.handleFilterChange</code> (<code>AppShell.ts:68-80</code>, the same object literal built twice in 7 lines). Legitimate layering reason for two type names (component layer shouldn't import a persistence-layer type), but nothing enforces the two staying in sync, and the double-literal inside one function is avoidable.</li>
+    <li><b>Low</b> Filter-chip's trailing "&#10005;" is baked into <code>textContent</code> rather than an <code>aria-hidden</code> child span &mdash; redundant with the existing <code>aria-label</code> for screen readers. Cosmetic only.</li>
+    <li><b>Low</b> Pre-existing (not introduced by this feature) DOM-selector coupling in <code>AppShell.ts</code>'s exit-button wiring &mdash; noted for contrast, not an action item.</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h3>Production Readiness <span style="font-weight:400;color:var(--dim);font-size:12px;">(<a href="production-readiness-report.md" target="_blank" rel="noopener">verification/production-readiness-report.md &#8599;</a>)</span></h3>
+  <p><span class="pass">Recommendation: GO</span> &mdash; 0 blockers, 2 non-blocking concerns (overlapping with code review findings #1/#2 above: <code>writeFilterState</code> has no try/catch around <code>setItem</code>, and no global error boundary surfaces a silent write failure to the user). Build/deploy pipeline unaffected &mdash; confirmed via <code>git status</code> that <code>package.json</code>/<code>vite.config.ts</code>/<code>.github/workflows/deploy.yml</code> are untouched.</p>
+</div>
+
+<div class="card">
+  <h3>Reality Assessment <span style="font-weight:400;color:var(--dim);font-size:12px;">(<a href="reality-check.md" target="_blank" rel="noopener">verification/reality-check.md &#8599;</a>)</span></h3>
+  <p><span class="pass">Status: READY (GO)</span> &mdash; no critical gaps. Independently ran the full test suite cold (65/65) and hand-traced the entire propagation chain rather than trusting the plan's narrative. Confirmed: reload-persistence works via a real second-<code>AppShell</code>-instance test; <code>entries</code> binding correctly converted from <code>const</code> to mutable; empty-subset never falls back to the full glossary; search-query exclusion verified structurally at three independent layers (type shape, object-literal construction, explicit reset), backed by a dedicated structural test. No gap found between work-log/plan claims and actual code for the primary user journey.</p>
+</div>
+
+<h2 id="overall-assessment">Overall Assessment</h2>
+<table>
+  <thead><tr><th>Dimension</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>Plan completion</td><td>32/32 steps (100%)</td></tr>
+    <tr><td>Test suite</td><td><b>66/66</b> passing (100%) post-fix (was 65/65 pre-fix; +1 new regression test)</td></tr>
+    <tr><td>Standards compliance</td><td>7/7 compliant</td></tr>
+    <tr><td>Documentation</td><td>Complete</td></tr>
+    <tr><td>Code review</td><td>0 critical / 3 warning / 5 info (pre-fix) &mdash; all 2 fixable warnings resolved</td></tr>
+    <tr><td>Pragmatic review</td><td>0 critical / 2 medium / 2 low (pre-fix) &mdash; both fixable mediums resolved</td></tr>
+    <tr><td>Production readiness</td><td>GO, 0 blockers</td></tr>
+    <tr><td>Reality check</td><td>READY, 0 critical gaps</td></tr>
+    <tr><td><b>Overall verdict</b></td><td><b class="pass">&#9989; Passed</b> (post-fix; was &#9888;&#65039; Passed with Issues pre-fix)</td></tr>
+  </tbody>
+</table>
+
+<h2 id="issues">Issues Requiring Attention <span style="font-weight:400;color:var(--dim);font-size:12px;">(original findings &mdash; see Fix History for resolution)</span></h2>
+<table>
+  <thead>
+    <tr><th>#</th><th>Severity</th><th>Source</th><th>Issue</th><th>Location</th><th>Fixable</th><th>Resolution</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="sev warning">medium</span></td>
+      <td>Pragmatic review</td>
+      <td>Browse's topbar stats not scoped to filtered subset, never re-render on filter change (Requirement 8 partial)</td>
+      <td><code>src/components/BrowseGrid.ts:175-180</code></td>
+      <td>Yes</td>
+      <td><span class="resolved">Fixed</span></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="sev warning">warning</span></td>
+      <td>Code review</td>
+      <td><code>readFilterState()</code> shape validation is shallow &mdash; malformed object value crashes <code>applyFilters</code> on load</td>
+      <td><code>src/lib/storage.ts:80-95</code>, <code>src/components/AppShell.ts:54</code>, <code>src/lib/filters.ts:29</code></td>
+      <td>Yes</td>
+      <td><span class="resolved">Fixed</span></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="sev warning">warning</span></td>
+      <td>Code review + Production readiness</td>
+      <td>Unguarded <code>localStorage.setItem</code> in <code>writeFilterState</code>/<code>writeProgress</code></td>
+      <td><code>src/lib/storage.ts:71,102-110</code></td>
+      <td>Yes</td>
+      <td><span class="resolved">Fixed</span></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="sev warning">warning</span></td>
+      <td>Code review</td>
+      <td><code>AppShell.destroy()</code> doc comment overpromises listener cleanup</td>
+      <td><code>src/components/AppShell.ts:141-157</code></td>
+      <td>Pre-existing, out of scope</td>
+      <td><span class="skipped">Skipped</span> (not this feature's scope)</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="sev warning">medium</span></td>
+      <td>Pragmatic review</td>
+      <td><code>{selectedCategories, selectedLevel}</code> shape declared independently 3x (<code>PersistedFilterState</code>, <code>LearnModeFilterSummary</code>, 2x inline in <code>AppShell.handleFilterChange</code>)</td>
+      <td><code>src/lib/storage.ts:40</code>, <code>src/components/LearnMode.ts:35</code>, <code>src/components/AppShell.ts:68-80</code></td>
+      <td>Yes</td>
+      <td><span class="resolved">Fixed</span></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><span class="sev info">low</span></td>
+      <td>Pragmatic review</td>
+      <td>Filter-chip "&#10005;" glyph in <code>textContent</code> instead of <code>aria-hidden</code> span (redundant with <code>aria-label</code>)</td>
+      <td><code>src/components/LearnMode.ts:66</code></td>
+      <td>Optional</td>
+      <td><span class="skipped">Skipped</span> (cosmetic, no functional impact)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="fix-history">Fix &amp; Re-Verification History</h2>
+<div class="card">
+  <p>User selected "Fix all 4 fixable issues now" at the Phase 11 fix-loop gate. All 4 applied directly by the orchestrator (small, well-scoped, non-architectural changes matching the reviewers' own suggested fixes):</p>
+
+  <div class="fix-item">
+    <h3>Issue #1 (Requirement 8)</h3>
+    <p><code>BrowseGrid.ts</code>'s <code>renderContent()</code> now calls <code>renderProgressStats(progressStats, filtered)</code> with the live filtered subset (was previously only called once at construction with the full <code>entries</code>). <code>refreshStats()</code> now recomputes <code>applyFilters(entries, filterState)</code> instead of reusing the full glossary.<br>
+    <b>Re-check</b>: added a new test (<code>BrowseGrid.test.ts</code>: "scopes Browse's own topbar progress-stats to the active filtered subset") asserting stats change from 1 mastered/1 shaky/2 new (unfiltered) to 1 mastered/0 shaky/1 new after filtering to "Java" &mdash; passes.</p>
+  </div>
+
+  <div class="fix-item">
+    <h3>Issue #2 (shape-validation crash)</h3>
+    <p><code>readFilterState()</code> now validates <code>Array.isArray(parsed.selectedCategories)</code> and <code>typeof parsed.selectedLevel === 'string'</code> before trusting the parsed value, falling back to defaults otherwise (previously only checked <code>typeof parsed === 'object'</code>).<br>
+    <b>Re-check</b>: added 2 new assertions to the existing <code>storage.test.ts</code> fallback test, covering <code>'{}'</code> and a wrong-typed <code>selectedCategories</code> &mdash; both fall back to defaults correctly.</p>
+  </div>
+
+  <div class="fix-item">
+    <h3>Issue #3 (unguarded setItem)</h3>
+    <p>Both <code>writeProgress</code> and <code>writeFilterState</code> now wrap <code>localStorage.setItem</code> in try/catch, silently degrading (skipping persistence) on <code>QuotaExceededError</code>/<code>SecurityError</code> rather than throwing into a click handler.<br>
+    <b>Re-check</b>: existing round-trip tests for both functions still pass unchanged (happy path unaffected).</p>
+  </div>
+
+  <div class="fix-item">
+    <h3>Issue #5 (triplicated shape)</h3>
+    <p>Added a single <code>toPersisted(s: BrowseFilterState): PersistedFilterState</code> helper in <code>AppShell.ts</code>, used at both construction (<code>learnMode</code>'s <code>filterState</code> option) and inside <code>handleFilterChange</code> &mdash; collapses what was 3 inline object-literal constructions down to 1. The two type names (<code>PersistedFilterState</code>, <code>LearnModeFilterSummary</code>) were deliberately left separate, preserving the layering rationale the pragmatic review itself called legitimate (component layer not importing a persistence-layer type).<br>
+    <b>Re-check</b>: no behavior change: existing <code>AppShell.test.ts</code> suite (12 tests) passes unchanged.</p>
+  </div>
+
+  <div class="card" style="background:var(--ok-soft); border-color:var(--ok);">
+    <p><b>Full re-verification after all 4 fixes</b>: <code>npx tsc --noEmit</code> clean; <code>npm test</code> &rarr; 64 vitest tests passed (10 files, +1 net new test) + 2 build-verification tests = <b>66 passed, 0 failed</b>.</p>
+  </div>
+
+  <div class="skip-item">
+    <p>Issues #4 and #6 were deliberately left unresolved per the user's scoping choice (pre-existing pattern / optional cosmetic polish, both explicitly called out as non-blocking by their originating reviews).</p>
+  </div>
+</div>
+
+<h2 id="recommendations">Recommendations</h2>
+<div class="card">
+  <p>None outstanding &mdash; all actionable issues from this verification round are resolved.</p>
+</div>
+
+<h2 id="checklist">Verification Checklist</h2>
+<div class="card">
+  <ul class="checklist">
+    <li>Implementation plan: 100% complete, spot-checked against code</li>
+    <li>Test suite: 66/66 passing post-fix, independently re-verified</li>
+    <li>Standards compliance: 7/7 verified with evidence</li>
+    <li>Documentation: complete</li>
+    <li>Code review: performed, 0 critical, fixable warnings resolved</li>
+    <li>Pragmatic review: performed, 0 critical, fixable mediums resolved</li>
+    <li>Production readiness: performed, GO</li>
+    <li>Reality assessment: performed, READY</li>
+    <li>Outstanding fixable issues resolved</li>
+  </ul>
+</div>
+
+</main>
+</body>
+</html>

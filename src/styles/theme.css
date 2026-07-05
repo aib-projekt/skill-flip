@@ -376,6 +376,21 @@ body {
   opacity: 0.5;
 }
 
+.filter-chip {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-chartreuse);
+  border: 1px solid var(--color-chartreuse);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 .learn-stage {
   flex: 1;
   display: flex;

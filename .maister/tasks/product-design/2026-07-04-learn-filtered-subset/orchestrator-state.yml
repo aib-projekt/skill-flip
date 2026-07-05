@@ -1,0 +1,188 @@
+orchestrator:
+  started_phase: phase-0
+  completed_phases: ["phase-0", "phase-1", "phase-2", "phase-4", "phase-5", "phase-6", "phase-7", "phase-8"]
+  failed_phases: []
+  auto_fix_attempts: {}
+  options:
+    e2e_enabled: null
+    user_docs_enabled: null
+    code_review_enabled: null
+    sequential: null
+    html_output: true
+    visual_enabled: null
+  created: "2026-07-04T15:01:22Z"
+  updated: "2026-07-04T16:55:56Z"
+  task_path: .maister/tasks/product-design/2026-07-04-learn-filtered-subset
+  task_ids:
+    phase-0: "25"
+    phase-1: "26"
+    phase-2: "27"
+    phase-3: "28"
+    phase-4: "29"
+    phase-5: "30"
+    phase-6: "31"
+    phase-7: "32"
+    phase-8: "33"
+
+task:
+  title: "Learn Mode respects Browse's filtered subset"
+  description: "learn page use subset did set in browser page, remember filtered subset locally in browser — Learn Mode should draw only from the subset of glossary entries currently filtered in Browse (category/level/search), and that filter selection should be remembered locally in the browser across sessions."
+  status: completed
+  tags: ["learn-mode", "browse", "filters", "persistence", "enhancement"]
+  priority: null
+
+design_context:
+  design_characteristics:
+    is_greenfield: false
+    is_enhancement: true
+    is_ui_focused: true
+    is_backend: false
+    is_complex: false
+    is_simple: false
+  complexity_level: "standard"
+  next_phase: "Phase 7: Visual Prototyping"
+  collected_urls: []
+  research_topics: []
+  user_files_list: []
+  project_doc_paths:
+    - ".maister/docs/project/vision.md"
+    - ".maister/docs/project/roadmap.md"
+    - ".maister/docs/project/tech-stack.md"
+    - ".maister/docs/project/architecture.md"
+  project_context_summary: null
+  refinement_iterations:
+    phase_2: 0
+    phase_3: 0
+    phase_5: 0
+    phase_6_sections: {}
+    phase_7: 0
+  visual_companion:
+    available: true
+    port: 3847
+    pid: null
+    fallback_to_ascii: false
+  research_reference:
+    path: null
+    research_question: null
+  phase_summaries:
+    context_synthesis:
+      summary: "Browse's filter state is component-local and never persisted today; Learn Mode always draws from the full glossary. Pure-logic layer needs no changes — this is a state-lift-up + persistence wiring task, recommended at AppShell."
+      sources_count: 6
+      decisions: []
+      risks:
+        - "Reverses a documented prior decision: feature-spec.md explicitly ruled out filter persistence and kept Browse/Learn Mode decoupled — needs conscious re-confirmation, not silent override."
+        - "Empty-subset edge case (filter matches 0 entries) is undefined and needs a Phase 2/6 decision."
+        - "Learn progress is keyed by entry id, not by filter, so progress persists across filter changes — likely correct but should be an explicit decision."
+      artifacts:
+        - path: "analysis/codebase-analysis.md"
+          label: "Codebase Analysis"
+          html: null
+        - path: "analysis/design-context.md"
+          label: "Unified Design Context"
+          html: null
+    problem_exploration:
+      problem_statement: "Learn Mode should draw only from Browse's active category/level filter, persisted in localStorage across sessions (search text excluded) — a conscious, evidence-based reversal of the original decoupled-views decision."
+      constraints:
+        - "Persist via localStorage mirroring storage.ts's convention; no cookies"
+        - "Only category + level persist; search text is session-only"
+        - "Automatic sync — no explicit confirm-subset step"
+        - "Zero-match filter shows a visible empty state with broaden/clear action"
+        - "Learn Mode shows an active-filter indicator with quick clear"
+        - "No backend, no new dependencies; matches factory-function component pattern"
+      success_criteria:
+        - "Learn Mode shows only cards from Browse's active category/level subset"
+        - "Reload preserves category/level filter; search text does not carry over"
+        - "Zero-match filter produces a clear empty state, not a blank screen"
+        - "Existing bucket-weighted progress tracking unaffected, scoped to active subset"
+        - "All 31 existing tests pass; new tests cover persistence + coupling"
+      decisions:
+        - {decision: "Persist via localStorage, not cookies", rationale: "Matches existing storage.ts convention exactly; no new mechanism"}
+        - {decision: "Only category + level persist, not search text", rationale: "Category/level represent a durable topic-subset choice; search is a one-off lookup tool"}
+        - {decision: "Automatic sync between Browse filter and Learn Mode", rationale: "User wants zero extra steps — set filter once, Learn Mode reflects it immediately"}
+        - {decision: "Empty-subset shows empty state with broaden action", rationale: "Consistent with Browse's existing empty-state pattern; never silently falls back or blocks the filter"}
+        - {decision: "Learn Mode shows active-filter indicator + quick clear", rationale: "Avoids confusion about why certain cards don't appear; avoids forcing a trip back to Browse just to reset"}
+      risks:
+        - "Reverses a documented prior product decision — confirmed deliberately with the requester, not silently overridden"
+        - "Learn progress persists across filter changes (keyed by entry id, not by filter) — confirmed as intended behavior"
+      artifacts:
+        - path: "analysis/problem-statement.md"
+          label: "Problem Statement"
+          html: null
+    persona_exploration: {personas: [], user_journeys: [], decisions: [], risks: [], artifacts: []}
+    idea_generation:
+      alternatives_count: 12
+      summary: "4 decision areas (state lift-up, persistence schema, active-filter indicator, empty-subset handling), 3 alternatives each. All 4 recommended alternatives reuse existing patterns exactly — no new architectural concepts."
+      decisions: []
+      risks:
+        - "LearnMode.ts currently computes its draw pool only once at construction; will need an 'update in place' method to react to live filter changes — sizing question for Phase 6."
+      artifacts:
+        - path: "analysis/alternatives.md"
+          label: "Solution Exploration"
+          html: null
+    idea_convergence:
+      selected_approach: "AppShell-owned filter state + callback propagation (1A); flat 2-field localStorage schema, search excluded structurally (2A); dismissible topbar chip in Learn Mode (3B); reuse Browse's empty-state pattern (4A)."
+      trade_offs_accepted:
+        - "Wider diff for state lift-up (touches 4 components) traded for consistency with existing conventions and lower risk"
+        - "New responsive/overflow handling for topbar chip traded for stronger discoverability vs. plain text"
+        - "LearnMode gains new 'update in place' capability, accepted as necessary rather than worked around"
+      key_decisions:
+        - "State lift-up: AppShell as sole owner (1A)"
+        - "Persistence schema: flat 2-field object, search omitted at write (2A)"
+        - "Active-filter indicator: dismissible chip in Learn Mode's topbar (3B)"
+        - "Empty-subset handling: reuse Browse's .empty-state pattern (4A)"
+      decisions:
+        - {decision: "1A: Lift BrowseFilterState to AppShell", rationale: "Matches existing activeTab precedent; no new architectural concepts"}
+        - {decision: "2A: Flat 2-field persisted schema, search excluded at write", rationale: "Mirrors storage.ts exactly; enforces constraint structurally"}
+        - {decision: "3B: Dismissible chip in Learn Mode's topbar", rationale: "Reuses existing chrome and icon-button pattern"}
+        - {decision: "4A: Reuse Browse's empty-state pattern", rationale: "Zero new visual design, consistent with constraint wording"}
+      risks:
+        - "LearnMode needs a new 'update in place' capability — small new surface, to be sized in Phase 6"
+        - "Topbar chip tap-to-jump-to-Browse behavior deferred as UX-polish detail to Phase 6/7"
+      artifacts:
+        - path: "analysis/design-decisions.md"
+          label: "Design Decisions"
+          html: "analysis/design-decisions.html"
+    feature_specification:
+      spec_sections:
+        section_1_data_model: "approved"
+        section_2_state_ownership_wiring: "approved"
+        section_3_active_filter_indicator: "approved"
+        section_4_empty_subset_handling: "approved"
+        section_5_progress_tracking_stats: "approved"
+        section_6_testing_requirements: "approved"
+      sections_count: 6
+      decisions:
+        - {decision: "AppShell is sole owner/mediator of filter state", rationale: "BrowseGrid and LearnMode remain mutually decoupled"}
+        - {decision: "Persisted schema excludes searchQuery at the type level", rationale: "No field exists to accidentally serialize"}
+        - {decision: "Active-filter indicator is a dismissible topbar chip", rationale: "Reuses existing icon-button/chip visual language"}
+        - {decision: "Empty-state extracted into a shared EmptyState component", rationale: "DRY — reused by both BrowseGrid and LearnMode"}
+        - {decision: "Progress stats scope to the active filtered subset", rationale: "More meaningful feedback for focused study sessions — new decision made during spec drafting"}
+        - {decision: "Progress persistence itself unaffected, still keyed by entry id", rationale: "Confirmed intended behavior from Phase 2"}
+      risks: []
+      artifacts:
+        - path: "analysis/feature-spec.md"
+          label: "Feature Specification"
+          html: "analysis/feature-spec.html"
+    visual_prototyping:
+      mockup_references:
+        - "analysis/mockups/learn-mode-active-filter-chip.html"
+        - "analysis/mockups/learn-mode-empty-filtered-subset.html"
+      summary: "2 mockups via visual companion: Learn Mode with active-filter chip in topbar (scoped stats), and the empty-subset state reusing Browse's empty-state pattern. Both approved on first review."
+      decisions: []
+      risks: []
+      artifacts:
+        - path: "analysis/mockups/learn-mode-active-filter-chip.html"
+          label: "Learn Mode — Active Filter Chip"
+          html: "analysis/mockups/learn-mode-active-filter-chip.html"
+        - path: "analysis/mockups/learn-mode-empty-filtered-subset.html"
+          label: "Learn Mode — Empty Filtered Subset"
+          html: "analysis/mockups/learn-mode-empty-filtered-subset.html"
+    review_handoff:
+      brief_layers: ["Layer 0: Core Brief", "Layer 2: Design Decisions", "Layer 3: Mockup References", "References"]
+      summary: "Layered product brief assembled (Layer 1 personas omitted — Phase 3 skipped this round) and approved on first review. Visual companion server shut down."
+      decisions: []
+      risks: []
+      artifacts:
+        - path: "outputs/product-brief.md"
+          label: "Product Brief"
+          html: "outputs/product-brief.html"

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Specification — learn-filtered-subset</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+header { margin-bottom:4px; }
+header .meta { font-size:12.5px; color:var(--dim); margin-top:4px; }
+
+.toc { font-size:13px; margin:10px 0 6px; color:var(--dim); }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+
+.scope-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media (max-width:700px) { .scope-grid { grid-template-columns:1fr; } }
+.scope-grid .card h3 { margin:0 0 8px; font-size:13.5px; }
+.scope-grid .in { border-left:4px solid var(--ok); }
+.scope-grid .out { border-left:4px solid var(--dim); }
+.scope-grid ul { margin:0; padding-left:20px; }
+.scope-grid li { margin:5px 0; }
+
+.surface-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:12px 0; border-left:4px solid var(--accent); }
+.surface-card h3 { margin:0 0 8px; font-size:14.5px; }
+.surface-card .file-chips { margin-top:8px; }
+.chip-file { display:inline-block; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11.5px;
+  background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:6px; margin:2px 4px 2px 0; }
+
+.risk-list, .assumption-list { margin:0; padding-left:20px; }
+.risk-list li, .assumption-list li { margin:6px 0; }
+
+.testfile-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:14px 16px; margin:10px 0; }
+.testfile-card h4 { margin:0 0 8px; font-size:13px; }
+.testfile-card ul { margin:0; padding-left:18px; }
+.testfile-card li { margin:4px 0; }
+.testfile-card .new-badge { font-size:10px; font-weight:700; text-transform:uppercase; color:var(--ok);
+  background:var(--ok-soft); padding:1px 6px; border-radius:99px; margin-left:6px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="design-decisions.md" target="_blank" rel="noopener">Design Decisions</a>
+  <a href="alternatives.md" target="_blank" rel="noopener">Solution Exploration</a>
+  <a href="problem-statement.md" target="_blank" rel="noopener">Problem Statement</a>
+  <a href="design-context.md" target="_blank" rel="noopener">Unified Design Context</a>
+  <span class="here">Feature Specification</span>
+  <a href="feature-spec.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <h1>Feature Specification <span class="badge">Feature Spec</span></h1>
+  <div class="meta">Task: learn-filtered-subset · Learn Mode Respects Browse's Filtered Subset · Generated 2026-07-04</div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>6</b><span>spec sections</span></div>
+  <div class="tile"><b>5</b><span>components touched</span></div>
+  <div class="tile"><b>1</b><span>new shared component</span></div>
+  <div class="tile"><b>6</b><span>test files updated/added</span></div>
+  <div class="tile"><b>31</b><span>regression tests gated</span></div>
+</div>
+
+<section class="tldr">
+  <div class="card">
+    <h2 style="margin-top:0">TL;DR</h2>
+    <p>Learn Mode draws only from Browse's active category/level filter. <code>AppShell</code> becomes the sole owner of <code>BrowseFilterState</code>, mediating all propagation between <code>FilterBar</code>/<code>BrowseGrid</code> and <code>LearnMode</code> (which stay mutually unaware of each other). Persistence is a flat, category/level-only object in <code>localStorage</code> via new <code>storage.ts</code> functions mirroring the existing progress convention exactly. Learn Mode gains a dismissible active-filter chip in its topbar, an <code>updateFilter()</code> method to react to live changes, and reuses a newly-extracted shared <code>EmptyState</code> component (also adopted by <code>BrowseGrid</code>) for the zero-match case. Progress-tracking persistence is unaffected; the mastered/shaky/new stats now scope to the active subset instead of the full glossary.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Key Decisions</h2>
+    <ul>
+      <li><code>AppShell</code> is the sole owner and mediator of filter state — <code>BrowseGrid</code> and <code>LearnMode</code> remain mutually decoupled (<a href="#section-2">Section 2</a>).</li>
+      <li>Persisted schema excludes <code>searchQuery</code> at the type level, not just at runtime (<a href="#section-1">Section 1</a>).</li>
+      <li>Learn Mode's active-filter indicator is a dismissible topbar chip reusing existing icon-button/chip visual language (<a href="#section-3">Section 3</a>).</li>
+      <li>Empty-subset handling extracts a shared <code>EmptyState</code> component reused by both <code>BrowseGrid</code> and <code>LearnMode</code>, rather than duplicating markup (<a href="#section-4">Section 4</a>).</li>
+      <li>Progress stats (mastered/shaky/new) scope to the active filtered subset, not the full glossary, when a filter is active (<a href="#section-5">Section 5</a>) — a design decision made during specification, not carried over from earlier phases.</li>
+      <li>Progress persistence itself is unaffected — still keyed by entry <code>id</code> against the full glossary (<a href="#section-5">Section 5</a>).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Open Questions / Risks</h2>
+    <ul class="risk-list">
+      <li><span class="sev info">info</span>None outstanding — all risks flagged during Phases 1, 2, and 5 (documented decision reversal, empty-subset behavior, LearnMode's new "update in place" surface, reuse mechanics for the empty state) were resolved during section drafting above.</li>
+    </ul>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents: <a href="#section-1">1. Data Model &amp; Persistence</a> · <a href="#section-2">2. State Ownership &amp; Wiring</a> · <a href="#section-3">3. Filter Indicator UI</a> · <a href="#section-4">4. Empty-Subset Handling</a> · <a href="#section-5">5. Progress &amp; Stats Scoping</a> · <a href="#section-6">6. Testing Requirements</a>
+</nav>
+
+<main>
+
+<h2 id="section-1">Section 1 — Data Model &amp; Persistence Schema</h2>
+<div class="card">
+  <p>Persisted shape (new, in <code>storage.ts</code>):</p>
+  <pre><code>interface PersistedFilterState {
+  selectedCategories: Category[];
+  selectedLevel: Level | 'All';
+}</code></pre>
+  <p>Strict subset of the existing <code>BrowseFilterState</code> (from <code>filters.ts</code>) — <code>searchQuery</code> is intentionally absent from the <b>type</b>, not merely omitted at runtime, so there is no field to accidentally serialize.</p>
+
+  <table>
+    <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td>Storage key</td><td><code>FILTER_STATE_KEY = 'skillflip:browse-filter-state'</code> — sibling constant to existing <code>STORAGE_KEY = 'skillflip:learn-progress'</code></td></tr>
+      <tr><td>New reader</td><td><code>readFilterState(): PersistedFilterState</code> — mirrors <code>readProgress()</code>'s defensive pattern: falls back to defaults on missing key, malformed JSON, or non-object parsed value</td></tr>
+      <tr><td>New writer</td><td><code>writeFilterState(state: PersistedFilterState): void</code> — writes only the two persisted fields</td></tr>
+      <tr><td>Default</td><td><code>defaultPersistedFilterState()</code> → <code>{ selectedCategories: [], selectedLevel: 'All' }</code></td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Hydration into <code>BrowseFilterState</code></b> — <code>AppShell</code> reconstructs the full in-memory type at construction by merging persisted fields with a fresh <code>searchQuery: ''</code>:</p>
+  <pre><code>const initialFilterState: BrowseFilterState = { ...readFilterState(), searchQuery: '' };</code></pre>
+
+  <p><b>Write path</b> — on every <code>onFilterChange</code> event (<a href="#section-2">Section 2</a>), <code>AppShell</code> writes only the two persisted fields — <code>writeFilterState({ selectedCategories: state.selectedCategories, selectedLevel: state.selectedLevel })</code> — never the full <code>BrowseFilterState</code>, so <code>searchQuery</code> is structurally excluded at the write boundary, not filtered afterward.</p>
+</div>
+
+<h2 id="section-2">Section 2 — State Ownership &amp; Component Wiring</h2>
+<div class="card">
+  <p><b>Principle</b>: <code>AppShell</code> mediates all filter-state flow. <code>BrowseGrid</code> and <code>LearnMode</code> remain mutually unaware of each other — no direct references pass between them (preserving existing decoupling; only <code>AppShell</code> sits between).</p>
+</div>
+
+<div class="surface-card">
+  <h3><code>AppShell.ts</code></h3>
+  <pre><code>interface AppShellState {
+  activeTab: 'learn' | 'browse';
+  filterState: BrowseFilterState;   // NEW — sole owner
+}</code></pre>
+  <ul>
+    <li>On construction: <code>const filterState: BrowseFilterState = { ...readFilterState(), searchQuery: '' };</code></li>
+    <li>Passes <code>initialFilterState: filterState</code> to <code>createBrowseGrid()</code>, and the initial <code>applyFilters(entries, filterState)</code> result to <code>createLearnMode()</code>.</li>
+    <li>Defines <code>handleFilterChange(newState)</code>: (1) <code>state.filterState = newState</code>; (2) <code>writeFilterState(...)</code> with the two persisted fields; (3) <code>learnMode.updateFilter(applyFilters(entries, newState))</code>.</li>
+  </ul>
+  <div class="file-chips"><span class="chip-file">AppShell.ts</span></div>
+</div>
+
+<div class="surface-card">
+  <h3><code>BrowseGrid.ts</code></h3>
+  <pre><code>interface CreateBrowseGridOptions {
+  entries: Glossary;
+  initialFilterState?: BrowseFilterState;   // NEW, defaults to defaultState()
+  onFilterChange?: (state: BrowseFilterState) => void;   // NEW
+}</code></pre>
+  <ul>
+    <li>Internal <code>filterState</code> initializes from <code>options.initialFilterState</code> instead of always calling <code>defaultState()</code>.</li>
+    <li>Passes <code>initialFilterState</code> through to <code>createFilterBar()</code>.</li>
+    <li><code>FilterBar</code>'s existing <code>onChange</code> handler additionally calls <code>options.onFilterChange?.(newState)</code> to bubble the change up to <code>AppShell</code>.</li>
+  </ul>
+  <div class="file-chips"><span class="chip-file">BrowseGrid.ts</span></div>
+</div>
+
+<div class="surface-card">
+  <h3><code>FilterBar.ts</code></h3>
+  <pre><code>interface CreateFilterBarOptions {
+  entries: Glossary;
+  initialState?: BrowseFilterState;   // NEW, defaults to defaultState()
+  onChange: (state: BrowseFilterState) => void;
+}</code></pre>
+  <ul>
+    <li><code>state</code> initializes from <code>options.initialState ?? defaultState()</code>. No other changes.</li>
+    <li><code>reset()</code> (Browse's "Clear filters" button) is untouched and naturally propagates through the same chain — clearing filters in Browse also clears Learn Mode's subset with no special-case code.</li>
+  </ul>
+  <div class="file-chips"><span class="chip-file">FilterBar.ts</span></div>
+</div>
+
+<div class="surface-card">
+  <h3><code>LearnMode.ts</code></h3>
+  <pre><code>interface LearnModeInstance {
+  element: HTMLElement;
+  updateFilter: (newEntries: Glossary) => void;   // NEW
+  destroy: () => void;
+}</code></pre>
+  <ul>
+    <li><code>updateFilter()</code> replaces the internal <code>entries</code> reference and immediately draws a new card from the updated subset (same mechanics as advancing) — the on-screen card always matches the active filter chip the instant it changes, with no stale-card ambiguity.</li>
+    <li><code>createLearnMode({ entries })</code>'s <code>entries</code> option now receives the <b>already-filtered</b> subset (via <code>applyFilters</code>), not the full glossary — no signature change needed at construction, only the caller's input changes.</li>
+  </ul>
+  <div class="file-chips"><span class="chip-file">LearnMode.ts</span></div>
+</div>
+
+<h2 id="section-3">Section 3 — Active-Filter Indicator UI</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Aspect</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td>Visibility rule</td><td>Chip renders only when non-default — <code>selectedCategories.length &gt; 0 || selectedLevel !== 'All'</code>. When default, nothing renders (no empty placeholder).</td></tr>
+      <tr><td>Label format</td><td>Categories joined with <code>, </code> if ≤2 selected (e.g. <code>Java, Spring/JEE</code>); 3+ truncates to <code>Java +2 more</code> (same "+N more" convention <code>FilterBar</code> already uses). Level appended after a separator if not <code>'All'</code> (e.g. <code>Java · Senior</code>). Category-only: <code>Java</code>. Level-only: <code>Senior</code>.</td></tr>
+      <tr><td>DOM placement</td><td>New <code>filterChip</code> button in <code>LearnMode.ts</code>'s existing topbar, between <code>progressStats</code> and <code>resetBtn</code>; <code>aria-label="Clear active filter"</code>; only appended when visible.</td></tr>
+      <tr><td>Clear behavior</td><td>Clicking the chip calls a new <code>onClearFilter</code> callback (passed into <code>createLearnMode()</code> by <code>AppShell</code>), invoking the same <code>handleFilterChange</code> path from Section 2 with <code>{ selectedCategories: [], selectedLevel: 'All', searchQuery: '' }</code> — reusing the exact propagation path, not a separate code path.</td></tr>
+      <tr><td>Styling</td><td>New <code>.filter-chip</code> class in <code>theme.css</code>, visually consistent with <code>FilterBar</code>'s existing <code>.chip.active</code> style (same pill shape, <code>--bg-topbar</code>-derived palette) but sized for the topbar context; <code>cursor: pointer</code> (learned from the recent "+N more" bugfix — interactive chips must signal it visually).</td></tr>
+      <tr><td>Update trigger</td><td><code>LearnMode.updateFilter()</code> (Section 2) re-renders the chip's visibility/label alongside redrawing the card, so the chip and the card pool always change together atomically.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="section-4">Section 4 — Empty-Subset Handling in Learn Mode</h2>
+<div class="card">
+  <p><b>Trigger condition</b>: <code>LearnMode.updateFilter(newEntries)</code> (Section 2) receives an empty array.</p>
+  <p><b>Reuse mechanics</b> (resolving the open question from Phase 5): extract <code>BrowseGrid.ts</code>'s existing <code>renderEmptyState()</code> into a small shared component, <code>src/components/EmptyState.ts</code>, parameterized by heading/body/button-label/onAction — rather than duplicating the ~25 lines with different copy. Follows this project's DRY standard and keeps both call sites trivially in sync if the visual design changes later.</p>
+  <pre><code>// src/components/EmptyState.ts
+export interface CreateEmptyStateOptions {
+  heading: string;
+  body: string;
+  actionLabel: string;
+  onAction: () => void;
+}
+export function createEmptyState(options: CreateEmptyStateOptions): HTMLElement { /* icon + heading + body + button, same markup BrowseGrid uses today */ }</code></pre>
+
+  <table>
+    <thead><tr><th>Call site</th><th>Wiring</th></tr></thead>
+    <tbody>
+      <tr><td><code>BrowseGrid.ts</code></td><td>Refactored to call <code>createEmptyState({ heading: "No terms match", body: "Try clearing a filter", actionLabel: "Clear filters", onAction: filterBar.reset })</code> instead of its inline <code>renderEmptyState()</code>. No behavior change for Browse.</td></tr>
+      <tr><td><code>LearnMode.ts</code></td><td>Renders the same component in place of <code>Card</code> inside <code>learnStage</code> when the filtered subset is empty, with <code>onAction: () =&gt; options.onClearFilter()</code> — same path as the topbar chip (Section 3).</td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Never a silent fallback</b>: <code>drawNextCard()</code> is simply not called when <code>newEntries.length === 0</code> — Learn Mode shows the empty state and waits; it does not draw from a wider pool or the full glossary under any circumstance, per the constraint.</p>
+  <p><b>Mark controls</b> (<code>Know it</code> / <code>Don't know</code>) are hidden while the empty state is shown, consistent with there being no card to mark.</p>
+</div>
+
+<h2 id="section-5">Section 5 — Progress Tracking &amp; Stats Scoping</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Area</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td>Progress persistence</td><td><b>Unaffected</b> — <code>readProgress()</code>/<code>writeProgress()</code>/<code>resetProgress()</code> in <code>storage.ts</code> require no changes. Progress remains keyed by entry <code>id</code> against the full glossary regardless of active subset. A card marked "know" under one filter stays "known" if the filter changes later — confirmed intended behavior (Phase 2), not a side effect to guard against.</td></tr>
+      <tr><td>Stats scoping</td><td><b>New behavior</b> — <code>computeBucketCounts(entries: Glossary): BucketCounts</code> already accepts any array as input, no signature change needed. Both <code>LearnMode</code> and <code>BrowseGrid</code>'s topbar stat readouts now call it with the currently active filtered subset (via <code>applyFilters</code>) instead of the full glossary, so <code>"X mastered · Y shaky · Z new"</code> reflects only cards currently in scope.</td></tr>
+      <tr><td>Recompute triggers</td><td>Stats recompute whenever (a) a card is marked (existing, unchanged) and (b) the active filter changes (new — wired through the same <code>updateFilter()</code>/<code>onFilterChange</code> paths from Sections 2-3, so stats update atomically alongside the card pool and filter chip).</td></tr>
+      <tr><td><code>resetProgress()</code> scope</td><td><b>Unaffected</b> — existing "Reset progress" button clears all entries' progress globally, not just the filtered subset's. Unchanged from today's behavior and a deliberate non-goal (no "reset just this subset" affordance is being added).</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="section-6">Section 6 — Testing Requirements</h2>
+<div class="card">
+  <p>New/updated test coverage across the existing 5 test files, plus a new component test file — closing the exact gaps identified in <code>analysis/codebase-analysis.md</code> (no existing coverage for filter persistence or Learn Mode/filter coupling).</p>
+</div>
+
+<div class="testfile-card">
+  <h4><code>storage.test.ts</code></h4>
+  <ul>
+    <li><code>writeFilterState</code>/<code>readFilterState</code> round-trip preserves <code>selectedCategories</code>/<code>selectedLevel</code>.</li>
+    <li><code>readFilterState()</code> falls back to defaults on missing key, malformed JSON, and non-object parsed values (mirrors existing <code>readProgress()</code> test pattern).</li>
+    <li>Stored JSON contains only <code>selectedCategories</code>/<code>selectedLevel</code> keys — never <code>searchQuery</code> — verified by inspecting the raw stringified value.</li>
+  </ul>
+</div>
+
+<div class="testfile-card">
+  <h4><code>AppShell.test.ts</code></h4>
+  <ul>
+    <li>Filter state hydrates from <code>localStorage</code> at construction (pre-seed the key, verify <code>BrowseGrid</code>/<code>LearnMode</code> receive it).</li>
+    <li>A <code>FilterBar</code> change event results in <code>writeFilterState</code> being called with the updated category/level.</li>
+    <li>A <code>FilterBar</code> change event calls <code>LearnMode.updateFilter()</code> with the correctly <code>applyFilters</code>-computed subset.</li>
+  </ul>
+</div>
+
+<div class="testfile-card">
+  <h4><code>BrowseGrid.test.ts</code></h4>
+  <ul>
+    <li><code>initialFilterState</code> option hydrates the rendered chips/level-toggle to the expected active state on mount.</li>
+    <li><code>onFilterChange</code> callback fires with the new state on every chip/level/search change (existing internal-render tests stay green; this adds the upward-propagation assertion).</li>
+  </ul>
+</div>
+
+<div class="testfile-card">
+  <h4><code>LearnMode.test.ts</code></h4>
+  <ul>
+    <li><code>updateFilter(subset)</code> immediately redraws a new card from the given subset.</li>
+    <li><code>updateFilter([])</code> renders the shared <code>EmptyState</code> component and hides the mark-row controls.</li>
+    <li>Filter chip renders with correct label text when a filter is active, and is absent when default.</li>
+    <li>Clicking the filter chip triggers the same clear path as Browse's "Clear filters" (verified via the <code>onClearFilter</code> callback).</li>
+    <li>Progress stats readout reflects <code>computeBucketCounts</code> of the filtered subset, not the full glossary.</li>
+  </ul>
+</div>
+
+<div class="testfile-card">
+  <h4><code>EmptyState.test.ts</code> <span class="new-badge">new file</span></h4>
+  <ul>
+    <li>Renders heading/body/action-label text from options.</li>
+    <li>Clicking the action button calls <code>onAction</code>.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <p><b>Regression guard</b>: all 31 existing tests must continue passing unmodified in assertions (only new options/parameters are additive) — <code>npm test</code> is the acceptance gate.</p>
+</div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Brief — Learn Mode Respects Browse's Filtered Subset</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+header { margin-top:4px; }
+header .meta { color:var(--dim); font-size:12.5px; margin-top:4px; }
+.tldr ul { margin:6px 0 0; padding-left:20px; }
+.tldr h2 { margin-top:16px; font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+.tldr h2:first-child { margin-top:0; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 4px; }
+.toc a { margin-right:4px; }
+.persona-card { display:flex; flex-direction:column; gap:6px; }
+.persona-card .role { font-weight:650; }
+.risk-none { color:var(--ok); font-weight:600; }
+.mockup-links { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+.mockup-links a { background:var(--accent-soft); color:var(--accent); border-radius:var(--radius);
+  padding:8px 14px; font-size:13px; font-weight:600; }
+.ac-list { list-style:none; padding:0; margin:8px 0 0; }
+.ac-list li { padding:5px 0 5px 26px; position:relative; border-bottom:1px solid var(--border); }
+.ac-list li:last-child { border-bottom:none; }
+.ac-list li::before { content:"\2610"; position:absolute; left:0; color:var(--dim); }
+.refs { font-size:13px; }
+.refs li { margin-bottom:4px; }
+.selected { border-left:3px solid var(--accent); padding-left:12px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../analysis/problem-statement.md" target="_blank" rel="noopener">Problem Statement</a>
+  <a href="../analysis/alternatives.md" target="_blank" rel="noopener">Solution Exploration</a>
+  <a href="../analysis/design-decisions.md" target="_blank" rel="noopener">Design Decisions</a>
+  <a href="../analysis/feature-spec.md" target="_blank" rel="noopener">Feature Specification</a>
+  <a href="../analysis/design-context.md" target="_blank" rel="noopener">Unified Design Context</a>
+  <span class="here">Product Brief</span>
+  <a href="product-brief.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Product Brief</span>
+  <h1>Learn Mode Respects Browse's Filtered Subset</h1>
+  <div class="meta">Task: <code>2026-07-04-learn-filtered-subset</code> · Operator-facing handoff deliverable</div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>1</b><span>persona affected</span></div>
+  <div class="tile"><b>4</b><span>key decisions</span></div>
+  <div class="tile"><b>0</b><span>open risks</span></div>
+  <div class="tile"><b>2</b><span>mockups approved</span></div>
+  <div class="tile"><b>7</b><span>acceptance criteria</span></div>
+</div>
+
+<section class="tldr card">
+  <h2>TL;DR</h2>
+  <p>Learn Mode will draw only from Browse's active category/level filter, with that filter persisted in <code>localStorage</code> across sessions (search text excluded). This is a deliberate, evidence-based reversal of the original design's decision to keep Browse and Learn Mode decoupled — the requester needs focused-topic study sessions without re-filtering every visit. Implementation is a state-lift-up + persistence wiring task at <code>AppShell</code>; no changes to the pure-logic layer (<code>applyFilters</code>, <code>drawNextCard</code>) are needed. Full detail in the linked analysis documents in the breadcrumb bar above.</p>
+
+  <h2>Key Decisions</h2>
+  <ul>
+    <li><code>AppShell</code> becomes the sole owner/mediator of filter state — <code>BrowseGrid</code> and <code>LearnMode</code> stay mutually decoupled.</li>
+    <li>Persist only <code>selectedCategories</code>/<code>selectedLevel</code> to <code>localStorage</code>, structurally excluding <code>searchQuery</code> at the type level.</li>
+    <li>Learn Mode gains a dismissible active-filter chip in its topbar and reuses a newly shared <code>EmptyState</code> component for the zero-match case.</li>
+    <li>Progress-tracking persistence is unaffected (still keyed by entry <code>id</code>); the mastered/shaky/new stats now scope to the active filtered subset.</li>
+  </ul>
+
+  <h2>Open Questions / Risks</h2>
+  <p class="risk-none">None outstanding — all risks raised during design (documented decision reversal, empty-subset behavior, LearnMode's new "update in place" surface) were resolved during specification.</p>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#problem">Problem Statement</a> ·
+  <a href="#users">Target Users</a> ·
+  <a href="#overview">Feature Overview</a> ·
+  <a href="#constraints">Constraints</a> ·
+  <a href="#success">Success Criteria</a> ·
+  <a href="#acceptance">Acceptance Criteria</a> ·
+  <a href="#decisions">Design Decisions</a> ·
+  <a href="#mockups">Mockup References</a> ·
+  <a href="#references">References</a>
+</nav>
+
+<main>
+
+  <h2 id="problem">Problem Statement</h2>
+  <div class="card">
+    <p>Learn Mode currently draws from the entire 159-entry glossary regardless of what the user is focused on. Users who want to concentrate on one topic area (e.g. only Java, or only Senior-level Spring/JEE) have no way to narrow Learn Mode's scope, and Browse's own filter resets on every reload — forcing the same filter to be re-applied every session.</p>
+    <p>This is a conscious, evidence-based reversal of the original design's explicit decision to keep Browse and Learn Mode decoupled and not persist filters (full detail in <a href="../analysis/problem-statement.md" target="_blank" rel="noopener">analysis/problem-statement.md</a>).</p>
+  </div>
+
+  <h2 id="users">Target Users</h2>
+  <div class="card persona-card">
+    <span class="role">Creator persona</span>
+    <span>Backend/Java engineer doing short, frequent, mobile-first study sessions — from the original design task (<code>.maister/tasks/product-design/2026-07-01-lexicon-engineering-terms/analysis/personas.md</code>).</span>
+    <p>This feature is squarely for this persona; the Recruiter/Visitor's Browse-exploration journey is unaffected, since Browse's own UI/behavior is unchanged — only its persistence and reach into Learn Mode are new.</p>
+    <p style="color:var(--dim); font-size:12.5px;">Phase 3 persona exploration was skipped this round since the task is Standard complexity/enhancement scope — the existing personas apply unchanged.</p>
+  </div>
+
+  <h2 id="overview">Feature Overview</h2>
+  <div class="card">
+    <ul>
+      <li><code>AppShell</code> reads/writes the active category+level filter to <code>localStorage</code> (new <code>readFilterState</code>/<code>writeFilterState</code> functions mirroring the existing progress-persistence convention).</li>
+      <li>Filter changes propagate automatically from Browse's <code>FilterBar</code> through <code>BrowseGrid</code> to <code>AppShell</code>, which updates <code>LearnMode</code>'s draw pool via a new <code>updateFilter()</code> method — no confirmation step.</li>
+      <li>Learn Mode shows a dismissible chip (e.g. "Java · Senior ✕") in its topbar when a filter is active, and its mastered/shaky/new stats scope to the active subset.</li>
+      <li>A zero-match filter shows a visible, actionable empty state in Learn Mode (reusing a newly-extracted shared <code>EmptyState</code> component also adopted by Browse) — never a silent fallback to the full glossary.</li>
+    </ul>
+    <p style="color:var(--dim); font-size:12.5px; margin-bottom:0;">Full section-by-section detail — including exact interfaces, wiring, and code sketches — in <a href="../analysis/feature-spec.md" target="_blank" rel="noopener">analysis/feature-spec.md</a>.</p>
+  </div>
+
+  <h2 id="constraints">Constraints</h2>
+  <div class="card">
+    <ul>
+      <li>Persistence via <code>localStorage</code> only, mirroring <code>storage.ts</code>'s existing convention exactly — no cookies, no new mechanism.</li>
+      <li>Only category + level persist across sessions; search text is session-only.</li>
+      <li>Automatic, always-in-sync coupling — no explicit "start learning this subset" step.</li>
+      <li>No backend, no new runtime dependencies — vanilla TypeScript matching the existing factory-function component pattern.</li>
+    </ul>
+  </div>
+
+  <h2 id="success">Success Criteria</h2>
+  <div class="card">
+    <ul>
+      <li>Filtering to a topic subset in Browse and switching to Learn Mode shows only cards from that subset.</li>
+      <li>Reloading the app preserves the category/level filter; search text does not carry over.</li>
+      <li>A zero-match filter produces a clear, actionable empty state, not a blank screen.</li>
+      <li>Existing bucket-weighted progress tracking is unaffected — progress persists across filter changes by design.</li>
+      <li>All 31 existing tests continue passing; new tests cover filter persistence and the Learn Mode/filter coupling.</li>
+    </ul>
+  </div>
+
+  <h2 id="acceptance">Acceptance Criteria</h2>
+  <div class="card">
+    <ul class="ac-list">
+      <li><code>storage.ts</code> has new <code>readFilterState()</code>/<code>writeFilterState()</code> functions, round-trip tested, with defensive fallback matching <code>readProgress()</code>'s pattern.</li>
+      <li><code>AppShell</code> hydrates filter state from <code>localStorage</code> at construction and writes on every change.</li>
+      <li><code>LearnMode</code> exposes <code>updateFilter(newEntries)</code>, redrawing immediately from the updated subset.</li>
+      <li>Learn Mode's topbar shows the active-filter chip (correct label format, hidden when default) with a working clear action.</li>
+      <li>Zero-match filter renders the shared <code>EmptyState</code> component in Learn Mode, with mark controls hidden.</li>
+      <li>Progress stats (mastered/shaky/new) in both views scope to the active filtered subset.</li>
+      <li><code>npm test</code> passes with 0 regressions plus the new test cases specified in <a href="../analysis/feature-spec.md" target="_blank" rel="noopener">analysis/feature-spec.md</a> Section 6.</li>
+    </ul>
+  </div>
+
+  <h2 id="decisions">Design Decisions</h2>
+  <p style="color:var(--dim); font-size:12.5px;">Four decision areas were converged on, all selecting the alternative most directly traceable to either an explicit constraint or an existing shipped pattern in the codebase (full alternatives and trade-off analysis in <a href="../analysis/alternatives.md" target="_blank" rel="noopener">analysis/alternatives.md</a>; rationale and trade-offs accepted in <a href="../analysis/design-decisions.md" target="_blank" rel="noopener">analysis/design-decisions.md</a>).</p>
+  <table>
+    <thead><tr><th>Area</th><th>Selected Approach</th></tr></thead>
+    <tbody>
+      <tr><td>State lift-up</td><td><code>AppShell</code> as sole owner, propagated via constructor options + <code>onChange</code> callbacks</td></tr>
+      <tr><td>Persistence schema</td><td>Flat 2-field object (<code>selectedCategories</code>, <code>selectedLevel</code>), <code>searchQuery</code> excluded at the type level</td></tr>
+      <tr><td>Active-filter indicator</td><td>Dismissible chip in Learn Mode's existing topbar</td></tr>
+      <tr><td>Empty-subset handling</td><td>Reuse Browse's existing empty-state pattern (extracted into a shared <code>EmptyState</code> component)</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="mockups">Layer 3: Mockup References</h2>
+  <div class="card">
+    <p>Two screens prototyped via the visual companion (both approved on first review):</p>
+    <div class="mockup-links">
+      <a href="../analysis/mockups/learn-mode-active-filter-chip.html" target="_blank" rel="noopener">Learn Mode — active filter chip ↗</a>
+      <a href="../analysis/mockups/learn-mode-empty-filtered-subset.html" target="_blank" rel="noopener">Learn Mode — empty filtered subset ↗</a>
+    </div>
+    <ul style="margin-top:12px;">
+      <li><code>analysis/mockups/learn-mode-active-filter-chip.html</code> — Learn Mode card view showing the new topbar filter chip and subset-scoped progress stats.</li>
+      <li><code>analysis/mockups/learn-mode-empty-filtered-subset.html</code> — Learn Mode's new empty state when the active filter matches zero entries.</li>
+    </ul>
+  </div>
+
+  <h2 id="references">References</h2>
+  <div class="card refs">
+    <ul>
+      <li><a href="../analysis/design-context.md" target="_blank" rel="noopener"><code>analysis/design-context.md</code></a> — unified synthesis of project docs, codebase analysis, and design implications</li>
+      <li><a href="../analysis/codebase-analysis.md" target="_blank" rel="noopener"><code>analysis/codebase-analysis.md</code></a> — detailed codebase analysis (state flow, dependencies, test coverage, prior design rationale)</li>
+      <li><a href="../analysis/problem-statement.md" target="_blank" rel="noopener"><code>analysis/problem-statement.md</code></a> — full problem statement, constraints, success criteria, and key assumptions</li>
+      <li><a href="../analysis/alternatives.md" target="_blank" rel="noopener"><code>analysis/alternatives.md</code></a> — all 12 alternatives across 4 decision areas with 5-perspective trade-off matrices</li>
+      <li><a href="../analysis/design-decisions.md" target="_blank" rel="noopener"><code>analysis/design-decisions.md</code></a> — selected approach, rationale, and trade-offs accepted</li>
+      <li><a href="../analysis/feature-spec.md" target="_blank" rel="noopener"><code>analysis/feature-spec.md</code></a> — full 6-section implementation-ready specification</li>
+      <li><code>analysis/mockups/</code> — visual prototypes</li>
+    </ul>
+  </div>
+
+</main>
+
+</body>
+</html>
