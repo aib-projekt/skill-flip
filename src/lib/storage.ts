@@ -11,7 +11,7 @@
  * topbars, so this counting logic must not be duplicated).
  */
 
-import type { Glossary } from '../types/glossary';
+import type { Category, Glossary, Level } from '../types/glossary';
 
 export type Bucket = 'unseen' | 'know' | 'dont_know';
 
@@ -30,6 +30,21 @@ export interface BucketCounts {
 }
 
 const STORAGE_KEY = 'skillflip:learn-progress';
+const FILTER_STATE_KEY = 'skillflip:browse-filter-state';
+
+/**
+ * Strict 2-field subset of `BrowseFilterState` (excludes `searchQuery`).
+ * Kept as its own type rather than derived from `BrowseFilterState` so the
+ * exclusion is structural, not just a runtime convention.
+ */
+export interface PersistedFilterState {
+  selectedCategories: Category[];
+  selectedLevel: Level | 'All';
+}
+
+export function defaultPersistedFilterState(): PersistedFilterState {
+  return { selectedCategories: [], selectedLevel: 'All' };
+}
 
 /** Reads the full progress map from localStorage. Returns {} if absent or malformed. */
 export function readProgress(): ProgressMap {
@@ -53,12 +68,59 @@ export function readProgress(): ProgressMap {
 export function writeProgress(id: string, entry: LearnProgressEntry): void {
   const progress = readProgress();
   progress[id] = entry;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  } catch {
+    // Quota exceeded or storage unavailable (e.g. private browsing) — degrade
+    // gracefully by skipping persistence rather than crashing the UI.
+  }
 }
 
 /** Clears all Learn Mode progress, returning every card to `unseen`. */
 export function resetProgress(): void {
   localStorage.removeItem(STORAGE_KEY);
+}
+
+/** Reads the persisted Browse filter state. Falls back to defaults if absent, malformed, or shape-mismatched. */
+export function readFilterState(): PersistedFilterState {
+  const raw = localStorage.getItem(FILTER_STATE_KEY);
+  if (!raw) {
+    return defaultPersistedFilterState();
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as Partial<PersistedFilterState> | null;
+    if (
+      parsed &&
+      typeof parsed === 'object' &&
+      Array.isArray(parsed.selectedCategories) &&
+      typeof parsed.selectedLevel === 'string'
+    ) {
+      return { selectedCategories: parsed.selectedCategories, selectedLevel: parsed.selectedLevel as Level | 'All' };
+    }
+    return defaultPersistedFilterState();
+  } catch {
+    return defaultPersistedFilterState();
+  }
+}
+
+/**
+ * Persists the Browse filter state. Constructs the stored object literal
+ * explicitly with only `selectedCategories`/`selectedLevel` so `searchQuery`
+ * is never written, even if a caller mistakenly passes a superset object.
+ */
+export function writeFilterState(state: PersistedFilterState): void {
+  try {
+    localStorage.setItem(
+      FILTER_STATE_KEY,
+      JSON.stringify({
+        selectedCategories: state.selectedCategories,
+        selectedLevel: state.selectedLevel,
+      })
+    );
+  } catch {
+    // Quota exceeded or storage unavailable — degrade gracefully.
+  }
 }
 
 /**

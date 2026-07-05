@@ -37,6 +37,8 @@ export interface CreateFilterBarOptions {
   entries: Glossary;
   /** Fired whenever filter state changes (search is debounced; chip/level toggles are immediate). */
   onChange: (state: BrowseFilterState) => void;
+  /** Hydrates initial search/category/level state; defaults to `defaultState()` when omitted. */
+  initialState?: BrowseFilterState;
 }
 
 export interface FilterBarInstance {
@@ -54,7 +56,9 @@ function defaultState(): BrowseFilterState {
 }
 
 export function createFilterBar(options: CreateFilterBarOptions): FilterBarInstance {
-  const state: BrowseFilterState = defaultState();
+  const state: BrowseFilterState = options.initialState
+    ? { ...options.initialState, selectedCategories: [...options.initialState.selectedCategories] }
+    : defaultState();
   /** Display-only concern (not part of `BrowseFilterState`): whether the overflow categories are expanded. */
   let showAllCategories = false;
 
@@ -66,6 +70,7 @@ export function createFilterBar(options: CreateFilterBarOptions): FilterBarInsta
   searchInput.type = 'text';
   searchInput.className = 'search-input';
   searchInput.placeholder = 'Search terms, definitions, PL translation...';
+  searchInput.value = options.initialState?.searchQuery ?? '';
 
   let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 

@@ -1,0 +1,238 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: ["phase-1", "phase-2", "phase-3", "phase-4", "phase-5", "phase-6", "phase-7", "phase-8", "phase-9", "phase-10", "phase-11", "phase-12", "phase-13", "phase-14"]
+  failed_phases: []
+  auto_fix_attempts: {}
+  options:
+    html_output: true
+    spec_audit_enabled: true
+    skip_test_suite: true  # full suite already passed during implementation (65/65), re-enabled if fixes are applied
+    e2e_enabled: true
+    user_docs_enabled: true
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    # All confirmed true by user at Phase 10 gate; e2e_enabled/user_docs_enabled also confirmed true
+    sequential: null
+  created: "2026-07-04T16:59:35Z"
+  updated: "2026-07-05T19:23:47Z"
+  task_path: .maister/tasks/development/2026-07-04-learn-filtered-subset
+  task_ids:
+    phase-1: "34"
+    phase-2: "35"
+    phase-3: "36"
+    phase-4: "37"
+    phase-5: "38"
+    phase-6: "39"
+    phase-7: "40"
+    phase-8: "41"
+    phase-9: "42"
+    phase-10: "43"
+    phase-11: "44"
+    phase-12: "45"
+    phase-13: "46"
+    phase-14: "47"
+
+task:
+  title: "Implement: Learn Mode respects Browse's filtered subset"
+  description: "Implement the product-design brief at .maister/tasks/product-design/2026-07-04-learn-filtered-subset — Learn Mode should draw only from the subset of glossary entries currently filtered in Browse (category/level), with that filter persisted in localStorage across sessions (search text excluded)."
+  status: completed
+  tags: ["learn-mode", "browse", "filters", "persistence", "enhancement"]
+  priority: null
+
+project_context:
+  project_doc_paths:
+    - ".maister/docs/project/vision.md"
+    - ".maister/docs/project/roadmap.md"
+    - ".maister/docs/project/tech-stack.md"
+    - ".maister/docs/project/architecture.md"
+
+task_context:
+  risk_level: low-medium
+  clarifications_resolved: true
+  scope_expanded: false
+  tech_clarified: true
+  architecture_decision: "AppShell as sole owner/mediator of BrowseFilterState; EmptyState.ts extracted as shared component; persisted schema exactly {selectedCategories, selectedLevel} under skillflip:browse-filter-state"
+  task_characteristics:
+    has_reproducible_defect: false
+    modifies_existing_code: true
+    creates_new_entities: false
+    involves_data_operations: true
+    ui_heavy: true
+  research_reference:
+    path: null
+    research_question: null
+    research_type: null
+    confidence_level: null
+  design_reference:
+    source: "product-design"
+    product_design_path: ".maister/tasks/product-design/2026-07-04-learn-filtered-subset"
+    mockup_count: 2
+    has_brief: true
+    index_path: "analysis/design-context/INDEX.md"
+  phase_summaries:
+    research: {summary: null, key_findings: [], recommended_approach: null, decisions: [], risks: [], artifacts: []}
+    design:
+      summary: "2 screens + 2 components ingested from the completed product-design task: Learn Mode active-filter chip and empty-subset state, plus the reusable filter-chip and empty-state components they introduce."
+      screen_count: 2
+      component_count: 2
+      index_path: "analysis/design-context/INDEX.md"
+      decisions: []
+      risks: []
+      artifacts:
+        - path: "analysis/design-context/brief.md"
+          label: "Product Brief (ingested)"
+          html: null
+        - path: "analysis/design-context/INDEX.md"
+          label: "Design Context Index"
+          html: null
+    codebase_analysis:
+      key_files:
+        - "src/components/AppShell.ts"
+        - "src/components/BrowseGrid.ts"
+        - "src/components/FilterBar.ts"
+        - "src/components/LearnMode.ts"
+        - "src/lib/storage.ts"
+        - "src/lib/filters.ts"
+        - "src/lib/learnAlgorithm.ts"
+      primary_language: "TypeScript"
+      summary: "Learn Mode/Browse filter-coupling feature is additive across 4 existing components + 1 new EmptyState.ts file; pure-logic layer (applyFilters/drawNextCard) needs no changes. Approved feature-spec resolves the persistence schema/key-name discrepancy the two Explore agents initially disagreed on (skillflip:browse-filter-state, 2-field schema, is authoritative)."
+      decisions: []
+      risks:
+        - "Sequencing recommendation: extract EmptyState.ts first, then storage.ts, then AppShell mediation, then LearnMode last (most new surface area)"
+      artifacts:
+        - path: "analysis/codebase-analysis.md"
+          label: "Codebase Analysis"
+          html: null
+    clarifications:
+      - {decision: "Implement exactly per approved product-design spec, no scope changes", rationale: "User confirmed"}
+      - {decision: "Extract BrowseGrid's renderEmptyState() into shared EmptyState.ts", rationale: "User approved refactoring existing tested code, matches spec's DRY decision"}
+    gap_analysis:
+      integration_points:
+        - "storage.ts (new readFilterState/writeFilterState)"
+        - "AppShell.ts (sole owner/mediator of filter state)"
+        - "BrowseGrid.ts (initialFilterState + onFilterChange options)"
+        - "FilterBar.ts (initialState option)"
+        - "LearnMode.ts (updateFilter() method, filter chip, empty state)"
+        - "new EmptyState.ts (extracted from BrowseGrid)"
+      summary: "Fully-specified, zero orphaned operations, zero missing touchpoints, no critical or important decisions needed — both prior clarifications already covered the only real decision points. One implementation-note flagged for the planner: LearnMode.ts's entries is currently a const, needs to become mutable for updateFilter()."
+      decisions: []
+      risks:
+        - "LearnMode.ts line 45 destructures entries as const — updateFilter() requires a mutable local variable; one obvious correct fix, flagged for implementation-planner"
+      artifacts:
+        - path: "analysis/gap-analysis.md"
+          label: "Gap Analysis"
+          html: null
+    scope_clarifications: {scope_expanded: null, summary: null, decisions: [], risks: [], artifacts: []}
+    ui_mockups:
+      components_designed: []
+      summary: "Skipped — analysis/design-context/mockups/ already populated from the completed product-design task (2 screens ingested at initialization). No ASCII regeneration needed."
+      decisions: []
+      risks: []
+      artifacts: []
+    specification:
+      summary: "Learn Mode draws only from Browse's active category/level filter (persisted, search excluded), AppShell as mediator, EmptyState.ts extracted, stats scoped to subset. 9 core requirements, 7 reusable components, 3 new. Zero breaking signatures. Self-verification passed all 4 quality gates."
+      decisions:
+        - {decision: "Persisted schema is exactly the 2-field PersistedFilterState under skillflip:browse-filter-state", rationale: "feature-spec Section 1 is authoritative, overrides generic pattern-mining inference"}
+        - {decision: "AppShell is sole owner/mediator of filter state", rationale: "preserves existing no-sibling-coupling architecture"}
+        - {decision: "EmptyState extracted as shared component", rationale: "DRY — avoids duplicating ~25 lines of markup"}
+        - {decision: "Progress persistence unaffected, only stats display becomes subset-scoped", rationale: "computeBucketCounts/applyFilters already accept arbitrary arrays"}
+        - {decision: "LearnMode.ts entries binding must become mutable", rationale: "mechanical requirement of updateFilter(), no alternative resolution"}
+      risks:
+        - "FilterBar.ts gains initialState with no dedicated test file — accepted, spec-confirmed gap"
+        - "Learn Mode's empty-subset path is new interaction surface with no direct precedent in LearnMode.ts itself — sequence last"
+      artifacts:
+        - path: "implementation/spec.md"
+          label: "Specification"
+          html: "implementation/spec.html"
+    architecture_decision: {decision: null, summary: null, decisions: [], risks: [], artifacts: []}
+    implementation:
+      summary: "All 6 task groups completed (32 steps). EmptyState extracted, storage.ts filter persistence added, AppShell wired as mediator, FilterBar/BrowseGrid hydration threaded, LearnMode filter-awareness (updateFilter/chip/empty-state/stats) implemented, final test review added 4 strategic tests. Full suite: 65 passed, 0 failed (63 vitest + 2 build), zero regressions. Independently re-verified by main agent."
+      decisions:
+        - {decision: "Added mockup's trailing ✕ glyph to filter-chip label post-completion", rationale: "Binding visual mockup showed it; one-line, zero-risk content fix"}
+      risks:
+        - "storage.test.ts's jsdom/Node localStorage-shadowing workaround (pre-existing, out of scope) could use a durable fix via Vitest setup file — flagged for future follow-up, not blocking"
+      artifacts:
+        - path: "implementation/work-log.md"
+          label: "Work Log"
+          html: null
+        - path: "implementation/implementation-plan.md"
+          label: "Implementation Plan (all checkboxes complete)"
+          html: "implementation/implementation-plan.html"
+    implementation_plan:
+      summary: "6 task groups, 32 steps. Groups 1-2 parallel (EmptyState extraction, storage.ts persistence); Groups 3-5 sequential (AppShell mediator → FilterBar/BrowseGrid hydration+propagation → LearnMode chip/empty-state/updateFilter); Group 6 final test review. 31 existing tests must stay green + ~15 new = ~46 total. Visual coverage: both screens and both components 100% covered."
+      decisions:
+        - {decision: "EmptyState extraction sequenced first", rationale: "Pure, self-contained refactor de-risks every downstream group needing the same pattern"}
+        - {decision: "Groups 3 and 4 kept separate despite both being wiring work", rationale: "Different files, different test files, Group 4 depends on Group 3's handleFilterChange existing first"}
+        - {decision: "No dedicated FilterBar.test.ts group created", rationale: "Per spec's explicit accepted gap — covered only via BrowseGrid.test.ts integration tests"}
+      risks:
+        - "Group 5 (LearnMode) carries highest regression risk — most new interaction surface in a file with 6 passing tests relying on entries never changing after construction. Mitigated by sequencing it last."
+        - "Group 3's handleFilterChange calls learnMode.updateFilter() which doesn't exist until Group 5 — not circular, resolved by execution order, flagged so executor doesn't try to reorder groups"
+      artifacts:
+        - path: "implementation/implementation-plan.md"
+          label: "Implementation Plan"
+          html: "implementation/implementation-plan.html"
+        - path: "implementation/visual-coverage.md"
+          label: "Visual Coverage"
+          html: null
+    spec_audit:
+      summary: "FINAL (superseded two earlier racing/stale writes to the same file): Verdict pass — Mostly Compliant, functionally clean. 0 critical/high/medium, 2 low findings (both cross-reference completeness, not correctness, non-blocking). Schema/key fidelity check passed exactly. All 6 upstream sections covered. 31-test baseline verified two ways (grep + actual vitest run). AppShell.ts's current shape confirmed to match the gap the dev spec describes closing, not a mismatch."
+      decisions: []
+      risks: []
+      artifacts:
+        - path: "verification/spec-audit.md"
+          label: "Specification Audit"
+          html: null
+    verification:
+      summary: "Verdict: Passed (post-fix; was Passed with Issues pre-fix). Plan 100% complete (32/32 steps, spot-checked against code), 66/66 tests post-fix (was 65/65 pre-fix), standards 7/7 compliant, docs complete. Optional reviews: code review 0 critical/3 warning/5 info; pragmatic review 0 critical/2 medium/2 low; production readiness GO (0 blockers); reality assessment READY (0 critical gaps). User chose 'Fix all 4 fixable issues now' at the Phase 11 gate — all 4 fixed and re-verified in this round (see verification/implementation-verification.md Fix & Re-Verification History)."
+      decisions:
+        - {decision: "Fix all 4 fixable issues before proceeding, rather than defer or skip", rationale: "User confirmed at Phase 11 gate; all 4 small, well-scoped, non-architectural, combined effort under an hour per the reviewers' own estimates"}
+      risks: []
+      resolved_risks:
+        - "Spec Requirement 8 half-implemented: BrowseGrid.ts's own topbar stats never scoped to the filtered subset or re-rendered on filter change — FIXED (renderContent()/refreshStats() now use the filtered subset), re-verified with a new BrowseGrid.test.ts assertion"
+        - "readFilterState() shape validation was shallow (checked 'is object', not per-field types) — FIXED (now validates Array.isArray(selectedCategories) and typeof selectedLevel === 'string'), re-verified with 2 new storage.test.ts assertions"
+        - "writeFilterState/writeProgress called localStorage.setItem with no try/catch — FIXED (both wrapped, degrade gracefully on quota/security errors)"
+        - "{selectedCategories, selectedLevel} shape was independently declared 3x — FIXED (collapsed to one toPersisted() helper in AppShell.ts, reused at construction and handleFilterChange)"
+      artifacts:
+        - path: "verification/implementation-verification.md"
+          label: "Implementation Verification Report"
+          html: "verification/implementation-verification.html"
+        - path: "verification/code-review-report.md"
+          label: "Code Review"
+          html: null
+        - path: "verification/pragmatic-review.md"
+          label: "Pragmatic Review"
+          html: null
+        - path: "verification/production-readiness-report.md"
+          label: "Production Readiness"
+          html: null
+        - path: "verification/reality-check.md"
+          label: "Reality Check"
+          html: null
+    e2e_verification:
+      summary: "Verdict: GO (post-fix; was GO WITH CAVEATS). 7/7 scenarios pass. Live browser testing (Claude Preview tooling substituting for Playwright MCP's unavailable chrome channel) caught 1 Major bug the Phase 11 reviews missed: clearing the filter from Learn Mode's chip left Browse's already-mounted FilterBar/grid stale until reload — a same-session cross-view sync gap invisible to static analysis and reasoning-based review, only found by actually exercising the UI in a browser. User chose 'Fix the Major bug now'; fixed, regression-tested, and re-verified live. 1 Cosmetic gap (empty-state opacity dimming) deliberately deferred."
+      decisions:
+        - {decision: "Fix the Major cross-view sync bug now; defer the cosmetic opacity gap", rationale: "User confirmed at Phase 12 gate; Major bug was a real same-session UX inconsistency, cosmetic gap has no functional impact"}
+      risks: []
+      resolved_risks:
+        - "AppShell.handleFilterChange() never re-synced an already-mounted BrowseGrid/FilterBar when the filter was cleared from Learn Mode's side — FIXED (BrowseGrid.clearFilters() added, delegating to the already-tested FilterBar.reset(); AppShell's onClearFilter now routes through it instead of calling handleFilterChange directly), re-verified live in the browser (dispatched click, confirmed Browse's FilterBar/grid updates immediately with no tab switch or reload) and via a new AppShell.test.ts regression test"
+      artifacts:
+        - path: "verification/e2e-verification-report.md"
+          label: "E2E Verification Report"
+          html: null
+        - path: "verification/visual-fidelity.md"
+          label: "Visual Fidelity"
+          html: null
+    user_documentation:
+      summary: "User guide + 13 real screenshots (captured live via Playwright against the running dev server) covering: filtering Browse, Learn Mode scoping with the filter chip, persistence across reload with explicit search-text exclusion, clearing from either view with cross-view sync (validates the Phase 12 fix), and the zero-match empty state in both views."
+      decisions:
+        - {decision: "Corrected task brief's assumption that Browse has an always-visible 'Clear filters' button", rationale: "Verified against FilterBar.ts/BrowseGrid.ts source: 'Clear filters' only renders inside BrowseGrid's empty-state, not as a persistent control — guide reflects actual behavior"}
+      risks: []
+      artifacts:
+        - path: "documentation/user-guide.md"
+          label: "User Guide"
+          html: null
+        - path: "documentation/screenshots/"
+          label: "Screenshots (13 files)"
+          html: null

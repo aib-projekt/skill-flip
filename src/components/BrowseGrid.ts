@@ -1,5 +1,6 @@
 import { createCard, categoryBadgeClass } from './Card';
 import { createFilterBar } from './FilterBar';
+import { createEmptyState } from './EmptyState';
 import { applyFilters } from '../lib/filters';
 import type { BrowseFilterState } from '../lib/filters';
 import { renderProgressStats } from './progressStats';
@@ -14,18 +15,33 @@ import type { Glossary } from '../types/glossary';
 
 export interface CreateBrowseGridOptions {
   entries: Glossary;
+  /** Hydrates the FilterBar/grid with a pre-set filter state; defaults to the unfiltered state when omitted. */
+  initialFilterState?: BrowseFilterState;
+  /** Fired whenever the filter state changes, bubbling up to the parent mediator (e.g. AppShell). */
+  onFilterChange?: (state: BrowseFilterState) => void;
 }
 
 export interface BrowseGridInstance {
   element: HTMLElement;
   /** Re-reads progress from localStorage and re-renders the topbar stats (e.g. after a reset elsewhere). */
   refreshStats: () => void;
+  /**
+   * Clears Browse's own filter/search state and re-renders (chips, level
+   * toggle, grid, stats) — the exact same path Browse's own "Clear filters"
+   * button already uses. Lets a filter-clear that originates elsewhere (e.g.
+   * Learn Mode's chip) keep an already-mounted Browse in sync without a reload.
+   */
+  clearFilters: () => void;
   destroy: () => void;
 }
 
 export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridInstance {
   const entries = options.entries;
-  let filterState: BrowseFilterState = { searchQuery: '', selectedCategories: [], selectedLevel: 'All' };
+  let filterState: BrowseFilterState = options.initialFilterState ?? {
+    searchQuery: '',
+    selectedCategories: [],
+    selectedLevel: 'All',
+  };
 
   const root = document.createElement('div');
   root.className = 'browse-grid-root';
@@ -53,39 +69,15 @@ export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridIn
 
   const filterBar = createFilterBar({
     entries,
+    initialState: options.initialFilterState,
     onChange: (state) => {
       filterState = state;
       renderContent();
+      options.onFilterChange?.(state);
     },
   });
 
   root.append(topbar, filterBar.element, resultCount, contentContainer);
-
-  function renderEmptyState(): HTMLElement {
-    const emptyState = document.createElement('div');
-    emptyState.className = 'empty-state';
-
-    const icon = document.createElement('div');
-    icon.className = 'empty-icon';
-    icon.textContent = '\u{1F50D}';
-
-    const heading = document.createElement('h2');
-    heading.textContent = 'No terms match';
-
-    const helper = document.createElement('p');
-    helper.textContent = 'Try clearing a filter or search a different term.';
-
-    const clearBtn = document.createElement('button');
-    clearBtn.type = 'button';
-    clearBtn.className = 'clear-btn';
-    clearBtn.textContent = 'Clear filters';
-    clearBtn.addEventListener('click', () => {
-      filterBar.reset();
-    });
-
-    emptyState.append(icon, heading, helper, clearBtn);
-    return emptyState;
-  }
 
   function renderGrid(filtered: Glossary): HTMLElement {
     const grid = document.createElement('div');
@@ -171,21 +163,29 @@ export function createBrowseGrid(options: CreateBrowseGridOptions): BrowseGridIn
     const filtered = applyFilters(entries, filterState);
 
     resultCount.textContent = `${filtered.length} of ${entries.length} terms`;
+    renderProgressStats(progressStats, filtered);
 
     contentContainer.innerHTML = '';
     if (filtered.length === 0) {
-      contentContainer.appendChild(renderEmptyState());
+      contentContainer.appendChild(
+        createEmptyState({
+          heading: 'No terms match',
+          body: 'Try clearing a filter or search a different term.',
+          actionLabel: 'Clear filters',
+          onAction: () => filterBar.reset(),
+        })
+      );
     } else {
       contentContainer.appendChild(renderGrid(filtered));
     }
   }
 
-  renderProgressStats(progressStats, entries);
   renderContent();
 
   return {
     element: root,
-    refreshStats: () => renderProgressStats(progressStats, entries),
+    refreshStats: () => renderProgressStats(progressStats, applyFilters(entries, filterState)),
+    clearFilters: () => filterBar.reset(),
     destroy: () => {
       filterBar.destroy();
     },

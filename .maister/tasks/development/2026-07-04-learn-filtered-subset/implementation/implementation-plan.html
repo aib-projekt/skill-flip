@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Plan — Learn Mode Respects Browse's Filtered Subset</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+.toc { font-size:13px; margin:10px 0 20px; color:var(--dim); }
+.toc a { color:var(--dim); }
+
+.dep-chain { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:13px; margin:10px 0; }
+.dep-chain .node { background:var(--accent-soft); color:var(--accent); padding:4px 10px; border-radius:99px; font-weight:600; }
+.dep-chain .arrow { color:var(--dim); }
+
+.group { }
+.group .g-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.g-badge { font-size:11px; font-weight:700; text-transform:uppercase; padding:2px 9px; border-radius:99px; background:var(--warn-soft); color:var(--warn); }
+.group.done .g-badge { background:var(--ok-soft); color:var(--ok); }
+.g-meta { font-size:12px; color:var(--dim); margin:4px 0 10px; }
+.files { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.steps { list-style:none; margin:8px 0; padding:0; }
+.step { padding:3px 0 3px 4px; font-size:13.5px; }
+.step.todo::before  { content:"☐ "; color:var(--dim); }
+.step.done::before  { content:"☑ "; color:var(--ok); }
+.step.done          { color:var(--dim); }
+.group.todo .g-badge::after { content:"pending"; }
+.group.done .g-badge::after { content:"✓ completed"; color:var(--ok); }
+.substeps { list-style:none; margin:2px 0 6px 20px; padding:0; }
+.substeps .step { font-size:12.5px; color:var(--dim); }
+
+.vis-ref { background:var(--info-soft); border:1px solid var(--border); border-radius:8px; padding:8px 12px; margin:8px 0; font-size:12.5px; }
+.vis-ref b { color:var(--info); }
+
+.accept { background:var(--ok-soft); border-radius:8px; padding:8px 12px; margin:8px 0; font-size:13px; }
+
+.risk-list, .decision-list { margin:6px 0; padding-left:18px; }
+.risk-list li, .decision-list li { margin:4px 0; }
+</style>
+</head>
+<body>
+  <nav class="crumbs">
+    <a href="spec.md" target="_blank" rel="noopener" class="md">spec.md ↗</a>
+    <span class="here">Implementation Plan</span>
+    <a href="visual-coverage.html">Visual Coverage</a>
+    <a href="implementation-plan.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+  </nav>
+
+  <header>
+    <h1>Implementation Plan <span class="badge">Learn Mode Filtered Subset</span></h1>
+    <div class="g-meta">Generated 2026-07-04 · Task: <code>.maister/tasks/development/2026-07-04-learn-filtered-subset</code></div>
+  </header>
+
+  <div class="tiles">
+    <div class="tile"><b>6</b><span>task groups</span></div>
+    <div class="tile"><b>32</b><span>total steps</span></div>
+    <div class="tile"><b>31&nbsp;&rarr;&nbsp;46</b><span>tests (baseline &rarr; expected)</span></div>
+    <div class="tile"><b>2</b><span>parallel groups (1&amp;2)</span></div>
+    <div class="tile"><b>100%</b><span>visual coverage</span></div>
+  </div>
+
+  <section class="tldr card">
+    <h2 style="margin-top:0">TL;DR</h2>
+    <p>6 task groups, sequenced exactly as spec/gap-analysis/codebase-analysis all converge on: <b>EmptyState extraction → storage.ts persistence → AppShell mediator → FilterBar/BrowseGrid hydration+propagation → LearnMode (largest surface, built last) → final Test Review</b>. Groups 1–2 are independent and can run in parallel; Groups 3–5 are strictly sequential; Group 6 depends on all. 32 steps total, 31 existing tests must stay green throughout, ~15 new tests expected (46 total).</p>
+
+    <h2>Key Decisions</h2>
+    <ul class="decision-list">
+      <li><b>EmptyState extraction sequenced first</b> (Group 1) — pure, self-contained refactor with zero behavior change for Browse; de-risks every downstream group needing the same pattern for Learn Mode.</li>
+      <li><b>Mutable <code>entries</code> binding budgeted explicitly</b> in Group 5 (step 5.2) — converting <code>const { entries } = options</code> to <code>let currentEntries</code> is a flagged mechanical prerequisite, not left implicit.</li>
+      <li><b><code>writeFilterState()</code> uses an explicit object literal</b> — never destructure-and-delete from a full <code>BrowseFilterState</code>, so <code>searchQuery</code> exclusion is structural at the write boundary.</li>
+      <li><b>Groups 3 and 4 kept separate</b> despite both being "wiring" work — different files, different test files, and Group 4 depends on Group 3's <code>handleFilterChange</code> contract existing first.</li>
+      <li><b>No dedicated <code>FilterBar.test.ts</code></b> — accepted spec gap; covered only via <code>BrowseGrid.test.ts</code> integration tests in Group 4.</li>
+    </ul>
+
+    <h2>Open Questions / Risks</h2>
+    <ul class="risk-list">
+      <li>Group 5 (LearnMode) carries the highest regression risk — most new interaction surface in a file with 6 passing tests already relying on stable <code>entries</code>. Mitigation: sequenced last, after Groups 1–4 are proven stable.</li>
+      <li><code>theme.css</code> touched only by Group 5 (new <code>.filter-chip</code> class) — Group 1 reuses existing classes verbatim, so no actual file contention.</li>
+      <li>Exact <code>.filter-chip</code> CSS values are fully specified in both mockups' inline <code>&lt;style&gt;</code> blocks (identical in both) — zero ambiguity, literal declaration copied in step 5.6.</li>
+    </ul>
+  </section>
+
+  <nav class="toc">Contents: <a href="#dependencies">Dependencies</a> · <a href="#groups">Task Groups</a> · <a href="#coverage">Visual Coverage</a> · <a href="#standards">Standards</a></nav>
+
+  <h2 id="dependencies">Dependency Overview</h2>
+  <div class="dep-chain">
+    <span class="node">1 EmptyState</span><span class="arrow">⇲</span>
+    <span class="node">2 storage.ts</span><span class="arrow">↘</span>
+    <span class="arrow">↓</span>
+  </div>
+  <div class="dep-chain">
+    <span class="node">3 AppShell</span><span class="arrow">→</span>
+    <span class="node">4 FilterBar/BrowseGrid</span><span class="arrow">→</span>
+    <span class="node">5 LearnMode</span><span class="arrow">→</span>
+    <span class="node">6 Test Review</span>
+  </div>
+  <p class="g-meta">Groups 1 and 2 run in parallel (disjoint files, no data dependency). Group 3 depends on 2. Group 4 depends on 3. Group 5 depends on 1 and 4. Group 6 depends on all.</p>
+
+  <h2 id="groups">Task Groups</h2>
+
+  <section data-group="1" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 1: EmptyState Extraction</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: None &nbsp;·&nbsp; 4 steps</div>
+    <div class="files"><code>src/components/EmptyState.ts (new)</code><code>src/components/EmptyState.test.ts (new)</code><code>src/components/BrowseGrid.ts</code></div>
+    <ul class="steps">
+      <li data-step="1.1" class="step done">Write 2 focused tests in EmptyState.test.ts (render fields, onAction click)</li>
+      <li data-step="1.2" class="step done">Create src/components/EmptyState.ts (createEmptyState factory, verbatim DOM from BrowseGrid)</li>
+      <li data-step="1.3" class="step done">Refactor BrowseGrid.ts to consume shared EmptyState (remove local renderEmptyState)</li>
+      <li data-step="1.4" class="step done">Run EmptyState.test.ts + BrowseGrid.test.ts only</li>
+    </ul>
+    <div class="accept"><b>Acceptance:</b> 2 new tests pass; all 9 existing BrowseGrid tests pass unmodified; Browse's empty-state output/behavior byte-for-byte unchanged.</div>
+  </section>
+
+  <section data-group="2" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 2: Filter-State Persistence (storage.ts)</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: None &nbsp;·&nbsp; 4 steps</div>
+    <div class="files"><code>src/lib/storage.ts</code><code>src/lib/storage.test.ts</code></div>
+    <ul class="steps">
+      <li data-step="2.1" class="step done">Write 3 focused tests (round-trip, defaults fallback, structural searchQuery absence)</li>
+      <li data-step="2.2" class="step done">Add FILTER_STATE_KEY, PersistedFilterState, defaultPersistedFilterState()</li>
+      <li data-step="2.3" class="step done">Add readFilterState()/writeFilterState() mirroring readProgress/writeProgress</li>
+      <li data-step="2.4" class="step done">Run storage.test.ts only (3 existing + 3 new)</li>
+    </ul>
+    <div class="accept"><b>Acceptance:</b> 3 new tests pass; all 3 existing storage tests pass unmodified; PersistedFilterState has exactly 2 fields, searchQuery never persisted under any input shape.</div>
+  </section>
+
+  <section data-group="3" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 3: AppShell Mediator Wiring</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: Group 2 &nbsp;·&nbsp; 6 steps</div>
+    <div class="files"><code>src/components/AppShell.ts</code><code>src/components/AppShell.test.ts</code></div>
+    <ul class="steps">
+      <li data-step="3.1" class="step done">Write 3 focused tests (hydration reaches Browse, writeFilterState called on change, LearnMode receives correct subset)</li>
+      <li data-step="3.2" class="step done">Add filterState to AppShellState, hydrate via readFilterState() + searchQuery: ''</li>
+      <li data-step="3.3" class="step done">Pass hydrated state down to BrowseGrid/LearnMode at construction</li>
+      <li data-step="3.4" class="step done">Implement handleFilterChange(newState): updates state, writeFilterState, learnMode.updateFilter(applyFilters(...))</li>
+      <li data-step="3.5" class="step done">Wire handleFilterChange as onFilterChange + resolved onClearFilter callback</li>
+      <li data-step="3.6" class="step done">Run AppShell.test.ts only (5 existing + 3 new)</li>
+    </ul>
+    <div class="vis-ref"><b>Cross-group note:</b> step 3.4 calls <code>learnMode.updateFilter()</code>, defined in Group 5. Resolved by execution order (Group 5 runs after Group 3 via Group 4) — not a circular dependency.</div>
+    <div class="accept"><b>Acceptance:</b> 3 new tests pass (one may require Group 5 complete first); all 5 existing AppShell tests pass unmodified; AppShell never passes BrowseGrid/LearnMode direct references to each other.</div>
+  </section>
+
+  <section data-group="4" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 4: FilterBar/BrowseGrid Hydration + Propagation</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: Group 3 &nbsp;·&nbsp; 4 steps</div>
+    <div class="files"><code>src/components/FilterBar.ts</code><code>src/components/BrowseGrid.ts</code><code>src/components/BrowseGrid.test.ts</code></div>
+    <ul class="steps">
+      <li data-step="4.1" class="step done">Write 2 focused tests (initialFilterState hydrates chips/toggle, onFilterChange fires with new state)</li>
+      <li data-step="4.2" class="step done">Add initialState? to CreateFilterBarOptions, seed state + searchInput.value</li>
+      <li data-step="4.3" class="step done">Add initialFilterState?/onFilterChange? to CreateBrowseGridOptions, bubble via onChange handler</li>
+      <li data-step="4.4" class="step done">Run BrowseGrid.test.ts only (9 existing + 2 new)</li>
+    </ul>
+    <div class="accept"><b>Acceptance:</b> 2 new tests pass; all 9 existing BrowseGrid tests pass unmodified; both components hydrate correctly when provided, fall back to today's defaults when omitted.</div>
+  </section>
+
+  <section data-group="5" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 5: LearnMode — updateFilter, Filter Chip, Empty State, Subset-Scoped Stats</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: Group 1, Group 4 &nbsp;·&nbsp; 7 steps &nbsp;·&nbsp; largest new surface area, built last</div>
+    <div class="files"><code>src/components/LearnMode.ts</code><code>src/components/LearnMode.test.ts</code><code>src/styles/theme.css</code></div>
+    <ul class="steps">
+      <li data-step="5.1" class="step done">Write 5 focused tests (updateFilter redraw, empty-subset EmptyState+hidden mark-row, chip label/visibility incl. overflow, chip-click onClearFilter, subset-scoped stats)</li>
+      <li data-step="5.2" class="step done">Convert const {entries} to let currentEntries — update every downstream reference (draw calls, stats renders)</li>
+      <li data-step="5.3" class="step done">Add updateFilter(newEntries, filterState) + filterState option to CreateLearnModeOptions</li>
+      <li data-step="5.4" class="step done">Add .filter-chip button to topbar between progressStats and resetBtn (aria-label, overflow label format, click → onClearFilter)</li>
+      <li data-step="5.5" class="step done">Implement empty-subset rendering — swap in EmptyState, hide mark-row, never call drawNextCard when subset is empty</li>
+      <li data-step="5.6" class="step done">Add .filter-chip CSS to theme.css (verbatim from mockups, explicit cursor:pointer)</li>
+      <li data-step="5.7" class="step done">Run LearnMode.test.ts only (6 existing + 5 new)</li>
+    </ul>
+    <div class="vis-ref"><b>Visual Reference 1:</b> <code>mockups/learn-mode-active-filter-chip.html</code> (screen:learn-mode-active-filter) — <code>.filter-chip</code> between progress-stats and reset icon-btn; pill shape, chartreuse border/text, JetBrains Mono 11px, cursor:pointer.</div>
+    <div class="vis-ref"><b>Visual Reference 2:</b> <code>mockups/learn-mode-empty-filtered-subset.html</code> (screen:learn-mode-empty-filtered-subset) — <code>.empty-state</code> replacing card, exact copy "No cards match your filter" / "Try clearing a filter to keep studying." / "Clear filter"; chip stays visible; mark-row absent.</div>
+    <div class="accept"><b>Acceptance:</b> 5 new tests pass; all 6 existing LearnMode tests pass unmodified; updateFilter([]) never calls drawNextCard; implementation matches each visual-reference acceptance criterion.</div>
+  </section>
+
+  <section data-group="6" class="group done card">
+    <div class="g-head"><h3 style="margin:0">Group 6: Test Review &amp; Gap Analysis</h3><span class="g-badge"></span></div>
+    <div class="g-meta">Depends on: Groups 1–5 &nbsp;·&nbsp; 5 steps</div>
+    <div class="files"><code>src/components/AppShell.test.ts</code><code>src/components/BrowseGrid.test.ts</code><code>src/components/LearnMode.test.ts</code><code>src/lib/storage.test.ts</code><code>src/components/EmptyState.test.ts</code></div>
+    <ul class="steps">
+      <li data-step="6.1" class="step done">Review 15 new tests + 31 pre-existing across 5 files</li>
+      <li data-step="6.2" class="step done">Analyze gaps — verify full propagation chain has a true end-to-end test in AppShell.test.ts</li>
+      <li data-step="6.3" class="step done">Write up to 4 additional strategic tests (reload-persistence, Browse's own Clear-filters entry point, progress isolation outside subset, resetProgress global scope)</li>
+      <li data-step="6.4" class="step done">Run feature-specific tests only (expect 46-50 total across 5 files)</li>
+      <li data-step="6.5" class="step done">Run full npm test suite as final acceptance gate (zero regressions in filters/learnAlgorithm/Card tests)</li>
+    </ul>
+    <div class="accept"><b>Acceptance:</b> ~46-50 feature tests pass; no more than 4 additional tests added; full npm test passes with zero regressions.</div>
+  </section>
+
+  <h2 id="coverage">Visual Coverage Summary</h2>
+  <table>
+    <tr><th>Screen/Component</th><th>Covered By</th><th>Status</th></tr>
+    <tr><td><code>screen:learn-mode-active-filter</code></td><td>Group 5</td><td class="pass">✅</td></tr>
+    <tr><td><code>screen:learn-mode-empty-filtered-subset</code></td><td>Group 5</td><td class="pass">✅</td></tr>
+    <tr><td><code>component:filter-chip</code></td><td>Group 5 (steps 5.4, 5.6)</td><td class="pass">✅</td></tr>
+    <tr><td><code>component:empty-state</code></td><td>Group 1 + Group 5 (step 5.5)</td><td class="pass">✅</td></tr>
+  </table>
+  <p class="g-meta">Full matrix with source references: <a href="visual-coverage.md" target="_blank" rel="noopener" class="md">visual-coverage.md ↗</a></p>
+
+  <h2 id="standards">Standards Compliance</h2>
+  <p>Follow standards from <code>.maister/docs/standards/</code>:</p>
+  <ul>
+    <li><code>global/minimal-implementation.md</code> — every new option has an immediate caller specified in the steps above</li>
+    <li><code>global/coding-style.md</code> (DRY) — Group 1's EmptyState extraction is the direct application</li>
+    <li><code>frontend/components.md</code> — EmptyState single responsibility, minimal options, create&lt;X&gt; naming</li>
+    <li><code>frontend/accessibility.md</code> — .filter-chip is a native button with explicit aria-label</li>
+    <li><code>testing/test-writing.md</code> — new tests target behavior, not implementation details</li>
+  </ul>
+
+</body>
+</html>

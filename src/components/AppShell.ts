@@ -2,6 +2,10 @@ import { createLearnMode } from './LearnMode';
 import type { LearnModeInstance } from './LearnMode';
 import { createBrowseGrid } from './BrowseGrid';
 import type { BrowseGridInstance } from './BrowseGrid';
+import { applyFilters } from '../lib/filters';
+import type { BrowseFilterState } from '../lib/filters';
+import { readFilterState, writeFilterState } from '../lib/storage';
+import type { PersistedFilterState } from '../lib/storage';
 import type { Glossary } from '../types/glossary';
 
 /**
@@ -29,6 +33,7 @@ export interface CreateAppShellOptions {
 
 export interface AppShellState {
   activeTab: AppShellTab;
+  filterState: BrowseFilterState;
 }
 
 export interface AppShellInstance {
@@ -43,7 +48,13 @@ export interface AppShellInstance {
 export function createAppShell(options: CreateAppShellOptions): AppShellInstance {
   const { entries } = options;
 
-  const state: AppShellState = { activeTab: 'learn' };
+  // AppShell is the sole owner/mediator of BrowseFilterState: it hydrates
+  // from persisted storage at construction, then mediates every subsequent
+  // change between BrowseGrid and LearnMode. Neither view ever holds a
+  // direct reference to the other.
+  const filterState: BrowseFilterState = { ...readFilterState(), searchQuery: '' };
+
+  const state: AppShellState = { activeTab: 'learn', filterState };
 
   const root = document.createElement('div');
   root.className = 'app-shell';
@@ -55,10 +66,35 @@ export function createAppShell(options: CreateAppShellOptions): AppShellInstance
   const browseContainer = document.createElement('div');
   browseContainer.className = 'view-container view-browse';
 
-  const learnMode: LearnModeInstance = createLearnMode({ entries });
+  /** Projects a `BrowseFilterState` down to its persisted 2-field shape — the single source for this literal, reused at construction and on every change. */
+  function toPersisted(s: BrowseFilterState): PersistedFilterState {
+    return { selectedCategories: s.selectedCategories, selectedLevel: s.selectedLevel };
+  }
+
+  function handleFilterChange(newState: BrowseFilterState): void {
+    state.filterState = newState;
+
+    const persisted = toPersisted(newState);
+    writeFilterState(persisted);
+    learnMode.updateFilter(applyFilters(entries, newState), persisted);
+  }
+
+  const learnMode: LearnModeInstance = createLearnMode({
+    entries: applyFilters(entries, filterState),
+    // Routed through Browse's own `clearFilters()` (→ FilterBar.reset()) so a
+    // clear initiated from Learn Mode converges on the exact same code path
+    // as Browse's own "Clear filters" button — including keeping Browse's
+    // already-mounted FilterBar/grid in sync without requiring a reload.
+    onClearFilter: () => browseGrid.clearFilters(),
+    filterState: toPersisted(filterState),
+  });
   learnContainer.appendChild(learnMode.element);
 
-  const browseGrid: BrowseGridInstance = createBrowseGrid({ entries });
+  const browseGrid: BrowseGridInstance = createBrowseGrid({
+    entries,
+    initialFilterState: filterState,
+    onFilterChange: handleFilterChange,
+  });
   browseContainer.appendChild(browseGrid.element);
 
   // --- Bottom tab bar -------------------------------------------------------

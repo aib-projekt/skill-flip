@@ -213,6 +213,36 @@ describe('BrowseGrid / FilterBar integration', () => {
     expect(statsAfter?.textContent).toContain(`${fixture.length - 1} new`);
   });
 
+  it("scopes Browse's own topbar progress-stats to the active filtered subset, not the full glossary", () => {
+    localStorage.setItem(
+      'skillflip:learn-progress',
+      JSON.stringify({
+        'java-generics': { bucket: 'know', consecutiveKnowCount: 1 },
+        'devops-ci-cd': { bucket: 'dont_know', consecutiveKnowCount: 0 },
+      })
+    );
+
+    const grid = createBrowseGrid({ entries: fixture });
+
+    const statsUnfiltered = grid.element.querySelector('.topbar .progress-stats');
+    expect(statsUnfiltered?.textContent).toContain('1 mastered');
+    expect(statsUnfiltered?.textContent).toContain('1 shaky');
+    expect(statsUnfiltered?.textContent).toContain('2 new');
+
+    // Filtering to "Java" only should immediately re-scope the stats to just
+    // the 2 Java entries (1 mastered, 0 shaky, 1 new) rather than continuing
+    // to reflect the full 4-entry fixture.
+    const javaChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Java')
+    );
+    javaChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    const statsFiltered = grid.element.querySelector('.topbar .progress-stats');
+    expect(statsFiltered?.textContent).toContain('1 mastered');
+    expect(statsFiltered?.textContent).toContain('0 shaky');
+    expect(statsFiltered?.textContent).toContain('1 new');
+  });
+
   it('"Clear filters" resets all filter state and restores the full unfiltered grid', () => {
     const grid = createBrowseGrid({ entries: fixture });
     const search = grid.element.querySelector<HTMLInputElement>('.search-input');
@@ -231,5 +261,44 @@ describe('BrowseGrid / FilterBar integration', () => {
     expect(grid.element.querySelector('.result-count')?.textContent).toBe(
       `${fixture.length} of ${fixture.length} terms`
     );
+  });
+
+  it('hydrates from initialFilterState: pre-activates matching chip/level and pre-filters the grid with no interaction', () => {
+    const grid = createBrowseGrid({
+      entries: fixture,
+      initialFilterState: { searchQuery: '', selectedCategories: ['DevOps'], selectedLevel: 'Junior' },
+    });
+
+    const devopsChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('DevOps')
+    );
+    expect(devopsChip?.classList.contains('active')).toBe(true);
+
+    const juniorBtn = Array.from(grid.element.querySelectorAll<HTMLElement>('.lvl')).find(
+      (b) => b.textContent === 'Junior'
+    );
+    expect(juniorBtn?.classList.contains('active')).toBe(true);
+
+    // Pre-filtered to the single DevOps + Junior entry, with no user interaction.
+    expect(grid.element.querySelectorAll('.tile').length).toBe(1);
+    expect(grid.element.textContent).toContain('Containers');
+    expect(grid.element.querySelector('.result-count')?.textContent).toBe(`1 of ${fixture.length} terms`);
+  });
+
+  it('calls onFilterChange once with the updated BrowseFilterState when a category chip is toggled', () => {
+    const onFilterChange = vi.fn();
+    const grid = createBrowseGrid({ entries: fixture, onFilterChange });
+
+    const devopsChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('DevOps')
+    );
+    devopsChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(onFilterChange).toHaveBeenCalledTimes(1);
+    expect(onFilterChange).toHaveBeenCalledWith({
+      searchQuery: '',
+      selectedCategories: ['DevOps'],
+      selectedLevel: 'All',
+    });
   });
 });

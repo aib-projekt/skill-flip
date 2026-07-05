@@ -1,8 +1,17 @@
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
-import { readProgress, writeProgress, resetProgress, computeBucketCounts } from './storage';
+import {
+  readProgress,
+  writeProgress,
+  resetProgress,
+  computeBucketCounts,
+  readFilterState,
+  writeFilterState,
+  defaultPersistedFilterState,
+} from './storage';
 import type { Glossary } from '../types/glossary';
 
 const STORAGE_KEY = 'skillflip:learn-progress';
+const FILTER_STATE_KEY = 'skillflip:browse-filter-state';
 
 describe('storage', () => {
   beforeAll(() => {
@@ -90,5 +99,43 @@ describe('storage', () => {
 
     const counts = computeBucketCounts(entries);
     expect(counts).toEqual({ mastered: 1, shaky: 1, new: 1 });
+  });
+
+  it('write then read round-trips a PersistedFilterState exactly', () => {
+    writeFilterState({ selectedCategories: ['Java'], selectedLevel: 'Senior' });
+
+    const state = readFilterState();
+    expect(state).toEqual({ selectedCategories: ['Java'], selectedLevel: 'Senior' });
+  });
+
+  it('readFilterState falls back to defaultPersistedFilterState when absent, malformed, or non-object', () => {
+    // Absent key.
+    expect(readFilterState()).toEqual(defaultPersistedFilterState());
+
+    // Malformed JSON.
+    localStorage.setItem(FILTER_STATE_KEY, '{not valid json');
+    expect(readFilterState()).toEqual(defaultPersistedFilterState());
+
+    // Parsed value is not an object (e.g. a JSON number).
+    localStorage.setItem(FILTER_STATE_KEY, '42');
+    expect(readFilterState()).toEqual(defaultPersistedFilterState());
+
+    // Parsed value is an object but shape-mismatched (missing/wrong-typed fields).
+    localStorage.setItem(FILTER_STATE_KEY, '{}');
+    expect(readFilterState()).toEqual(defaultPersistedFilterState());
+
+    localStorage.setItem(FILTER_STATE_KEY, JSON.stringify({ selectedCategories: 'Java', selectedLevel: 'Senior' }));
+    expect(readFilterState()).toEqual(defaultPersistedFilterState());
+  });
+
+  it('writeFilterState persists only selectedCategories and selectedLevel keys', () => {
+    writeFilterState({ selectedCategories: ['DevOps'], selectedLevel: 'Junior' });
+
+    const raw = localStorage.getItem(FILTER_STATE_KEY);
+    expect(raw).not.toBeNull();
+    expect(Object.keys(JSON.parse(raw as string)).sort()).toEqual([
+      'selectedCategories',
+      'selectedLevel',
+    ]);
   });
 });
