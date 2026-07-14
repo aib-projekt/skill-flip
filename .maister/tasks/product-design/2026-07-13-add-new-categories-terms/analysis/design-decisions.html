@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Decisions — Add New Categories &amp; Terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+:root[data-theme="dark"] {
+  --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+  --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+  --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+  --info:#60a5fa; --info-soft:#15233a;
+}
+:root[data-theme="light"] {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff;
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin:0 0 6px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* --- companion-specific extensions --- */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+header { margin-bottom:6px; }
+header .meta { font-size:12.5px; color:var(--dim); margin-top:4px; }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+ul.kd, ul.risks { margin:6px 0 0; padding-left:20px; }
+ul.kd li, ul.risks li { margin:4px 0; }
+.section-intro { color:var(--dim); font-size:13px; margin:6px 0 14px; }
+.dec-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:14px; margin:12px 0; }
+.dec-card { display:flex; flex-direction:column; gap:8px; border:2px solid var(--accent); }
+.dec-card .dec-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.sel-badge { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--ok-soft); color:var(--ok); white-space:nowrap; }
+.dec-card .desc { font-size:13px; }
+.dec-card details { margin-top:4px; font-size:12.5px; color:var(--dim); }
+.dec-card details summary { font-weight:600; color:var(--text); font-size:12.5px; }
+.dec-card details p { margin:6px 0 0; }
+.rationale-box { background:var(--accent-soft); border:1px solid var(--accent); border-radius:var(--radius); padding:12px 16px; margin:14px 0; font-size:13px; }
+.rationale-box b.lbl { color:var(--accent); text-transform:uppercase; font-size:11px; letter-spacing:.04em; display:block; margin-bottom:4px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="problem-statement.md" target="_blank" rel="noopener">Problem Statement</a>
+  <a href="personas.md" target="_blank" rel="noopener">Personas</a>
+  <a href="design-context.md" target="_blank" rel="noopener">Design Context</a>
+  <a href="codebase-analysis.md" target="_blank" rel="noopener">Codebase Analysis</a>
+  <a href="alternatives.html">Alternatives</a>
+  <span class="here">Design Decisions</span>
+  <a href="design-decisions.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Design Decisions</span>
+  <h1>Design Decisions: Taxonomy, Dedup, FilterBar UX &amp; Curation Sequencing</h1>
+  <div class="meta">Task: <code>2026-07-13-add-new-categories-terms</code> · Generated 2026-07-13 · Source: <a href="design-decisions.md" target="_blank" rel="noopener">analysis/design-decisions.md ↗</a></div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>4</b><span>decision areas</span></div>
+  <div class="tile"><b>14</b><span>categories (total)</span></div>
+  <div class="tile"><b>3</b><span>trade-offs accepted</span></div>
+  <div class="tile"><b>4</b><span>open questions / risks</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>Selected direction: 2 new categories (14 total) — <b>"Software Architecture"</b> and <b>"Microservices &amp; Distributed Systems"</b> — sourced from the 3 context files, with overlapping concepts kept as separate cross-referenced entries (not merged), a symmetric expand/collapse FilterBar redesign (visible count raised to 7-8), and a batch-by-source-file curation sequence (<code>microservice-patterns.md</code> → <code>system-design terms.md</code> → <code>dna-mapa.md</code> last).</p>
+
+  <h2>Key Decisions</h2>
+  <ul class="kd">
+    <li><b>Taxonomy structure — Alternative A (minimal/consolidated)</b>: 2 new categories rather than the recommended 6 (Alternative B) or maximal 10-11 (Alternative C) — user prioritized FilterBar simplicity and lower hand-sync/boundary-judgment overhead over maximum drill precision.</li>
+    <li><b>Dedup strategy — Alternative 3 (keep separate with cross-references)</b>: overlapping concepts (CQRS, circuit breaker, service discovery, distributed tracing, Event Sourcing, service mesh/sidecar) become separate entries per source/category with "see also" notes, rather than merged single-source-of-truth entries — user prioritized preserving each source's distinct framing over Learn Mode drill-weighting purity.</li>
+    <li><b>FilterBar UX — UX-2 + UX-1 (symmetric collapse + raised count)</b>: add a genuine "show less" control and raise <code>VISIBLE_CATEGORY_CHIP_COUNT</code> from 5 to 7-8 — cheapest fix that resolves the already-flagged "no way to shrink back" pain point, proportionate to the 14-category outcome.</li>
+    <li><b>Curation sequencing — Alt Seq-3 (batch by source file)</b>: curate <code>microservice-patterns.md</code> first, <code>system-design terms.md</code> second, <code>dna-mapa.md</code> last — sequences from clearest/lowest-risk source to hardest (largest, Polish, highest translation-discipline risk).</li>
+  </ul>
+
+  <h2>Open Questions / Risks</h2>
+  <ul class="risks">
+    <li><b>Dangling cross-reference risk</b>: combining "keep separate with cross-references" (dedup) with "batch by source file, Polish last" (sequencing) means a cross-reference written during the <code>microservice-patterns.md</code> batch may point at a dna-mapa-sourced entry that doesn't exist until the final batch. The feature spec (Phase 6) must define how this is handled (e.g., a follow-up cross-reference pass after all 3 batches land, or entries shipped without the cross-reference note until the referenced entry exists).</li>
+    <li>No UI affordance exists today for surfacing a "see also" cross-reference on a card — it would live only in prose <code>description</code> text unless the spec adds something. Phase 6 must decide whether this is acceptable or needs a lightweight UI treatment.</li>
+    <li>"Microservices &amp; Distributed Systems" is likely to become the single largest category in the entire taxonomy (illustratively ~35-45 concepts, rivaling or exceeding today's largest category, Software Engineering at 32) — accepted trade-off of the minimal/consolidated choice, worth confirming entry-count expectations don't surprise the user during curation.</li>
+    <li>Exact category boundaries within the 2 new categories (e.g. which dna-mapa subsections land in which of the 2) still need to be finalized in the feature spec.</li>
+  </ul>
+</section>
+
+<main>
+
+<h2 id="selected-approach">Selected Approach</h2>
+<div class="card">
+  <p>Expand Skill Flip's taxonomy from 12 to 14 categories by adding two new, broad categories — <b>"Software Architecture"</b> and <b>"Microservices &amp; Distributed Systems"</b> — that absorb the genuinely-new-territory content from the 3 source files, while folding infrastructure/data-storage-adjacent content (CI/CD, IaC, monitoring, Kafka, Redis, Elasticsearch, CDN, etc.) into the existing DevOps and Cloud Engineering categories. Overlapping concepts across sources are preserved as separate, cross-referenced entries rather than merged. The FilterBar chip UI gets a modest redesign (symmetric collapse + raised visible count) to stay usable at the new category count. Curation of the ~90-110 raw concepts into finished bilingual entries proceeds as a follow-up implementation pass, sequenced source-file by source-file with the Polish-language <code>dna-mapa.md</code> curated last.</p>
+</div>
+
+<h2 id="rationale">Rationale</h2>
+<div class="rationale-box">
+  <b class="lbl">Why this package is coherent</b>
+  The user explicitly weighed FilterBar simplicity, lower ongoing hand-sync risk (fewer new literals across the 3 unsynced taxonomy copies identified in <code>codebase-analysis.md</code>), and preserving each source's own framing above maximum topical drill-precision and Learn Mode's weighted-drill purity. This is a coherent, internally consistent set of choices: a simpler taxonomy needs fewer boundary decisions, and preserving source framing is naturally paired with not merging sources into single definitions.
+</div>
+
+<h2 id="decisions">Key Decisions Per Area</h2>
+<p class="section-intro">Full detail with pros/cons/trade-off tables: <a href="alternatives.md" target="_blank" rel="noopener">analysis/alternatives.md ↗</a> (<a href="alternatives.html">HTML</a>). Each card below shows the selected alternative; expand for the rejected alternatives.</p>
+
+<div class="dec-grid">
+  <div class="card dec-card">
+    <div class="dec-head"><h3>Taxonomy Structure</h3><span class="sel-badge">Alternative A</span></div>
+    <p class="desc">Minimal/consolidated — 2 new categories rather than the recommended 6 (Alternative B) or maximal 10-11 (Alternative C) — user prioritized FilterBar simplicity and lower hand-sync/boundary-judgment overhead over maximum drill precision.</p>
+    <details>
+      <summary>Rejected alternatives</summary>
+      <p>Alternative B (source-structure-derived, 6 new / 18 total, brainstormer's recommendation) and Alternative C (maximal, 10-11 new / 22-23 total) were considered and rejected in favor of Alternative A.</p>
+    </details>
+  </div>
+
+  <div class="card dec-card">
+    <div class="dec-head"><h3>Cross-Source Dedup</h3><span class="sel-badge">Alternative 3</span></div>
+    <p class="desc">Keep separate with cross-references — overlapping concepts (CQRS, circuit breaker, service discovery, distributed tracing, Event Sourcing, service mesh/sidecar) become separate entries per source/category with "see also" notes, rather than merged single-source-of-truth entries — user prioritized preserving each source's distinct framing over Learn Mode drill-weighting purity.</p>
+    <details>
+      <summary>Rejected alternatives</summary>
+      <p>Alternative 1 (first-source-wins) and Alternative 2 (merge into richest definition, brainstormer's recommendation) were considered and rejected in favor of Alternative 3.</p>
+    </details>
+  </div>
+
+  <div class="card dec-card">
+    <div class="dec-head"><h3>FilterBar UX</h3><span class="sel-badge">UX-2 + UX-1</span></div>
+    <p class="desc">Symmetric collapse + raised count — add a genuine "show less" control and raise <code>VISIBLE_CATEGORY_CHIP_COUNT</code> from 5 to 7-8 — cheapest fix that resolves the already-flagged "no way to shrink back" pain point, proportionate to the 14-category outcome.</p>
+    <details>
+      <summary>Rejected alternatives</summary>
+      <p>UX-3 (theme clusters), UX-4 (pinned + dropdown), and UX-5 (search-within-filter) were considered; UX-2 + UX-1 chosen as proportionate to the 14-category outcome.</p>
+    </details>
+  </div>
+
+  <div class="card dec-card">
+    <div class="dec-head"><h3>Curation Sequencing</h3><span class="sel-badge">Alt Seq-3</span></div>
+    <p class="desc">Batch by source file, Polish last — curate <code>microservice-patterns.md</code> first, <code>system-design terms.md</code> second, <code>dna-mapa.md</code> last — sequences from clearest/lowest-risk source to hardest (largest, Polish, highest translation-discipline risk).</p>
+    <details>
+      <summary>Rejected alternatives</summary>
+      <p>Seq-1 (category-at-a-time) and Seq-2 (all-decisions-first) were considered; Seq-3 chosen for its easy-to-hard source ordering.</p>
+    </details>
+  </div>
+</div>
+
+<table style="margin-top:18px">
+<caption style="text-align:left; font-size:11.5px; color:var(--dim); padding:6px 0;">Decisions at a glance</caption>
+<thead><tr><th>Area</th><th>Decision</th><th>Rejected Alternatives</th></tr></thead>
+<tbody>
+<tr><td>Taxonomy structure</td><td>Alternative A — 2 new categories (14 total)</td><td>B (6 new, recommended), C (10-11 new)</td></tr>
+<tr><td>Cross-source dedup</td><td>Alternative 3 — keep separate with cross-references</td><td>1 (first-source-wins), 2 (merge, recommended)</td></tr>
+<tr><td>FilterBar UX</td><td>UX-2 + UX-1 — symmetric collapse + raise count to 7-8</td><td>UX-3 (clusters), UX-4 (dropdown), UX-5 (search)</td></tr>
+<tr><td>Curation sequencing</td><td>Alt Seq-3 — batch by source file, Polish last</td><td>Seq-1 (category-at-a-time), Seq-2 (all-decisions-first, hybrid recommended)</td></tr>
+</tbody>
+</table>
+
+<h2 id="tradeoffs">Trade-Offs Accepted</h2>
+<table>
+<thead><tr><th>Trade-off</th><th>What's accepted</th></tr></thead>
+<tbody>
+<tr><td><b>Drill precision for simplicity</b></td><td>The Curator persona's "drill just this area" need is served less precisely by 2 broad categories than it would be by 6 or 11 narrower ones — a themed pre-interview session on, say, just DDD tactical patterns will require scanning past ADR/modeling content within the same "Software Architecture" category.</td></tr>
+<tr><td><b>Entry redundancy for framing fidelity</b></td><td>Choosing not to dedup means the glossary will contain 2 (or more) entries for concepts like CQRS or circuit breaker — acceptable per the user's explicit choice, but a real departure from the "single source of truth" principle the codebase analysis flagged as important for Learn Mode's weighted algorithm.</td></tr>
+<tr><td><b>Temporary cross-reference gaps</b></td><td>The sequencing choice means some cross-references will be incomplete until the final (dna-mapa) curation batch lands — the spec must define an explicit mitigation.</td></tr>
+</tbody>
+</table>
+
+</main>
+</body>
+</html>

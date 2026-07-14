@@ -1,0 +1,250 @@
+orchestrator:
+  started_phase: phase-0
+  completed_phases: [phase-0, phase-1, phase-2, phase-3, phase-4, phase-5, phase-6, phase-7, phase-8]
+  next_phase: null
+  failed_phases: []
+
+  auto_fix_attempts: {}
+
+  options:
+    e2e_enabled: null
+    user_docs_enabled: null
+    code_review_enabled: null
+    sequential: null
+    html_output: true
+
+  created: "2026-07-13T11:56:17Z"
+  updated: "2026-07-13T14:07:40Z"
+  task_path: .maister/tasks/product-design/2026-07-13-add-new-categories-terms
+
+  task_ids:
+    phase-0: "1"
+    phase-1: "2"
+    phase-2: "3"
+    phase-3: "4"
+    phase-4: "5"
+    phase-5: "6"
+    phase-6: "7"
+    phase-7: "8"
+    phase-8: "9"
+
+task:
+  title: "Add new categories and terms to the Skill Flip glossary"
+  description: "add new categories and terms"
+  status: completed
+  tags: [content, glossary, taxonomy]
+  priority: null
+
+design_context:
+  design_characteristics:
+    is_greenfield: false
+    is_enhancement: true
+    is_ui_focused: true  # flipped during Phase 2 exploration: user explicitly opted to address FilterBar chip/overflow UX as part of this task and activate Phase 7 visual prototyping
+    is_backend: false
+    is_complex: true
+    is_simple: false
+  complexity_level: complex
+  collected_urls: []
+  research_topics: []
+  user_files_list:
+    - path: context/dna-mapa.md
+      description: >
+        Polish-language architecture mind-map (~585 lines): DDD building blocks, CQRS,
+        Hexagonal/Microkernel architecture, modularization, distributed systems, ESB,
+        microservices vs monolith trade-offs, ADR/decision-making, UML/BPMN/C4 modeling,
+        Event Storming, Bounded Contexts, cloud/Kubernetes/Service Mesh/CI/CD/IaC/monitoring.
+        Raw outline notes, not curated entries; overlaps existing DevOps/Cloud
+        Engineering/Software Engineering categories as well as new architecture territory.
+    - path: context/microservice-patterns.md
+      description: >
+        English structured list of microservices.io-style patterns: decomposition, data
+        (Saga, Event Sourcing, CQRS, Aggregate), testing, observability, communication,
+        discovery, deployment. Bare pattern names with category tags, no definitions.
+    - path: "context/system-design terms.md"
+      description: >
+        Short English notes: Kafka, Redis, Elasticsearch, Zookeeper, CDN, plus a
+        communication-strategy decision tree (polling/SSE/WebSocket/WebRTC). Bare terms,
+        no definitions.
+  project_doc_paths:
+    - .maister/docs/project/vision.md
+    - .maister/docs/project/roadmap.md
+    - .maister/docs/project/tech-stack.md
+    - .maister/docs/project/architecture.md
+  project_context_summary: >
+    Skill Flip is a client-only Vite + vanilla TypeScript SPA: a bilingual (EN/PL) Java/Backend
+    engineering flashcard lexicon curated from a 12-category "Engineering Ladder" taxonomy (159
+    entries). No framework, no backend, no database — data lives in a static data/glossary.json
+    validated by content-pipeline/validate-glossary.ts. Category is a fixed TypeScript union type
+    (src/types/glossary.ts) with exactly 12 values; FilterBar renders category chips (5 visible +
+    expandable overflow). Roadmap lists "ongoing glossary maintenance" as the top planned
+    enhancement but frames it as adding entries to existing categories as the taxonomy evolves —
+    adding wholly NEW categories is not explicitly covered and would touch the Category union type,
+    FilterBar chip rendering, and the content-pipeline curation process.
+  refinement_iterations:
+    phase_2: 0
+    phase_3: 0
+    phase_5: 0
+    phase_6_sections: {}
+    phase_7: 0
+  visual_companion:
+    available: true
+    port: 3847
+    pid: null
+    fallback_to_ascii: false
+  research_reference:
+    path: null
+    research_question: null
+  phase_summaries:
+    context_synthesis:
+      summary: >
+        Category taxonomy is a flat, hand-synced (3 unsynced copies) TypeScript union with
+        fully data-driven rendering — code changes are small/low-risk. Real cost is curating
+        ~90-110 raw, overlapping, undefined concepts from 3 heterogeneous source files (one
+        585-line Polish mind-map, two bare English term lists) into the existing bilingual
+        curation pipeline. Category naming/grouping is unresolved.
+      sources_count: 7
+      decisions:
+        - decision: "Extend existing flat Category union/array pattern rather than a hierarchical taxonomy"
+          rationale: "Rendering, badging, and validation are already generic/data-driven and scale to N categories with no new branching logic"
+        - decision: "New categories must be appended at the end of ALL_CATEGORIES/Category, not inserted mid-list"
+          rationale: "BrowseGrid.test.ts has order-dependent assertions tied to the current last category"
+      risks:
+        - "3 hand-maintained, unsynced copies of the category list (glossary.ts, FilterBar.ts, validate-glossary.ts) with no compiler-enforced sync"
+        - "Overlapping concepts across the 3 source files (CQRS, circuit breaker, service discovery, distributed tracing) need dedup before curation"
+        - "dna-mapa.md is entirely in Polish, inverting the EN-primary curation workflow — risk of descriptionPl becoming a too-close paraphrase of source notes"
+        - "FilterBar's 5-visible+overflow chip UX was designed for 12 categories; growing further pushes more into an ever-open overflow chip"
+        - "npm test does not run validate-glossary; only the deploy-time CI workflow catches taxonomy drift"
+      artifacts:
+        - {path: "analysis/codebase-analysis.md", label: "Codebase Analysis Report", html: null}
+        - {path: "analysis/design-context.md", label: "Design Context", html: null}
+    problem_exploration:
+      problem_statement: >
+        Expand Skill Flip's fixed 12-category taxonomy to cover architecture/microservices/
+        system-design notes outside the original "Engineering Ladder" scope. Deliverable is
+        the new-category structure, source-to-category curation plan, and a FilterBar chip
+        UX redesign — not the ~90-110 finished glossary entries (follow-up implementation pass).
+      constraints:
+        - "Taxonomy mechanism stays flat (no hierarchy)"
+        - "New categories append at the end only, never inserted mid-list"
+        - "Existing-category enrichment takes priority over new-category proliferation"
+        - "Scope boundary: design + curation plan, not full entry curation"
+        - "Bilingual curation discipline for Polish source: EN drafted first, PL translated independently"
+        - "No category-count ceiling, but FilterBar redesign must stay usable at whatever count results"
+      success_criteria:
+        - "Approved new category list with boundaries/rationale"
+        - "Complete source-to-category mapping with explicit dedup decisions"
+        - "Written curation plan referencing existing prompt-template.md/rubric.md, including PL-source guidance"
+        - "Prototyped, approved FilterBar chip/overflow redesign"
+        - "Dependency-ordered code change list ready for /maister:development"
+      decisions:
+        - {decision: "Derive category boundaries from source material's own structure", rationale: "Source authors already grouped content meaningfully (microservice-patterns.md's 3-way tags, dna-mapa.md's sections)"}
+        - {decision: "Enrich existing thin categories where content fits, rather than always creating new ones", rationale: "Avoids redundant near-duplicate categories, strengthens thin existing ones"}
+        - {decision: "Design-task scope is taxonomy + curation plan, not full entry curation", rationale: "~90-110 raw concepts is substantial content work that shouldn't block/bloat the design decision"}
+        - {decision: "is_ui_focused flipped true mid-exploration, Phase 7 activated", rationale: "User explicitly chose to address FilterBar chip/overflow UX as part of this task"}
+      risks:
+        - "Exact new category names/boundaries not yet decided (Phase 4/5 territory)"
+        - "Overlapping concepts across sources still need per-concept dedup resolution"
+        - "PL-source curation discipline must be documented clearly so it isn't skipped downstream"
+      artifacts:
+        - {path: "analysis/problem-statement.md", label: "Problem Statement", html: null}
+    persona_exploration:
+      personas:
+        - "Interview-Prep Curator (primary) — app owner/author, preparing for senior/staff interviews"
+        - "Portfolio Visitor (secondary) — recruiter/senior engineer evaluating breadth via the deployed demo"
+      user_journeys:
+        - "Curator: Browse -> select new category chip -> Learn Mode auto-scopes (existing feature) -> drill weighted cards"
+        - "Visitor: lands on demo -> skims Browse categories -> recognizable naming signals senior-level breadth"
+      decisions:
+        - {decision: "Learn Mode's existing filter-scoping already satisfies isolated-drilling need", rationale: "Shipped 2026-07-05 (commit 7dbb9af) — no new Learn Mode feature required"}
+        - {decision: "Include Portfolio Visitor persona despite content-only task", rationale: "Category naming is user-facing and affects how an outside reviewer reads signaled expertise"}
+      risks: []
+      artifacts:
+        - {path: "analysis/personas.md", label: "Personas", html: null}
+    idea_generation:
+      alternatives_count: 15
+      summary: >
+        4 decision areas generated by solution-brainstormer: (1) taxonomy structure — 3
+        alternatives (2/6/10-11 new categories), recommends 6 (source-structure-derived,
+        18 total); (2) cross-source dedup — 3 alternatives, recommends merge-into-richest;
+        (3) FilterBar UX — 5 alternatives, recommends symmetric collapse + modest count bump,
+        conditional dropdown upgrade; (4) curation sequencing — 3 alternatives, recommends
+        hybrid (upfront dedup/mapping, then category-at-a-time curation).
+      decisions: []
+      risks:
+        - "Category-boundary judgment calls remain even under recommended alternative (e.g. Bounded Contexts placement)"
+        - "Actual entry counts per new category unknown until curation — sizing is illustrative"
+        - "Service discovery has granularity mismatch across sources (1 concept vs 5 patterns)"
+        - "FilterBar recommendation is conditional on final taxonomy decision"
+      artifacts:
+        - {path: "analysis/alternatives.md", label: "Solution Alternatives", html: "analysis/alternatives.html"}
+    idea_convergence:
+      selected_approach: >
+        14 total categories (2 new: "Software Architecture", "Microservices & Distributed
+        Systems"). Overlapping concepts kept as separate cross-referenced entries (not
+        merged). FilterBar gets symmetric collapse + visible count raised to 7-8. Curation
+        sequenced batch-by-source-file (microservice-patterns.md -> system-design terms.md
+        -> dna-mapa.md last).
+      trade_offs_accepted:
+        - "Drill precision for simplicity (2 broad categories vs 6-11 narrower ones)"
+        - "Entry redundancy for framing fidelity (no dedup merge, departs from single-source-of-truth)"
+        - "Temporary cross-reference gaps until final (Polish) curation batch lands"
+      key_decisions:
+        - "Taxonomy: Alternative A (minimal, 2 new/14 total)"
+        - "Dedup: Alternative 3 (keep separate with cross-references)"
+        - "FilterBar UX: UX-2 + UX-1 (symmetric collapse + raised count)"
+        - "Curation sequencing: Alt Seq-3 (batch by source file, Polish last)"
+      decisions:
+        - {decision: "Taxonomy structure: Alternative A over recommended B", rationale: "User prioritized FilterBar simplicity and lower hand-sync overhead over drill precision"}
+        - {decision: "Dedup: Alternative 3 over recommended Alternative 2", rationale: "User prioritized preserving each source's distinct framing over Learn Mode drill-weighting purity"}
+        - {decision: "FilterBar UX: UX-2+UX-1", rationale: "Cheapest fix resolving the already-flagged 'no re-collapse' pain point, proportionate to 14-category outcome"}
+        - {decision: "Curation sequencing: Alt Seq-3 over recommended hybrid", rationale: "Easy-to-hard source ordering, isolates Polish-source discipline to final phase"}
+      risks:
+        - "Dangling cross-reference risk: cross-references written during early batches may point at not-yet-curated dna-mapa entries — spec must define mitigation"
+        - "No UI affordance exists today for surfacing a 'see also' cross-reference on a card"
+        - "'Microservices & Distributed Systems' likely becomes the single largest category (~35-45 concepts)"
+        - "Exact category boundaries within the 2 new categories still need finalizing in the feature spec"
+      artifacts:
+        - {path: "analysis/design-decisions.md", label: "Design Decisions", html: "analysis/design-decisions.html"}
+    feature_specification:
+      spec_sections:
+        section_1_taxonomy_structure: approved
+        section_2_dedup_cross_reference: approved
+        section_3_code_changes: approved
+        section_4_filterbar_ux: approved
+        section_5_curation_plan: approved
+        section_6_acceptance_criteria: approved
+      sections_count: 6
+      decisions:
+        - {decision: "14 categories total, appended in order Software Architecture then Microservices & Distributed Systems", rationale: "Thematically adjacent placement in the chip list"}
+        - {decision: "Cross-references are plain-text 'See also' notes, no schema/UI changes", rationale: "Minimum-viable choice consistent with design+plan scope boundary"}
+        - {decision: "VISIBLE_CATEGORY_CHIP_COUNT raised to 7 (not 8)", rationale: "Even split with 14 total categories (7 visible / 7 overflow)"}
+        - {decision: "Expand/collapse UI state does not persist across sessions", rationale: "Presentational state, distinct from persisted filter-selection state"}
+      risks:
+        - "Dangling cross-reference risk mitigated by one-time audit pass, not yet validated against real content"
+        - "Illustrative per-category/per-batch entry counts are estimates, not commitments"
+      artifacts:
+        - {path: "analysis/feature-spec.md", label: "Feature Specification", html: "analysis/feature-spec.html"}
+
+    visual_prototyping:
+      mockup_references: ["analysis/mockups/browse-filterbar-at-14-categories.html"]
+      summary: >
+        Interactive mockup of the Browse FilterBar at 14 categories, built with the app's
+        actual theme tokens. Demonstrates symmetric collapse (7 visible <-> all 14, relabeling
+        "+7 more"/"Show less") and the 2 new category badges rendering via the existing
+        generic slugifier. Verified programmatically (click-and-check DOM test) and approved.
+      decisions:
+        - {decision: "FilterBar mockup approved as-is", rationale: "User confirmed layout and interactions after live testing in browser"}
+      risks: []
+      artifacts:
+        - {path: "analysis/mockups/browse-filterbar-at-14-categories.html", label: "Browse — FilterBar at 14 Categories", html: "analysis/mockups/browse-filterbar-at-14-categories.html"}
+    review_handoff:
+      brief_layers: ["Layer 0: Core Brief", "Layer 1: Persona Cards", "Layer 2: Design Decisions", "Layer 3: Mockup References", "References"]
+      summary: >
+        Layered product brief assembled and approved. 14-category taxonomy expansion,
+        cross-reference dedup policy, FilterBar redesign, and 3-batch curation plan, ready
+        for /maister:development handoff.
+      decisions:
+        - {decision: "Product brief approved as final", rationale: "User approved after reviewing all layers"}
+      risks: []
+      artifacts:
+        - {path: "outputs/product-brief.md", label: "Product Brief", html: "outputs/product-brief.html"}

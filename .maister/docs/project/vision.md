@@ -2,7 +2,7 @@
 
 ## Overview
 
-Skill Flip is a client-only, static single-page web app that provides an interactive bilingual (English/Polish) flashcard lexicon of Java/Backend engineering terms, curated from a 12-category "Engineering Ladder" skills taxonomy.
+Skill Flip is a client-only, static single-page web app that provides an interactive bilingual (English/Polish) flashcard lexicon of Java/Backend engineering terms, curated from a 14-category "Engineering Ladder" skills taxonomy.
 
 ## Current State
 

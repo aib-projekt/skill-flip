@@ -15,7 +15,7 @@ that a human manually reviews and edits before it's committed (see
 
 1. **Source bullet** — the exact raw line(s) from the taxonomy document, e.g.:
    > Regular: Generic types - wildcards
-2. **Category** — one of the 12 `Category` enum values (see
+2. **Category** — one of the 14 `Category` enum values (see
    `src/types/glossary.ts`); for the source bullet above: `Java`.
 3. **Level** — the level heading the bullet appears under in the source
    document (`Regular` or `Senior`; `Junior` where the source uses it). Note:
@@ -36,7 +36,7 @@ interface GlossaryEntry {
   description: string;      // 1-3 sentence curated definition, in YOUR OWN WORDS
   translationPl: string;    // Polish translation of the TERM only
   descriptionPl: string;    // full definition translated into natural Polish
-  category: string;         // one of the 12 valid Category values (given below)
+  category: string;         // one of the 14 valid Category values (given below)
   level: string;            // "Junior" | "Regular" | "Senior"
 }
 

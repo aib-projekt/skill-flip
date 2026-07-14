@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feature Specification — Add New Categories &amp; Terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin-top:22px; margin-bottom:8px; }
+h4 { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); margin:18px 0 8px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.badge.in { background:var(--ok-soft); color:var(--ok); }
+.badge.out { background:var(--border); color:var(--dim); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { color:var(--dim); }
+.crumbs a.md:last-child { margin-left:auto; }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+header p.sub { color:var(--dim); font-size:12.5px; margin:4px 0 0; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 4px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+section[id] { scroll-margin-top: 14px; }
+
+.acceptance { list-style:none; padding-left:0; margin:8px 0; }
+.acceptance li { padding:3px 0 3px 22px; position:relative; }
+.acceptance li::before { content:"\2610"; position:absolute; left:0; color:var(--dim); }
+
+.plain-list { margin:8px 0; padding-left:20px; }
+.plain-list li { padding:2px 0; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+@media (max-width:680px) { .two-col { grid-template-columns:1fr; } }
+
+.risk-card { display:flex; gap:10px; align-items:flex-start; }
+.risk-card .sev { margin-top:2px; flex-shrink:0; }
+
+ol.steps { margin:8px 0; padding-left:20px; }
+ol.steps li { margin:10px 0; }
+ol.steps li code { display:inline-block; margin-bottom:2px; }
+
+.note { color:var(--dim); font-size:12.5px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="problem-statement.md" target="_blank" rel="noopener" class="md">Problem Statement ↗</a>
+  <a href="personas.md" target="_blank" rel="noopener" class="md">Personas ↗</a>
+  <a href="design-context.md" target="_blank" rel="noopener" class="md">Design Context ↗</a>
+  <a href="codebase-analysis.md" target="_blank" rel="noopener" class="md">Codebase Analysis ↗</a>
+  <a href="alternatives.html">Solution Alternatives</a>
+  <a href="design-decisions.html">Design Decisions</a>
+  <span class="here">Feature Specification</span>
+  <a href="feature-spec.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Feature Spec</span>
+  <h1>New Taxonomy Categories, FilterBar Redesign &amp; Curation Plan</h1>
+  <p class="sub">Task: add-new-categories-terms · Generated 2026-07-13 · Product Design workflow</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>6</b><span>sections</span></div>
+  <div class="tile"><b>2</b><span>new categories</span></div>
+  <div class="tile"><b>7</b><span>code changes</span></div>
+  <div class="tile"><b>6</b><span>cross-source overlaps</span></div>
+  <div class="tile"><b>3</b><span>curation batches</span></div>
+</div>
+
+<section class="tldr">
+  <div class="card">
+    <h2 style="margin-top:0">TL;DR</h2>
+    <p>Expands Skill Flip's taxonomy from 12 to 14 categories (<code>Software Architecture</code>, <code>Microservices &amp; Distributed Systems</code>), with a full source-to-category mapping for all 3 raw context files, a "keep separate with cross-references" dedup policy, a FilterBar chip UX redesign (symmetric collapse + raised visible count), and a batch-by-source-file curation plan. Implementation-ready: dependency-ordered code changes are specified for handoff to <code>/maister:development</code>. Full entry curation (~90-110 concepts) is explicitly out of scope — this spec produces the plan, not the finished entries.</p>
+
+    <h2>Key Decisions</h2>
+    <ul class="plain-list">
+      <li>2 new categories, not 6 or 11 — Alternative A from <a href="design-decisions.html">design-decisions.html</a>, prioritizing FilterBar simplicity over drill precision.</li>
+      <li>Overlapping concepts across sources become separate, cross-referenced entries — no merging.</li>
+      <li>Three-layer architecture is categorized under "Software Architecture" (not Data Storage) despite dna-mapa filing it under "Persystencja" — it's an architecture pattern, not persistence-specific.</li>
+      <li>Performance/chaos/load testing content is categorized under existing "Testing" (not DevOps) — it's a testing methodology.</li>
+    </ul>
+
+    <h2>Open Questions / Risks</h2>
+    <div class="card risk-card" style="margin:8px 0">
+      <span class="sev warning">Warning</span>
+      <span>Dangling cross-reference risk (see Section 2) — mitigation defined below, not yet validated against actual curated content.</span>
+    </div>
+    <div class="card risk-card" style="margin:8px 0">
+      <span class="sev warning">Warning</span>
+      <span>No UI affordance exists today for surfacing cross-references on a card — Section 2 defines the minimum viable treatment.</span>
+    </div>
+    <div class="card risk-card" style="margin:8px 0">
+      <span class="sev info">Info</span>
+      <span>"Microservices &amp; Distributed Systems" will likely be the largest category in the app (~35-45 concepts) — accepted trade-off, not a defect.</span>
+    </div>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#section-1">1. Category Taxonomy Structure</a> ·
+  <a href="#section-2">2. Cross-Source Dedup &amp; Cross-Reference Handling</a> ·
+  <a href="#section-3">3. Code Changes — Taxonomy Mechanism</a> ·
+  <a href="#section-4">4. FilterBar Chip/Overflow UX Redesign</a> ·
+  <a href="#section-5">5. Content Curation Plan</a> ·
+  <a href="#section-6">6. Acceptance Criteria &amp; Success Metrics</a>
+</nav>
+
+<main>
+
+<section id="section-1">
+  <h2>Section 1: Category Taxonomy Structure</h2>
+
+  <h3>1.1 New Categories</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Category</th><th>Scope</th></tr></thead>
+      <tbody>
+        <tr><td><code>Software Architecture</code></td><td>Domain modeling (DDD building blocks, model styles), architecture styles (Microkernel, Modularization, Hexagonal, Pipes &amp; Filters, three-layer), architecture decision-making (ADR, decision process), modeling/visualization (UML, BPMN, C4), DDD strategic patterns (Event Storming, Bounded Contexts, Ubiquitous Language, Subdomains)</td></tr>
+        <tr><td><code>Microservices &amp; Distributed Systems</code></td><td>All <code>microservice-patterns.md</code> patterns (decomposition, data consistency, testing, UI composition, observability, cross-cutting concerns, security, communication, discovery, deployment), distributed-systems theory (fallacies, ESB, monolith/microservices trade-offs), communication patterns (REST maturity, sync/async, service discovery, load balancing, the polling/SSE/WebSocket/WebRTC decision tree)</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:10px">Both are appended at the end of the existing 12-category list, in this order: <code>..., 'Software Architecture', 'Microservices &amp; Distributed Systems'</code>. This order (not alphabetical, not reverse) is chosen so the two thematically-related new categories sit adjacent to each other in the chip list.</p>
+  </div>
+
+  <h3>1.2 Existing-Category Enrichment</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Existing Category</th><th>New content enriching it</th><th>Count → post-enrichment</th></tr></thead>
+      <tbody>
+        <tr><td><code>Data Storage</code></td><td>ACID/BASE, RDBMS/NewSQL/NoSQL types, ORM approaches (dna-mapa Persystencja, excl. three-layer); Redis, Elasticsearch/OpenSearch (system-design terms.md)</td><td>22 → ~28-32</td></tr>
+        <tr><td><code>Cloud Engineering</code></td><td>Cloud models/capabilities/vendor strategy, Containers, Kubernetes, Service Mesh <em>(enrichment-angle entry, distinct from the Microservices category's mesh/sidecar deployment-pattern entries)</em>; Kafka, Zookeeper, CDN (system-design terms.md)</td><td>8 → ~16-20</td></tr>
+        <tr><td><code>DevOps</code></td><td>Continuous Delivery (deployment vs. release, DORA metrics, trunk-based dev, git flow), Infrastructure as Code, Monitoring (centralized logging, post-mortems)</td><td>4 → ~10-14</td></tr>
+        <tr><td><code>Testing</code></td><td>Testing-infrastructure content: chaos engineering, performance/load/stress testing</td><td>15 → ~18-20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1.3 Full Source-to-Category Mapping</h3>
+  <details>
+    <summary>Expand full mapping — dna-mapa.md, microservice-patterns.md, system-design terms.md</summary>
+
+    <h4>From dna-mapa.md (Polish, 585 lines)</h4>
+    <div class="card">
+      <table>
+        <thead><tr><th>Source section</th><th>Destination</th></tr></thead>
+        <tbody>
+          <tr><td>Aplikacyjna &gt; Model Domenowy (building blocks, aggregates)</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Transaction Script / Model bogaty / Model anemiczny</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Wzorce (event transport/publication, CQRS)</td><td><code>Software Architecture</code> <em>(CQRS here is a separate entry from microservice-patterns.md's CQRS — see Section 2)</em></td></tr>
+          <tr><td>Aplikacyjna &gt; Mikrojądro</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Modularyzacja</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Heksagonalna</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Pipes &amp; Filters</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Aplikacyjna &gt; Persystencja &gt; Klasyczne trzy warstwy</td><td><code>Software Architecture</code> <em>(judgment call, approved)</em></td></tr>
+          <tr><td>Aplikacyjna &gt; Persystencja (all else: ACID/BASE/DB types/ORM)</td><td><code>Data Storage</code> (enrichment)</td></tr>
+          <tr><td>Systemowa &gt; System rozproszony (fallacies, costs/reasons, ESB, Mikroserwisy/Monolit/Modularny monolit trade-offs)</td><td><code>Microservices &amp; Distributed Systems</code></td></tr>
+          <tr><td>Systemowa &gt; Komunikacja</td><td><code>Microservices &amp; Distributed Systems</code></td></tr>
+          <tr><td>Systemowa &gt; Infrastruktury &gt; Chmura / Kontenery / Kubernetes / Service Mesh</td><td><code>Cloud Engineering</code> (enrichment)</td></tr>
+          <tr><td>Systemowa &gt; Infrastruktury &gt; Deployment Pipeline &gt; Testowanie infrastruktury (chaos, performance/load/stress)</td><td><code>Testing</code> (enrichment)</td></tr>
+          <tr><td>Systemowa &gt; Infrastruktury &gt; Deployment Pipeline &gt; Continuous Delivery</td><td><code>DevOps</code> (enrichment)</td></tr>
+          <tr><td>Systemowa &gt; Infrastruktury &gt; Deployment Pipeline &gt; Monitorowanie</td><td><code>DevOps</code> (enrichment)</td></tr>
+          <tr><td>Systemowa &gt; Infrastruktury &gt; Inftastructure as Code</td><td><code>DevOps</code> (enrichment)</td></tr>
+          <tr><td>Rzwiązania &gt; Decyzje (ADR, Podejmowanie)</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Rzwiązania &gt; Wizualizacja (UML/BPMN/C4)</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Rzwiązania &gt; Przestrzeń rozwiązania (Event Storming, Bounded Contexts)</td><td><code>Software Architecture</code></td></tr>
+          <tr><td>Rzwiązania &gt; Przestrzeń problemu (Domena, Subdomeny, Big Picture Event Storming)</td><td><code>Software Architecture</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>From microservice-patterns.md (English, all ~35 patterns)</h4>
+    <div class="card">
+      <p>Every pattern → <code>Microservices &amp; Distributed Systems</code>, regardless of its original <code>#Application patterns</code> / <code>#Application Infrastructure patterns</code> / <code>#Infrastructure patterns</code> tag (those tags are collapsed under Alternative A, not preserved as sub-groupings).</p>
+    </div>
+
+    <h4>From system-design terms.md (English)</h4>
+    <div class="card">
+      <table>
+        <thead><tr><th>Item</th><th>Destination</th></tr></thead>
+        <tbody>
+          <tr><td>Kafka</td><td><code>Cloud Engineering</code> (enrichment)</td></tr>
+          <tr><td>Redis</td><td><code>Data Storage</code> (enrichment)</td></tr>
+          <tr><td>Elasticsearch (AWS OpenSearch)</td><td><code>Data Storage</code> (enrichment)</td></tr>
+          <tr><td>Zookeeper</td><td><code>Cloud Engineering</code> (enrichment)</td></tr>
+          <tr><td>CDN</td><td><code>Cloud Engineering</code> (enrichment)</td></tr>
+          <tr><td>Communication-strategy decision tree (polling/SSE/WebSocket/WebRTC)</td><td><code>Microservices &amp; Distributed Systems</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <h3>1.4 Acceptance Criteria</h3>
+  <div class="card">
+    <ul class="acceptance">
+      <li><code>Category</code> type in <code>src/types/glossary.ts</code> includes exactly 14 values, with <code>'Software Architecture'</code> and <code>'Microservices &amp; Distributed Systems'</code> appended after <code>'Software Engineering'</code> (the current last value).</li>
+      <li>Every raw concept from the 3 context files is assigned to exactly one destination per the tables above (or, for dedup'd concepts, to multiple destinations per Section 2's resolution).</li>
+      <li>No existing category's entries are modified or recategorized — this is purely additive.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="section-2">
+  <h2>Section 2: Cross-Source Dedup &amp; Cross-Reference Handling</h2>
+
+  <h3>2.1 Cross-Reference Mechanism</h3>
+  <div class="card">
+    <p>Since the <code>GlossaryEntry</code> schema stays unchanged (no new fields, no ID-linking system) and no new UI component was chosen in Phase 5, cross-references are implemented as a <strong>plain-text sentence appended to <code>description</code>/<code>descriptionPl</code></strong> (e.g., "See also: 'Circuit Breaker' in Microservices &amp; Distributed Systems.") — not a clickable link, a wayfinding note for the reader. This is a deliberate minimum-viable choice consistent with the "design + plan, not full curation" scope boundary; it requires zero code changes.</p>
+  </div>
+
+  <h3>2.2 Dangling-Reference Mitigation</h3>
+  <div class="card">
+    <p>Because these are plain-text notes (not IDs), a "dangling" reference isn't a technical break — it just means the note points at a term that doesn't exist yet mid-sequence (a real risk given Section 5's batch-by-source-file, Polish-last curation order). Mitigation: a <strong>cross-reference audit pass</strong> happens once, after all 3 curation batches complete — every "See also" note is checked against the final term list for exact-name match and corrected if the referenced term's final wording differs. This is a lightweight editorial pass, not new tooling, and is a required step in Section 5's sequence (not optional).</p>
+  </div>
+
+  <h3>2.3 Known Overlaps and Resolution</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Concept</th><th>Entry 1</th><th>Entry 2</th><th>Note direction</th></tr></thead>
+      <tbody>
+        <tr><td>CQRS</td><td><code>Software Architecture</code> (domain-modeling framing, dna-mapa)</td><td><code>Microservices &amp; Distributed Systems</code> (data-consistency-pattern framing, microservice-patterns.md)</td><td>Bidirectional</td></tr>
+        <tr><td>Circuit Breaker</td><td><code>Microservices &amp; Distributed Systems</code> (dna-mapa's Design-for-Failure framing)</td><td><code>Microservices &amp; Distributed Systems</code> (microservice-patterns.md's Reliability framing)</td><td>Bidirectional, same-category (see 2.4)</td></tr>
+        <tr><td>Service Discovery</td><td><code>Microservices &amp; Distributed Systems</code> (dna-mapa's 1-concept framing)</td><td><code>Microservices &amp; Distributed Systems</code> (microservice-patterns.md's 5 named patterns: client-side discovery, server-side discovery, self-registration, 3rd-party registration, service registry)</td><td>dna-mapa's framing folded into each of the 5 as shared context, not a 6th entry (see 2.4)</td></tr>
+        <tr><td>Distributed Tracing</td><td><code>Microservices &amp; Distributed Systems</code> (dna-mapa's Komunikacja)</td><td><code>Microservices &amp; Distributed Systems</code> (microservice-patterns.md's Observability)</td><td>Bidirectional, same-category (see 2.4)</td></tr>
+        <tr><td>Event Sourcing</td><td><code>Software Architecture</code> (dna-mapa's event-publication framing)</td><td><code>Microservices &amp; Distributed Systems</code> (microservice-patterns.md's explicit pattern)</td><td>Bidirectional</td></tr>
+        <tr><td>Service Mesh / Sidecar</td><td><code>Cloud Engineering</code> (dna-mapa's dedicated subsection, infra-enrichment framing)</td><td><code>Microservices &amp; Distributed Systems</code> (microservice-patterns.md's <code>mesh</code>/<code>sidecar</code> deployment patterns)</td><td>Bidirectional</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.4 Same-Category Overlap Resolution</h3>
+  <div class="card">
+    <p>For Circuit Breaker, Service Discovery, and Distributed Tracing — both sources' treatments land in the <em>same</em> new category (<code>Microservices &amp; Distributed Systems</code>). Curators still keep them as separate entries per the Phase 5 decision, but the "See also" note becomes a same-category pointer naming the specific angle covered by the other entry, rather than a cross-category pointer. For Service Discovery specifically: follow the more granular source (5 separate pattern entries: client-side discovery, server-side discovery, self-registration, 3rd-party registration, service registry), with dna-mapa's single-concept framing folded into each of the 5 as shared "why this matters" context — not written as its own 6th entry.</p>
+  </div>
+
+  <h3>Acceptance Criteria</h3>
+  <div class="card">
+    <ul class="acceptance">
+      <li>Every overlap in the table above produces the specified number of entries (2 for most rows, 5 for Service Discovery), never silently deduplicated to 1.</li>
+      <li>Every entry with a "See also" note names the target entry's exact term text.</li>
+      <li>A cross-reference audit is performed once, after all 3 curation batches (Section 5) complete, before this task is considered done.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="section-3">
+  <h2>Section 3: Code Changes — Taxonomy Mechanism</h2>
+  <p>Dependency-ordered, per <a href="codebase-analysis.md" target="_blank" rel="noopener">codebase-analysis.md</a>'s findings on the 3 hand-synced taxonomy copies:</p>
+
+  <div class="card">
+    <ol class="steps">
+      <li><code>src/types/glossary.ts:10-22</code> <strong>(canonical source)</strong> — append <code>'Software Architecture'</code> and <code>'Microservices &amp; Distributed Systems'</code> to the <code>Category</code> union, in that order, after <code>'Software Engineering'</code>. Update the file's doc-comment (currently states the taxonomy is a "12-value... must still treat all 12 values as first-class" closed set) to reflect 14 values and drop the "closed taxonomy" framing.</li>
+      <li><code>src/components/FilterBar.ts:13-26</code> — append the same 2 values, same order, to <code>ALL_CATEGORIES</code>. (The chip-rendering/count logic itself needs no changes here — it's already generic; Section 4 covers the separate UX redesign of the overflow/collapse behavior.)</li>
+      <li><code>content-pipeline/validate-glossary.ts:20-33</code> — append the same 2 values, same order, to <code>VALID_CATEGORIES</code>, keeping the file's existing hand-mirror comment accurate.</li>
+      <li><code>src/types/glossary.test.ts:61-77</code> — update the hardcoded 12-item fixture array to 14 items (add both new categories) and update both count assertions (<code>toHaveLength(12)</code> → <code>toHaveLength(14)</code>, <code>Set.size</code> check → <code>14</code>).</li>
+      <li><code>src/components/BrowseGrid.test.ts:143-191</code> — update order-dependent assertions: <code>'Microservices &amp; Distributed Systems'</code> (not <code>'Software Engineering'</code>) is now the last category in <code>ALL_CATEGORIES</code>. These assertions will additionally need updating for Section 4's visible-count change (5→7-8) regardless of taxonomy — both changes should land in the same commit/PR to avoid an intermediate broken state.</li>
+      <li><code>data/glossary.json</code> — no schema/shape change. New entries are added over the Section 5 curation batches; this spec doesn't add entries itself.</li>
+      <li><strong>Non-blocking documentation updates</strong> (stale prose, no functional impact): <code>.maister/docs/project/roadmap.md</code> (lines mentioning "12 categories"), <code>content-pipeline/source/engineering-ladder.md</code> (lines 36-39's "remaining 11 categories" enumeration) — update to mention the taxonomy now has 14 categories, 2 beyond the original Engineering Ladder source.</li>
+    </ol>
+  </div>
+
+  <h3>Acceptance Criteria</h3>
+  <div class="card">
+    <ul class="acceptance">
+      <li><code>npm run validate-glossary</code> passes with the updated <code>VALID_CATEGORIES</code>.</li>
+      <li><code>npm test</code> (vitest) passes with updated <code>glossary.test.ts</code> and <code>BrowseGrid.test.ts</code>.</li>
+      <li><code>tsc -b</code> type-checks cleanly (additive union change, no exhaustiveness checks exist to break per <a href="codebase-analysis.md" target="_blank" rel="noopener">codebase-analysis.md</a>).</li>
+      <li>The 3 taxonomy copies (<code>glossary.ts</code>, <code>FilterBar.ts</code>, <code>validate-glossary.ts</code>) contain identical 14-value lists in identical order.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="section-4">
+  <h2>Section 4: FilterBar Chip/Overflow UX Redesign</h2>
+
+  <h3>4.1 Visible Count</h3>
+  <div class="card">
+    <p><code>VISIBLE_CATEGORY_CHIP_COUNT</code> changes from <code>5</code> to <strong>7</strong> — with 14 total categories, 7 visible / 7 in overflow is an even split, and avoids the overflow chip ever collapsing just 1-2 items.</p>
+  </div>
+
+  <h3>4.2 Symmetric Collapse Behavior</h3>
+  <div class="card">
+    <p>The existing <code>showAllCategories</code> boolean (currently write-once, <code>false → true</code>) becomes genuinely bidirectional:</p>
+    <ul class="plain-list">
+      <li>Collapsed state (<code>showAllCategories = false</code>): first 7 chips visible + a trailing chip reading <code>+7 more</code>.</li>
+      <li>Clicking <code>+7 more</code> sets <code>showAllCategories = true</code>, re-renders all 14 chips, and the trailing chip's label changes to <code>Show less</code>.</li>
+      <li>Clicking <code>Show less</code> sets <code>showAllCategories = false</code>, re-renders back to the 7-visible state.</li>
+      <li>The same DOM element is reused for both states (relabeled), not two separate elements — minimal change to <code>renderChips()</code>'s existing structure (<code>src/components/FilterBar.ts:100-125</code>).</li>
+    </ul>
+  </div>
+
+  <h3>4.3 Selection State Independence</h3>
+  <div class="card">
+    <p>Collapsing/expanding never changes which categories are selected as filters — a category selected while expanded stays selected (and still contributes to the active-filter count) even if its chip scrolls out of the visible-7 after collapsing.</p>
+  </div>
+
+  <h3>4.4 Persistence</h3>
+  <div class="card">
+    <p>The expand/collapse UI state does <strong>not</strong> persist across sessions (resets to collapsed on page load) — this is a presentational convenience, not a filter selection, so it's out of scope for the existing <code>localStorage</code>-persisted filter state (category/level selections, per commit <code>7dbb9af</code>). Keeping this distinction avoids conflating two different kinds of state.</p>
+  </div>
+
+  <h3>Acceptance Criteria</h3>
+  <div class="card">
+    <ul class="acceptance">
+      <li>With 14 categories and <code>VISIBLE_CATEGORY_CHIP_COUNT = 7</code>, exactly 7 chips are visible by default plus one <code>+7 more</code> trailing chip.</li>
+      <li>Clicking <code>+7 more</code> reveals all 14 chips and relabels the trailing chip to <code>Show less</code>.</li>
+      <li>Clicking <code>Show less</code> re-collapses to the 7-visible state and relabels back to <code>+7 more</code>.</li>
+      <li>Category selection state survives expand/collapse toggling in both directions.</li>
+      <li>Expand/collapse state resets to collapsed on page reload (not persisted).</li>
+      <li>New test coverage for the collapse interaction; <code>BrowseGrid.test.ts</code>'s positional assertions updated for the new visible-count and category order (Section 3).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="section-5">
+  <h2>Section 5: Content Curation Plan</h2>
+
+  <h3>5.1 Sequencing</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Batch</th><th>Source</th><th>Illustrative volume</th><th>Target categories</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>microservice-patterns.md</code></td><td>~35 patterns</td><td><code>Microservices &amp; Distributed Systems</code> (all), plus 3 dedup'd concepts shared with Batch 3 (CQRS, Event Sourcing, Service Mesh — written now, cross-reference added/verified in the final audit)</td></tr>
+        <tr><td>2</td><td><code>system-design terms.md</code></td><td>~10-12 concepts</td><td><code>Cloud Engineering</code>, <code>Data Storage</code> (enrichment); <code>Microservices &amp; Distributed Systems</code> (communication decision tree)</td></tr>
+        <tr><td>3</td><td><code>dna-mapa.md</code></td><td>~45-65 concepts (largest, most compound bullets to split)</td><td><code>Software Architecture</code> (majority), <code>Data Storage</code>/<code>Cloud Engineering</code>/<code>DevOps</code>/<code>Testing</code> (enrichment)</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:10px">Each batch follows the existing <code>content-pipeline/prompt-template.md</code> + <code>rubric.md</code> process unchanged: draft <code>term</code>/<code>description</code> from scratch, translate to <code>descriptionPl</code>, assign <code>id</code> as <code>&lt;category-slug&gt;-&lt;term-slug&gt;</code>, validate via <code>npm run validate-glossary</code>, human review before appending to <code>data/glossary.json</code>.</p>
+  </div>
+
+  <h3>5.2 Polish-Source Discipline</h3>
+  <div class="card">
+    <p>Permanent addition to <code>content-pipeline/rubric.md</code> (not a one-off note — applies to Batch 3 and any future Polish-sourced content): a new subsection stating — draft the English <code>description</code> first, synthesized from understanding the Polish notes (not translated word-for-word), then independently write <code>descriptionPl</code> as a natural translation of the finished English text. The rubric's existing anti-transcription "test" (would the source bullet's wording be findable inside the description) applies to <code>descriptionPl</code> against the <em>Polish source</em>, not just to <code>description</code> against a (nonexistent) English source — this is the specific failure mode this discipline prevents.</p>
+  </div>
+
+  <h3>5.3 Compound-Bullet Splitting</h3>
+  <div class="card">
+    <p><code>dna-mapa.md</code>'s outline format has many multi-concept bullets (e.g. "Cechy" lists under each pattern often bundle 3-5 distinct sub-ideas) — apply the existing rubric guidance on splitting compound bullets into one <code>GlossaryEntry</code> per distinct concept, using judgment consistent with existing entries' granularity.</p>
+  </div>
+
+  <h3>5.4 Level Assignment</h3>
+  <div class="card">
+    <p>Per existing rubric guidance — default to source placement (e.g., foundational DDD building blocks → Regular; advanced distributed-systems trade-offs and ADR process → Senior), sanity-checked against sibling terms already in <code>data/glossary.json</code>, with <code>Junior</code>-level entries expected to be rare (matches the existing 6-entry Junior count across all 159 current entries).</p>
+  </div>
+
+  <h3>5.5 Final Step</h3>
+  <div class="card">
+    <p>The Section 2.2 cross-reference audit runs once, after Batch 3 completes — this is the last step of the curation plan, not a separate follow-up task.</p>
+  </div>
+
+  <h3>Acceptance Criteria</h3>
+  <div class="card">
+    <ul class="acceptance">
+      <li>Batches are curated and shipped in the stated order; each batch's entries pass <code>npm run validate-glossary</code> before the next batch begins.</li>
+      <li><code>content-pipeline/rubric.md</code> gains a permanent "Curating from a Polish source" subsection before Batch 3 starts.</li>
+      <li>Cross-reference audit is performed and documented as complete after Batch 3.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="section-6">
+  <h2>Section 6: Acceptance Criteria &amp; Success Metrics (Overall)</h2>
+  <p>Ties back to <a href="problem-statement.md" target="_blank" rel="noopener">problem-statement.md</a>'s success criteria — this section is the design task's overall "definition of done," distinct from each section's own acceptance criteria above.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <span class="badge in">In scope</span>
+      <h3 style="margin-top:8px">Design-task deliverables (this workflow's output)</h3>
+      <ul class="acceptance">
+        <li>Approved 14-category taxonomy with full source-to-category mapping (Section 1).</li>
+        <li>Dedup/cross-reference policy resolved for all known overlaps (Section 2).</li>
+        <li>Dependency-ordered code change list (Section 3).</li>
+        <li>FilterBar redesign specified and prototyped (Section 4 + Phase 7 mockups).</li>
+        <li>Curation plan with sequencing and Polish-source discipline (Section 5).</li>
+        <li>Product brief assembled and approved (Phase 8), ready for <code>/maister:development</code> handoff.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="badge out">Out of scope</span>
+      <h3 style="margin-top:8px">Non-goals</h3>
+      <p class="note">Explicitly out of scope, per <a href="problem-statement.md" target="_blank" rel="noopener">problem-statement.md</a>'s constraints.</p>
+      <ul class="plain-list">
+        <li>Full curation of all ~90-110 entries as part of this design workflow.</li>
+        <li>Any hierarchical/nested taxonomy restructuring.</li>
+        <li>Collapsing the 3 hand-synced taxonomy copies into one shared source of truth (flagged in <a href="codebase-analysis.md" target="_blank" rel="noopener">codebase-analysis.md</a> as a valid future refactor, deliberately deferred).</li>
+        <li>Per-category color/icon differentiation in the UI.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Follow-up implementation-pass success metrics</h3>
+  <div class="card">
+    <p class="note">Out of scope for this workflow, tracked for the next phase.</p>
+    <ul class="plain-list">
+      <li>All 3 curation batches complete, <code>npm run validate-glossary</code> and <code>npm test</code> passing throughout.</li>
+      <li>Zero silent taxonomy drift between the 3 hand-synced copies at any point (verified per-batch, not just at the end).</li>
+      <li>Cross-reference audit completed with zero unresolved "See also" mismatches.</li>
+      <li><code>content-pipeline/rubric.md</code>'s Polish-source subsection exists and is referenced during Batch 3.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

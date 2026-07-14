@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-/** Mirrors `Category` in `src/types/glossary.ts` (12-value taxonomy). */
+/** Mirrors `Category` in `src/types/glossary.ts` (14-value taxonomy). */
 export const VALID_CATEGORIES = [
   'Java',
   'Spring/JEE',
@@ -30,6 +30,8 @@ export const VALID_CATEGORIES = [
   'Problem Solving',
   'API Development',
   'Software Engineering',
+  'Software Architecture',
+  'Microservices & Distributed Systems',
 ] as const;
 
 /** Mirrors `Level` in `src/types/glossary.ts`. */

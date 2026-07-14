@@ -57,7 +57,7 @@ describe('glossary data model', () => {
     expect(fixture.every((e) => typeof e.id === 'string')).toBe(true);
   });
 
-  it('Category enum includes exactly the 12 taxonomy values and Level includes exactly Junior/Regular/Senior', () => {
+  it('Category enum includes exactly the 14 taxonomy values and Level includes exactly Junior/Regular/Senior', () => {
     const categories: Category[] = [
       'Java',
       'Spring/JEE',
@@ -71,10 +71,12 @@ describe('glossary data model', () => {
       'Problem Solving',
       'API Development',
       'Software Engineering',
+      'Software Architecture',
+      'Microservices & Distributed Systems',
     ];
 
-    expect(categories).toHaveLength(12);
-    expect(new Set(categories).size).toBe(12);
+    expect(categories).toHaveLength(14);
+    expect(new Set(categories).size).toBe(14);
 
     const levels: Level[] = ['Junior', 'Regular', 'Senior'];
     expect(levels).toHaveLength(3);

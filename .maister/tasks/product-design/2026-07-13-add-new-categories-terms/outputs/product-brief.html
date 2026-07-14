@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Brief — Add New Categories &amp; Terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+:root[data-theme="dark"] {
+  --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+  --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+  --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+  --info:#60a5fa; --info-soft:#15233a;
+}
+:root[data-theme="light"] {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff;
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin:0 0 6px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* --- companion-specific extensions --- */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+header { margin-bottom:6px; }
+header .meta { font-size:12.5px; color:var(--dim); margin-top:4px; }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+ul.kd, ul.risks, ul.plain { margin:6px 0 0; padding-left:20px; }
+ul.kd li, ul.risks li, ul.plain li { margin:4px 0; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 22px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+.toc span.sep { margin:0 6px; color:var(--border); }
+.section-intro { color:var(--dim); font-size:13px; margin:6px 0 14px; }
+.persona-grid, .feature-grid, .ref-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:14px; margin:12px 0; }
+.persona-card { display:flex; flex-direction:column; gap:8px; }
+.persona-card .p-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.role-badge { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; white-space:nowrap; }
+.role-badge.primary { background:var(--accent-soft); color:var(--accent); }
+.role-badge.secondary { background:var(--border); color:var(--dim); }
+.persona-card dl { margin:2px 0 0; font-size:13px; }
+.persona-card dt { font-weight:600; margin-top:8px; }
+.persona-card dd { margin:2px 0 0; color:var(--text); }
+.feature-card { display:flex; gap:12px; }
+.feature-num { flex:0 0 auto; width:26px; height:26px; border-radius:99px; background:var(--accent-soft);
+  color:var(--accent); font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+.feature-card p { margin:2px 0 0; font-size:13px; }
+.checklist { list-style:none; margin:8px 0 0; padding:0; font-size:13px; }
+.checklist li { margin:5px 0; padding-left:22px; position:relative; }
+.checklist li::before { content:"\2610"; position:absolute; left:0; color:var(--dim); }
+.ref-grid a.ref-card { display:block; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:12px 14px; color:var(--text); font-size:13px; }
+.ref-grid a.ref-card:hover { border-color:var(--accent); text-decoration:none; }
+.ref-grid a.ref-card .fmt { display:block; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); margin-top:4px; }
+.mockup-card { display:flex; flex-direction:column; gap:10px; }
+.mockup-card .btn { display:inline-block; align-self:flex-start; background:var(--accent); color:#fff;
+  padding:7px 14px; border-radius:var(--radius); font-size:13px; font-weight:600; }
+.mockup-card .btn:hover { text-decoration:none; opacity:.9; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="../analysis/problem-statement.md" target="_blank" rel="noopener">Problem Statement</a>
+  <a href="../analysis/personas.md" target="_blank" rel="noopener">Personas</a>
+  <a href="../analysis/alternatives.html">Solution Alternatives</a>
+  <a href="../analysis/design-decisions.html">Design Decisions</a>
+  <a href="../analysis/feature-spec.html">Feature Specification</a>
+  <a href="../analysis/mockups/browse-filterbar-at-14-categories.html">FilterBar Mockup</a>
+  <a href="../analysis/codebase-analysis.md" target="_blank" rel="noopener">Codebase Analysis</a>
+  <a href="../analysis/design-context.md" target="_blank" rel="noopener">Design Context</a>
+  <span class="here">Product Brief</span>
+  <a href="product-brief.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Product Brief</span>
+  <h1>New Taxonomy Categories, FilterBar Redesign &amp; Curation Plan</h1>
+  <div class="meta">Task: <code>2026-07-13-add-new-categories-terms</code> · Generated 2026-07-13 · Source: <a href="product-brief.md" target="_blank" rel="noopener">outputs/product-brief.md ↗</a></div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>2</b><span>personas</span></div>
+  <div class="tile"><b>4</b><span>key decisions</span></div>
+  <div class="tile"><b>3</b><span>open risks</span></div>
+  <div class="tile"><b>2 → 14</b><span>new / total categories</span></div>
+  <div class="tile"><b>3</b><span>curation batches</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>Expands Skill Flip's glossary taxonomy from 12 to 14 categories — adding "Software Architecture" and "Microservices &amp; Distributed Systems" — to cover architecture/microservices/system-design notes the user has accumulated for senior/staff interview prep. Deliverable is the taxonomy structure, a source-to-category curation plan for 3 raw context files, and a FilterBar chip UX redesign (symmetric expand/collapse, visible count raised to 7). Full entry curation (~90-110 concepts) is explicitly a follow-up implementation pass, not part of this design output.</p>
+
+  <h2>Key Decisions</h2>
+  <ul class="kd">
+    <li>2 new categories (not 6 or 11 alternatives considered) — prioritizes FilterBar simplicity and lower ongoing hand-sync risk over maximum drill precision.</li>
+    <li>Overlapping concepts across the 3 sources become separate, cross-referenced entries (plain-text "See also" notes) rather than merged single-source-of-truth entries.</li>
+    <li>FilterBar gets a symmetric "show less" collapse plus a visible-chip-count bump (5→7) — the minimum fix for the already-identified "no way to shrink back" problem.</li>
+    <li>Curation is sequenced batch-by-source-file (English sources first, the 585-line Polish <code>dna-mapa.md</code> last), with a permanent Polish-source curation discipline added to <code>content-pipeline/rubric.md</code>.</li>
+  </ul>
+
+  <h2>Open Questions / Risks</h2>
+  <ul class="risks">
+    <li>Cross-references written during earlier batches may point at not-yet-curated <code>dna-mapa.md</code> entries — mitigated by a one-time audit pass after all 3 batches complete, not yet validated against real content.</li>
+    <li>"Microservices &amp; Distributed Systems" will likely be the single largest category in the app (~35-45 illustrative entries) — an accepted trade-off of the minimal-taxonomy choice, not a defect.</li>
+    <li>All entry-count estimates throughout this brief are illustrative, not commitments — actual counts depend on the follow-up curation pass.</li>
+  </ul>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#problem-statement">Problem Statement</a><span class="sep">·</span>
+  <a href="#target-users">Target Users</a><span class="sep">·</span>
+  <a href="#feature-overview">Feature Overview</a><span class="sep">·</span>
+  <a href="#constraints">Constraints</a><span class="sep">·</span>
+  <a href="#success-criteria">Success Criteria</a><span class="sep">·</span>
+  <a href="#acceptance-criteria">Acceptance Criteria</a><span class="sep">·</span>
+  <a href="#persona-cards">Persona Cards</a><span class="sep">·</span>
+  <a href="#design-decisions">Design Decisions</a><span class="sep">·</span>
+  <a href="#mockup-references">Mockup References</a><span class="sep">·</span>
+  <a href="#references">References</a>
+</nav>
+
+<main>
+
+<h2 style="margin-top:8px;">Layer 0 — Core Brief</h2>
+
+<section id="problem-statement" class="card">
+  <h3>Problem Statement</h3>
+  <p>Skill Flip's glossary taxonomy is a closed, 12-category list sourced from the "Engineering Ladder" skills framework (159 entries). The user has accumulated personal study notes on software architecture, microservices patterns, and system-design infrastructure — 3 raw files with no curated definitions — that fall outside this original taxonomy and are needed for senior/staff-level interview preparation. This task resolves both a taxonomy-design problem (what new categories, and what enriches existing ones) and a UX problem (the FilterBar's chip UI was built for 12 categories and needs to stay usable at 14).</p>
+  <p class="section-intro">Full detail: <a href="../analysis/problem-statement.md" target="_blank" rel="noopener">analysis/problem-statement.md ↗</a></p>
+</section>
+
+<section id="target-users" class="card">
+  <h3>Target Users</h3>
+  <ul class="plain">
+    <li><b>Interview-Prep Curator</b> <span class="role-badge primary">primary</span> — the app's owner/author, preparing for senior/staff engineering interviews. Needs new categories drillable in isolation — already solved by Learn Mode's existing filter-scoping (shipped commit <code>7dbb9af</code>), no new feature needed there.</li>
+    <li><b>Portfolio Visitor</b> <span class="role-badge secondary">secondary</span> — a recruiter or senior engineer skimming the deployed demo. Cares that category names read as industry-recognizable and that the filter bar stays scannable.</li>
+  </ul>
+  <p class="section-intro">Full detail: <a href="../analysis/personas.md" target="_blank" rel="noopener">analysis/personas.md ↗</a></p>
+</section>
+
+<section id="feature-overview" class="card">
+  <h3>Feature Overview</h3>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-num">1</div>
+      <p><b>Taxonomy expansion</b>: 2 new categories — "Software Architecture" (DDD, architecture styles, decision-making, modeling) and "Microservices &amp; Distributed Systems" (all microservices.io-style patterns + distributed-systems theory + communication patterns) — appended to the existing 12, with a full source-to-category mapping for all 3 context files and existing-category enrichment (Data Storage, Cloud Engineering, DevOps, Testing) where content fits better there.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">2</div>
+      <p><b>Dedup policy</b>: known cross-source overlaps (CQRS, circuit breaker, service discovery, distributed tracing, Event Sourcing, service mesh/sidecar) become separate entries with plain-text cross-reference notes, not merged.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">3</div>
+      <p><b>FilterBar redesign</b>: <code>VISIBLE_CATEGORY_CHIP_COUNT</code> raised from 5 to 7; the existing one-way "+N more" overflow becomes a genuine bidirectional expand/collapse.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">4</div>
+      <p><b>Curation plan</b>: a 3-batch sequence (microservice-patterns.md → system-design terms.md → dna-mapa.md) using the existing <code>content-pipeline/</code> process, plus a permanent Polish-source curation discipline addition to <code>rubric.md</code>.</p>
+    </div>
+  </div>
+  <p class="section-intro">Full detail: <a href="../analysis/feature-spec.md" target="_blank" rel="noopener">analysis/feature-spec.md ↗</a> · <a href="../analysis/feature-spec.html">HTML</a></p>
+</section>
+
+<section id="constraints" class="card">
+  <h3>Constraints</h3>
+  <ul class="plain">
+    <li>Taxonomy mechanism stays flat — no hierarchy, same <code>Category</code> union/array pattern.</li>
+    <li>New categories append at the end only, never inserted mid-list (breaks order-dependent tests otherwise).</li>
+    <li>Existing-category enrichment takes priority over new-category proliferation.</li>
+    <li>This design task's scope is the plan, not full entry curation.</li>
+    <li>Bilingual curation discipline: English <code>description</code> drafted first, Polish <code>descriptionPl</code> translated independently.</li>
+    <li>No fixed category-count ceiling, but the FilterBar redesign must stay usable at whatever count results.</li>
+  </ul>
+</section>
+
+<section id="success-criteria" class="card">
+  <h3>Success Criteria</h3>
+  <ul class="plain">
+    <li>Approved 14-category taxonomy with full source-to-category mapping.</li>
+    <li>Complete dedup/cross-reference resolution for all known overlaps.</li>
+    <li>Written, sequenced curation plan referencing the existing curation process.</li>
+    <li>Prototyped, approved FilterBar redesign.</li>
+    <li>Dependency-ordered code change list ready for <code>/maister:development</code>.</li>
+  </ul>
+</section>
+
+<section id="acceptance-criteria" class="card">
+  <h3>Acceptance Criteria</h3>
+  <p class="section-intro">See <code>analysis/feature-spec.md</code> Section 6 for the full breakdown; summarized:</p>
+  <ul class="checklist">
+    <li><code>Category</code> type includes exactly 14 values in the specified order.</li>
+    <li>All 3 taxonomy copies (<code>glossary.ts</code>, <code>FilterBar.ts</code>, <code>validate-glossary.ts</code>) stay in sync.</li>
+    <li><code>npm run validate-glossary</code> and <code>npm test</code> pass after implementation.</li>
+    <li>FilterBar's collapse/expand behaves symmetrically at the new 7-visible/14-total count.</li>
+    <li>Curation batches ship in order with the cross-reference audit as the final step.</li>
+  </ul>
+</section>
+
+<h2 id="persona-cards">Layer 1 — Persona Cards</h2>
+<div class="persona-grid">
+  <div class="persona-card card">
+    <div class="p-head"><h3 style="margin:0">Interview-Prep Curator</h3><span class="role-badge primary">primary</span></div>
+    <p class="section-intro" style="margin:0">App owner/curator, preparing for senior/staff interviews.</p>
+    <dl>
+      <dt>Goals</dt>
+      <dd>Consolidate scattered notes into the existing spaced-review system; drill new categories in isolation (already possible via Learn Mode's filter-scoping).</dd>
+      <dt>Pain points</dt>
+      <dd>Raw/overlapping/partly-Polish source notes; FilterBar already near visual capacity.</dd>
+    </dl>
+  </div>
+  <div class="persona-card card">
+    <div class="p-head"><h3 style="margin:0">Portfolio Visitor</h3><span class="role-badge secondary">secondary</span></div>
+    <p class="section-intro" style="margin:0">Recruiter/senior engineer skimming the live demo.</p>
+    <dl>
+      <dt>Goals</dt>
+      <dd>Quickly gauge breadth/seniority of knowledge via a polished, uncluttered app.</dd>
+      <dt>Pain points</dt>
+      <dd>Won't invest time in a confusing filter UI; doesn't read Polish.</dd>
+    </dl>
+  </div>
+</div>
+<p class="section-intro">Full detail: <a href="../analysis/personas.md" target="_blank" rel="noopener">analysis/personas.md ↗</a></p>
+
+<h2 id="design-decisions">Layer 2 — Design Decisions</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>Area</th><th>Decision</th><th>Rejected Alternatives</th></tr></thead>
+    <tbody>
+      <tr><td>Taxonomy structure</td><td>2 new categories (14 total)</td><td>6 new (source-derived, brainstormer's recommendation), 10-11 new (maximal)</td></tr>
+      <tr><td>Cross-source dedup</td><td>Keep separate with cross-references</td><td>First-source-wins, merge-into-richest (recommended)</td></tr>
+      <tr><td>FilterBar UX</td><td>Symmetric collapse + raise count to 7</td><td>Theme clusters, pinned+dropdown, search-within-filter</td></tr>
+      <tr><td>Curation sequencing</td><td>Batch by source file, Polish last</td><td>Category-at-a-time, all-decisions-first (hybrid recommended)</td></tr>
+    </tbody>
+  </table>
+  <p class="section-intro" style="margin-bottom:0">Full detail and trade-off analysis: <a href="../analysis/design-decisions.md" target="_blank" rel="noopener">analysis/design-decisions.md ↗</a> · <a href="../analysis/design-decisions.html">HTML</a> — alternatives considered: <a href="../analysis/alternatives.md" target="_blank" rel="noopener">analysis/alternatives.md ↗</a> · <a href="../analysis/alternatives.html">HTML</a></p>
+</div>
+
+<h2 id="mockup-references">Layer 3 — Mockup References</h2>
+<div class="mockup-card card">
+  <h3 style="margin:0">Browse — FilterBar at 14 Categories</h3>
+  <p style="margin:0">Interactive mockup built with Skill Flip's actual theme tokens (navy topbar, ice/steel chips, JetBrains Mono stats). Demonstrates the symmetric collapse behavior (7 visible ↔ all 14, relabeling "+7 more"/"Show less") and the 2 new category badges rendering via the existing generic slugifier with zero new code. Verified programmatically (click-and-check DOM test) and approved after live browser review.</p>
+  <a class="btn" href="../analysis/mockups/browse-filterbar-at-14-categories.html">Open mockup</a>
+</div>
+
+<h2 id="references">References</h2>
+<div class="ref-grid">
+  <a class="ref-card" href="../analysis/design-context.md" target="_blank" rel="noopener">Design Context — unified synthesis of project docs, codebase analysis, and the 3 source files<span class="fmt">md</span></a>
+  <a class="ref-card" href="../analysis/codebase-analysis.md" target="_blank" rel="noopener">Codebase Analysis — current-state taxonomy mechanism analysis<span class="fmt">md</span></a>
+  <a class="ref-card" href="../analysis/problem-statement.md" target="_blank" rel="noopener">Problem Statement — full problem exploration<span class="fmt">md</span></a>
+  <a class="ref-card" href="../analysis/personas.md" target="_blank" rel="noopener">Personas — persona cards and journeys<span class="fmt">md</span></a>
+  <a class="ref-card" href="../analysis/alternatives.html">Alternatives — full alternatives with trade-off analysis<span class="fmt">html · md twin</span></a>
+  <a class="ref-card" href="../analysis/design-decisions.html">Design Decisions — selected direction and rationale<span class="fmt">html · md twin</span></a>
+  <a class="ref-card" href="../analysis/feature-spec.html">Feature Specification — full 6-section implementation-ready specification<span class="fmt">html · md twin</span></a>
+  <a class="ref-card" href="../analysis/mockups/browse-filterbar-at-14-categories.html">Browse FilterBar Mockup — approved FilterBar mockup<span class="fmt">html</span></a>
+</div>
+<p class="section-intro">Source context files: <code>context/dna-mapa.md</code>, <code>context/microservice-patterns.md</code>, <code>context/system-design terms.md</code></p>
+
+</main>
+</body>
+</html>

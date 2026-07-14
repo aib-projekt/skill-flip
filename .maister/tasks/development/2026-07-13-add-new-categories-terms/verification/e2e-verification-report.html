@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Verification Report — add-new-categories-terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+:root[data-theme="dark"] { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+  --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+  --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+  --info:#60a5fa; --info-soft:#15233a; }
+:root[data-theme="light"] { --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; }
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+.verdict-banner { display:flex; align-items:center; gap:10px; padding:14px 18px; border-radius:var(--radius);
+  background:var(--ok-soft); border:1px solid var(--ok); margin:16px 0; font-size:16px; font-weight:700; color:var(--ok); }
+.scenario-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:10px; margin:10px 0 18px; }
+.shots { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+.shots figure { margin:0; max-width:320px; }
+.shots figcaption { font-size:11.5px; color:var(--dim); margin-top:4px; text-align:center; }
+.toc { font-size:12.5px; color:var(--dim); margin:8px 0 4px; }
+.toc a { margin-right:4px; }
+.checklist { list-style:none; padding-left:0; margin:8px 0; }
+.checklist li::before { content:"✅ "; }
+</style>
+</head>
+<body>
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="../implementation/spec.html">Spec</a>
+  <a href="../implementation/implementation-plan.html">Plan</a>
+  <a href="implementation-verification.html">Implementation Verification</a>
+  <span class="here">E2E Verification</span>
+  <a href="visual-fidelity.html">Visual Fidelity</a>
+  <a href="e2e-verification-report.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">E2E Verification</span>
+  <h1>E2E Verification Report — Add New Categories &amp; FilterBar Overflow</h1>
+  <div style="color:var(--dim); font-size:12.5px; margin-top:4px;">Generated 2026-07-14 · git ref <code>6bf4775</code> (main) + uncommitted implementation changes</div>
+</header>
+
+<div class="verdict-banner">✅ GO — 5 / 5 scenarios passed, 0 issues of any severity</div>
+
+<div class="tiles">
+  <div class="tile"><b>5</b><span>Scenarios Planned</span></div>
+  <div class="tile"><b>5</b><span>Passed</span></div>
+  <div class="tile"><b>0</b><span>Failed</span></div>
+  <div class="tile"><b>100%</b><span>Pass Rate</span></div>
+  <div class="tile"><b>0</b><span>Issues Found</span></div>
+</div>
+
+<section class="card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>All 5 in-scope browser scenarios pass with zero discrepancies. The FilterBar's category-chip overflow is now genuinely bidirectional: 7 visible chips + <code>"+7 more"</code> by default, expands to all 14 (including the two new 0-count categories) with the same trailing element relabeling to <code>"Show less"</code>, collapses back symmetrically, preserves selection state across the toggle in both directions, and <code>"Clear filters"</code> collapses the expanded list back to the compact state. Supporting build/test gates (<code>tsc -b</code>, <code>vitest</code>, <code>validate-glossary</code>) all pass.</p>
+</section>
+
+<div class="toc">Contents:
+  <a href="#env">Environment</a> ·
+  <a href="#scenarios">Scenarios</a> ·
+  <a href="#discrepancies">Discrepancies</a> ·
+  <a href="#console">Console/Network</a> ·
+  <a href="#alignment">Spec Alignment</a> ·
+  <a href="#variances">Variances</a> ·
+  <a href="#exit">Exit Criteria</a> ·
+  <a href="#recs">Recommendations</a>
+</div>
+
+<h2 id="env">Test Environment</h2>
+<div class="card">
+  <table>
+    <tr><th>Base URL</th><td><code>http://localhost:5173/skill-flip/</code></td></tr>
+    <tr><th>Browser</th><td>Google Chrome for Testing 149.0.7827.55 (Playwright-bundled Chromium rev. 1228), headless, driven by a local Playwright script; Claude Browser pane used for initial live confirmation</td></tr>
+    <tr><th>Viewport</th><td>1280×900 (automated script) / 1280×720 (Claude Browser pane)</td></tr>
+    <tr><th>Auth context</th><td>Anonymous (no auth in app)</td></tr>
+    <tr><th>Test data</th><td>Live <code>data/glossary.json</code> served by the running dev server (159 entries, real data)</td></tr>
+  </table>
+</div>
+
+<h2 id="scenarios">Verification Scenarios</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">4.1 Default collapsed state shows exactly 7 chips + "+7 more" — <span class="pass">✅ Passed</span></h3>
+  <p><b>Acceptance criterion</b>: spec.md Success Criteria — "exactly 7 chips visible by default plus one <code>\"+7 more\"</code> trailing chip"</p>
+  <table>
+    <tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>1</td><td>Navigate to Browse tab</td><td>Browse view loads</td><td>Loaded, 159 of 159 terms</td><td class="pass">✅</td></tr>
+    <tr><td>2</td><td>Count non-.more chips</td><td>7</td><td>7 (Java, Spring/JEE, Data Storage, DevOps, Cloud Engineering, Testing, Soft Skills)</td><td class="pass">✅</td></tr>
+    <tr><td>3</td><td>Read trailing chip text</td><td><code>"+7 more"</code></td><td><code>"+7 more"</code></td><td class="pass">✅</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img class="shot" src="screenshots/01-browse-default.png" alt="Default collapsed FilterBar"><figcaption>01-browse-default.png</figcaption></figure>
+  </div>
+  <ul class="checklist"><li>Exactly 7 chips visible by default</li><li>Trailing chip reads exactly "+7 more"</li></ul>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">4.2 Clicking "+7 more" expands to all 14 chips, relabels to "Show less" — <span class="pass">✅ Passed</span></h3>
+  <p><b>Acceptance criterion</b>: Core Requirement 6 — same element relabels, all 14 chips appear</p>
+  <table>
+    <tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>1</td><td>Click "+7 more"</td><td>14 chips render</td><td>14 non-.more chips, correct order</td><td class="pass">✅</td></tr>
+    <tr><td>2</td><td>Check "Software Architecture (0)"</td><td>Present</td><td>Present</td><td class="pass">✅</td></tr>
+    <tr><td>3</td><td>Check "Microservices &amp; Distributed Systems (0)"</td><td>Present</td><td>Present</td><td class="pass">✅</td></tr>
+    <tr><td>4</td><td>Read trailing chip text</td><td><code>"Show less"</code></td><td><code>"Show less"</code></td><td class="pass">✅</td></tr>
+    <tr><td>5</td><td>Count .chip.more elements</td><td>1 (reused)</td><td>1</td><td class="pass">✅</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img class="shot" src="screenshots/02-browse-expanded.png" alt="Expanded FilterBar, all 14 chips"><figcaption>02-browse-expanded.png</figcaption></figure>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">4.3 Clicking "Show less" collapses back to 7 visible + "+7 more" — <span class="pass">✅ Passed</span></h3>
+  <table>
+    <tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>1</td><td>Click "Show less"</td><td>Collapses to 7 chips</td><td>7 chips, identical set to 4.1</td><td class="pass">✅</td></tr>
+    <tr><td>2</td><td>Read trailing chip text</td><td><code>"+7 more"</code></td><td><code>"+7 more"</code></td><td class="pass">✅</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img class="shot" src="screenshots/03-browse-collapsed-again.png" alt="Collapsed again after Show less"><figcaption>03-browse-collapsed-again.png</figcaption></figure>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">4.4 Category selection survives expand/collapse toggling — <span class="pass">✅ Passed</span></h3>
+  <p><b>Acceptance criterion</b>: Core Requirement 7 — selection state independent of expand/collapse</p>
+  <table>
+    <tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>1</td><td>Expand, click "Software Architecture (0)"</td><td>Chip becomes active</td><td>active class present</td><td class="pass">✅</td></tr>
+    <tr><td>2</td><td>Click "Show less" to collapse</td><td>Collapses; selection retained internally</td><td>Collapsed to 7; result count "0 of 159 terms" confirms filter still applied</td><td class="pass">✅</td></tr>
+    <tr><td>3</td><td>Re-expand via "+7 more"</td><td>Chip renders active again</td><td>active class present after re-expand</td><td class="pass">✅</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img class="shot" src="screenshots/04-software-architecture-selected-expanded.png" alt="Software Architecture selected"><figcaption>04-software-architecture-selected-expanded.png</figcaption></figure>
+    <figure><img class="shot" src="screenshots/05-collapsed-after-selecting-swarch.png" alt="Collapsed with selection retained"><figcaption>05-collapsed-after-selecting-swarch.png</figcaption></figure>
+    <figure><img class="shot" src="screenshots/06-reexpanded-swarch-still-active.png" alt="Re-expanded, still active"><figcaption>06-reexpanded-swarch-still-active.png</figcaption></figure>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">4.5 "Clear filters" collapses an expanded chip list — <span class="pass">✅ Passed</span></h3>
+  <p><b>Acceptance criterion</b>: Core Requirement 8 — reset() also collapses the chip list</p>
+  <table>
+    <tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>1</td><td>Confirm empty-state Clear filters button visible</td><td>1 visible button</td><td>1 visible match</td><td class="pass">✅</td></tr>
+    <tr><td>2</td><td>Click "Clear filters"</td><td>Collapses to 7 + "+7 more"; selection &amp; search cleared</td><td>7 chips, "+7 more", 0 active chips, search value ""</td><td class="pass">✅</td></tr>
+  </table>
+  <div class="shots">
+    <figure><img class="shot" src="screenshots/07-empty-state-before-clear.png" alt="Empty state with Clear filters"><figcaption>07-empty-state-before-clear.png</figcaption></figure>
+    <figure><img class="shot" src="screenshots/08-after-clear-filters.png" alt="After Clear filters, collapsed"><figcaption>08-after-clear-filters.png</figcaption></figure>
+  </div>
+</div>
+
+<h2 id="discrepancies">Discrepancies</h2>
+<div class="card">
+  <p><span class="sev critical">Critical</span> None observed.</p>
+  <p><span class="sev warning">Major</span> None observed.</p>
+  <p><span class="sev warning">Minor</span> None observed.</p>
+  <p><span class="sev info">Cosmetic</span> None observed.</p>
+</div>
+
+<h2 id="console">Console &amp; Network Errors</h2>
+<div class="card">
+  <p><em>None observed.</em> Only Vite HMR debug messages logged (<code>[vite] connecting...</code>, <code>[vite] connected.</code>) across all 5 scenarios; no error/warning console entries, no pageerror events, no failed network requests.</p>
+</div>
+
+<h2 id="alignment">Spec Alignment</h2>
+<div class="card">
+  <p><b>Fully implemented</b>: VISIBLE_CATEGORY_CHIP_COUNT = 7; bidirectional renderChips() collapse branch reusing the same element; selection independent of expand/collapse; reset() collapses the chip list; fresh-load default collapsed; two new categories render as legitimate 0-count chips; tsc -b clean; vitest 67/67 passing; validate-glossary 159/159 valid.</p>
+  <p><b>Partially implemented</b>: None.</p>
+  <p><b>Not implemented</b>: None within scope. The pre-existing chip accessibility gap (non-keyboard-accessible &lt;span&gt;, no ARIA state) is explicitly out of scope per spec.md and deliberately preserved by the approved mockup.</p>
+  <p><b>Extra (unspecified) behavior</b>: None observed.</p>
+</div>
+
+<h2 id="variances">Variances from Plan</h2>
+<div class="card">
+  <p>Playwright MCP was confirmed unavailable in this environment (<code>Chromium distribution 'chrome' is not found at /Applications/Google Chrome.app</code> — no system Chrome, no sudo). Verification proceeded via the Claude Browser pane for initial live confirmation, plus a supplementary local Playwright script (using the Chromium binary already cached on disk) to drive the same live dev server and produce persisted PNG evidence files. Both exercised the real running application with real data — no mocking, no test file generation. All 5 scenarios ran exactly as planned; only the tooling path differed.</p>
+</div>
+
+<h2 id="exit">Evaluation Against Exit Criteria</h2>
+<div class="card">
+  <table>
+    <tr><th>Criterion</th><th>Status</th><th>Evidence</th></tr>
+    <tr><td>7 visible + "+7 more" by default</td><td class="pass">✅</td><td>4.1, 01-browse-default.png</td></tr>
+    <tr><td>Expand reveals all 14, relabels "Show less"</td><td class="pass">✅</td><td>4.2, 02-browse-expanded.png</td></tr>
+    <tr><td>"Show less" re-collapses, relabels "+7 more"</td><td class="pass">✅</td><td>4.3, 03-browse-collapsed-again.png</td></tr>
+    <tr><td>Selection survives expand/collapse both directions</td><td class="pass">✅</td><td>4.4, 04-06-*.png</td></tr>
+    <tr><td>"Clear filters" collapses expanded chip list</td><td class="pass">✅</td><td>4.5, 07-08-*.png</td></tr>
+    <tr><td>Expand/collapse resets on fresh page load</td><td class="pass">✅</td><td>Every fresh navigation started collapsed</td></tr>
+    <tr><td>npm test passes</td><td class="pass">✅</td><td>vitest 67/67 passing</td></tr>
+    <tr><td>tsc -b type-checks cleanly</td><td class="pass">✅</td><td>"No errors found"</td></tr>
+    <tr><td>npm run validate-glossary passes</td><td class="pass">✅</td><td>159/159 entries valid</td></tr>
+  </table>
+</div>
+
+<h2 id="recs">Recommendations</h2>
+<div class="card">
+  <p><b>Must fix before merge</b>: None.</p>
+  <p><b>Should fix soon</b>: None.</p>
+  <p><b>Nice-to-have</b>: Track the codebase-wide chip accessibility gap (no keyboard/ARIA support on the overflow toggle) as a separate follow-up — out of scope for this task, not a regression.</p>
+</div>
+
+<h2>Conclusion</h2>
+<div class="card">
+  <p><b>GO.</b> All 5 verification scenarios pass with live browser evidence and zero discrepancies of any severity; the implementation matches every behavioral success criterion exactly, and all supporting build/test/validation gates pass cleanly. Recommend proceeding to merge without further changes.</p>
+</div>
+
+</body>
+</html>

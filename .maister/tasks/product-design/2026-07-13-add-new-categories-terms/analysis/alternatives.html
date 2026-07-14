@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solution Alternatives — Add New Categories &amp; Terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+:root[data-theme="dark"] {
+  --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+  --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+  --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+  --info:#60a5fa; --info-soft:#15233a;
+}
+:root[data-theme="light"] {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff;
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin:0 0 6px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* --- companion-specific extensions --- */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+header { margin-bottom:6px; }
+header .meta { font-size:12.5px; color:var(--dim); margin-top:4px; }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+.toc { font-size:13px; color:var(--dim); margin:16px 0 6px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+.toc a { color:var(--dim); }
+ul.kd, ul.risks { margin:6px 0 0; padding-left:20px; }
+ul.kd li, ul.risks li { margin:4px 0; }
+.section-intro { color:var(--dim); font-size:13px; margin:6px 0 14px; }
+.alt-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:14px; margin:12px 0; }
+.alt-card { display:flex; flex-direction:column; gap:8px; }
+.alt-card.recommended { border:2px solid var(--accent); }
+.alt-card .alt-head { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.rec-badge { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--ok-soft); color:var(--ok); white-space:nowrap; }
+.count-badge { display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px;
+  background:var(--info-soft); color:var(--info); white-space:nowrap; }
+.alt-card .desc { font-size:13px; }
+.pc { display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:12.5px; }
+.pc .pros b, .pc .cons b { font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); display:block; margin-bottom:3px; }
+.pc ul { margin:0; padding-left:16px; }
+.pc .pros ul li { margin:2px 0; }
+.pc .cons ul li { margin:2px 0; }
+.best-when { font-size:12px; color:var(--dim); border-top:1px dashed var(--border); padding-top:6px; margin-top:2px; }
+.rec-box { background:var(--ok-soft); border:1px solid var(--ok); border-radius:var(--radius); padding:12px 16px; margin:14px 0; font-size:13px; }
+.rec-box b.lbl { color:var(--ok); text-transform:uppercase; font-size:11px; letter-spacing:.04em; display:block; margin-bottom:4px; }
+.confidence { display:inline-block; font-size:11px; font-weight:600; padding:1.5px 8px; border-radius:99px; margin-left:6px; }
+.confidence.high { background:var(--ok-soft); color:var(--ok); }
+.confidence.medium { background:var(--warn-soft); color:var(--warn); }
+@media (max-width:700px) { .pc { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <span class="here">Alternatives</span>
+  <a href="alternatives.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Design Alternatives</span>
+  <h1>Solution Alternatives: Taxonomy, Dedup, FilterBar UX &amp; Curation Plan</h1>
+  <div class="meta">Task: <code>2026-07-13-add-new-categories-terms</code> · Generated 2026-07-13 · Source: <a href="alternatives.md" target="_blank" rel="noopener">analysis/alternatives.md ↗</a></div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>4</b><span>decision areas</span></div>
+  <div class="tile"><b>14</b><span>alternatives generated</span></div>
+  <div class="tile"><b>6</b><span>new categories (recommended)</span></div>
+  <div class="tile"><b>6</b><span>cross-source overlaps resolved</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>Four decision areas, each with 3–5 genuine alternatives: <b>(1)</b> how many new categories and how they're derived from the 3 source files, <b>(2)</b> how to dedup concepts appearing in 2+ sources, <b>(3)</b> how FilterBar's chip UI should behave at 14–23 categories instead of 12, and <b>(4)</b> how the follow-up curation pass should be sequenced. Recommended package: <b>source-structure-derived taxonomy</b> (6 new categories, 18 total) + <b>merge-into-richest-definition dedup</b> + <b>symmetric expand/collapse FilterBar fix</b> (upgrading to pinned-chips-plus-dropdown if the category count ends up higher) + <b>upfront dedup/mapping, then category-at-a-time curation</b>. All four recommendations compose together, but each is presented with real alternatives for independent convergence.</p>
+
+  <h2>Key Decisions</h2>
+  <ul class="kd">
+    <li><b>Taxonomy structure</b>: recommend Alternative B (source-structure-derived, 6 new categories) over a 2-category consolidation or an 11-category maximal split.</li>
+    <li><b>Dedup strategy</b>: recommend merging overlapping concepts into single richest-definition entries, not first-source-wins or duplicate-with-cross-reference.</li>
+    <li><b>FilterBar UX</b>: recommend adding a genuine "show less" collapse as the minimum fix regardless of taxonomy outcome; upgrade to pinned-chips + dropdown only if the final count lands at the ~22–23 high end.</li>
+    <li><b>Curation plan</b>: recommend resolving all cross-source dedup + category mapping up front, then curating category-by-category (not source-file-by-source-file).</li>
+  </ul>
+
+  <h2>Open Questions / Risks</h2>
+  <ul class="risks">
+    <li>Category-boundary judgment calls remain even under the recommended alternative (e.g. does "Bounded Contexts" belong under DDD or under Decision-Making &amp; Modeling?) — convergence should confirm or overrule these explicitly.</li>
+    <li>Actual entry counts per new category are unknown until curation; sizing estimates in this document are illustrative, not commitments.</li>
+    <li>"Service discovery" has a real granularity mismatch across sources (1 concept vs. 5 named patterns) — the dedup table proposes a resolution, but it's a judgment call worth explicit sign-off.</li>
+    <li>The FilterBar recommendation is conditional on the taxonomy decision — confirm final category count before locking the UX alternative.</li>
+  </ul>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#area-1">1 · Taxonomy Structure</a> ·
+  <a href="#area-2">2 · Dedup Strategy</a> ·
+  <a href="#area-3">3 · FilterBar UX</a> ·
+  <a href="#area-4">4 · Curation Plan</a> ·
+  <a href="#deferred">Deferred Ideas</a> ·
+  <a href="#evidence">Evidence Sources</a>
+</nav>
+
+<main>
+
+<h2 id="area-1">Decision Area 1 — New Category Taxonomy Structure</h2>
+<p class="section-intro">Baked into every alternative (constraint 3): content that clearly fits an existing category — CI/CD, IaC, monitoring, containers, Kubernetes, cloud deployment models (dna-mapa's "Infrastruktury"), and Kafka/Redis/Elasticsearch/Zookeeper/CDN (system-design terms.md) — enriches <b>DevOps</b> and <b>Cloud Engineering</b> in all three alternatives. What varies is how the genuinely new-territory content (DDD, architecture styles, distributed-systems theory, decision-making/modeling, ~35 microservices patterns) gets grouped.</p>
+
+<div class="alt-grid">
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Alt A — Minimal / Consolidated</h3><span class="count-badge">14 total</span></div>
+    <p class="desc">Two umbrella categories: <b>"Software Architecture"</b> (DDD, arch styles, decision-making/modeling) and <b>"Microservices &amp; Distributed Systems"</b> (dna-mapa's Systemowa + all ~35 microservice-patterns.md patterns, collapsing the source's own 3-way tag split).</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul>
+        <li>Cheapest FilterBar impact (+2 chips)</li>
+        <li>Lowest boundary-judgment overhead &amp; hand-sync risk</li>
+        <li>Neither category launches thin</li>
+      </ul></div>
+      <div class="cons"><b>Cons</b><ul>
+        <li>Discards both sources' own intentional groupings</li>
+        <li>"Microservices &amp; Distributed Systems" becomes the largest category, compressing signaled expertise</li>
+        <li>"Software Architecture" is internally heterogeneous (DDD + ADR + UML in one bucket)</li>
+      </ul></div>
+    </div>
+    <div class="best-when">Best when: FilterBar simplicity &amp; minimal sync surface outweigh drill precision.</div>
+  </div>
+
+  <div class="card alt-card recommended">
+    <div class="alt-head"><h3>Alt B — Source-Structure-Derived</h3><span class="rec-badge">Recommended</span></div>
+    <span class="count-badge">18 total</span>
+    <p class="desc">6 new categories derived directly from each source's own structure: <b>DDD &amp; Architecture Styles</b>, <b>Architecture Decision-Making &amp; Modeling</b>, <b>Distributed Systems Fundamentals</b>, <b>Microservices – Application Patterns</b>, <b>Microservices – Communication &amp; Reliability</b>, <b>Microservices – Discovery &amp; Deployment</b>.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul>
+        <li>Nearly 1:1 preserves both sources' intentional structure</li>
+        <li>Category names read as credible/recognizable (serves Portfolio Visitor)</li>
+        <li>Sizing avoids both A's mega-category and C's thinness risk</li>
+      </ul></div>
+      <div class="cons"><b>Cons</b><ul>
+        <li>Meaningfully raises FilterBar overflow pressure</li>
+        <li>Real boundary calls remain (e.g. Bounded Contexts placement)</li>
+        <li>2 categories are the most likely to land thin after curation</li>
+      </ul></div>
+    </div>
+    <div class="best-when">Best when: drill-precision &amp; source-fidelity matter more than minimizing chip count — true here since the UX redesign is explicitly in scope.</div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Alt C — Maximal / Granular</h3><span class="count-badge">22–23 total</span></div>
+    <p class="desc">Splits Alt B further wherever the source supports it: 10–11 new categories (e.g. separating DDD tactical patterns from architecture styles, decision-making from visualization from strategic-DDD, communication from reliability/discovery).</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul>
+        <li>Maximum topical precision for laser-focused drill sessions</li>
+        <li>Could read as confident taxonomy craftsmanship to a technical visitor who explores</li>
+      </ul></div>
+      <div class="cons"><b>Cons</b><ul>
+        <li>Works against the project's "content maintenance over feature work" direction</li>
+        <li>Highest risk of new thin categories at launch (some ~3–6 entries)</li>
+        <li>Forces the most invasive FilterBar redesign; maximizes 3-way hand-sync drift risk</li>
+      </ul></div>
+    </div>
+    <div class="best-when">Best when: signaling maximal depth outweighs "uncluttered first impression."</div>
+  </div>
+</div>
+
+<details>
+<summary>Per-source mapping tables (Alt A &amp; Alt B)</summary>
+<table>
+<thead><tr><th>Source section</th><th>Alt A destination</th><th>Alt B destination</th></tr></thead>
+<tbody>
+<tr><td>dna-mapa: Aplikacyjna minus Persystencja (DDD, arch styles)</td><td>NEW: Software Architecture</td><td>NEW: DDD &amp; Architecture Styles</td></tr>
+<tr><td>dna-mapa: Aplikacyjna &gt; Persystencja (ACID/BASE/DB types/ORM)</td><td>Enrich Data Storage</td><td>Enrich Data Storage</td></tr>
+<tr><td>dna-mapa: Rozwiązania (ADR, UML/BPMN/C4, Event Storming, Bounded Contexts)</td><td>NEW: Software Architecture</td><td>NEW: Architecture Decision-Making &amp; Modeling</td></tr>
+<tr><td>dna-mapa: Systemowa minus Komunikacja</td><td>NEW: Microservices &amp; Distributed Systems</td><td>NEW: Distributed Systems Fundamentals</td></tr>
+<tr><td>dna-mapa: Systemowa &gt; Komunikacja</td><td>NEW: Microservices &amp; Distributed Systems</td><td>NEW: Microservices – Communication &amp; Reliability</td></tr>
+<tr><td>dna-mapa: Infrastruktury (Cloud, Containers, K8s, Mesh, CI/CD, IaC, Monitoring)</td><td>Enrich DevOps + Cloud Engineering</td><td>Enrich DevOps + Cloud Engineering</td></tr>
+<tr><td>microservice-patterns.md — #Application patterns</td><td>NEW: Microservices &amp; Distributed Systems</td><td>NEW: Microservices – Application Patterns</td></tr>
+<tr><td>microservice-patterns.md — #Application Infrastructure patterns (comm/reliability/observability subset)</td><td>NEW: Microservices &amp; Distributed Systems</td><td>NEW: Microservices – Communication &amp; Reliability</td></tr>
+<tr><td>microservice-patterns.md — discovery subset + #Infrastructure patterns</td><td>NEW: Microservices &amp; Distributed Systems</td><td>NEW: Microservices – Discovery &amp; Deployment</td></tr>
+<tr><td>system-design terms.md — Kafka/Redis/ES/Zookeeper</td><td>Enrich Data Storage</td><td>Enrich Data Storage</td></tr>
+<tr><td>system-design terms.md — CDN</td><td>Enrich Cloud Engineering</td><td>Enrich Cloud Engineering</td></tr>
+<tr><td>system-design terms.md — communication decision tree</td><td>Enrich API Development</td><td>NEW: Microservices – Communication &amp; Reliability</td></tr>
+</tbody>
+</table>
+<p class="section-intro">Alt C follows Alt B's mapping with each destination category further subdivided (see md twin for the full split list).</p>
+</details>
+
+<table>
+<caption style="text-align:left; font-size:11.5px; color:var(--dim); padding:6px 0;">Trade-off comparison — 5 perspectives</caption>
+<thead><tr><th>Perspective</th><th>Alt A (14 total)</th><th>Alt B (18 total)</th><th>Alt C (22–23 total)</th></tr></thead>
+<tbody>
+<tr><td>Technical feasibility</td><td>Trivial</td><td>Easy</td><td>Easy per-category, largest cumulative sync surface</td></tr>
+<tr><td>User impact — Curator drill precision</td><td>Low</td><td>Medium-High</td><td>Highest, if not sparse</td></tr>
+<tr><td>User impact — Visitor scannability</td><td>High</td><td>Medium (needs UX redesign)</td><td>Low without aggressive redesign</td></tr>
+<tr><td>Simplicity</td><td>High chip-count, low internal-category simplicity</td><td>Balanced</td><td>Lowest</td></tr>
+<tr><td>Risk</td><td>Signal-compression risk</td><td>Boundary-judgment risk</td><td>Thin-category + FilterBar-overload risk</td></tr>
+<tr><td>Scalability</td><td>Most headroom</td><td>Moderate headroom</td><td>Least headroom</td></tr>
+</tbody>
+</table>
+
+<div class="rec-box">
+  <b class="lbl">Recommendation <span class="confidence medium">medium-high confidence</span></b>
+  Alternative B (source-structure-derived, 6 new categories), with an explicit fallback: if "Architecture Decision-Making &amp; Modeling" and/or "Distributed Systems Fundamentals" land under ~8 entries each after curation, merge them into one category rather than shipping a thin one — an append-safe adjustment since nothing downstream depends on the exact count yet.
+</div>
+
+<h2 id="area-2">Decision Area 2 — Cross-Source Overlap &amp; Dedup Strategy</h2>
+<p class="section-intro">Known overlaps: <b>CQRS</b>, <b>circuit breaker</b>, <b>service discovery</b>, <b>distributed tracing</b>, <b>Event Sourcing</b>, <b>Service Mesh / sidecar</b> — each appears in 2+ of the 3 source files.</p>
+
+<div class="alt-grid">
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Alt 1 — First-Source-Wins</h3></div>
+    <p class="desc">Fixed priority order per concept type (e.g. microservice-patterns.md wins for pattern names, dna-mapa wins for theory). The losing source is skimmed for additive material only.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Simple, fast, deterministic</li><li>Minimizes curation decision fatigue</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Risks silently dropping valuable nuance</li><li>No answer for granularity mismatches (service discovery)</li></ul></div>
+    </div>
+    <div class="best-when">Best when: curation time is the binding constraint.</div>
+  </div>
+
+  <div class="card alt-card recommended">
+    <div class="alt-head"><h3>Alt 2 — Merge into Richest Definition</h3><span class="rec-badge">Recommended</span></div>
+    <p class="desc">Synthesize one entry per concept combining the best material from every source; when granularity mismatches, follow the more granular source's decomposition and fold the coarser source's context in as support.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Highest-quality entries, matches the app's synthesis-not-transcription philosophy</li><li>Protects Learn Mode's weighted drill from duplicate near-identical cards</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Highest per-concept curation cost</li><li>Requires a real judgment call per overlap</li></ul></div>
+    </div>
+    <div class="best-when">Best when: entry quality &amp; Learn Mode integrity outweigh curation-pass speed.</div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Alt 3 — Keep Separate + Cross-Reference</h3></div>
+    <p class="desc">Allow two distinct entries per concept (one per category/angle) with a "see also" note in each description; no dedup.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Zero content loss</li><li>Preserves each source's own framing intact</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Produces exactly the near-duplicate entries this task's own analysis warns against</li><li>Pollutes Learn Mode weighting; no UI affordance for the cross-reference</li></ul></div>
+    </div>
+    <div class="best-when">Best when: rarely — only for concepts whose two facets are too distinct to merge readably.</div>
+  </div>
+</div>
+
+<table>
+<caption style="text-align:left; font-size:11.5px; color:var(--dim); padding:6px 0;">Known overlaps — proposed dedup resolution (under Alt 2)</caption>
+<thead><tr><th>Concept</th><th>Sources</th><th>Granularity</th><th>Proposed resolution</th></tr></thead>
+<tbody>
+<tr><td>CQRS</td><td>dna-mapa (Wzorce), microservice-patterns.md (×2)</td><td>Same</td><td>1 entry → Microservices – Application Patterns</td></tr>
+<tr><td>Circuit Breaker</td><td>dna-mapa (Design for Failure), microservice-patterns.md (Reliability)</td><td>Same</td><td>1 entry → Microservices – Communication &amp; Reliability</td></tr>
+<tr><td>Service Discovery</td><td>dna-mapa (1 concept), microservice-patterns.md (5 named patterns)</td><td>Mismatched</td><td>Follow finer decomposition (up to 5 entries); dna-mapa framing folded in as context</td></tr>
+<tr><td>Distributed Tracing</td><td>dna-mapa (Komunikacja), microservice-patterns.md (Observability)</td><td>Same</td><td>1 entry → Microservices – Communication &amp; Reliability</td></tr>
+<tr><td>Event Sourcing</td><td>dna-mapa (implicit), microservice-patterns.md (explicit)</td><td>Same</td><td>1 entry → Microservices – Application Patterns</td></tr>
+<tr><td>Service Mesh / Sidecar</td><td>dna-mapa (dedicated subsection), microservice-patterns.md (mesh, sidecar)</td><td>Same concept, 2 angles</td><td>1–2 entries → enrich Cloud Engineering, cross-check vs. Discovery &amp; Deployment</td></tr>
+</tbody>
+</table>
+
+<div class="rec-box">
+  <b class="lbl">Recommendation <span class="confidence high">high confidence</span></b>
+  Alternative 2 (merge into richest definition) as the standing rule, with Alt 1's determinism as a named fallback only for trivial overlaps adding no non-redundant content. Reject Alt 3 outright — it directly contradicts a risk this task's own analysis already flags and degrades Learn Mode quality.
+</div>
+
+<h2 id="area-3">Decision Area 3 — FilterBar Chip/Overflow UX Redesign</h2>
+<p class="section-intro">Current mechanism: <code>VISIBLE_CATEGORY_CHIP_COUNT = 5</code>, a one-way <code>showAllCategories</code> boolean, fully generic <code>renderChips()</code> loop. Must remain usable at 14 (Alt A), 18 (Alt B), or 22–23 (Alt C) categories.</p>
+
+<div class="alt-grid">
+  <div class="card alt-card">
+    <div class="alt-head"><h3>UX-1 — Raise Visible Count</h3><span class="count-badge">Trivial cost</span></div>
+    <p class="desc">Bump <code>VISIBLE_CATEGORY_CHIP_COUNT</code> (5→8–10); mechanism otherwise unchanged.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Cheapest change, ships immediately</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Doesn't solve "no re-collapse"</li><li>Insufficient alone at Alt C's count</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card recommended">
+    <div class="alt-head"><h3>UX-2 — Symmetric Collapse</h3><span class="rec-badge">Recommended</span></div>
+    <span class="count-badge">Small cost</span>
+    <p class="desc">Make <code>showAllCategories</code> genuinely bidirectional — add a "Show less" control that re-collapses the chip row.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Fixes the exact pain point flagged in analysis</li><li>No new grouping metadata, ~10-15 lines</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Doesn't reduce chip count while expanded</li><li>Composes with UX-1, not a full fix alone at high counts</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>UX-3 — Two-Tier Clusters</h3><span class="count-badge">Medium-high cost</span></div>
+    <p class="desc">Presentation-only theme clustering (e.g. "Microservices ▾" expands to 3 sub-chips); <code>Category</code> type stays flat.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Only alt that scales gracefully to 22–23 categories</li><li>Matches real study groupings</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>New 4th hand-synced artifact (grouping map)</li><li>New per-cluster state model, most new-code risk</li><li>Disproportionate to project's stated direction</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>UX-4 — Pinned Chips + Dropdown</h3><span class="count-badge">Medium cost</span></div>
+    <p class="desc">Keep ~5 pinned chips, replace "+N more" with a dropdown/checkbox panel for the rest. Reuses existing <code>toggleCategory</code> logic.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Constant visual footprint regardless of category count</li><li>Best worst-case scalability below UX-3's cost</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Loses always-visible live counts until opened</li><li>Bigger visual/interaction departure, needs design work</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>UX-5 — Search-Within-Filter</h3><span class="count-badge">Small-medium cost</span></div>
+    <p class="desc">Type-ahead input that live-filters the chip set by substring match, independent of the main content search.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Cheap, purely additive, zero regression risk</li><li>Fast for the power-user Curator</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Near-irrelevant to the Portfolio Visitor</li><li>Complement only, not a standalone fix</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<table>
+<caption style="text-align:left; font-size:11.5px; color:var(--dim); padding:6px 0;">Trade-off comparison — 5 perspectives</caption>
+<thead><tr><th>Perspective</th><th>UX-1</th><th>UX-2</th><th>UX-3</th><th>UX-4</th><th>UX-5</th></tr></thead>
+<tbody>
+<tr><td>Technical feasibility</td><td>Trivial</td><td>Small</td><td>Medium-high</td><td>Medium</td><td>Small-medium</td></tr>
+<tr><td>User impact — Curator</td><td>Low-medium</td><td>Medium-high</td><td>Highest at scale</td><td>Medium-high</td><td>High (power-user)</td></tr>
+<tr><td>User impact — Visitor</td><td>Medium</td><td>Medium-high</td><td>Medium (if discovered)</td><td>Highest</td><td>Low</td></tr>
+<tr><td>Simplicity</td><td>Highest</td><td>High</td><td>Lowest</td><td>Medium</td><td>High</td></tr>
+<tr><td>Risk</td><td>Low, insufficient alone</td><td>Low</td><td>Highest (new drift-prone artifact)</td><td>Medium (design work)</td><td>Low</td></tr>
+<tr><td>Scalability to 22–23</td><td>Poor</td><td>Poor alone</td><td>Best</td><td>Good</td><td>N/A</td></tr>
+</tbody>
+</table>
+
+<div class="rec-box">
+  <b class="lbl">Recommendation <span class="confidence medium">medium confidence — conditional</span></b>
+  Ship UX-2 (symmetric collapse) as the minimum fix regardless of the taxonomy outcome, paired with a modest UX-1 bump (5→7–8). If Decision Area 1 converges on Alt C (22–23 categories), upgrade to UX-4 (pinned chips + dropdown). Do not build UX-3 (clusters) — disproportionate cost/risk given the most likely 18-category outcome. Treat UX-5 as an optional cheap add-on, not required for the "must remain usable" success criterion.
+</div>
+
+<h2 id="area-4">Decision Area 4 — Curation Plan Structure</h2>
+
+<div class="alt-grid">
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Seq-1 — One Category at a Time</h3></div>
+    <p class="desc">Fully curate (EN → PL → dedup check → validate) one category end-to-end before starting the next.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Incremental shippable checkpoints</li><li>Calibrates rubric mistakes early</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Cross-source dedup harder without full concept visibility</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Seq-2 — All Decisions First, Then Bulk-Curate</h3></div>
+    <p class="desc">Finish 100% of taxonomy/dedup/mapping decisions before writing any entry, then curate in large batches.</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Cleanest design/content separation</li><li>Best-quality dedup calls (full visibility)</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>No incremental checkpoint — risks the Curator's own named "curate everything at once" fatigue pattern</li></ul></div>
+    </div>
+  </div>
+
+  <div class="card alt-card">
+    <div class="alt-head"><h3>Seq-3 — Batch by Source File</h3></div>
+    <p class="desc">microservice-patterns.md first (easiest), then system-design terms.md, then dna-mapa.md last (largest, Polish, highest risk).</p>
+    <div class="pc">
+      <div class="pros"><b>Pros</b><ul><li>Builds confidence before the hardest source</li><li>Cleanly isolates Polish-source discipline to one phase</li></ul></div>
+      <div class="cons"><b>Cons</b><ul><li>Defers dna-mapa's contribution to every overlap, risking dedup retrofits</li><li>Categories look prematurely "done" after the English-source pass</li></ul></div>
+    </div>
+  </div>
+</div>
+
+<div class="rec-box">
+  <b class="lbl">Recommendation <span class="confidence high">high confidence on sequencing</span> <span class="confidence medium">medium on priority order</span></b>
+  Hybrid: resolve all cross-source dedup + category mapping decisions up front (this document + convergence — Seq-2's rigor), then curate category-by-category (Seq-1's cadence, not Seq-3's) to avoid retrofitting dedup decisions after the fact. Sequence categories by the Curator's actual near-term interview-prep priority. Move the Polish-source discipline (draft English first, then independently translate) into a permanent <code>content-pipeline/rubric.md</code> addition rather than a one-off note, so it's enforced on every future dna-mapa-sourced entry.
+</div>
+
+<h2 id="deferred">Deferred Ideas (Out of Scope)</h2>
+<details open>
+<summary>4 ideas captured, not incorporated into any alternative above</summary>
+<ul class="kd">
+  <li><b>Collapse the 3 hand-synced category lists</b> (<code>glossary.ts</code>, <code>FilterBar.ts</code>, <code>validate-glossary.ts</code>) into one shared source of truth — flagged by codebase-analysis.md as worth doing but beyond this task's scope; more relevant the larger Decision Area 1's outcome.</li>
+  <li><b>Per-category color/icon differentiation</b> in FilterBar/badges — none exists today; would help scannability at any higher category count, but is a visual-design addition not requested by this task's success criteria.</li>
+  <li><b>Run <code>validate-glossary</code> in <code>npm test</code> / pre-commit</b> instead of only at CI deploy time — a real gap, directly relevant to the risk this task increases, but a testing-infrastructure change outside this task's scope.</li>
+  <li><b>Cross-reference UI affordance</b> (e.g. a "related terms" link) — only relevant if Decision Area 2's Alt 3 were chosen; since Alt 2 is recommended instead, no near-term driver.</li>
+</ul>
+</details>
+
+<h2 id="evidence">Evidence Sources</h2>
+<details>
+<summary>Source documents &amp; code references used to ground every alternative</summary>
+<ul class="kd">
+  <li><code>problem-statement.md</code> — constraints (flat taxonomy, append-only, existing-category enrichment priority, design-not-curation scope, Polish-source discipline, no category ceiling).</li>
+  <li><code>personas.md</code> — Curator's drill-in-isolation need and filter-bar-near-capacity pain point; Portfolio Visitor's scannability and naming needs.</li>
+  <li><code>design-context.md</code> — hand-synced taxonomy risk, FilterBar's 5-visible/overflow mechanism, thin existing categories, project's content-maintenance direction.</li>
+  <li><code>codebase-analysis.md</code> — <code>src/types/glossary.ts</code> (Category union, lines 10-22), <code>src/components/FilterBar.ts</code> (<code>ALL_CATEGORIES</code> lines 13-26, <code>VISIBLE_CATEGORY_CHIP_COUNT</code> line 31, <code>renderChips()</code> lines 100-125), <code>content-pipeline/validate-glossary.ts</code>, order-dependent <code>BrowseGrid.test.ts</code> risk, current per-category counts.</li>
+  <li><code>context/dna-mapa.md</code> (585 lines, Polish) — full source reviewed section-by-section for the mapping tables.</li>
+  <li><code>context/microservice-patterns.md</code> — author's own 3-way tag split, used directly in Alt B/C's mapping.</li>
+  <li><code>context/system-design terms.md</code> — Kafka/Redis/Elasticsearch/Zookeeper/CDN/communication-decision-tree content.</li>
+  <li>Direct read of <code>src/components/FilterBar.ts</code> and <code>src/types/glossary.ts</code> (current code) for Decision Area 3's implementation-cost estimates.</li>
+</ul>
+</details>
+
+</main>
+</body>
+</html>
