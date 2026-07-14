@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Verification — Add New Categories &amp; Terms</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+/* companion-specific extensions */
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+header { margin-bottom:6px; }
+header .meta { color:var(--dim); font-size:12.5px; margin-top:4px; }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:90px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+.tile.crit b { color:var(--crit); } .tile.warn b { color:var(--warn); } .tile.info b { color:var(--info); }
+.tile.ok b { color:var(--ok); }
+.banner { display:flex; align-items:center; gap:14px; border-radius:var(--radius); padding:16px 20px;
+  margin:16px 0; }
+.banner .icon { font-size:26px; line-height:1; }
+.banner .title { font-size:17px; font-weight:700; }
+.banner .sub { font-size:12.5px; color:var(--dim); margin-top:2px; }
+.banner.ok   { background:var(--ok-soft);   border:1px solid var(--ok); }
+.banner.ok   .title { color:var(--ok); }
+.banner.warn { background:var(--warn-soft); border:1px solid var(--warn); }
+.banner.warn .title { color:var(--warn); }
+.banner.crit { background:var(--crit-soft); border:1px solid var(--crit); }
+.banner.crit .title { color:var(--crit); }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 4px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+ul.risks { margin:8px 0 0; padding-left:20px; }
+ul.risks li { margin-bottom:6px; }
+.review-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:12px; margin:14px 0; }
+.review-card h3 { margin:0 0 6px; font-size:13.5px; }
+.review-card ul { margin:6px 0 0; padding-left:18px; }
+.review-card li { margin-bottom:4px; }
+.status-go { color:var(--ok); font-weight:700; }
+.status-issues { color:var(--warn); font-weight:700; }
+.checklist { list-style:none; padding-left:0; margin:8px 0 0; }
+.checklist li { margin-bottom:6px; padding-left:22px; position:relative; }
+.checklist li::before { content:"\2611"; position:absolute; left:0; color:var(--ok); }
+.resolved { color:var(--ok); font-weight:600; }
+footer.src { color:var(--dim); font-size:11.5px; margin-top:6px; }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../implementation/spec.html">Specification</a>
+  <a href="../implementation/implementation-plan.html">Implementation Plan</a>
+  <span class="here">Verification</span>
+  <a href="completeness-check.md" target="_blank" rel="noopener">Completeness Check ↗</a>
+  <a href="code-review-report.md" target="_blank" rel="noopener">Code Review ↗</a>
+  <a href="pragmatic-review.md" target="_blank" rel="noopener">Pragmatic Review ↗</a>
+  <a href="production-readiness-report.md" target="_blank" rel="noopener">Production Readiness ↗</a>
+  <a href="reality-check.md" target="_blank" rel="noopener">Reality Check ↗</a>
+  <a href="implementation-verification.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">Implementation Verification</span>
+  <h1>Add New Categories &amp; Terms — Verification</h1>
+  <div class="meta">Task: <code>2026-07-13-add-new-categories-terms</code> · Generated 2026-07-14 · Post-fix re-verification</div>
+</header>
+
+<div class="banner ok">
+  <div class="icon">✅</div>
+  <div>
+    <div class="title">Passed (post-fix)</div>
+    <div class="sub">0 critical · 0 warning · 3 informational (non-actionable) — the one warning found has been fixed and re-checked</div>
+  </div>
+</div>
+
+<div class="tiles">
+  <div class="tile ok"><b>✅</b><span>Verdict</span></div>
+  <div class="tile crit"><b>0</b><span>Critical</span></div>
+  <div class="tile warn"><b>0</b><span>Warning</span></div>
+  <div class="tile info"><b>3</b><span>Info</span></div>
+  <div class="tile ok"><b>30/30</b><span>Steps Complete</span></div>
+</div>
+
+<section class="tldr">
+  <h2 id="tldr">TL;DR</h2>
+  <div class="card">
+    <p><strong>Status: ✅ Passed (post-fix).</strong> All 30 implementation steps complete, 100% standards-compliant, all 4 taxonomy mirrors byte-identical, FilterBar collapse verified working end-to-end in a live browser (not just tests). The single warning found (a doc comment asserting something no longer true) has been fixed and re-checked. 0 remaining critical/warning issues; 3 informational notes remain, all non-actionable.</p>
+  </div>
+
+  <h2 id="risks">Open Questions / Risks</h2>
+  <div class="card">
+    <ul class="risks">
+      <li>Two pre-existing doc-prose imprecisions were correctly left alone per the spec's "word-swap only" scope boundary (<code>engineering-ladder.md</code>'s category-name list still shows 11 names despite the count now saying 13) — flagged for awareness, not a defect of this task.</li>
+    </ul>
+  </div>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#exec-summary">Executive Summary</a> ·
+  <a href="#plan-verification">Plan Verification</a> ·
+  <a href="#tests">Test Suite</a> ·
+  <a href="#standards">Standards Compliance</a> ·
+  <a href="#docs">Documentation</a> ·
+  <a href="#optional-reviews">Optional Reviews</a> ·
+  <a href="#overall">Overall Assessment</a> ·
+  <a href="#fix-history">Fix &amp; Re-Verification History</a> ·
+  <a href="#issues">Issues</a> ·
+  <a href="#recommendations">Recommendations</a> ·
+  <a href="#checklist">Verification Checklist</a>
+</nav>
+
+<main>
+
+  <h2 id="exec-summary">Executive Summary</h2>
+  <div class="card">
+    <p>This task implements an already-approved product-design brief: expanding Skill Flip's glossary taxonomy from 12 to 14 categories, redesigning FilterBar's chip overflow into a genuinely bidirectional expand/collapse control, and sweeping stale "12 categories" documentation prose across 8 files. All 5 verification passes (completeness, code review, pragmatic review, production readiness, reality check) ran independently and re-verified claims rather than trusting <code>work-log.md</code> — including a live-browser reality check that exercised the actual FilterBar against the real 159-entry dataset. Zero critical issues found anywhere; the single warning is a one-line doc-comment inaccuracy.</p>
+  </div>
+
+  <h2 id="plan-verification">Implementation Plan Verification</h2>
+  <div class="card">
+    <footer class="src">Source: Completeness check (independent, spot-checked against code)</footer>
+    <ul>
+      <li>30/30 steps across 4 task groups marked <code>[x]</code>, verified against actual code (not just checkbox trust).</li>
+      <li>All 4 taxonomy mirror locations confirmed byte-identical for the 2 new category literals, in identical order.</li>
+      <li>FilterBar's bidirectional collapse branch, <code>reset()</code> collapse, and all 4 FilterBar/BrowseGrid tests (including the Group-4 gap-closing test) verified present and correct.</li>
+      <li>Full verification suite independently re-run: <code>tsc -b</code> clean, <code>npm test</code> 67/67 + test:build 2/2 pass, <code>npm run validate-glossary</code> OK (159 entries), exhaustive 10-file stale-prose grep zero matches.</li>
+      <li>Cosmetic-only note: the "Group 2 Complete" entry in <code>work-log.md</code> appears out of chronological order (content accurate, just misplaced).</li>
+    </ul>
+  </div>
+
+  <h2 id="tests">Test Suite Results</h2>
+  <div class="card">
+    <footer class="src">Source: Verified during implementation (Group 4, step 4.5) and independently re-run by 3 of the 5 verification subagents (completeness, pragmatic, reality check) — consistent results every time.</footer>
+    <table>
+      <thead><tr><th>Command</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><code>npx vitest run</code></td><td class="pass">67/67 passing (10 test files)</td></tr>
+        <tr><td><code>npm run test:build</code></td><td class="pass">2/2 checks passing</td></tr>
+        <tr><td><code>npm run validate-glossary</code></td><td class="pass">159/159 entries valid, 0 errors</td></tr>
+        <tr><td><code>npx tsc -b</code></td><td class="pass">clean, exit 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="standards">Standards Compliance</h2>
+  <div class="card">
+    <footer class="src">Source: Completeness check — independently read all 11 standards files in <code>.maister/docs/standards/</code> and reasoned about applicability from scratch.</footer>
+    <p class="pass">✅ Compliant.</p>
+    <p>Notably verified (not just trusted) that the pre-existing FilterBar accessibility gap (<code>&lt;span&gt;</code> chips, no keyboard/ARIA) is a genuinely pre-existing pattern reused unchanged, not worsened by this task, and correctly scoped out per <code>spec.md</code>'s Out of Scope section.</p>
+  </div>
+
+  <h2 id="docs">Documentation Completeness</h2>
+  <div class="card">
+    <footer class="src">Source: Completeness check</footer>
+    <p class="pass">✅ Adequate.</p>
+    <p><code>work-log.md</code> has dated entries for all 4 groups plus a Standards Reading Log and final completion summary. All 18 spec Core Requirements and every Success Criteria bullet independently cross-checked against actual code/doc diffs.</p>
+  </div>
+
+  <h2 id="optional-reviews">Optional Review Results</h2>
+  <div class="review-grid">
+    <div class="card review-card">
+      <h3><span class="status-issues">⚠️ Issues Found</span> — Code Review</h3>
+      <p style="margin:4px 0;color:var(--dim);font-size:12.5px;">0 critical, 1 warning, 2 info</p>
+      <ul>
+        <li><span class="sev warning">Warning</span><code>src/types/glossary.ts:4-5</code>'s doc comment asserts all 14 categories are populated in <code>data/glossary.json</code> — false for the 2 new categories (0 entries, by design). Fixable: one-line reword.</li>
+        <li><span class="sev info">Info</span>The new collapse branch duplicates ~7 lines of chip-construction code from the adjacent expand branch — explicitly spec-endorsed, appropriately sized, no action needed.</li>
+        <li><span class="sev info">Info</span>A redundant guard clause in the collapse branch's condition — harmless, optional simplification only.</li>
+        <li>Verified: 4/4 taxonomy mirrors character-identical; <code>.clear-btn</code>/<code>clearFilters()</code> both route through <code>reset()</code>; <code>categoryBadgeClass()</code> correctly slugifies the new category names with no collisions.</li>
+      </ul>
+    </div>
+    <div class="card review-card">
+      <h3><span class="pass">✅ Passed</span> — Pragmatic Review</h3>
+      <p>No over-engineering found. Zero new files, zero new abstractions, 12 files changed (162 insertions / 45 deletions). All Out of Scope boundaries (entry curation, accessibility remediation, taxonomy-source consolidation) independently confirmed respected via <code>git diff --stat</code>. Two low-severity documentation nits noted (see Code Review), both already self-flagged in <code>work-log.md</code> rather than silently left.</p>
+    </div>
+    <div class="card review-card">
+      <h3><span class="status-go">✅ GO</span> — Production Readiness</h3>
+      <p>0 blockers. 1 concern (pre-existing, out of scope: <code>data/glossary.json</code> isn't content-hashed in the build like JS/CSS — low impact, self-heals). Independently re-ran <code>npm run build</code>, inspected <code>dist/</code> output, ran <code>npm audit --production</code> (0 vulnerabilities), scanned diffs for unsafe patterns (clean). CI gate (<code>validate-glossary</code> → <code>build</code> → <code>deploy-pages</code>) confirmed to match what was verified locally.</p>
+    </div>
+    <div class="card review-card">
+      <h3><span class="status-go">✅ GO</span> — Reality Assessment, zero gaps</h3>
+      <p>Independently re-ran the full test suite from a clean shell, then went further: started the dev server and exercised the actual FilterBar in a live browser against the real 159-entry dataset via real DOM click events. Confirmed: default 7-visible + "+7 more" state; expand reveals all 14 (including the 2 new 0-count categories); collapse via the same relabeled "Show less" element; a selection made while expanded survives collapse and re-expand; "Clear filters" genuinely collapses the chip list via the real <code>.clear-btn</code>. All 3 spec-audit findings (architecture.md contradiction, FilterBar.ts:12 comment, architecture.md:30 rewrite) confirmed resolved by direct read, not just by claim.</p>
+    </div>
+  </div>
+
+  <h2 id="overall">Overall Assessment</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>Check</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Implementation Plan</td><td class="pass">30/30 steps (100%)</td></tr>
+        <tr><td>Test Suite</td><td class="pass">67/67 vitest + 2/2 test:build (100%)</td></tr>
+        <tr><td>Standards Compliance</td><td class="pass">Compliant</td></tr>
+        <tr><td>Documentation</td><td class="pass">Adequate</td></tr>
+        <tr><td>Code Review</td><td>0 critical / 1 warning / 2 info</td></tr>
+        <tr><td>Pragmatic Review</td><td class="pass">Passed</td></tr>
+        <tr><td>Production Readiness</td><td class="pass">GO (0 blockers)</td></tr>
+        <tr><td>Reality Check</td><td class="pass">GO (0 gaps)</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;"><strong>Overall Status: ✅ Passed</strong> — after the fix below, 100% implementation, 100% tests, standards-compliant, and zero remaining warning/critical findings from any of the 5 verification passes.</p>
+  </div>
+
+  <h2 id="fix-history">Fix &amp; Re-Verification History</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>#</th><th>Severity</th><th>Issue</th><th>Fix Applied</th><th>Re-Check Outcome</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><span class="sev warning">Warning</span></td>
+          <td><code>src/types/glossary.ts:4-5</code> doc comment claimed all 14 categories are populated in <code>data/glossary.json</code>; false for the 2 new categories (0 entries by design)</td>
+          <td>Reworded the comment to explicitly state 2 of 14 categories currently have zero entries pending a future content-curation pass, consistent with the sentence that already anticipated this state</td>
+          <td><span class="resolved">Resolved.</span> Comment-only change (zero behavioral/code-logic impact). Re-verified: <code>npx tsc -b</code> clean, <code>npx vitest run src/types/glossary.test.ts</code> 3/3 pass. Full 5-subagent re-verification was assessed as unnecessary and skipped per user decision, given zero functional surface area changed.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="issues">Issues Requiring Attention</h2>
+  <div class="card">
+    <p class="pass">None remaining.</p>
+  </div>
+
+  <h2 id="recommendations">Recommendations</h2>
+  <div class="card">
+    <p>No further action required. The 3 remaining informational notes (collapse-branch code duplication, a redundant guard clause, and the production-readiness content-hashing observation) are all either explicitly spec-endorsed, pre-existing, or out of this task's scope — no changes recommended.</p>
+  </div>
+
+  <h2 id="checklist">Verification Checklist</h2>
+  <div class="card">
+    <ul class="checklist">
+      <li>All required subagents invoked (completeness checker; test runner skipped per <code>skip_test_suite: true</code>, verified independently by 3 other subagents instead)</li>
+      <li>Optional reviews invoked per Phase 10 selection (code review, pragmatic review, production readiness, reality check)</li>
+      <li>All subagent results processed</li>
+      <li>Verification report created</li>
+      <li>Overall status determined from aggregated results</li>
+      <li>No direct analysis performed by the orchestrator — all delegated</li>
+    </ul>
+  </div>
+
+</main>
+
+</body>
+</html>

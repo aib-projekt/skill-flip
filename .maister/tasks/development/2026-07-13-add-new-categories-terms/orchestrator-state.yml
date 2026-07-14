@@ -1,0 +1,231 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2, phase-3, phase-4, phase-5, phase-6, phase-7, phase-8, phase-9, phase-10, phase-11, phase-12, phase-13, phase-14]
+  failed_phases: []
+
+  auto_fix_attempts: {}
+
+  options:
+    html_output: true
+    spec_audit_enabled: true
+    skip_test_suite: true  # full suite passed during implementation (Group 4, step 4.5)
+    e2e_enabled: true
+    user_docs_enabled: true
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    # Phase 10: user confirmed all recommended verifications + E2E + user docs
+    sequential: null
+
+  created: "2026-07-13T14:09:29Z"
+  updated: "2026-07-14T12:25:48Z"
+  task_path: .maister/tasks/development/2026-07-13-add-new-categories-terms
+
+  task_ids:
+    phase-1: "10"
+    phase-2: "11"
+    phase-3: "12"
+    phase-4: "13"
+    phase-5: "14"
+    phase-6: "15"
+    phase-7: "16"
+    phase-8: "17"
+    phase-9: "18"
+    phase-10: "19"
+    phase-11: "20"
+    phase-12: "21"
+    phase-13: "22"
+    phase-14: "23"
+
+task:
+  title: "Implement new taxonomy categories, FilterBar redesign & curation plan"
+  description: "Implement the approved product-design brief: add 2 new glossary categories (Software Architecture, Microservices & Distributed Systems), redesign FilterBar chip overflow UX, and produce the source-to-category curation plan for a follow-up content pass."
+  status: completed
+  tags: [content, glossary, taxonomy, ui]
+  priority: null
+
+task_context:
+  risk_level: low
+  clarifications_resolved: true
+  scope_expanded: true
+  architecture_decision: null
+  task_characteristics:
+    has_reproducible_defect: false
+    modifies_existing_code: true
+    creates_new_entities: true
+    involves_data_operations: false
+    ui_heavy: true
+  research_reference:
+    path: null
+    research_question: null
+    research_type: null
+    confidence_level: null
+  design_reference:
+    source: "product-design"
+    product_design_path: .maister/tasks/product-design/2026-07-13-add-new-categories-terms/
+    mockup_count: 1
+    has_brief: true
+    index_path: analysis/design-context/INDEX.md
+  project_doc_paths:
+    - .maister/docs/project/vision.md
+    - .maister/docs/project/roadmap.md
+    - .maister/docs/project/tech-stack.md
+    - .maister/docs/project/architecture.md
+  phase_summaries:
+    research: {summary: null, key_findings: [], recommended_approach: null, decisions: [], risks: [], artifacts: []}
+    design:
+      summary: >
+        Ingested from product-design task 2026-07-13-add-new-categories-terms: approved
+        14-category taxonomy (2 new: Software Architecture, Microservices & Distributed
+        Systems), cross-reference dedup policy, FilterBar redesign (symmetric collapse,
+        visible count 5->7), and a 3-batch curation plan. 1 mockup ingested.
+      screen_count: 1
+      component_count: 0
+      index_path: analysis/design-context/INDEX.md
+      decisions: []
+      risks: []
+      artifacts:
+        - {path: "analysis/design-context/brief.md", label: "Product Brief (ingested)", html: null}
+        - {path: "analysis/design-context/mockups/browse-filterbar-at-14-categories.html", label: "Browse — FilterBar at 14 Categories", html: "analysis/design-context/mockups/browse-filterbar-at-14-categories.html"}
+    codebase_analysis:
+      key_files: ["src/types/glossary.ts", "src/components/FilterBar.ts", "content-pipeline/validate-glossary.ts", "content-pipeline/rubric.md", "src/types/glossary.test.ts", "src/components/BrowseGrid.test.ts"]
+      primary_language: TypeScript
+      summary: >
+        Taxonomy hand-mirrored across 4 locations (no shared source of truth, by design),
+        all confirmed in sync at 12 values. FilterBar's overflow chip is a one-way boolean
+        with no collapse path anywhere in the codebase — genuinely new logic, fits the
+        existing teardown-rebuild render pattern. BrowseGrid.test.ts Test B hardcodes
+        'Software Engineering' as last category and requires a genuine rewrite. Risk: low-medium.
+      decisions:
+        - {decision: "Extend FilterBar.ts's existing if(overflow.length>0) branch pattern with a mirrored collapse branch", rationale: "renderChips() already fully tears down and rebuilds DOM every call — no diffing/pooling needed"}
+        - {decision: "Rewrite (not relax) BrowseGrid.test.ts Test B", rationale: "Hardcodes 'Software Engineering' as last category; both new categories append after it per the approved brief, making the premise false"}
+        - {decision: "Treat the 4 taxonomy locations as independent hand-edits", rationale: "No shared constant exists by design (validate-glossary.ts header comment); each must be edited separately"}
+      risks:
+        - "rubric.md Section 6 has a stale '12' reference needing a wording pass alongside the new subsection"
+        - "BrowseGrid.test.ts's first overflow test comment ('10 taxonomy categories') goes stale but assertions remain mechanically robust"
+        - "No existing bidirectional expand/collapse pattern anywhere in the codebase — genuinely new interaction logic, not a refactor"
+      artifacts:
+        - {path: "analysis/codebase-analysis.md", label: "Codebase Analysis Report", html: null}
+    clarifications:
+      - question: "Should 'Clear filters' (FilterBar.reset()) also collapse the chip list back to compact view?"
+        answer: "Yes, reset() also collapses the chip list"
+      - question: "BrowseGrid.test.ts Test B fix scope — minimal retarget or programmatic resolution?"
+        answer: "Minimal: retarget the hardcoded name to the new last category"
+    gap_analysis:
+      integration_points:
+        - "src/types/glossary.ts:10-22 (canonical Category union)"
+        - "src/components/FilterBar.ts:13-26 (ALL_CATEGORIES)"
+        - "content-pipeline/validate-glossary.ts:20-33 (VALID_CATEGORIES)"
+        - "src/types/glossary.test.ts:61-74 (exhaustiveness fixture)"
+        - "src/components/BrowseGrid.test.ts:163-192 (ordinal-dependent test)"
+      summary: >
+        Every in-scope change is mechanical and fully specified by the approved brief — no
+        design ambiguity remains. One scope-boundary gap surfaced: feature-spec.md names 4
+        doc files (vision.md, roadmap.md, architecture.md, engineering-ladder.md) with stale
+        "12 categories" prose that the task description didn't explicitly list. Risk: low.
+      decisions:
+        - {decision: "creates_new_entities=true despite modifying existing code", rationale: "2 new Category literals are new taxonomy entities requiring integration across 4 hand-mirrored locations"}
+        - {decision: "involves_data_operations=false", rationale: "No data/glossary.json entries touched; new categories render as legitimate 0-count chips until follow-up curation"}
+      risks:
+        - "Chip pattern uses <span> not <button>, no ARIA — pre-existing, codebase-wide, approved mockup preserves it deliberately; not a new gap, flagged for awareness only"
+      artifacts:
+        - {path: "analysis/gap-analysis.md", label: "Gap Analysis Report", html: null}
+    scope_clarifications:
+      scope_expanded: true
+      summary: >
+        Scope expanded to include stale "12 categories" prose fixes in vision.md, roadmap.md,
+        architecture.md, and engineering-ladder.md, per feature-spec.md's explicit
+        non-blocking-updates list. Phase 4 skipped (mockup already exists).
+      decisions:
+        - {decision: "Include 4 additional doc files' stale-prose fixes", rationale: "Explicitly named in authoritative spec, trivial word-swap edits, zero design ambiguity"}
+        - {decision: "Skip Phase 4 (UI Mockup Generation)", rationale: "Approved mockup already ingested from product-design handoff"}
+      risks: []
+      artifacts:
+        - {path: "analysis/scope-clarifications.md", label: "Scope Clarifications", html: null}
+    ui_mockups: {components_designed: [], summary: null, decisions: [], risks: [], artifacts: []}
+    specification:
+      summary: >
+        17 core requirements: append 2 taxonomy literals across 4 locations, redesign
+        FilterBar overflow (visible count 5->7, symmetric collapse, reset() collapses),
+        rewrite/add 3 BrowseGrid.test.ts tests, insert rubric.md Polish-source subsection,
+        fix stale "12 categories" prose in 5 doc files. 1 new component (collapse branch),
+        no new files. Self-verification passed all 4 checks.
+      decisions:
+        - {decision: "All 4 taxonomy locations edited in one pass", rationale: "No shared source of truth by design; partial application silently desyncs mirrors"}
+        - {decision: "Collapse branch reuses same .chip.more element, relabeled", rationale: "Matches approved mockup; minimal change to renderChips()"}
+        - {decision: "DOM/markup fidelity to mockup is not binding, only behavioral fidelity is", rationale: "Mockup used <button>/data-category for its own demo purposes; implementation follows FilterBar.ts's existing <span class=\"chip\"> convention"}
+      risks: []
+      artifacts:
+        - {path: "implementation/spec.md", label: "Specification", html: "implementation/spec.html"}
+    architecture_decision:
+      decision: "4 task groups organized by concern (Taxonomy Mechanism, FilterBar UX + tests, Documentation Sweep, Test Review & Gap Analysis), not by role/layer"
+      summary: >
+        30 steps, 5 tests total. Group 1 (taxonomy, 6 steps) and Group 3 (docs, 10 steps)
+        have no dependency and can run in parallel. Group 2 (FilterBar UX, 8 steps, binding
+        Visual Reference) depends on Group 1. Group 4 (test review, 6 steps) depends on all
+        three, closes 1 planner-found coverage gap (reset() collapse untested). Visual
+        coverage: 100% (1 mockup, covered by Group 2).
+      decisions:
+        - {decision: "Group 3 (docs) has no dependency on Groups 1-2", rationale: "No file overlap; every replacement is a literal word-swap or fully spec-described"}
+        - {decision: "BrowseGrid.test.ts's 3 taxonomy/FilterBar test edits kept in one group (Group 2)", rationale: "Splitting would leave an intermediate broken-test state"}
+        - {decision: "Group 4 adds 1 test beyond spec minimum (reset()-collapse)", rationale: "Same shape of traceability gap as spec-audit Finding 4, caught by planner for a sibling requirement"}
+      risks:
+        - "FilterBar.ts (Groups 1->2) and BrowseGrid.test.ts (Groups 2->4) must be edited in dependency order, not concurrently, even though Group 3 can parallelize"
+      artifacts:
+        - {path: "implementation/implementation-plan.md", label: "Implementation Plan", html: "implementation/implementation-plan.html"}
+        - {path: "implementation/visual-coverage.md", label: "Visual Coverage Report", html: null}
+    user_docs:
+      summary: >
+        End-user guide written covering the 14-category taxonomy (2 new, currently empty)
+        and the FilterBar expand/collapse behavior. Reused 4 of the 8 E2E screenshots
+        (verified against actual visual content, not just filenames) rather than capturing
+        new ones.
+      decisions:
+        - {decision: "Reused existing E2E screenshots instead of capturing new ones", rationale: "All needed UI states already covered by Phase 12's run"}
+      risks: []
+      artifacts:
+        - {path: "documentation/user-guide.md", label: "User Guide", html: null}
+    e2e:
+      summary: >
+        GO verdict, 5/5 scenarios passed, zero discrepancies. Verified live: default 7
+        chips + "+7 more", expand reveals all 14 (incl. 2 new 0-count categories) with
+        same-element relabel to "Show less", collapse restores 7-visible state, selection
+        survives expand/collapse round-trip, "Clear filters" collapses chip list. Visual
+        fidelity: full structural/behavioral match against the approved mockup (1
+        pre-existing, out-of-scope cosmetic note on search placeholder copy).
+      decisions:
+        - {decision: "Used Claude Browser pane + local Playwright script as fallback", rationale: "Playwright MCP's Chrome binary unavailable in this environment (no sudo); both alternatives exercised the real dev server with real data"}
+      risks: []
+      artifacts:
+        - {path: "verification/e2e-verification-report.md", label: "E2E Verification Report", html: "verification/e2e-verification-report.html"}
+        - {path: "verification/visual-fidelity.md", label: "Visual Fidelity Report", html: "verification/visual-fidelity.html"}
+    implementation:
+      summary: >
+        All 30 steps across 4 task groups (3 dispatch waves) complete. Taxonomy expanded to
+        14 categories across all 4 mirrors; FilterBar chip overflow made genuinely bidirectional
+        (5->7 visible, symmetric collapse, reset() collapses); 5 feature tests added/updated,
+        all passing; rubric.md + 6 doc files' stale prose fixed. Full suite: 67 vitest tests +
+        test:build pass, validate-glossary OK (159 entries), tsc -b clean, exhaustive 10-file
+        stale-prose grep clean.
+      decisions:
+        - {decision: "3 dispatch waves: {Group1, Group3} parallel, then Group2, then Group4", rationale: "Groups 1 & 3 share no files; Group 2 depends on Group 1's taxonomy; Group 4 depends on all three"}
+        - {decision: "Group 4 added 1 test beyond spec minimum (reset()-collapse)", rationale: "Closed a traceability gap the spec audit's own pattern (Finding 4) predicted might recur"}
+      risks: []
+      artifacts:
+        - {path: "implementation/work-log.md", label: "Work Log", html: null}
+        - {path: "implementation/implementation-plan.md", label: "Implementation Plan (all steps checked)", html: "implementation/implementation-plan.html"}
+
+verification_context:
+  # Phase 6 (spec audit) history: 4 issues found and fixed in implementation/spec.md
+  # before implementation began (architecture.md contradiction, doc-sweep scope gaps,
+  # CR15 wording, CR12 test coverage) — see verification/spec-audit.md for detail.
+  # Below reflects the LATEST cycle: Phase 11 (post-implementation verification).
+  last_status: passed
+  issues_found:
+    - {severity: warning, source: code_review, description: "glossary.ts:4-5 doc comment claimed all 14 categories populated; 2 are at 0 entries by design", location: "src/types/glossary.ts:4-5", fixable: true, fixed: true}
+  fixes_applied:
+    - "Reworded glossary.ts:4-5 doc comment to accurately state 2 of 14 categories currently have zero entries"
+  decisions_made:
+    - {decision: "Skip full 5-subagent re-verification for the comment-only fix", rationale: "User approved; zero functional/behavioral surface changed; tsc -b + targeted test re-run confirmed clean instead"}
+  reverify_count: 1

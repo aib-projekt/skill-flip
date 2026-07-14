@@ -16,7 +16,7 @@ Business/data logic (filtering, the Learn Mode weighted-draw algorithm, `localSt
 
 ### `src/types/`
 - **Location**: `src/types/glossary.ts`
-- **Purpose**: Core data model — `GlossaryEntry` (id, term, description, translationPl, descriptionPl, category, level), the 12-value `Category` union, and the 3-value `Level` union
+- **Purpose**: Core data model — `GlossaryEntry` (id, term, description, translationPl, descriptionPl, category, level), the 14-value `Category` union, and the 3-value `Level` union
 - **Key Files**: `glossary.ts`, `glossary.test.ts`
 
 ### `src/components/`
@@ -27,7 +27,7 @@ Business/data logic (filtering, the Learn Mode weighted-draw algorithm, `localSt
   - `Card.ts` — reusable flip-card, two variants (`full` for Learn Mode, `tile` for Browse grid); owns flip/translation-toggle state, swipe/click navigation
   - `LearnMode.ts` — wraps `Card`; draws next card via the weighted algorithm, persists mark decisions
   - `BrowseGrid.ts` — wraps `FilterBar` + a grid of `Card` tiles; recomputes filtered results and result count on every filter change
-  - `FilterBar.ts` — search input (200ms debounced) + category chips (5 visible + expandable overflow) + level segmented control; fires `onChange` with the new `BrowseFilterState`
+  - `FilterBar.ts` — search input (200ms debounced) + category chips (7 visible + symmetric expand/collapse overflow) + level segmented control; fires `onChange` with the new `BrowseFilterState`
   - `progressStats.ts` — pure helpers computing mastered/shaky/new counts, shared by both views' topbars
 
 ### `src/lib/`
@@ -46,7 +46,7 @@ Business/data logic (filtering, the Learn Mode weighted-draw algorithm, `localSt
 
 ### `data/`
 - **Location**: `data/glossary.json`
-- **Purpose**: Single source of truth for all 159 glossary entries across 12 categories; fetched once at app bootstrap
+- **Purpose**: Single source of truth for all 159 glossary entries across 14 categories; fetched once at app bootstrap
 
 ## Data Flow
 

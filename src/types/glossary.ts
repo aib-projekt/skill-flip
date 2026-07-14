@@ -1,10 +1,12 @@
 /**
  * Core data model for the Skill Flip engineering lexicon.
  *
- * `Category` carries the full 12-value taxonomy from `Engineering Ladder.md`,
- * all of which are populated in `data/glossary.json`. Filtering and
- * chip-rendering logic must still treat all 12 values as first-class even if
- * a future edit leaves one at zero entries.
+ * `Category` carries the full 14-value taxonomy. 12 of the 14 values come
+ * from `Engineering Ladder.md`; 2 ('Software Architecture', 'Microservices &
+ * Distributed Systems') extend beyond that original source and currently
+ * have zero entries in `data/glossary.json`, pending a future content-
+ * curation pass. Filtering and chip-rendering logic must still treat all 14
+ * values as first-class even at zero entries.
  */
 
 export type Category =
@@ -19,7 +21,9 @@ export type Category =
   | 'Mentoring'
   | 'Problem Solving'
   | 'API Development'
-  | 'Software Engineering';
+  | 'Software Engineering'
+  | 'Software Architecture'
+  | 'Microservices & Distributed Systems';
 
 export type Level = 'Junior' | 'Regular' | 'Senior';
 

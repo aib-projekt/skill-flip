@@ -41,7 +41,25 @@ concept name.
   word-for-word conversion. Prefer idiomatic phrasing a Polish engineer
   would actually use over a literal calque, as long as meaning is preserved.
 
-## 4. Level assignment is appropriate, not just mechanically copied
+## 4. Curating from a Polish source
+
+- When the source bullet itself is in Polish, the same discipline from
+  Section 2 applies, just in the other translation direction: draft the
+  English `description` first — synthesized from understanding the Polish
+  source, not translated word-for-word — and only once that English text is
+  finished, independently translate it into `descriptionPl`.
+- Do not translate the Polish source bullet directly into `descriptionPl`
+  and then back-translate that into `description`. `descriptionPl` must be
+  a translation of the finished English `description`, not a second,
+  independent rendering of the source.
+- The Section 2 anti-transcription check applies here too, against the
+  Polish source: if `descriptionPl`'s wording (or a close paraphrase
+  preserving its exact structure/clauses) would be findable inside the
+  Polish source bullet, it fails the check and must be rewritten — the same
+  standard that applies to `description` against an English source applies
+  to `descriptionPl` against a Polish one.
+
+## 5. Level assignment is appropriate, not just mechanically copied
 
 - Default to the level under which the source bullet appears (Junior /
   Regular / Senior), but sanity-check: does this concept actually require
@@ -52,7 +70,7 @@ concept name.
   double-checked against sibling terms already in `data/glossary.json` at
   that level for consistency.
 
-## 5. Splitting compound bullets
+## 6. Splitting compound bullets
 
 - If a single source bullet actually names multiple distinct, separately
   flashcard-worthy concepts (e.g. "Design patterns: Adapter, Builder,
@@ -62,10 +80,10 @@ concept name.
   methods" is one concept (idempotency, with "safe methods" as a
   supporting detail folded into the definition), not two entries.
 
-## 6. Schema mechanics (also enforced automatically by `validate-glossary.ts`)
+## 7. Schema mechanics (also enforced automatically by `validate-glossary.ts`)
 
 - `id` is lowercase-kebab-case, stable, and unique across the whole file.
-- `category` is exactly one of the 12 `Category` values in
+- `category` is exactly one of the 14 `Category` values in
   `src/types/glossary.ts` — check spelling/casing exactly
   (e.g. `"Spring/JEE"`, not `"Spring / JEE"` or `"spring-jee"`).
 - `level` is exactly `"Junior"`, `"Regular"`, or `"Senior"`.
@@ -74,7 +92,7 @@ concept name.
   is allowed to recur across different categories if genuinely distinct in
   context, but not duplicated within one category).
 
-## 7. Final gut check before committing
+## 8. Final gut check before committing
 
 Read the entry back with fresh eyes and ask: "If I only saw the front of
 this flashcard (the term) and flipped it, would the back actually teach me

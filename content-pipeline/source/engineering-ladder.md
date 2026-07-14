@@ -28,16 +28,16 @@ that can silently drift out of sync as the ladder document evolves.
 
 The first ~15-20 entries shipped in `data/glossary.json` were all curated
 from the `### Java` section (`Regular` and `Senior` subsections) of the
-canonical document above. The remaining 11 categories were an explicitly
+canonical document above. The remaining 13 categories were an explicitly
 deferred follow-up at that point.
 
 ## Full-coverage pass (second pass)
 
-The remaining 11 categories (Soft Skills, Management, Mentoring, Problem
+The remaining 13 categories (Soft Skills, Management, Mentoring, Problem
 Solving, API Development, Cloud Engineering, Data Storage, DevOps, Software
 Engineering, Spring/JEE, Testing) were subsequently curated from every
 remaining bullet in the canonical document, bringing `data/glossary.json`
-to full coverage of all 12 categories. Judgment calls made during this pass,
+to full coverage of all 14 categories. Judgment calls made during this pass,
 per `prompt-template.md`'s guidance to flag deviations:
 
 - **Soft Skills** has no `Regular`/`Senior` split in the source document (a

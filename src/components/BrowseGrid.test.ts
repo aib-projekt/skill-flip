@@ -144,10 +144,10 @@ describe('BrowseGrid / FilterBar integration', () => {
   it('renders a 0-count chip for a category with zero entries in the loaded dataset (Group 9 gap)', () => {
     const grid = createBrowseGrid({ entries: fixture });
 
-    // The starter fixture only has Java and DevOps entries; all other 10
+    // The starter fixture only has Java and DevOps entries; all other 12
     // taxonomy categories must still render as visible/overflow chips at
     // count 0 rather than being omitted entirely. "Cloud Engineering" is
-    // within the first 5 (visible, non-overflow) categories.
+    // within the first 7 (visible, non-overflow) categories.
     const cloudChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
       c.textContent?.startsWith('Cloud Engineering')
     );
@@ -163,32 +163,76 @@ describe('BrowseGrid / FilterBar integration', () => {
   it('clicking the "+N more" overflow chip reveals the remaining category chips, wired into the same filter toggle', () => {
     const grid = createBrowseGrid({ entries: fixture });
 
-    // "Software Engineering" is the 12th (last) taxonomy category, beyond
-    // the first 5 visible chips, so it starts out collapsed into "+N more".
-    const softwareEngChipBefore = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
-      c.textContent?.startsWith('Software Engineering')
+    // "Microservices & Distributed Systems" is the 14th (last) taxonomy
+    // category, beyond the first 7 visible chips, so it starts out
+    // collapsed into "+N more".
+    const microservicesChipBefore = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Microservices & Distributed Systems')
     );
-    expect(softwareEngChipBefore).toBeUndefined();
+    expect(microservicesChipBefore).toBeUndefined();
 
     const moreChip = grid.element.querySelector<HTMLElement>('.chip.more');
     expect(moreChip).not.toBeNull();
     moreChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    // Expanding removes the overflow chip and renders all 12 categories.
-    expect(grid.element.querySelector('.chip.more')).toBeNull();
-    const softwareEngChipAfter = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
-      c.textContent?.startsWith('Software Engineering')
+    // Expanding renders all 14 categories and relabels the trailing chip
+    // (the same element, not removed) to "Show less".
+    const moreChipAfterExpand = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChipAfterExpand).not.toBeNull();
+    expect(moreChipAfterExpand?.textContent).toBe('Show less');
+    const microservicesChipAfter = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Microservices & Distributed Systems')
     );
-    expect(softwareEngChipAfter).toBeTruthy();
+    expect(microservicesChipAfter).toBeTruthy();
 
     // The newly revealed chip must actually participate in filtering, not
     // just render inertly.
-    softwareEngChipAfter!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    const softwareEngChipActive = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
-      c.textContent?.startsWith('Software Engineering')
+    microservicesChipAfter!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const microservicesChipActive = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Microservices & Distributed Systems')
     );
-    expect(softwareEngChipActive?.classList.contains('active')).toBe(true);
+    expect(microservicesChipActive?.classList.contains('active')).toBe(true);
     expect(grid.element.querySelector('.empty-state')).not.toBeNull();
+  });
+
+  it('collapsing via the relabeled "Show less" chip returns to the 7-visible state and preserves a selection made while expanded', () => {
+    const grid = createBrowseGrid({ entries: fixture });
+
+    // Expand to reveal categories beyond the first 7 visible chips.
+    const moreChip = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChip).not.toBeNull();
+    moreChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    // Select a category that's only visible in the expanded state.
+    const architectureChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Architecture')
+    );
+    expect(architectureChip).toBeTruthy();
+    architectureChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    // Collapse via the same trailing chip element, now labeled "Show less".
+    const showLessChip = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find(
+      (c) => c.textContent === 'Show less'
+    );
+    expect(showLessChip).toBeTruthy();
+    showLessChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    // Back to the original 7-visible + "+7 more" trailing chip state.
+    const chipsAfterCollapse = grid.element.querySelectorAll<HTMLElement>('.chip');
+    expect(chipsAfterCollapse.length).toBe(8); // 7 visible category chips + 1 trailing overflow chip
+    const moreChipAfterCollapse = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChipAfterCollapse?.textContent).toBe('+7 more');
+    const architectureChipCollapsed = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Architecture')
+    );
+    expect(architectureChipCollapsed).toBeUndefined();
+
+    // Re-expand and confirm the selection made earlier survived the round trip.
+    moreChipAfterCollapse!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    const architectureChipReExpanded = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Software Architecture')
+    );
+    expect(architectureChipReExpanded?.classList.contains('active')).toBe(true);
   });
 
   it("renders live mastered/shaky/new progress-stats in Browse's own topbar, shared computation with Learn Mode (Group 9 gap)", () => {
@@ -261,6 +305,41 @@ describe('BrowseGrid / FilterBar integration', () => {
     expect(grid.element.querySelector('.result-count')?.textContent).toBe(
       `${fixture.length} of ${fixture.length} terms`
     );
+  });
+
+  it('"Clear filters" also collapses an expanded chip list back to the compact 7-visible state', () => {
+    const grid = createBrowseGrid({ entries: fixture });
+    const search = grid.element.querySelector<HTMLInputElement>('.search-input');
+
+    // Drive the grid into the empty state so the "Clear filters" action button renders.
+    search!.value = 'no-such-term-anywhere';
+    search!.dispatchEvent(new Event('input', { bubbles: true }));
+    vi.advanceTimersByTime(200);
+    expect(grid.element.querySelector('.empty-state')).not.toBeNull();
+
+    // Expand to reveal categories beyond the first 7 visible chips.
+    const moreChip = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChip).not.toBeNull();
+    moreChip!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    const moreChipAfterExpand = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChipAfterExpand?.textContent).toBe('Show less');
+
+    const clearBtn = grid.element.querySelector<HTMLElement>('.clear-btn');
+    expect(clearBtn).not.toBeNull();
+    clearBtn!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    // "Clear filters" rebuilds the chip DOM, so re-query rather than reuse
+    // the pre-click element reference. This must return to the collapsed
+    // 7-visible/"+7 more" state, not just clear the search/category state.
+    const chipsAfterClear = grid.element.querySelectorAll<HTMLElement>('.chip');
+    expect(chipsAfterClear.length).toBe(8); // 7 visible category chips + 1 trailing overflow chip
+    const moreChipAfterClear = grid.element.querySelector<HTMLElement>('.chip.more');
+    expect(moreChipAfterClear?.textContent).toBe('+7 more');
+    const microservicesChipAfterClear = Array.from(grid.element.querySelectorAll<HTMLElement>('.chip')).find((c) =>
+      c.textContent?.startsWith('Microservices & Distributed Systems')
+    );
+    expect(microservicesChipAfterClear).toBeUndefined();
   });
 
   it('hydrates from initialFilterState: pre-activates matching chip/level and pre-filters the grid with no interaction', () => {

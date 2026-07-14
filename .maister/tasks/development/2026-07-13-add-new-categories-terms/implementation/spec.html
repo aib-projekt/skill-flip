@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specification — Add New Taxonomy Categories &amp; FilterBar Overflow Redesign</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:13.5px; margin-top:18px; color:var(--text); }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.badge.audit { background:var(--warn-soft); color:var(--warn); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+details { margin-top:10px; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+
+header { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:100px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 18px; }
+.toc a { color:var(--dim); }
+.toc a:hover { color:var(--accent); }
+
+ul.clean { margin:6px 0; padding-left:20px; }
+ul.clean li { margin:4px 0; }
+
+.reuse-table td:first-child, .reuse-table th:first-child { width:30%; }
+.req-table td:first-child { width:32px; color:var(--dim); }
+.req-table td:last-child { width:26%; }
+
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0; }
+.chip-ph { display:inline-block; width:34px; height:22px; border-radius:99px; background:var(--accent-soft); }
+.chip-demo { display:inline-block; font-size:11.5px; padding:3px 10px; border-radius:99px;
+  background:var(--accent-soft); color:var(--accent); font-family:ui-monospace,monospace; }
+.chip-demo.new { box-shadow:0 0 0 1px var(--ok); color:var(--ok); background:var(--ok-soft); }
+.chip-demo.more { background:none; border:1px dashed var(--dim); color:var(--dim); }
+.chip-label { font-size:11.5px; color:var(--dim); min-width:120px; }
+
+.story-card { border-left:3px solid var(--accent); padding-left:12px; margin:10px 0; }
+
+footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--border); font-size:12px; color:var(--dim); }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="../analysis/codebase-analysis.md" target="_blank" rel="noopener">Codebase Analysis ↗</a>
+  <a href="../analysis/gap-analysis.md" target="_blank" rel="noopener">Gap Analysis ↗</a>
+  <span class="here">Specification</span>
+  <a href="../verification/spec-audit.md" target="_blank" rel="noopener">Spec Audit ↗</a>
+  <a href="spec.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <h1>Specification: Add New Taxonomy Categories &amp; FilterBar Overflow Redesign</h1>
+  <span class="badge audit">Post-audit fixes applied</span>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>18</b><span>core requirements</span></div>
+  <div class="tile"><b>6</b><span>reusable elements</span></div>
+  <div class="tile"><b>2</b><span>new logic pieces</span></div>
+  <div class="tile"><b>7</b><span>doc files w/ stale prose</span></div>
+  <div class="tile"><b>0</b><span>critical/high (audit)</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>Append 2 new <code>Category</code> values (<code>Software Architecture</code>, <code>Microservices &amp; Distributed Systems</code>) across the 4 hand-mirrored taxonomy locations (3 source + 1 exhaustiveness test), rewrite <code>BrowseGrid.test.ts</code>'s ordinal-hardcoded overflow test and add a collapse test, make <code>FilterBar</code>'s chip overflow genuinely bidirectional (visible count 5→7, symmetric expand/collapse, <code>reset()</code> also collapses), add a permanent "Curating from a Polish source" subsection to <code>content-pipeline/rubric.md</code>, and fix stale "12 categories"/"5 visible chips" prose across 7 documentation files plus one in-code comment (<code>FilterBar.ts:12</code>) — expanded from 5 to 7 files post-audit to close a self-contradiction and cover locations the original planning chain missed (<code>verification/spec-audit.md</code> Findings 1-2). Everything is additive/mechanical against an already-approved, already-prototyped design — no new files, components, or patterns. Entry curation (<code>data/glossary.json</code> content) is explicitly out of scope.</p>
+
+  <h3>Key Decisions</h3>
+  <ul class="clean">
+    <li>Taxonomy edits land in all 4 hand-mirrored locations in one pass — there is no shared source of truth by design (<code>content-pipeline/validate-glossary.ts</code>'s own header documents this), so partial application would silently desync the mirrors.</li>
+    <li><code>FilterBar.ts</code>'s collapse branch mirrors the existing <code>if (overflow.length &gt; 0)</code> expand branch and reuses the same <code>.chip.more</code> DOM element (relabeled <code>"+7 more"</code> ↔ <code>"Show less"</code>), per the approved mockup — no new element, no diffing/pooling introduced.</li>
+    <li><code>reset()</code> also sets <code>showAllCategories = false</code> (per <code>analysis/clarifications.md</code> Q1) — "Clear filters" returns the component fully to its default compact state.</li>
+    <li><code>BrowseGrid.test.ts</code> Test B gets a minimal retarget (hardcoded <code>'Software Engineering'</code> → <code>'Microservices &amp; Distributed Systems'</code> as the new last category), not a programmatic-resolution refactor (per <code>analysis/clarifications.md</code> Q2) — matches this task's minimal-implementation scope.</li>
+    <li>Scope expanded to include stale "12 categories" prose fixes in <code>vision.md</code>, <code>roadmap.md</code>, <code>architecture.md</code>, and <code>content-pipeline/source/engineering-ladder.md</code>, alongside the already-named <code>rubric.md</code> fix (per <code>analysis/scope-clarifications.md</code>) — all 5 are trivial word-swaps with zero design ambiguity, explicitly named as non-blocking updates in the authoritative <code>feature-spec.md</code>.</li>
+  </ul>
+
+  <h3>Open Questions / Risks</h3>
+  <p>None. <code>analysis/gap-analysis.md</code> confirms no critical decisions remain — every in-scope change is fully specified with no design ambiguity. The pre-existing accessibility gap (chips are <code>&lt;span&gt;</code> with click listeners, no keyboard access/ARIA state) is a known, codebase-wide, out-of-scope condition the approved mockup deliberately preserves; not addressed by this task.</p>
+  <p><span class="badge audit">Post-audit update</span> <code>verification/spec-audit.md</code> (pass-with-concerns: 0 Critical/High, 2 Medium, 2 Low) found the original doc-prose sweep (Core Requirement 17) missed 5 stale references, one creating a self-contradiction with this spec's own Success Criteria. User approved expanding the sweep; Core Requirements 17-18 and the Success Criteria were updated accordingly (see inline audit-reference notes below). CR15's wording was tightened and CR12's test was extended to close two Low-severity gaps. No re-audit needed — fixes applied verbatim per the auditor's own recommendations.</p>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#goal">Goal</a> ·
+  <a href="#stories">User Stories</a> ·
+  <a href="#requirements">Core Requirements</a> ·
+  <a href="#visual">Visual Design</a> ·
+  <a href="#reuse">Reusable Components</a> ·
+  <a href="#technical">Technical Approach</a> ·
+  <a href="#guidance">Implementation Guidance</a> ·
+  <a href="#scope">Out of Scope</a> ·
+  <a href="#success">Success Criteria</a>
+</nav>
+
+<main>
+
+<h2 id="goal">Goal</h2>
+<div class="card">
+  Expand Skill Flip's category taxonomy from 12 to 14 values and fix the FilterBar's one-way overflow chip so users can collapse an expanded category list back down — both changes already designed and approved in the product-design phase; this task implements them.
+</div>
+
+<h2 id="stories">User Stories</h2>
+<div class="card">
+  <div class="story-card">As the app's curator/owner, I want the taxonomy to include "Software Architecture" and "Microservices &amp; Distributed Systems" categories so I can later curate and filter my accumulated system-design/microservices study notes alongside the existing 12 categories.</div>
+  <div class="story-card">As a Browse user (owner or portfolio visitor), I want to expand the category chip list to see all categories and then collapse it back down, so the filter bar doesn't stay permanently expanded and cluttered after one click.</div>
+  <div class="story-card">As a Browse user, I want "Clear filters" to also collapse an expanded chip list, so clearing filters returns the whole filter bar to its default compact appearance.</div>
+</div>
+
+<h2 id="requirements">Core Requirements</h2>
+<div class="card">
+  <table class="req-table">
+    <tr><th>#</th><th>Requirement</th><th>File(s)</th></tr>
+    <tr><td>1</td><td>Append <code>'Software Architecture'</code> and <code>'Microservices &amp; Distributed Systems'</code>, in that exact order, after <code>'Software Engineering'</code>, to the <code>Category</code> union</td><td><code>src/types/glossary.ts</code></td></tr>
+    <tr><td>2</td><td>Append the same 2 values, same order, to <code>ALL_CATEGORIES</code></td><td><code>src/components/FilterBar.ts</code></td></tr>
+    <tr><td>3</td><td>Append the same 2 values, same order, to <code>VALID_CATEGORIES</code></td><td><code>content-pipeline/validate-glossary.ts</code></td></tr>
+    <tr><td>4</td><td>Append the same 2 values to the hardcoded fixture array; bump both count assertions 12 → 14</td><td><code>src/types/glossary.test.ts</code></td></tr>
+    <tr><td>5</td><td>Change <code>VISIBLE_CATEGORY_CHIP_COUNT</code> from <code>5</code> to <code>7</code></td><td><code>src/components/FilterBar.ts</code></td></tr>
+    <tr><td>6</td><td>Make <code>showAllCategories</code> genuinely bidirectional in <code>renderChips()</code>: 7 chips + <code>"+7 more"</code> ↔ all 14 chips + <code>"Show less"</code>, same reused trailing DOM element</td><td><code>src/components/FilterBar.ts</code></td></tr>
+    <tr><td>7</td><td><code>state.selectedCategories</code> unaffected by expand/collapse — a selected chip stays selected and counted even after scrolling back into overflow</td><td><code>src/components/FilterBar.ts</code></td></tr>
+    <tr><td>8</td><td><code>reset()</code> must also set <code>showAllCategories = false</code>, so "Clear filters" fully returns to collapsed default</td><td><code>src/components/FilterBar.ts</code></td></tr>
+    <tr><td>9</td><td>Expand/collapse UI state is not persisted — always starts collapsed on a fresh instance / page load</td><td><code>src/components/FilterBar.ts</code> (behavioral constraint)</td></tr>
+    <tr><td>10</td><td>Rewrite the existing overflow-expansion test (~lines 163-192): retarget from <code>'Software Engineering'</code> (no longer last) to <code>'Microservices &amp; Distributed Systems'</code>, updating assertions and comments ("12th (last)" → "14th (last)", "all 12" → "all 14")</td><td><code>src/components/BrowseGrid.test.ts</code></td></tr>
+    <tr><td>11 <span class="badge audit">audit</span></td><td>Fix the stale count in the adjacent 0-count-chip test (~lines 144-161): "all other 10 taxonomy categories" and "first 5" updated to reflect 14 total; "Cloud Engineering" stays within the now-7 visible chips</td><td><code>src/components/BrowseGrid.test.ts</code></td></tr>
+    <tr><td>12 <span class="badge audit">audit</span></td><td>Add a new collapse-interaction test: expand via <code>"+7 more"</code> → select a chip only visible when expanded → click the same (now <code>"Show less"</code>) chip → assert chip set/count return to original 7-visible/<code>"+7 more"</code> AND the selected chip stays <code>active</code> after re-expanding (closes traceability gap — <code>verification/spec-audit.md</code> Finding 4). Follows the mandatory re-query-after-click convention</td><td><code>src/components/BrowseGrid.test.ts</code></td></tr>
+    <tr><td>13</td><td>Insert a new "Curating from a Polish source" subsection immediately after existing Section 3 (<code>translationPl</code>/<code>descriptionPl</code> scope) and before Section 4; renumber 4→5, 5→6, 6→7, 7→8. States the discipline: draft English <code>description</code> first (synthesized, not translated word-for-word), then independently translate into <code>descriptionPl</code>; the existing anti-transcription check applies to <code>descriptionPl</code> against the Polish source too</td><td><code>content-pipeline/rubric.md</code></td></tr>
+    <tr><td>14</td><td>Fix the stale "12" reference in the schema-mechanics section (line 68; section number shifts to 7 after renumbering) to 14 categories</td><td><code>content-pipeline/rubric.md</code></td></tr>
+    <tr><td>15 <span class="badge audit">audit</span></td><td>Update the taxonomy-count doc-comment (lines 1-8): "12-value taxonomy" → 14; "must still treat all 12 values as first-class" → "all 14"; soften "carries the full 12-value taxonomy from <code>Engineering Ladder.md</code>" to note 2 values extend beyond the original source (exact wording per Finding 3, not left to implementer discretion)</td><td><code>src/types/glossary.ts</code></td></tr>
+    <tr><td>16</td><td>Update the taxonomy-count comment (line 19: "Mirrors <code>Category</code>... (12-value taxonomy)") to 14</td><td><code>content-pipeline/validate-glossary.ts</code></td></tr>
+    <tr><td>17 <span class="badge audit">audit</span></td><td>Fix stale "12 categories" prose across 6 documentation files (prose/count-accuracy only; <code>architecture.md:30</code> also updates the visible-chip description to reflect 7-visible + symmetric collapse, not just a number swap) — see detail below</td><td><code>vision.md</code>, <code>roadmap.md</code>, <code>architecture.md</code>, <code>engineering-ladder.md</code>, <code>prompt-template.md</code>, <code>README.md</code></td></tr>
+    <tr><td>18 <span class="badge audit">audit</span></td><td>Fix the stale "12-value category taxonomy" comment directly above <code>ALL_CATEGORIES</code> (Finding 2) — update alongside Core Requirement 2's edit to the same array</td><td><code>src/components/FilterBar.ts:12</code></td></tr>
+  </table>
+
+  <details>
+    <summary>Documentation sweep detail — Core Requirement 17</summary>
+    <ul class="clean">
+      <li><code>.maister/docs/project/vision.md</code> (line 5: "12-category 'Engineering Ladder' skills taxonomy")</li>
+      <li><code>.maister/docs/project/roadmap.md</code> (lines 11, 14, 15: "Full 12-category taxonomy coverage", "across all 12 categories", "7 of 12 categories")</li>
+      <li><code>.maister/docs/project/architecture.md</code> (line 49: "159 glossary entries across 12 categories"; line 19: "the 12-value <code>Category</code> union" — required to avoid contradicting this spec's own Success Criteria; line 30: "category chips (5 visible + expandable overflow)" → updated to reflect the new 7-visible + symmetric collapse behavior from Core Requirement 6, not just a number swap)</li>
+      <li><code>content-pipeline/source/engineering-ladder.md</code> (lines 31, 36, 40: "remaining 11 categories" ×2, "full coverage of all 12 categories")</li>
+      <li><code>content-pipeline/prompt-template.md</code> (lines 18, 39: "one of the 12 <code>Category</code> enum values", "one of the 12 valid Category values")</li>
+      <li><code>README.md</code> (line 80: "one of 12 fixed categories")</li>
+    </ul>
+    <p style="color:var(--dim); font-size:12.5px;">These are prose/count accuracy fixes only — describe the taxonomy as now having 14 categories (12 original + 2 new). No entry counts, feature descriptions, or other content changes. <code>architecture.md:30</code> is the one exception requiring more than a number swap.</p>
+  </details>
+</div>
+
+<h2 id="visual">Visual Design</h2>
+<div class="card">
+  <p><span class="badge">Binding</span> <code>analysis/design-context/mockups/browse-filterbar-at-14-categories.html</code>, referenced via <code>analysis/design-context/INDEX.md</code> (<code>screen:browse-filterbar</code>) — the authoritative visual/behavioral reference for Core Requirements 5-9 (the FilterBar redesign). Interactive (real JS toggle), built with the app's actual theme tokens, verified programmatically and approved after live browser review during the product-design phase.</p>
+
+  <p class="chip-label">Collapsed (default) — 7 visible chips:</p>
+  <div class="chip-row">
+    <span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span>
+    <span class="chip-demo more">"+7 more"</span>
+  </div>
+
+  <p class="chip-label">Expanded (after clicking the trailing chip) — all 14 chips:</p>
+  <div class="chip-row">
+    <span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span><span class="chip-ph"></span>
+    <span class="chip-demo new">Software Architecture</span><span class="chip-demo new">Microservices &amp; Distributed Systems</span>
+    <span class="chip-demo more">"Show less"</span>
+  </div>
+  <p style="color:var(--dim); font-size:12.5px;">Clicking <code>"Show less"</code> collapses back to the 7-visible state and relabels back to <code>"+7 more"</code>. The 2 new category chips (highlighted above) require zero new rendering/badge logic — they flow through the existing generic category-badge slugifier and <code>renderChips()</code> loop unchanged.</p>
+
+  <details>
+    <summary>Fidelity notes</summary>
+    <p>The mockup's markup uses <code>&lt;button data-category="..."&gt;</code> elements and a wrapper <code>&lt;span class="chip-overflow" hidden&gt;</code> purely for its own standalone demonstration purposes. The actual implementation follows <code>FilterBar.ts</code>'s existing, established rendering convention instead (full <code>innerHTML = ''</code> teardown-and-rebuild of <code>&lt;span class="chip"&gt;</code> elements on every state change, per Core Requirement 6) — this is a pre-existing, codebase-wide pattern the mockup does not override; only the collapse <em>behavior</em> (symmetric relabeling, state independence) is binding, not the mockup's specific DOM structure.</p>
+    <p>Behavioral fidelity is binding: exact collapse/expand semantics, exact label text <code>"+7 more"</code> / <code>"Show less"</code>, exact visible count of 7. DOM/markup fidelity is <strong>not</strong> binding.</p>
+  </details>
+</div>
+
+<h2 id="reuse">Reusable Components</h2>
+<div class="card">
+  <h3>Existing Code to Leverage</h3>
+  <table class="reuse-table">
+    <tr><th>Element</th><th>What it provides / how it's leveraged</th></tr>
+    <tr><td><code>FilterBar.ts:100-125</code> <code>renderChips()</code></td><td>The existing full-teardown-and-rebuild render function is extended with a mirrored collapse branch alongside its existing <code>if (overflow.length &gt; 0)</code> expand branch; no new rendering mechanism needed.</td></tr>
+    <tr><td><code>FilterBar.ts:127-136</code> <code>toggleCategory()</code></td><td>Untouched; category-selection logic is already independent of the visible/overflow split, satisfying Core Requirement 7 with zero changes.</td></tr>
+    <tr><td>Taxonomy literal-list pattern</td><td>Identical flat-array, append-only pattern already used at all 4 existing mirror locations (<code>glossary.ts</code>, <code>FilterBar.ts</code>, <code>validate-glossary.ts</code>, <code>glossary.test.ts</code>); no new pattern invented.</td></tr>
+    <tr><td><code>BrowseGrid.test.ts</code> chip query/re-query-after-click convention</td><td><code>.chip</code> + <code>textContent?.startsWith(...)</code>, <code>.chip.more</code>, <code>dispatchEvent(new MouseEvent('click', { bubbles: true }))</code>, mandatory re-query after every click due to full teardown — the template for the new collapse test and the retargeted Test B.</td></tr>
+    <tr><td><code>src/lib/filters.ts</code>, <code>src/lib/storage.ts</code>, <code>src/components/LearnMode.ts</code></td><td>All consume <code>Category</code> via <code>import type</code> only; the taxonomy widening flows through structurally with zero changes required in these 3 files.</td></tr>
+    <tr><td><code>categoryBadgeClass()</code> generic slugifier</td><td>Referenced by the mockup's annotations, consumed by <code>Card</code>/<code>BrowseGrid</code> tile rendering — already generic; the 2 new category badges render correctly with no code change.</td></tr>
+  </table>
+
+  <h3>New Components Required</h3>
+  <ul class="clean">
+    <li><strong>Bidirectional collapse branch in <code>renderChips()</code></strong> — genuinely new logic (a mirrored <code>if (showAllCategories &amp;&amp; ALL_CATEGORIES.length &gt; VISIBLE_CATEGORY_CHIP_COUNT)</code> branch with a <code>showAllCategories = false; renderChips();</code> handler). No existing pattern exists anywhere in the codebase to copy from, because the current implementation is write-once by design defect (confirmed via direct read: <code>overflow</code> is forced to <code>[]</code> once <code>showAllCategories</code> is <code>true</code>, with zero code path back). The one piece of genuinely new implementation work in this task; everything else is a literal-list append or a doc-prose fix.</li>
+    <li><strong>New collapse-interaction test</strong> (Core Requirement 12) — no existing test asserts a "collapse back" behavior, because the feature doesn't exist yet.</li>
+  </ul>
+  <p style="color:var(--dim); font-size:12.5px;">No new files, components, services, or architectural patterns are introduced anywhere in this task.</p>
+</div>
+
+<h2 id="technical">Technical Approach</h2>
+<div class="card">
+  <p><strong>Taxonomy mechanism (CR 1-4, 15-16):</strong> the 4 taxonomy locations have no shared source of truth by design — this is documented as intentional in <code>validate-glossary.ts</code>'s own header comment, not tech debt to fix here. Each location is edited independently, in the same pass, appending the identical 2 literals in the identical order to avoid drift. <code>src/lib/filters.ts</code>, <code>src/lib/storage.ts</code>, and <code>src/components/LearnMode.ts</code> consume <code>Category</code> only as a type, so the union-widening change requires zero edits there — TypeScript structural typing passes new literal values through automatically.</p>
+  <p><strong>FilterBar redesign (CR 5-9):</strong> <code>renderChips()</code> already fully tears down (<code>catChips.innerHTML = ''</code>) and rebuilds all chips on every call — this is the established codebase convention (no DOM diffing/pooling anywhere in the component layer) and the collapse addition follows it rather than introducing new rendering machinery. The visible/overflow split already exists; only the trailing chip's click handler and the count constant change. <code>toggleCategory()</code> and <code>state.selectedCategories</code> are untouched, which is what already guarantees Core Requirement 7 without additional work. <code>reset()</code>'s <code>Object.assign(state, defaultState())</code> call is unrelated to <code>showAllCategories</code> (a closure variable outside <code>state</code>), so <code>reset()</code> needs one explicit added line to also collapse the chip list.</p>
+  <p><strong>Test updates (CR 10-12):</strong> <code>BrowseGrid.test.ts</code> is the sole test coverage for <code>FilterBar</code> (no standalone <code>FilterBar.test.ts</code> exists — <code>FilterBar</code> is only ever mounted inside <code>BrowseGrid</code>). The 0-count-chip test (Test A) is mechanically robust to the count change and only needs comment-text accuracy fixes. The expansion test (Test B) hardcodes an ordinal assumption that becomes false under this exact change and requires retargeting to the new actual-last category. The new collapse test asserts expand → collapse returns to exactly the original 7-visible/<code>"+7 more"</code> chip set, guarding against an asymmetric implementation.</p>
+  <p><strong>Documentation (CR 13-14, 17):</strong> all doc edits are prose/count-accuracy fixes only — no structural or content changes beyond what's needed to make the stated category count correct. The <code>rubric.md</code> insertion is the one substantive documentation addition; its exact content and insertion point are already fully specified in <code>feature-spec.md</code> Section 5.2 with no ambiguity.</p>
+</div>
+
+<h2 id="guidance">Implementation Guidance</h2>
+<div class="card">
+  <h3>Testing Approach</h3>
+  <ul class="clean">
+    <li>2-8 focused tests per implementation step group, consistent with existing test file conventions (raw DOM APIs, no testing-library, <code>querySelector</code>/<code>dispatchEvent</code>, mandatory re-query after any click that triggers <code>innerHTML = ''</code> re-render).</li>
+    <li>Test verification runs only new/modified tests during implementation, not the entire suite; full <code>npm test</code> (vitest + <code>test:build</code>) and <code>npm run validate-glossary</code> run once at the end as final verification, per <code>feature-spec.md</code> Section 3's acceptance criteria.</li>
+    <li>Minimum required test changes: <code>src/types/glossary.test.ts</code> (1 existing test updated), <code>src/components/BrowseGrid.test.ts</code> (1 test updated for comment accuracy, 1 test rewritten/retargeted, 1 new test added for collapse behavior).</li>
+    <li>Spot-check (no code change expected, verification only): <code>content-pipeline/validate-glossary.test.ts</code> does not hardcode the category list or count beyond the cosmetic comment at line 38 ("outside the 12-value enum") — cosmetic and out of this task's named scope; leave as-is unless trivially bundled with an adjacent named-file edit.</li>
+    <li>Smoke-check <code>AppShell.test.ts</code> after implementation (no <code>showAllCategories</code>/<code>reset()</code>-specific coverage exists there) to confirm no incidental breakage, since <code>AppShell</code> is an indirect <code>FilterBar</code> consumer via <code>BrowseGrid</code>.</li>
+  </ul>
+  <h3>Standards Compliance</h3>
+  <ul class="clean">
+    <li><strong>minimal-implementation.md</strong> — no new files, components, abstractions, or speculative stubs; every change is either a literal-list append, a mirrored branch in an already-understood function, or a prose fix. The collapse branch has an immediate caller and no speculative "future extensibility."</li>
+    <li><strong>coding-style.md</strong> — new literals and the collapse branch follow existing naming/formatting conventions exactly (SCREAMING_SNAKE_CASE constants, camelCase functions, same array-literal style).</li>
+    <li><strong>test-writing.md</strong> — new/updated tests focus on behavior (chip visibility, labels, selection persistence across toggle) not implementation details; test names stay descriptive, matching the existing file's naming style.</li>
+    <li><strong>accessibility.md</strong> — the pre-existing gap (chips as <code>&lt;span&gt;</code> with click listeners, no keyboard access, no <code>aria-expanded</code> on the toggle) is not addressed by this task — codebase-wide, pre-existing, deliberately preserved by the approved mockup. Flagged in <code>analysis/gap-analysis.md</code> as a candidate for a separate follow-up, not this one.</li>
+    <li><strong>conventions.md</strong> ("keep documentation up to date") — the 7-file documentation sweep (CR 13-17) directly satisfies this: stale taxonomy-count prose is corrected in the same change that causes it to go stale, rather than deferred.</li>
+  </ul>
+</div>
+
+<h2 id="scope">Out of Scope</h2>
+<div class="card">
+  <ul class="clean">
+    <li><strong>Entry curation</strong> — writing actual <code>GlossaryEntry</code> content into <code>data/glossary.json</code> for the 2 new categories (or enriching existing categories) is explicitly deferred to a separate follow-up content-pipeline pass, per the approved product-design brief. The 2 new categories will render as legitimate, already-tested 0-count chips until that follow-up pass runs — a pre-approved interim state, not a defect.</li>
+    <li><strong>Cross-source dedup/cross-reference resolution</strong> (<code>feature-spec.md</code> Section 2) — content-curation scope, not this dev task.</li>
+    <li><strong>Source-to-category mapping execution</strong> (<code>feature-spec.md</code> Section 1.3's per-bullet mapping table) — informs the future curation pass; this task only creates the 2 destination categories.</li>
+    <li><strong>Consolidating the 4 hand-mirrored taxonomy locations</strong> into one shared source of truth — a valid future refactor, explicitly flagged and deliberately deferred in both <code>codebase-analysis.md</code> and the product-design brief's non-goals.</li>
+    <li><strong>Accessibility remediation of chip markup</strong> (<code>&lt;span&gt;</code> → <code>&lt;button&gt;</code>, ARIA state) — pre-existing, codebase-wide condition; not introduced or worsened by this task, not addressed by it either.</li>
+    <li><strong><code>content-pipeline/validate-glossary.test.ts:38</code></strong>'s cosmetic "12-value enum" comment — not named in the task description's scope; purely cosmetic (test logic unaffected by enum size).</li>
+    <li><strong>Any hierarchical/nested taxonomy restructuring, per-category color/icon differentiation</strong> — explicit non-goals per <code>feature-spec.md</code> Section 6.</li>
+  </ul>
+</div>
+
+<h2 id="success">Success Criteria</h2>
+<div class="card">
+  <ul class="clean">
+    <li><code>Category</code> type in <code>src/types/glossary.ts</code> includes exactly 14 values, in the specified order, with <code>'Software Architecture'</code> and <code>'Microservices &amp; Distributed Systems'</code> appended after <code>'Software Engineering'</code>.</li>
+    <li>All 3 non-test taxonomy copies (<code>glossary.ts</code>, <code>FilterBar.ts</code>'s <code>ALL_CATEGORIES</code>, <code>validate-glossary.ts</code>'s <code>VALID_CATEGORIES</code>) contain identical 14-value lists in identical order.</li>
+    <li><code>npm run validate-glossary</code> passes against the existing <code>data/glossary.json</code> (purely additive taxonomy change; existing 159 entries remain valid).</li>
+    <li><code>npm test</code> (vitest + <code>test:build</code>) passes, including: updated <code>glossary.test.ts</code> exhaustiveness assertions (14), retargeted <code>BrowseGrid.test.ts</code> expansion test, updated 0-count-chip test comments, and the new collapse-interaction test.</li>
+    <li><code>tsc -b</code> type-checks cleanly (additive union widening; no exhaustive <code>switch</code> statements exist over <code>Category</code> to break).</li>
+    <li>With 14 categories and <code>VISIBLE_CATEGORY_CHIP_COUNT = 7</code>: exactly 7 chips visible by default plus one <code>"+7 more"</code> trailing chip; clicking it reveals all 14 chips and relabels to <code>"Show less"</code>; clicking <code>"Show less"</code> re-collapses to 7 visible and relabels back to <code>"+7 more"</code>.</li>
+    <li>Category selection state survives expand/collapse toggling in both directions (a chip selected while expanded stays selected/counted after collapsing).</li>
+    <li>"Clear filters" (<code>reset()</code>) collapses an expanded chip list back to the compact 7-visible state.</li>
+    <li>Expand/collapse UI state resets to collapsed on a fresh page load (not persisted).</li>
+    <li><code>content-pipeline/rubric.md</code> contains a permanent "Curating from a Polish source" subsection positioned after the <code>translationPl</code>/<code>descriptionPl</code> scope section, with subsequent sections correctly renumbered and no broken internal references.</li>
+    <li><span class="badge audit">audit</span> Zero remaining "12 categories" / "12-value" / "remaining 11 categories" / "5 visible" stale-count prose in <code>glossary.ts</code>, <code>validate-glossary.ts</code>, <code>rubric.md</code>, <code>vision.md</code>, <code>roadmap.md</code>, <code>architecture.md</code>, <code>engineering-ladder.md</code>, <code>FilterBar.ts</code>, <code>prompt-template.md</code>, or <code>README.md</code> (expanded per <code>verification/spec-audit.md</code> Findings 1-2 — every location in this list is named by an explicit Core Requirement, so this bullet is exhaustively covered rather than aspirational).</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>
+  Generated by specification-creator · Task: <code>add-new-categories-terms</code> (development) · Regenerated to match <code>spec.md</code> after post-audit fixes (<code>verification/spec-audit.md</code>).
+</footer>
+
+</body>
+</html>

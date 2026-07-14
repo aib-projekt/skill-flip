@@ -9,7 +9,7 @@ import type { Category, Glossary, Level } from '../types/glossary';
  * (`BrowseGrid.ts`) via `onChange`, not by this component directly.
  */
 
-/** Full 12-value category taxonomy — all chips always render, even at count 0. */
+/** Full 14-value category taxonomy — all chips always render, even at count 0. */
 const ALL_CATEGORIES: Category[] = [
   'Java',
   'Spring/JEE',
@@ -23,12 +23,14 @@ const ALL_CATEGORIES: Category[] = [
   'Problem Solving',
   'API Development',
   'Software Engineering',
+  'Software Architecture',
+  'Microservices & Distributed Systems',
 ];
 
 const ALL_LEVELS: Array<Level | 'All'> = ['All', 'Junior', 'Regular', 'Senior'];
 
 /** Category chips beyond this count collapse into the "+N more" overflow chip. */
-const VISIBLE_CATEGORY_CHIP_COUNT = 5;
+const VISIBLE_CATEGORY_CHIP_COUNT = 7;
 
 const SEARCH_DEBOUNCE_MS = 200;
 
@@ -121,6 +123,15 @@ export function createFilterBar(options: CreateFilterBarOptions): FilterBarInsta
         renderChips();
       });
       catChips.appendChild(moreChip);
+    } else if (showAllCategories && ALL_CATEGORIES.length > VISIBLE_CATEGORY_CHIP_COUNT) {
+      const lessChip = document.createElement('span');
+      lessChip.className = 'chip more';
+      lessChip.textContent = 'Show less';
+      lessChip.addEventListener('click', () => {
+        showAllCategories = false;
+        renderChips();
+      });
+      catChips.appendChild(lessChip);
     }
   }
 
@@ -170,6 +181,7 @@ export function createFilterBar(options: CreateFilterBarOptions): FilterBarInsta
       }
       Object.assign(state, defaultState());
       searchInput.value = '';
+      showAllCategories = false;
       renderChips();
       renderLevelToggle();
       options.onChange({ ...state });

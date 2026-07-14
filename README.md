@@ -77,7 +77,7 @@ interface GlossaryEntry {
   description: string;    // 1-3 sentence English definition
   translationPl: string;  // Polish translation of the term
   descriptionPl: string;  // Polish translation of the full definition
-  category: string;       // one of 12 fixed categories — see src/types/glossary.ts
+  category: string;       // one of 14 fixed categories — see src/types/glossary.ts
   level: string;          // "Junior" | "Regular" | "Senior"
 }
 ```
