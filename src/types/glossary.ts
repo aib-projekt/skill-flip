@@ -3,10 +3,9 @@
  *
  * `Category` carries the full 14-value taxonomy. 12 of the 14 values come
  * from `Engineering Ladder.md`; 2 ('Software Architecture', 'Microservices &
- * Distributed Systems') extend beyond that original source and currently
- * have zero entries in `data/glossary.json`, pending a future content-
- * curation pass. Filtering and chip-rendering logic must still treat all 14
- * values as first-class even at zero entries.
+ * Distributed Systems') extend beyond that original source, populated via a
+ * dedicated content-curation pass covering software-architecture fundamentals,
+ * microservices patterns, and distributed-systems theory.
  */
 
 export type Category =

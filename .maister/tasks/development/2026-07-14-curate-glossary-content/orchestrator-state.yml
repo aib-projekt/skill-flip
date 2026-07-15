@@ -1,0 +1,253 @@
+orchestrator:
+  started_phase: phase-1
+  completed_phases: [phase-1, phase-2, phase-5, phase-6, phase-7, phase-8, phase-10, phase-11, phase-12, phase-14]
+  next_phase: null
+  failed_phases: []
+
+  auto_fix_attempts: {}
+
+  options:
+    html_output: true
+    spec_audit_enabled: true
+    skip_test_suite: true
+    skip_test_suite_note: "fixes applied post-verification; npm run validate-glossary + npm test independently re-run clean by orchestrator"
+    e2e_enabled: true
+    user_docs_enabled: false
+    code_review_enabled: true
+    pragmatic_review_enabled: true
+    reality_check_enabled: true
+    production_check_enabled: true
+    sequential: null
+
+  created: "2026-07-14T14:13:22Z"
+  updated: "2026-07-15T08:13:31Z"
+  task_path: .maister/tasks/development/2026-07-14-curate-glossary-content
+
+  task_ids:
+    phase-1: "1"
+    phase-2: "2"
+    phase-3: "3"
+    phase-4: "4"
+    phase-5: "5"
+    phase-6: "6"
+    phase-7: "7"
+    phase-8: "8"
+    phase-9: "9"
+    phase-10: "10"
+    phase-11: "11"
+    phase-12: "12"
+    phase-13: "13"
+    phase-14: "14"
+
+task:
+  title: "Curate glossary content for Software Architecture and Microservices & Distributed Systems"
+  description: >
+    Execute the 3-batch content curation plan from the completed product-design feature
+    spec (.maister/tasks/product-design/2026-07-13-add-new-categories-terms/analysis/feature-spec.md
+    Section 5): author glossary entries from microservice-patterns.md, "system-design terms.md",
+    and dna-mapa.md into data/glossary.json for the "Software Architecture" and "Microservices &
+    Distributed Systems" categories (currently 0 entries each). The taxonomy/FilterBar code for
+    these categories already shipped in the prior development task
+    (.maister/tasks/development/2026-07-13-add-new-categories-terms/) — this task is the deferred
+    content-authoring follow-up.
+  status: completed
+  tags: [content, glossary, taxonomy, curation]
+  priority: null
+
+task_context:
+  risk_level: medium
+  clarifications_resolved: true
+  scope_expanded: true
+  tech_clarified: true
+  architecture_decision: "n/a — pure content authoring via existing content-pipeline process, no architectural decision needed (confirmed in Phase 5 requirements gathering)"
+  task_characteristics:
+    has_reproducible_defect: false
+    modifies_existing_code: true
+    creates_new_entities: true
+    involves_data_operations: true
+    ui_heavy: false
+  research_reference:
+    path: null
+    research_question: null
+    research_type: null
+    confidence_level: null
+  design_reference:
+    source: "product-design"
+    product_design_path: ".maister/tasks/product-design/2026-07-13-add-new-categories-terms"
+    mockup_count: 1
+    has_brief: true
+    index_path: "analysis/design-context/INDEX.md"
+  project_doc_paths:
+    - .maister/docs/project/vision.md
+    - .maister/docs/project/roadmap.md
+    - .maister/docs/project/tech-stack.md
+    - .maister/docs/project/architecture.md
+  phase_summaries:
+    codebase_analysis:
+      summary: >
+        Purely additive, low-risk content task: taxonomy code (Category union, FilterBar chips,
+        validate-glossary.ts) already supports both empty categories from a prior task, and no
+        test/CI gate reads real glossary.json counts. A complete design spec (feature-spec.md
+        Section 5) already defines the 3-batch curation plan and process (prompt-template.md +
+        rubric.md), but actual source material (~109-128 concepts) exceeds its own illustrative
+        ~90-110 estimate, and 7 extra cross-reference pairs were found beyond its audit table.
+      key_files:
+        - data/glossary.json
+        - src/types/glossary.ts
+        - content-pipeline/prompt-template.md
+        - content-pipeline/rubric.md
+        - content-pipeline/validate-glossary.ts
+        - .maister/tasks/product-design/2026-07-13-add-new-categories-terms/analysis/feature-spec.md
+        - .maister/tasks/product-design/2026-07-13-add-new-categories-terms/context/microservice-patterns.md
+        - ".maister/tasks/product-design/2026-07-13-add-new-categories-terms/context/system-design terms.md"
+        - .maister/tasks/product-design/2026-07-13-add-new-categories-terms/context/dna-mapa.md
+      primary_language: TypeScript (content is JSON data, not code)
+      decisions: []
+      risks:
+        - "Concept-count discrepancy: actual ~109-128 vs. spec's illustrative ~90-110 (resolved: curate everything found, see clarifications.md)"
+        - "7 additional cross-reference pairs vs. existing Software Engineering entries not in spec's audit table (resolved: apply same policy, see clarifications.md)"
+      artifacts:
+        - {path: "analysis/codebase-analysis.md", label: "Codebase Analysis Report", html: null}
+    clarifications:
+      summary: >
+        4 clarifying questions resolved, all with the recommended option: full-fidelity concept
+        coverage, extended cross-reference policy to 7 more pairs, dropped '&' in id slugs, stale
+        pre-existing doc/test wording left out of scope.
+      decisions:
+        - {decision: "Curate every concept found, not capped to spec's illustrative estimate", rationale: "Matches product brief's own 'no fixed category-count ceiling' constraint"}
+        - {decision: "Apply 'See also' cross-reference policy to 7 additional pairs beyond spec's table", rationale: "Same overlap pattern the spec already decided to handle this way"}
+        - {decision: "Drop '&' in Microservices & Distributed Systems id slugs", rationale: "Matches existing Spring/JEE precedent of dropping punctuation rather than spelling it out"}
+        - {decision: "Leave stale '12-value enum' test title and '159 entries' doc mentions out of scope", rationale: "Pre-existing, cosmetic, non-CI-gated; will be corrected once at task end alongside the real count update"}
+      risks: []
+      artifacts:
+        - {path: "analysis/clarifications.md", label: "Phase 1 Clarifications", html: null}
+    gap_analysis:
+      summary: >
+        Structurally 100% complete (no code/UI/test changes needed), but found 2 unresolved
+        problems in the approved plan: the cross-reference overlap list undercounts by 8+ pairs
+        (Batch 3/Polish unchecked), and the spec self-contradicts on whether existing entries may
+        be edited for cross-references. Risk raised from low to medium (content-completeness risk).
+      integration_points: []
+      decisions: []
+      risks:
+        - "Cross-reference known-overlaps list materially incomplete (8+ pairs missing, Batch 3 unchecked) — pending decision"
+        - "Spec self-contradicts: Section 1.4 'no existing entries modified' vs Section 2 'edit existing entries for See-also notes' — pending decision"
+        - "New categories sit at positions 13-14 of 14, inside the collapsed '+7 more' FilterBar chip by default — already-accepted prior design trade-off, not a new defect"
+      artifacts:
+        - {path: "analysis/gap-analysis.md", label: "Gap Analysis Report", html: null}
+    specification:
+      summary: >
+        Full spec written and self-verified against the live repo (not just phase-summary prose):
+        exact GlossaryEntry schema/id convention, 3-batch source-to-category mapping, and a
+        cross-reference table refined to 19 deduplicated concept-groups touching 15 existing
+        entries (the "21 pairs" figure from Phase 2 collapsed once 3-way overlaps were
+        deduplicated against live data — a precision correction, not a scope change). Zero new
+        code/tests/UI/tooling required.
+      decisions:
+        - {decision: "Curate every concept found (~109-128), not capped to spec's ~90-110 estimate", rationale: "Matches product brief's no-fixed-ceiling constraint"}
+        - {decision: "Existing-entry edits authorized for See-also notes", rationale: "Resolves feature-spec's Section 1.4 vs Section 2 self-contradiction"}
+        - {decision: "Drop & from Microservices id slugs", rationale: "Matches Spring/JEE precedent"}
+        - {decision: "Communication decision tree splits into 4 entries", rationale: "Each branch independently flashcard-worthy"}
+        - {decision: "19 deduplicated cross-ref groups (not literally 21)", rationale: "Verified against live data; some prior-phase pairs were 3-way overlaps counted multiple times across phases"}
+      risks:
+        - "Term-list diff before Batch 3 (Polish, unchecked) may surface cross-ref pairs beyond the 19 documented"
+        - "Two weak candidates (Access Token/OAuth2, App Metrics/API Observability) excluded as distinct-enough; revisit only if curation disagrees"
+      artifacts:
+        - {path: "implementation/spec.md", label: "Specification", html: "implementation/spec.html"}
+        - {path: "analysis/requirements.md", label: "Requirements", html: null}
+    spec_audit:
+      summary: >
+        PASS WITH CONCERNS. Independently re-verified dozens of the spec's concrete claims
+        (concept counts, existing entry ids, source structure, commit contents) against the live
+        repo — nearly all confirmed exact. Found 2 Medium issues (spec.md self-contradicted on
+        touching validate-glossary.test.ts's title; architecture.md's stale "159" mention was
+        missing from the cleanup list) — both fixed inline in spec.md. 4 Low issues noted but not
+        blocking (path-notation imprecision inherited from the parent spec, no fixed Polish "See
+        also" template, loose numeric ranges, one gap-analysis item not cross-referenced in spec).
+      decisions:
+        - {decision: "Fixed Finding 1 (test-file scope contradiction) inline in spec.md", rationale: "Cheap, unambiguous textual fix; carve out the title-string edit as the one explicit exception"}
+        - {decision: "Fixed Finding 2 (architecture.md missing from stale-doc list) inline in spec.md", rationale: "Cheap, unambiguous completeness fix; doc count updated 4→5"}
+      risks:
+        - "Low: dna-mapa.md path-notation in the Batch 3 table doesn't match its actual heading nesting (destinations are still correct) — navigation aid only, not fixed"
+        - "Low: no fixed Polish-language template for 'See also' notes — natural-equivalent wording only"
+        - "Low: Batch 1's '49-57' range vs exact 49 count, and headline ~109-128 vs summed batch ranges 113-136 — will resolve to whatever curation + validate-glossary.ts actually produce"
+      artifacts:
+        - {path: "verification/spec-audit.md", label: "Specification Audit", html: null}
+    implementation_plan:
+      summary: >
+        6 task groups, 42 steps, strictly sequential (all groups write data/glossary.json).
+        Batch 1 and Batch 3 each split into 2 sub-groups by source subsection; Group 6 is the
+        final cross-reference audit + 5-file stale-doc cleanup. Planner caught 2 issues spec.md
+        missed: 2 misplaced cross-reference rows that would have created dangling references, and
+        6 cross-batch concept-groups needing a two-pass write (partial note now, backfilled later)
+        — both resolved via an explicit Cross-Reference Resolution Schedule table.
+      decisions:
+        - {decision: "Relocated rows 16 (Retry Pattern) and 19 (Richardson Maturity Model) from Batch 1 to Group 4", rationale: "Both concepts only exist in dna-mapa.md (Batch 3); applying during Batch 1 would create a dangling reference"}
+        - {decision: "Split Batch 1 and Batch 3 into 2 sub-groups each, validating at each sub-group boundary", rationale: "Stricter than spec.md's per-batch minimum; catches schema errors earlier given ~49-70 entries per batch"}
+        - {decision: "No separate generic test-review group added", rationale: "Group 6 (cross-ref audit + doc cleanup) already fills that role for a content-authoring task"}
+      risks:
+        - "Batch 3's term-list diff is the first check of that material against the full corpus — may surface pairs beyond the 19 + 2 relocated rows"
+        - "Existing entries accumulate multiple 'See also' appends across groups (e.g. software-engineering-cqrs gets appends in both Group 2 and Group 4) — Group 6's audit must confirm both survive and read coherently together"
+      artifacts:
+        - {path: "implementation/implementation-plan.md", label: "Implementation Plan", html: "implementation/implementation-plan.html"}
+    implementation:
+      summary: >
+        All 6 task groups / 42 steps complete across 2 sessions (Group 4 was interrupted mid-verification
+        by an API session limit, resumed and independently re-verified before continuing). data/glossary.json
+        grew from 159 to 292 entries: Software Architecture 0→34, Microservices & Distributed Systems
+        0→70, plus enrichment to Cloud Engineering/Data Storage/DevOps/Testing. Final cross-reference
+        audit found and fixed 1 mismatch, zero dangling references. 5 stale-count doc mentions and 1
+        test title corrected. npm run validate-glossary and npm test both pass clean.
+      decisions:
+        - {decision: "Independently re-verified Group 4's work after session interruption rather than re-running it", rationale: "File already showed 41 correctly-curated entries with validate-glossary passing; re-doing would have wasted correct work"}
+        - {decision: "Left Group 4's minor EN/PL description asymmetry (Distributed Tracing fold-in) unfixed", rationale: "Cosmetic only, not a dangling reference, explicitly flagged as low-priority/out-of-scope by both Group 4 and Group 6"}
+      risks: []
+      artifacts:
+        - {path: "implementation/implementation-plan.md", label: "Implementation Plan (all checkboxes complete)", html: "implementation/implementation-plan.html"}
+        - {path: "implementation/work-log.md", label: "Work Log", html: null}
+    scope_clarifications:
+      scope_expanded: true
+      summary: >
+        All 4 gap-analyzer decisions resolved with the recommended option: cross-reference scope
+        expanded to 21 pairs with a systematic term-diff per batch, existing-entry edits authorized
+        for See-also notes, Batch 2's decision tree splits into 4 entries, and execution pauses
+        for a spot-check after Batch 1.
+      decisions:
+        - {decision: "Expand cross-reference list to 21 pairs + systematic term-diff per batch", rationale: "Spec's own 'zero unresolved overlap mismatches' criterion would otherwise go unmet, especially for the unchecked Batch 3"}
+        - {decision: "Authorize existing-entry edits for See-also notes (Section 2/clarifications over Section 1.4)", rationale: "Matches already-approved Phase 1 clarifications' explicit intent; one-directional-only breaks the spec's own bidirectional requirement"}
+        - {decision: "Split Batch 2 communication-strategy decision tree into 4 entries", rationale: "Each branch is independently flashcard-worthy; matches rubric's compound-bullet-splitting guidance"}
+        - {decision: "Pause for spot-check after Batch 1", rationale: "Cheapest point to catch a systemic style/quality issue before it propagates across ~120 entries"}
+      risks: []
+      artifacts:
+        - {path: "analysis/scope-clarifications.md", label: "Phase 2 Scope Decisions", html: null}
+    design:
+      summary: >
+        Reference-only ingestion from the prior product-design task; the FilterBar mockup it
+        documents already shipped and needs no further action in this content-only task.
+      screen_count: 1
+      component_count: 0
+      index_path: "analysis/design-context/INDEX.md"
+      decisions: []
+      risks: []
+      artifacts:
+        - {path: "analysis/design-context/brief.md", label: "Product Brief (ingested)", html: null}
+        - {path: "analysis/design-context/mockups/browse-filterbar-at-14-categories.html", label: "FilterBar mockup (already shipped)", html: null}
+
+verification_context:
+  last_status: "passed"
+  issues_found:
+    - {severity: warning, source: code_review, description: "Distributed Tracing fold-in note EN/PL asymmetric", location: "data/glossary.json", fixed: true}
+    - {severity: warning, source: code_review, description: "Adjacent stale scope claims in project docs", location: "roadmap.md, vision.md", fixed: true}
+    - {severity: info, source: code_review, description: "Inconsistent cross-reference sentence formatting", location: "data/glossary.json", fixed: true}
+    - {severity: info, source: code_review, description: "Outdated zero-entries-pending doc comment", location: "src/types/glossary.ts:6", fixed: true}
+    - {severity: info, source: pragmatic_review, description: "10/133 entries exceed ~70 words", location: "data/glossary.json", fixed: false}
+    - {severity: info, source: completeness, description: "Work-log Group 5 narration timing imprecision", location: "implementation/work-log.md", fixed: true}
+  fixes_applied:
+    - "Removed Polish curation-process meta-note from distributed-tracing entry's descriptionPl"
+    - "Added 2 new categories to roadmap.md's taxonomy-coverage list; reworded vision.md's '12 categories' claim to 14"
+    - "Normalized 2 merged See-also sentences to one-sentence-per-reference style in CQRS/Event Sourcing SA entries"
+    - "Rewrote src/types/glossary.ts JSDoc to describe the completed curation pass"
+    - "Reworded work-log.md Group 5's enrichment tally line to correctly attribute Data Storage's delta to Group 4"
+  decisions_made:
+    - "Deliberately left verbosity finding (10/133 entries) unfixed — needs per-entry editorial judgment, not a mechanical fix"
+  reverify_count: 0

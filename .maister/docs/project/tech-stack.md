@@ -25,7 +25,7 @@ None. This is a purely client-side static site — there is no server, API, or b
 
 ## Database
 
-None. No database is used. Content lives in `data/glossary.json` (159 entries, validated by a standalone schema checker); user progress lives in browser `localStorage` only (no cross-device sync by design).
+None. No database is used. Content lives in `data/glossary.json` (292 entries, validated by a standalone schema checker); user progress lives in browser `localStorage` only (no cross-device sync by design).
 
 ## Build Tools & Package Management
 

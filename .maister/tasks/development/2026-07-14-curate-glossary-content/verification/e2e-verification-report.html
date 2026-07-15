@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Verification Report — Curate Glossary Content</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+h3 { font-size:14px; margin-bottom:6px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:110px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+.verdict-banner { display:flex; align-items:center; gap:12px; padding:16px 20px; border-radius:var(--radius);
+  background:var(--ok-soft); border:1px solid var(--ok); margin:14px 0; }
+.verdict-banner .v-label { font-size:20px; font-weight:700; color:var(--ok); }
+.quote { background:var(--accent-soft); border-left:3px solid var(--accent); padding:10px 14px;
+  border-radius:0 6px 6px 0; font-style:italic; margin:8px 0; }
+.pl-quote { background:var(--info-soft); border-left:3px solid var(--info); padding:10px 14px;
+  border-radius:0 6px 6px 0; font-style:italic; margin:8px 0; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 20px; }
+.toc a { margin-right:10px; }
+.checklist { list-style:none; padding-left:0; margin:8px 0; }
+.checklist li::before { content:"☑ "; color:var(--ok); }
+.note-box { background:var(--warn-soft); border:1px solid var(--warn); border-radius:var(--radius);
+  padding:12px 16px; margin:14px 0; font-size:13px; }
+</style>
+</head>
+<body>
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="../implementation/spec.html">Spec</a>
+  <a href="../implementation/implementation-plan.html">Plan</a>
+  <a href="implementation-verification.html">Verification</a>
+  <span class="here">E2E Verification</span>
+  <a href="e2e-verification-report.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <span class="badge">E2E Verification</span>
+  <h1>Curate Glossary Content — E2E Verification Report</h1>
+  <p style="color:var(--dim); margin:4px 0 0;">Generated 2026-07-15 · git ref <code>495ff65</code> (main, dirty) · base URL <code>http://localhost:5173</code></p>
+</header>
+
+<div class="verdict-banner">
+  <span class="v-label">✅ GO</span>
+  <span>9/9 scenarios passed · 0 critical · 0 major · 0 minor · 0 cosmetic issues</span>
+</div>
+
+<div class="tiles">
+  <div class="tile"><b>9</b><span>scenarios executed</span></div>
+  <div class="tile"><b>9</b><span>passed</span></div>
+  <div class="tile"><b>0</b><span>failed</span></div>
+  <div class="tile"><b>100%</b><span>pass rate</span></div>
+  <div class="tile"><b>34 / 70</b><span>new category counts</span></div>
+  <div class="tile"><b>292</b><span>total glossary entries</span></div>
+</div>
+
+<section class="tldr">
+  <h2 style="margin-top:0;">TL;DR</h2>
+  <p>All 9 live-browser scenarios passed: both new categories ("Software Architecture" 34, "Microservices &amp; Distributed Systems" 70) render real counts and real cards, "See also" cross-references resolve correctly (spot-checked 2-way and 3-way groups), Polish translations render with correct diacritics, search surfaces new content across categories, and Learn Mode scopes to the new categories without errors. Zero console/network errors observed; <code>npm run validate-glossary</code> confirms 292/292 entries clean.</p>
+  <h2>Open Questions / Risks</h2>
+  <ul>
+    <li>Screenshot image files could not be persisted to disk in this environment (see Variances) — evidence relies on live DOM-snapshot text extraction, quoted verbatim in each scenario, rather than PNG artifacts.</li>
+    <li>Only 3 of the spec's 19 cross-reference concept-groups were spot-checked live in the browser (CQRS 3-way, Circuit Breaker 3-way, Domain Events 2-way). A full 19-group audit is a data-level check — see Exit Criteria.</li>
+  </ul>
+</section>
+
+<nav class="toc">
+  Contents:
+  <a href="#env">Environment</a>
+  <a href="#scenarios">Scenarios</a>
+  <a href="#discrepancies">Discrepancies</a>
+  <a href="#alignment">Spec Alignment</a>
+  <a href="#variances">Variances</a>
+  <a href="#exit">Exit Criteria</a>
+  <a href="#recommendations">Recommendations</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+
+<main>
+
+<h2 id="env">Test Environment</h2>
+<div class="card">
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Base URL</td><td><code>http://localhost:5173</code> (app serves under <code>/skill-flip/</code>)</td></tr>
+<tr><td>Browser</td><td>Chromium-based Browser pane (Claude Browser tool)</td></tr>
+<tr><td>Viewport</td><td>1280×720</td></tr>
+<tr><td>Auth context</td><td>Anonymous (static client-only site)</td></tr>
+<tr><td>Test data</td><td>Live <code>data/glossary.json</code>, 292 entries</td></tr>
+</table>
+</div>
+
+<h2 id="scenarios">Verification Scenarios</h2>
+
+<div class="card">
+<h3>4.1 FilterBar reveals both new categories with correct non-zero counts — <span class="pass">✅ Passed</span></h3>
+<p><b>Story/AC:</b> spec.md User Story #1 ("...not an empty chip...")</p>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Load app, switch to Browse</td><td>Grid loads with chips</td><td>"292 of 292 terms" shown</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Click "+7 more"</td><td>Remaining chips reveal incl. new categories</td><td>Software Architecture (34), Microservices &amp; Distributed Systems (70) revealed</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Compare to live data file</td><td>34 / 70, not 0</td><td>Exact match against Node count of <code>data/glossary.json</code></td><td class="pass">✅</td></tr>
+</table>
+<p><b>Checklist:</b></p>
+<ul class="checklist"><li>Both chips visible after expanding overflow</li><li>Counts non-zero and match data file exactly</li><li>No other category regressed</li></ul>
+</div>
+
+<div class="card">
+<h3>4.2 Browse filter isolates "Microservices &amp; Distributed Systems" — real cards render/flip — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Click category chip</td><td>Grid filters to category</td><td>"70 of 292 terms", chip active</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Inspect tile terms</td><td>Real curated terms</td><td>Decompose by Business Capability, Saga, Event Sourcing, CQRS, Aggregate, ... (70 total)</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Flip "CQRS" tile</td><td>Real description renders</td><td>Flipped successfully, definition text rendered</td><td class="pass">✅</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>4.3 Browse filter isolates "Software Architecture" — real cards render/flip — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Select "Software Architecture (34)"</td><td>Grid filters to category</td><td>"34 of 292 terms"</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Inspect tile terms</td><td>Real curated terms</td><td>Policy, Read Model, Command, Business Rule, Actor, Domain Events, Bounded Context, Ubiquitous Language, ... (34 total)</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Flip "Domain Events" tile</td><td>Real description renders</td><td>Flipped, cross-reference text rendered (see 4.5)</td><td class="pass">✅</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>4.4 Search surfaces new-category content across categories — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Search "Bounded Context" (category-filtered)</td><td>Scoped results</td><td>3 of 292 — all Software Architecture</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Clear filter, keep search</td><td>Results expand to all categories</td><td>7 of 292 across Software Engineering, Microservices &amp; Distributed Systems, Software Architecture</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Search "CQRS"</td><td>All 3 CQRS entries surface</td><td>3 of 292: Software Engineering, Microservices &amp; Distributed Systems, Software Architecture</td><td class="pass">✅</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>4.5 "See also" cross-reference — CQRS (3-way) and Domain Events (2-way) — <span class="pass">✅ Passed</span></h3>
+<p><b>Story/AC:</b> spec.md User Story #2; cross-reference table rows #1, #14</p>
+<p>CQRS (Microservices &amp; Distributed Systems), text extracted live from the DOM:</p>
+<div class="quote">"Maintaining separate models for writing data (commands) and reading it (queries) so each can use its own schema, storage technology, and scaling strategy; in microservices it typically means a service's write side publishes events that asynchronously update one or more read-optimized query stores or materialized views. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Engineering. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Architecture."</div>
+<p>Domain Events (Software Architecture):</p>
+<div class="quote">"A fact recorded once a command has been successfully applied to an aggregate, describing something that has already happened rather than something being requested; other building blocks such as policies and read models react to it to keep the rest of the system in sync. See also: 'Domain Events' in Software Engineering."</div>
+</div>
+
+<div class="card">
+<h3>4.6 "See also" cross-reference — Circuit Breaker (3-way), incl. Polish — <span class="pass">✅ Passed</span></h3>
+<p>Circuit Breaker (Microservices &amp; Distributed Systems), English:</p>
+<div class="quote">"A proxy placed around a call to another service that tracks recent failures and, once a threshold is crossed, trips to reject further calls immediately instead of letting them run until they time out, preventing one failing service from cascading latency and resource exhaustion across the rest of the call chain. See also: 'Circuit Breaker Pattern' in Software Engineering."</div>
+<p>Same entry, Polish translation toggle:</p>
+<div class="pl-quote">"Proxy umieszczone wokół wywołania innej usługi, które śledzi ostatnie błędy i po przekroczeniu ustalonego progu „otwiera się”, natychmiast odrzucając kolejne wywołania zamiast pozwalać im się kończyć przekroczeniem czasu, co zapobiega kaskadowemu rozprzestrzenianiu się opóźnień i wyczerpania zasobów na resztę łańcucha wywołań. Zobacz też: „Wzorzec Circuit Breaker” w kategorii Software Engineering."</div>
+<p style="color:var(--dim); font-size:12.5px;">Diacritics (ó, ł, ś, ę, ą, ż) render correctly — no mojibake observed.</p>
+</div>
+
+<div class="card">
+<h3>4.7 Polish translation toggle renders correctly for new-category entries — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Flip "Coupling" card (Software Architecture)</td><td>Full English definition</td><td>Rendered without truncation</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Click "(i)" Polish toggle</td><td>Polish panel appears</td><td>"PL: Sprzężenie (coupling)" + full Polish paragraph</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Inspect encoding</td><td>Correct diacritics</td><td>No mojibake; ę, ż, ł, ą correct</td><td class="pass">✅</td></tr>
+</table>
+<p style="color:var(--dim); font-size:12.5px;">Note: the "(i)" toggle exists only on the single-card Learn Mode view (pre-existing <code>Card.ts</code>/<code>LearnMode.ts</code> behavior, unrelated to this content-only task); Browse grid tiles flip to an English-only panel.</p>
+</div>
+
+<div class="card">
+<h3>4.8 Learn Mode scopes to Browse's active filter for both new categories, no crash — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Switch to Learn with Software Architecture filter active</td><td>Header shows scoped count + clearable chip</td><td>"34 new" + "Software Architecture ✕" chip</td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Flip + toggle Polish</td><td>Renders correctly</td><td>Confirmed (4.7)</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td>Switch filter to Microservices &amp; Distributed Systems, return to Learn</td><td>Header rescopes to 70</td><td>"70 new"; card "Distributed Tracing"</td><td class="pass">✅</td></tr>
+<tr><td>4</td><td>Click "Next →"</td><td>Advances without error</td><td>Advanced to "WebSocket"</td><td class="pass">✅</td></tr>
+<tr><td>5</td><td>Check console</td><td>No errors</td><td>"No console logs."</td><td class="pass">✅</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>4.9 Console/network health and data-integrity regression check — <span class="pass">✅ Passed</span></h3>
+<table>
+<tr><th>#</th><th>Action</th><th>Expected</th><th>Actual</th><th>Status</th></tr>
+<tr><td>1</td><td>Inspect network requests</td><td>All 200 OK</td><td>11/11 requests 200 OK incl. <code>data/glossary.json</code></td><td class="pass">✅</td></tr>
+<tr><td>2</td><td>Inspect console (all levels)</td><td>No errors/warnings</td><td>Only Vite dev-server connect logs</td><td class="pass">✅</td></tr>
+<tr><td>3</td><td><code>npm run validate-glossary</code></td><td>Passes clean</td><td>"OK — 292 entries validated with zero errors."</td><td class="pass">✅</td></tr>
+<tr><td>4</td><td><code>git diff --stat</code></td><td>No <code>src/</code> logic changed</td><td>Only data/docs + JSDoc comment in <code>glossary.ts</code></td><td class="pass">✅</td></tr>
+</table>
+</div>
+
+<h2 id="discrepancies">Discrepancies</h2>
+<div class="card"><p><span class="sev critical">Critical</span> None observed.</p>
+<p><span class="sev warning">Major</span> None observed.</p>
+<p><span class="sev warning">Minor</span> None observed.</p>
+<p><span class="sev info">Cosmetic</span> None observed.</p></div>
+
+<h2 id="alignment">Spec Alignment</h2>
+<div class="card">
+<p><b>Fully implemented:</b> both new categories render real counts/cards; filtering, search, flip, Polish toggle all work; cross-references render correctly (English + Polish, 3 groups spot-checked); Learn Mode scoping unbroken; <code>validate-glossary</code> passes 292/292; docs corrected to "292 entries"; no <code>src/</code> logic modified.</p>
+<p><b>Extra (unspecified) behavior observed:</b> FilterBar chips support multi-select (both new categories together correctly show "104 of 292 terms" = 34+70) — pre-existing behavior, not introduced by this task, noted for completeness only.</p>
+</div>
+
+<h2 id="variances">Variances from Plan</h2>
+<div class="note-box">
+<p><b>Screenshot capture unavailable in this environment.</b> The Browser pane tool used for this verification does not expose a mechanism to persist screenshots as files, and the alternative Playwright MCP tool failed to initialize (Chromium binary not found; install blocked in this sandbox). All scenario evidence is instead a verbatim DOM/text extraction taken at the moment of interaction — arguably more precise for verifying exact cross-reference wording and Polish diacritics, but no PNG artifacts exist. <code>verification/screenshots/</code> is empty.</p>
+<p><b>Visual-fidelity comparison skipped</b> per explicit orchestrator instruction: the supplied design-context documents a prior, already-shipped task's FilterBar UI, untouched by this content-only task. <code>verification/visual-fidelity.md</code> was not generated.</p>
+</div>
+
+<h2 id="exit">Evaluation Against Exit Criteria</h2>
+<div class="card">
+<table>
+<tr><th>Criterion</th><th>Status</th><th>Evidence</th></tr>
+<tr><td><code>validate-glossary</code> passes with zero errors</td><td class="pass">✅</td><td>292 entries, zero errors</td></tr>
+<tr><td>Every concept has exactly one entry (or defined cross-ref count)</td><td>⚠️ Partial</td><td>Category totals match exactly; 3 groups spot-checked clean; full 133-concept audit is data-level, out of E2E scope</td></tr>
+<tr><td>Every entry passes rubric 8-point checklist</td><td>N/A</td><td>Content-quality judgment, not browser-observable; see prior review reports</td></tr>
+<tr><td>All 19 cross-reference groups resolve bidirectionally</td><td>⚠️ Partial</td><td>3/19 spot-checked live and clean; remaining 16 not individually driven through UI</td></tr>
+<tr><td>New IDs follow slug convention</td><td>N/A</td><td>IDs not rendered in UI; uniqueness enforced by validator</td></tr>
+<tr><td>No duplicate id / (term, category) pair</td><td class="pass">✅</td><td>Enforced by <code>validate-glossary</code>, confirmed passing</td></tr>
+<tr><td>Doc counts/test title corrected</td><td class="pass">✅</td><td>All 4 docs say "292 entries"; test title "14-value enum"</td></tr>
+<tr><td>No <code>src/</code>/pipeline logic modified</td><td class="pass">✅</td><td><code>git diff --stat</code>: JSDoc-only change in <code>glossary.ts</code>, nothing else in <code>src/</code></td></tr>
+</table>
+</div>
+
+<h2 id="recommendations">Recommendations</h2>
+<div class="card">
+<p><b>Must fix before merge:</b> None.</p>
+<p><b>Should fix soon:</b> None.</p>
+<p><b>Nice-to-have:</b> Re-run with a working screenshot toolchain if a durable visual record is desired; consider a scripted audit of all 19 cross-reference groups against <code>data/glossary.json</code> to complement these live spot-checks.</p>
+</div>
+
+<h2 id="conclusion">Conclusion</h2>
+<div class="card">
+<p><b>GO.</b> Live browser verification confirms both previously-empty categories now contain and correctly surface their full curated content across Browse, search, card-flip, Polish translation, and Learn Mode, with zero console/network errors and a clean <code>validate-glossary</code> run. Cross-references render exactly as specified in both languages. This is a content-only change with no code/UI regression surface — recommend merging as-is.</p>
+</div>
+
+</main>
+</body>
+</html>
