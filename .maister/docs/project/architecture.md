@@ -46,7 +46,7 @@ Business/data logic (filtering, the Learn Mode weighted-draw algorithm, `localSt
 
 ### `data/`
 - **Location**: `data/glossary.json`
-- **Purpose**: Single source of truth for all 159 glossary entries across 14 categories; fetched once at app bootstrap
+- **Purpose**: Single source of truth for all 292 glossary entries across 14 categories; fetched once at app bootstrap
 
 ## Data Flow
 

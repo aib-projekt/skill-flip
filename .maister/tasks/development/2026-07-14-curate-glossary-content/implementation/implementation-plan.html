@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Plan — Curate Glossary Content</title>
+<style>
+:root {
+  --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; --radius:10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+    --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+    --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+    --info:#60a5fa; --info-soft:#15233a; }
+}
+:root[data-theme="dark"] { --bg:#111418; --surface:#1a1f26; --border:#2e3640; --text:#e6e9ee; --dim:#9aa4b2;
+  --accent:#818cf8; --accent-soft:#26294a; --ok:#4ade80; --ok-soft:#11291a;
+  --warn:#fbbf24; --warn-soft:#2e2410; --crit:#f87171; --crit-soft:#321616;
+  --info:#60a5fa; --info-soft:#15233a; }
+:root[data-theme="light"] { --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#1a1d23; --dim:#6b7280;
+  --accent:#4f46e5; --accent-soft:#eef2ff; --ok:#16a34a; --ok-soft:#ecfdf3;
+  --warn:#d97706; --warn-soft:#fffbeb; --crit:#dc2626; --crit-soft:#fef2f2;
+  --info:#2563eb; --info-soft:#eff6ff; }
+* { box-sizing:border-box; }
+body { margin:0 auto; max-width:1100px; padding:24px 20px 64px; background:var(--bg);
+  color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+a { color:var(--accent); text-decoration:none; } a:hover { text-decoration:underline; }
+h1 { font-size:22px; letter-spacing:-.01em; } h2 { font-size:16px; margin-top:28px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:16px 18px; margin:14px 0; }
+.badge { display:inline-block; font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; padding:2px 8px; border-radius:99px; background:var(--accent-soft); color:var(--accent); }
+.sev { display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase;
+  padding:1.5px 7px; border-radius:99px; margin-right:6px; }
+.sev.critical { background:var(--crit-soft); color:var(--crit); }
+.sev.warning  { background:var(--warn-soft); color:var(--warn); }
+.sev.info     { background:var(--info-soft); color:var(--info); }
+.pass { color:var(--ok); font-weight:600; } .fail { color:var(--crit); font-weight:600; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+th { font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--dim); }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px;
+  background:var(--accent-soft); padding:1px 5px; border-radius:4px; }
+img.shot { max-width:100%; border:1px solid var(--border); border-radius:var(--radius); }
+details > summary { cursor:pointer; font-weight:600; }
+
+.crumbs { display:flex; gap:14px; font-size:13px; margin-bottom:18px; flex-wrap:wrap; }
+.crumbs a.md { margin-left:auto; color:var(--dim); }
+.crumbs .here { font-weight:650; color:var(--text); }
+.tiles { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0; }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:10px 16px; text-align:center; min-width:100px; }
+.tile b { display:block; font-size:20px; letter-spacing:-.01em; }
+.tile span { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--dim); }
+header { margin-bottom:4px; }
+header .meta { color:var(--dim); font-size:12.5px; margin-top:4px; }
+.toc { font-size:12.5px; color:var(--dim); margin:10px 0 16px; }
+.toc a { margin-right:2px; }
+
+/* group cards */
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0; }
+.chips code { display:inline-block; }
+.dep-row { display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--dim); margin:6px 0 2px; }
+.dep-arrow { color:var(--accent); font-weight:700; }
+.g-head { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.g-head h3 { margin:0; font-size:15px; }
+.g-badge { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  padding:2px 9px; border-radius:99px; background:var(--warn-soft); color:var(--warn); }
+.group.done .g-badge { background:var(--ok-soft); color:var(--ok); }
+.steps { margin:10px 0 4px; padding-left:2px; list-style:none; }
+.steps li { padding:3px 0 3px 22px; position:relative; font-size:13px; }
+.step.todo::before  { content:"☐ "; color:var(--dim); position:absolute; left:0; }
+.step.done::before  { content:"☑ "; color:var(--ok); position:absolute; left:0; }
+.step.done          { color:var(--dim); }
+.group.todo .g-badge::after { content:"pending"; }
+.group.done .g-badge::after { content:"✓ completed"; color:var(--ok); }
+.gate { background:var(--crit-soft); color:var(--crit); border-radius:var(--radius); padding:8px 12px;
+  font-size:12.5px; font-weight:600; margin:10px 0; }
+.acc { font-size:13px; margin-top:10px; }
+.acc summary { color:var(--dim); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; }
+.acc ul { margin:8px 0 0; padding-left:20px; }
+.flow { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:12.5px; margin:10px 0 4px; }
+.flow .n { background:var(--surface); border:1px solid var(--border); border-radius:99px; padding:4px 12px; }
+.flow .n.gate { background:var(--crit-soft); color:var(--crit); border-color:transparent; padding:4px 12px; font-weight:700; }
+.flow .arrow { color:var(--dim); }
+</style>
+</head>
+<body>
+
+<nav class="crumbs">
+  <a href="../dashboard.html">← Dashboard</a>
+  <a href="spec.html">Spec</a>
+  <span class="here">Plan</span>
+  <a href="../verification/implementation-verification.html">Verification</a>
+  <a href="implementation-plan.md" target="_blank" rel="noopener" class="md">md twin ↗</a>
+</nav>
+
+<header>
+  <h1>Implementation Plan: Curate Glossary Content</h1>
+  <div class="meta">Software Architecture / Microservices &amp; Distributed Systems &middot; generated 2026-07-14</div>
+</header>
+
+<div class="tiles">
+  <div class="tile"><b>6</b><span>task groups</span></div>
+  <div class="tile"><b>42</b><span>total steps</span></div>
+  <div class="tile"><b>6</b><span>validate-glossary runs</span></div>
+  <div class="tile"><b>~109-128</b><span>new entries</span></div>
+  <div class="tile"><b>15</b><span>existing entries edited</span></div>
+  <div class="tile"><b>Sequential</b><span>execution order</span></div>
+</div>
+
+<section class="tldr card">
+  <h2 style="margin-top:0">TL;DR</h2>
+  <p>6 task groups execute spec.md's 3 batches sequentially, each batch split into 2 source-subsection sub-groups: Group 1&ndash;2 (Batch 1, <code>microservice-patterns.md</code>, ~49 entries, ends with the mandatory user checkpoint), Group 3 (Batch 2, <code>system-design terms.md</code>, ~9 entries), Group 4&ndash;5 (Batch 3, <code>dna-mapa.md</code>, ~55-70 entries), Group 6 (final cross-reference audit + 5-file stale-doc cleanup). All 6 groups write the same file (<code>data/glossary.json</code>) and are strictly sequential.</p>
+
+  <h2>Key Decisions</h2>
+  <ul>
+    <li><b>Corrected two misplaced rows</b> in spec.md's Execution Sequence: rows 16 (Retry Pattern) and 19 (Richardson Maturity Model) were listed under Batch 1, but both concepts' only new-entry side is sourced from <code>dna-mapa.md</code> (Batch 3) &mdash; <code>microservice-patterns.md</code> contains neither. Applying the note during Batch 1 would create a dangling reference. Moved to Group 4.</li>
+    <li><b>Identified 6 cross-batch concept-groups</b> needing a two-pass write, not explicit in spec.md's sequence: rows 1, 2, 5 (3-way groups, SA side is Batch 3) get a partial note in Group 2 and completion in Group 4; rows 4, 9 (new&harr;new, no existing entry) get nothing in Group 2 and both sides written in Group 4; row 6 gets mesh&harr;sidecar in Group 2 and the Cloud Engineering side in Group 5.</li>
+    <li><b>Batch 1 and Batch 3 each split into 2 sub-groups</b> by source subsection, validating at the sub-group level (stricter than spec.md's "after each batch" minimum) for earlier error detection.</li>
+    <li><b>No separate generic Testing group added</b> despite 6 groups total &mdash; Group 6 (final audit + stale-doc cleanup) is spec.md's own Requirement 7/8 and fills that role.</li>
+    <li><b>Task-item creation skipped</b> &mdash; <code>TaskCreate</code>/<code>TaskUpdate</code> tools are unavailable in this environment; group tracking exists only via this plan's checkboxes.</li>
+  </ul>
+
+  <h2>Open Questions / Risks</h2>
+  <ul>
+    <li>Per-section entry counts are pacing estimates, not targets &mdash; spec.md's own audit already flags its ranges as loose; actual splits happen at curation time.</li>
+    <li>Batch 3's term-list diff (Groups 4 &amp; 5) is the first systematic check of that material against the full 159-entry corpus &mdash; may surface pairs beyond the 19 rows + 2 relocations.</li>
+    <li>Existing entries can accumulate <em>two</em> separate "See also" appends across groups (e.g. <code>software-engineering-cqrs</code> in Group 2 and again in Group 4) &mdash; Group 6's audit must confirm both survive and read coherently together.</li>
+    <li>All groups write <code>data/glossary.json</code> &mdash; inherently serial, no parallel execution proposed anywhere in this plan.</li>
+  </ul>
+</section>
+
+<div class="toc">Contents:
+  <a href="#schedule">Cross-Reference Schedule</a> ·
+  <a href="#groups">Task Groups</a> ·
+  <a href="#order">Execution Order</a> ·
+  <a href="#standards">Standards</a>
+</div>
+
+<section id="schedule">
+  <h2>Cross-Reference Resolution Schedule</h2>
+  <p style="color:var(--dim); font-size:13px; margin-top:-4px;">Restates spec.md's 19-row table, grouped by which group can <em>correctly</em> resolve it &mdash; so no group writes a "See also" note pointing at an entry that doesn't exist yet. Full row detail (exact existing-entry ids/terms) stays in <a href="spec.html">spec.html</a>.</p>
+  <div class="card" style="overflow-x:auto;">
+  <table>
+    <tr><th>#</th><th>Concept</th><th>Resolved in</th><th>Why</th></tr>
+    <tr><td>1</td><td>CQRS</td><td>Group 2 (partial) &rarr; <b>Group 4</b></td><td>3-way; SA side is Batch 3</td></tr>
+    <tr><td>2</td><td>Circuit Breaker</td><td>Group 2 (partial) &rarr; <b>Group 4</b></td><td>3-way; one MS side is Batch 3</td></tr>
+    <tr><td>3</td><td>Service Discovery fold-in</td><td>Group 2</td><td>No separate entry; informational only</td></tr>
+    <tr><td>4</td><td>Distributed Tracing</td><td><b>Group 4 only</b></td><td>New&harr;new, cross-batch, no existing entry</td></tr>
+    <tr><td>5</td><td>Event Sourcing</td><td>Group 2 (partial) &rarr; <b>Group 4</b></td><td>3-way; SA side is Batch 3</td></tr>
+    <tr><td>6</td><td>Service Mesh / Sidecar</td><td>Group 2 (partial) &rarr; <b>Group 5</b></td><td>3 entries; 1 is Batch 3</td></tr>
+    <tr><td>7</td><td>Saga</td><td>Group 2</td><td>Single-batch</td></tr>
+    <tr><td>8</td><td>API Gateway</td><td>Group 2</td><td>Single-batch</td></tr>
+    <tr><td>9</td><td>Aggregate</td><td><b>Group 4 only</b></td><td>New&harr;new, cross-batch, no existing entry</td></tr>
+    <tr><td>10</td><td>Consumer-Driven/-Side Contract Test</td><td>Group 2</td><td>Single-batch</td></tr>
+    <tr><td>11</td><td>Externalized Configuration</td><td>Group 2</td><td>Single-batch</td></tr>
+    <tr><td>12</td><td>Monolithic Architecture</td><td>Group 4</td><td>Single-batch (dna-mapa only)</td></tr>
+    <tr><td>13</td><td>Microservices Architecture</td><td>Group 4</td><td>Single-batch (dna-mapa only)</td></tr>
+    <tr><td>14</td><td>Domain Events</td><td>Group 4</td><td>Single-batch (dna-mapa only)</td></tr>
+    <tr><td>15</td><td>Integration Events</td><td>Group 4</td><td>Single-batch (dna-mapa only)</td></tr>
+    <tr><td>16</td><td>Retry Pattern</td><td><span class="badge">relocated</span> Group 4</td><td>spec.md misfiled under Batch 1</td></tr>
+    <tr><td>17</td><td>Transactional Outbox Pattern</td><td>Group 2</td><td>Single-batch</td></tr>
+    <tr><td>18</td><td>Event Storming</td><td>Group 5</td><td>Single-batch (dna-mapa only)</td></tr>
+    <tr><td>19</td><td>Richardson Maturity Model</td><td><span class="badge">relocated</span> Group 4</td><td>spec.md misfiled under Batch 1</td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="groups">
+  <h2>Task Groups</h2>
+
+  <section data-group="1" class="group done card">
+    <div class="g-head">
+      <h3>Group 1 &middot; Batch 1a &mdash; microservice-patterns.md (Decomposition &rarr; Security)</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: None</div>
+    <div class="chips"><code>data/glossary.json</code></div>
+    <ul class="steps">
+      <li data-step="1.1" class="step done">Re-read source lines 1-38 + prompt-template.md + rubric.md</li>
+      <li data-step="1.2" class="step done">Curate Decomposition (4) + Data patterns consistency/architecture/querying (7) &mdash; 11 entries</li>
+      <li data-step="1.3" class="step done">Curate Testing (3) + UI (2) &mdash; 5 entries</li>
+      <li data-step="1.4" class="step done">Curate Observability (7) + Cross-cutting (3) + Security (1) &mdash; 11 entries</li>
+      <li data-step="1.5" class="step done">Self-review all ~27 entries against rubric.md's 8-point checklist</li>
+      <li data-step="1.6" class="step done">Run <code>npm run validate-glossary</code>, fix errors</li>
+    </ul>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>~27 new entries added, all <code>category: "Microservices &amp; Distributed Systems"</code>, ids <code>microservices-distributed-systems-&lt;term-slug&gt;</code></li>
+      <li>Every entry passes rubric.md's 8-point checklist</li>
+      <li><code>npm run validate-glossary</code> exits with zero errors</li>
+      <li>No cross-reference notes written yet &mdash; deferred to Group 2</li>
+    </ul></details>
+  </section>
+
+  <section data-group="2" class="group done card">
+    <div class="g-head">
+      <h3>Group 2 &middot; Batch 1b &mdash; Communication Patterns + Batch 1 close-out</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: <span class="dep-arrow">&larr;</span> Group 1</div>
+    <div class="chips"><code>data/glossary.json</code></div>
+    <ul class="steps">
+      <li data-step="2.1" class="step done">Curate Transactional messaging (3) + Communication style (3) + Reliability (1) &mdash; 7 entries</li>
+      <li data-step="2.2" class="step done">Curate Discovery (5) + External API (2) &mdash; 7 entries</li>
+      <li data-step="2.3" class="step done">Curate Deployment (8, incl. mesh/sidecar)</li>
+      <li data-step="2.4" class="step done">Run term-list diff for all ~49 Batch-1 terms vs. 159 existing entries</li>
+      <li data-step="2.5" class="step done">Apply cross-reference notes per schedule: full (rows 7,8,10,11,17), partial (rows 1,2,5,6), none yet (rows 4,9)</li>
+      <li data-step="2.6" class="step done">Self-review Batch-1b entries + cross-ref edits against rubric.md</li>
+      <li data-step="2.7" class="step done">Run <code>npm run validate-glossary</code>, fix errors</li>
+      <li data-step="2.8" class="step done">STOP &mdash; present spot-check summary, wait for explicit user confirmation</li>
+    </ul>
+    <div class="gate">Hard gate: Batch-1 checkpoint &mdash; Group 3 cannot start without explicit user confirmation</div>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>~22 new entries added in this group (~49 total across Group 1+2)</li>
+      <li>Rows 7,8,10,11,17 fully resolved bidirectionally; rows 1,2,5,6 show only their Batch-1-resolvable half; rows 4,9 show no premature note</li>
+      <li><code>npm run validate-glossary</code> exits with zero errors</li>
+      <li>User has explicitly confirmed the checkpoint &mdash; hard gate, not a formality</li>
+    </ul></details>
+  </section>
+
+  <section data-group="3" class="group done card">
+    <div class="g-head">
+      <h3>Group 3 &middot; Batch 2 &mdash; system-design terms.md</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: <span class="dep-arrow">&larr;</span> Group 2 (post-checkpoint)</div>
+    <div class="chips"><code>data/glossary.json</code></div>
+    <ul class="steps">
+      <li data-step="3.1" class="step done">Curate 5 enrichment entries: Kafka, Redis, Elasticsearch, Zookeeper, CDN</li>
+      <li data-step="3.2" class="step done">Curate 4-way communication-strategy split: Simple Polling, SSE, WebSocket, WebRTC</li>
+      <li data-step="3.3" class="step done">Run term-list diff for these 9 terms &mdash; no known cross-ref rows target Batch 2</li>
+      <li data-step="3.4" class="step done">Self-review all 9 entries against rubric.md</li>
+      <li data-step="3.5" class="step done">Run <code>npm run validate-glossary</code>, fix errors</li>
+    </ul>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>9 new entries: 5 enrichment + 4 communication-strategy entries in Microservices &amp; Distributed Systems</li>
+      <li><code>npm run validate-glossary</code> exits with zero errors</li>
+      <li>Communication-strategy tree is 4 separate entries, never bundled into fewer</li>
+    </ul></details>
+  </section>
+
+  <section data-group="4" class="group done card">
+    <div class="g-head">
+      <h3>Group 4 &middot; Batch 3a &mdash; dna-mapa.md (Aplikacyjna + Systemowa)</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: <span class="dep-arrow">&larr;</span> Group 3</div>
+    <div class="chips"><code>data/glossary.json</code></div>
+    <ul class="steps">
+      <li data-step="4.1" class="step done">Curate Model Domenowy + Transaction Script/Model bogaty/anemiczny &rarr; Software Architecture (rubric Section 4 discipline applies to all remaining Batch-3 steps)</li>
+      <li data-step="4.2" class="step done">Curate Wzorce (event transport/publication/CQRS) + Mikrojądro/Modularyzacja/Heksagonalna/Pipes &amp; Filters &rarr; Software Architecture</li>
+      <li data-step="4.3" class="step done">Curate Persystencja: Klasyczne trzy warstwy &rarr; Software Architecture; ACID/BASE/DB types/ORM &rarr; Data Storage enrichment</li>
+      <li data-step="4.4" class="step done">Curate System rozproszony + Mikroserwisy/Monolit/Modularny monolit trade-offs &rarr; Microservices &amp; Distributed Systems</li>
+      <li data-step="4.5" class="step done">Curate Systemowa &gt; Komunikacja (delivery semantics, Design-for-Failure, contract testing, REST maturity, request-reply, distributed tracing, service discovery, load balancing)</li>
+      <li data-step="4.6" class="step done">Apply cross-reference notes: complete rows 1,2,5 (backfill Group 2); write both sides of rows 4,9; author rows 12,13,14,15,16,19</li>
+      <li data-step="4.7" class="step done">Run term-list diff &mdash; first systematic check of dna-mapa.md content</li>
+      <li data-step="4.8" class="step done">Self-review against rubric.md, Section 4 discipline mandatory</li>
+      <li data-step="4.9" class="step done">Run <code>npm run validate-glossary</code>, fix errors</li>
+    </ul>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>All Software Architecture / Microservices entries from Aplikacyjna+Systemowa added, plus Data Storage enrichment from Persystencja</li>
+      <li>Rows 1,2,4,5,9,12,13,14,15,16,19 fully resolved bidirectionally with correct final term text</li>
+      <li>Every entry passes rubric.md's 8-point checklist, Section 4 anti-transcription check verified per dna-mapa entry</li>
+      <li><code>npm run validate-glossary</code> exits with zero errors</li>
+    </ul></details>
+  </section>
+
+  <section data-group="5" class="group done card">
+    <div class="g-head">
+      <h3>Group 5 &middot; Batch 3b &mdash; dna-mapa.md (Rzwiązania + Infrastruktury) + Batch 3 close-out</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: <span class="dep-arrow">&larr;</span> Group 4</div>
+    <div class="chips"><code>data/glossary.json</code></div>
+    <ul class="steps">
+      <li data-step="5.1" class="step done">Curate Decyzje (ADR, Podejmowanie) + Wizualizacja (UML/BPMN/C4) &rarr; Software Architecture</li>
+      <li data-step="5.2" class="step done">Curate Przestrzeń rozwiązania (Event Storming, Bounded Contexts, Ubiquitous Language) + Przestrzeń problemu (Domena, Subdomeny, Big Picture Event Storming) &rarr; Software Architecture</li>
+      <li data-step="5.3" class="step done">Curate Chmura/Kontenery/Kubernetes/Service Mesh &rarr; Cloud Engineering enrichment</li>
+      <li data-step="5.4" class="step done">Curate Deployment Pipeline: Testowanie infrastruktury &rarr; Testing; Continuous Delivery/Monitorowanie &rarr; DevOps; Infrastructure as Code &rarr; DevOps</li>
+      <li data-step="5.5" class="step done">Apply cross-reference notes: complete row 6 (backfill Group 2's mesh/sidecar); author row 18 (Event Storming)</li>
+      <li data-step="5.6" class="step done">Run term-list diff covering remainder of dna-mapa.md</li>
+      <li data-step="5.7" class="step done">Self-review against rubric.md, Section 4 discipline mandatory</li>
+      <li data-step="5.8" class="step done">Run <code>npm run validate-glossary</code>, fix errors &mdash; closes out all 3 batches</li>
+    </ul>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>All Software Architecture entries from Rzwiązania added, plus Cloud Engineering/Testing/DevOps enrichment from Infrastruktury</li>
+      <li>Row 6 fully resolved (all 3 entries cross-reference correctly); row 18 fully resolved</li>
+      <li>Every entry passes rubric.md's 8-point checklist including Section 4 discipline</li>
+      <li><code>npm run validate-glossary</code> exits with zero errors</li>
+      <li>All 3 batches complete: ~109-128 new entries + all cross-reference edits to the 15 existing entries</li>
+    </ul></details>
+  </section>
+
+  <section data-group="6" class="group done card">
+    <div class="g-head">
+      <h3>Group 6 &middot; Final Cross-Reference Audit &amp; Stale-Doc Cleanup</h3>
+      <span class="g-badge"></span>
+    </div>
+    <div class="dep-row">Dependencies: <span class="dep-arrow">&larr;</span> Group 5 (all 3 batches complete)</div>
+    <div class="chips">
+      <code>data/glossary.json</code>
+      <code>content-pipeline/validate-glossary.test.ts</code>
+      <code>.maister/docs/project/vision.md</code>
+      <code>.maister/docs/project/roadmap.md</code>
+      <code>.maister/docs/project/tech-stack.md</code>
+      <code>.maister/docs/project/architecture.md</code>
+    </div>
+    <ul class="steps">
+      <li data-step="6.1" class="step done">Run final cross-reference audit: all 19 rows + 2 relocations + any diff-found extras, zero dangling references</li>
+      <li data-step="6.2" class="step done">Fix any dangling or mismatched references found</li>
+      <li data-step="6.3" class="step done">Compute final overall + per-category entry counts from completed <code>data/glossary.json</code></li>
+      <li data-step="6.4" class="step done">Update validate-glossary.test.ts:38 title string "12-value" &rarr; "14-value" (string only, no logic change)</li>
+      <li data-step="6.5" class="step done">Update 5 stale "159 entries" mentions (vision.md:29, roadmap.md:8+14, tech-stack.md:28, architecture.md:49)</li>
+      <li data-step="6.6" class="step done">Run <code>npm run validate-glossary</code> final gate; optionally <code>npm test</code></li>
+    </ul>
+    <details class="acc"><summary>Acceptance Criteria</summary><ul>
+      <li>Zero dangling "See also" references across the entire file</li>
+      <li><code>git diff --stat</code> shows only <code>data/glossary.json</code>, 4 narrative docs, and the single test-title line touched</li>
+      <li>All 5 stale-count mentions reflect the actual final count</li>
+      <li><code>npm run validate-glossary</code> passes with zero errors as the final gate</li>
+    </ul></details>
+  </section>
+</section>
+
+<section id="order">
+  <h2>Execution Order</h2>
+  <div class="flow">
+    <span class="n">1 &middot; Batch 1a (6)</span><span class="arrow">&rarr;</span>
+    <span class="n">2 &middot; Batch 1b (8)</span><span class="arrow">&rarr;</span>
+    <span class="n gate">checkpoint</span><span class="arrow">&rarr;</span>
+    <span class="n">3 &middot; Batch 2 (5)</span><span class="arrow">&rarr;</span>
+    <span class="n">4 &middot; Batch 3a (9)</span><span class="arrow">&rarr;</span>
+    <span class="n">5 &middot; Batch 3b (8)</span><span class="arrow">&rarr;</span>
+    <span class="n">6 &middot; Audit + cleanup (6)</span>
+  </div>
+  <p style="color:var(--dim); font-size:13px;">Strictly sequential &mdash; every group writes <code>data/glossary.json</code>, and the Cross-Reference Resolution Schedule requires each batch's entries to exist before later batches can complete their reciprocal notes. No group in this plan can run in parallel with another.</p>
+</section>
+
+<section id="standards">
+  <h2>Standards Compliance</h2>
+  <div class="card">
+    <p>Follow standards from <code>.maister/docs/standards/</code>:</p>
+    <ul>
+      <li><code>global/minimal-implementation.md</code> &mdash; no speculative tooling, scripts, or schema additions</li>
+      <li><code>global/coding-style.md</code> (DRY) &mdash; cross-reference mechanism reuses the existing plain-text-sentence convention</li>
+      <li><code>global/conventions.md</code> &mdash; doc updates batched into Group 6 per spec.md's explicit decision</li>
+      <li>No frontend/CSS/accessibility/responsive standards apply &mdash; no UI files touched</li>
+    </ul>
+  </div>
+</section>
+
+<h2>Notes</h2>
+<div class="card">
+  <ul>
+    <li><b>Content-Driven, Not Test-Driven</b>: each group's "tests" are <code>npm run validate-glossary</code> plus manual rubric.md self-review per entry &mdash; no new automated tests are in scope</li>
+    <li><b>Run Incrementally</b>: validate after every sub-group, not just once per full batch</li>
+    <li><b>Follow the Cross-Reference Resolution Schedule exactly</b>: writing a note before its target entry exists produces a dangling reference</li>
+    <li><b>Mark Progress</b>: check off steps as completed</li>
+    <li><b>Reuse First</b>: prompt-template.md, rubric.md, and validate-glossary.ts are reused completely unchanged across all 6 groups</li>
+  </ul>
+</div>
+
+</body>
+</html>

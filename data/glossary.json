@@ -461,9 +461,9 @@
   {
     "id": "api-development-richardson-maturity-model",
     "term": "Richardson Maturity Model (REST Maturity Levels)",
-    "description": "A four-level model (0-3) that measures how fully an API embraces REST principles, progressing from a single RPC-style endpoint to full use of resources, HTTP verbs, and hypermedia controls (HATEOAS).",
+    "description": "A four-level model (0-3) that measures how fully an API embraces REST principles, progressing from a single RPC-style endpoint to full use of resources, HTTP verbs, and hypermedia controls (HATEOAS). See also: 'Richardson Maturity Model (REST Maturity Levels)' in Microservices & Distributed Systems.",
     "translationPl": "Model dojrzałości Richardsona (poziomy REST)",
-    "descriptionPl": "Czteropoziomowy model (0-3) mierzący, w jakim stopniu API stosuje zasady REST, od pojedynczego endpointu w stylu RPC aż po pełne wykorzystanie zasobów, czasowników HTTP i mechanizmów hipermedialnych (HATEOAS).",
+    "descriptionPl": "Czteropoziomowy model (0-3) mierzący, w jakim stopniu API stosuje zasady REST, od pojedynczego endpointu w stylu RPC aż po pełne wykorzystanie zasobów, czasowników HTTP i mechanizmów hipermedialnych (HATEOAS). Zobacz też: „Model dojrzałości Richardsona (poziomy REST)” w kategorii Microservices & Distributed Systems.",
     "category": "API Development",
     "level": "Regular"
   },
@@ -479,9 +479,9 @@
   {
     "id": "api-development-kafka-protocol",
     "term": "Kafka Protocol",
-    "description": "The wire protocol behind Apache Kafka's distributed log, used by producers and consumers to publish and read ordered, partitioned streams of events at high throughput.",
+    "description": "The wire protocol behind Apache Kafka's distributed log, used by producers and consumers to publish and read ordered, partitioned streams of events at high throughput. See also: 'Kafka' in Cloud Engineering.",
     "translationPl": "Protokół Kafki",
-    "descriptionPl": "Protokół komunikacyjny stojący za rozproszonym logiem Apache Kafka, wykorzystywany przez producentów i konsumentów do publikowania i odczytywania uporządkowanych, podzielonych na partycje strumieni zdarzeń przy wysokiej przepustowości.",
+    "descriptionPl": "Protokół komunikacyjny stojący za rozproszonym logiem Apache Kafka, wykorzystywany przez producentów i konsumentów do publikowania i odczytywania uporządkowanych, podzielonych na partycje strumieni zdarzeń przy wysokiej przepustowości. Zobacz też: „Kafka” w kategorii Cloud Engineering.",
     "category": "API Development",
     "level": "Regular"
   },
@@ -524,9 +524,9 @@
   {
     "id": "api-development-gateway",
     "term": "API Gateway",
-    "description": "A single entry point that sits in front of one or more backend services to handle cross-cutting concerns like routing, authentication, rate limiting, and request/response transformation.",
+    "description": "A single entry point that sits in front of one or more backend services to handle cross-cutting concerns like routing, authentication, rate limiting, and request/response transformation. See also: 'API Gateway' in Microservices & Distributed Systems.",
     "translationPl": "API Gateway",
-    "descriptionPl": "Pojedynczy punkt wejścia stojący przed jedną lub wieloma usługami backendowymi, obsługujący kwestie przekrojowe takie jak routing, uwierzytelnianie, ograniczanie liczby żądań (rate limiting) oraz transformację żądań i odpowiedzi.",
+    "descriptionPl": "Pojedynczy punkt wejścia stojący przed jedną lub wieloma usługami backendowymi, obsługujący kwestie przekrojowe takie jak routing, uwierzytelnianie, ograniczanie liczby żądań (rate limiting) oraz transformację żądań i odpowiedzi. Zobacz też: „API Gateway” w kategorii Microservices & Distributed Systems.",
     "category": "API Development",
     "level": "Senior"
   },
@@ -929,9 +929,9 @@
   {
     "id": "software-engineering-cqrs",
     "term": "CQRS (Command Query Responsibility Segregation)",
-    "description": "An architectural pattern that separates the model used to write data (commands) from the model used to read it (queries), allowing each side to be optimized, scaled, or evolved independently.",
+    "description": "An architectural pattern that separates the model used to write data (commands) from the model used to read it (queries), allowing each side to be optimized, scaled, or evolved independently. See also: 'CQRS' in Microservices & Distributed Systems. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Architecture.",
     "translationPl": "CQRS (rozdzielenie odpowiedzialności komend i zapytań)",
-    "descriptionPl": "Wzorzec architektoniczny rozdzielający model używany do zapisu danych (komendy) od modelu używanego do ich odczytu (zapytania), co pozwala optymalizować, skalować i rozwijać obie strony niezależnie od siebie.",
+    "descriptionPl": "Wzorzec architektoniczny rozdzielający model używany do zapisu danych (komendy) od modelu używanego do ich odczytu (zapytania), co pozwala optymalizować, skalować i rozwijać obie strony niezależnie od siebie. Zobacz też: „CQRS” w kategorii Microservices & Distributed Systems. Zobacz też: „CQRS (rozdzielenie odpowiedzialności komend i zapytań)” w kategorii Software Architecture.",
     "category": "Software Engineering",
     "level": "Regular"
   },
@@ -947,18 +947,18 @@
   {
     "id": "software-engineering-event-storming",
     "term": "Event Storming",
-    "description": "A collaborative workshop technique where domain experts and engineers map a business process as a timeline of domain events on sticky notes, used to quickly surface a shared understanding of a complex domain.",
+    "description": "A collaborative workshop technique where domain experts and engineers map a business process as a timeline of domain events on sticky notes, used to quickly surface a shared understanding of a complex domain. See also: 'Process-Level Event Storming' and 'Big Picture Event Storming' in Software Architecture.",
     "translationPl": "Event Storming",
-    "descriptionPl": "Technika warsztatowa polegająca na wspólnym mapowaniu przez ekspertów dziedzinowych i inżynierów procesu biznesowego jako osi czasu zdarzeń domenowych na karteczkach, wykorzystywana do szybkiego wypracowania wspólnego zrozumienia złożonej domeny.",
+    "descriptionPl": "Technika warsztatowa polegająca na wspólnym mapowaniu przez ekspertów dziedzinowych i inżynierów procesu biznesowego jako osi czasu zdarzeń domenowych na karteczkach, wykorzystywana do szybkiego wypracowania wspólnego zrozumienia złożonej domeny. Zobacz też: „Process-Level Event Storming” oraz „Big Picture Event Storming” w kategorii Software Architecture.",
     "category": "Software Engineering",
     "level": "Regular"
   },
   {
     "id": "software-engineering-event-sourcing",
     "term": "Event Sourcing",
-    "description": "A persistence pattern where every state change is stored as an immutable event in an append-only log, and current state is derived by replaying those events, rather than only storing the latest snapshot.",
+    "description": "A persistence pattern where every state change is stored as an immutable event in an append-only log, and current state is derived by replaying those events, rather than only storing the latest snapshot. See also: 'Event Sourcing' in Microservices & Distributed Systems. See also: 'Event Sourcing' in Software Architecture.",
     "translationPl": "Event Sourcing",
-    "descriptionPl": "Wzorzec persystencji, w którym każda zmiana stanu jest zapisywana jako niemodyfikowalne zdarzenie w logu typu append-only, a aktualny stan jest odtwarzany poprzez odtworzenie tych zdarzeń, zamiast przechowywania wyłącznie najnowszego zrzutu stanu.",
+    "descriptionPl": "Wzorzec persystencji, w którym każda zmiana stanu jest zapisywana jako niemodyfikowalne zdarzenie w logu typu append-only, a aktualny stan jest odtwarzany poprzez odtworzenie tych zdarzeń, zamiast przechowywania wyłącznie najnowszego zrzutu stanu. Zobacz też: „Event Sourcing” w kategorii Microservices & Distributed Systems. Zobacz też: „Event Sourcing” w kategorii Software Architecture.",
     "category": "Software Engineering",
     "level": "Regular"
   },
@@ -974,27 +974,27 @@
   {
     "id": "software-engineering-integration-events",
     "term": "Integration Events",
-    "description": "Events published by one service to notify other, independently-owned services that something relevant happened, forming the backbone of asynchronous communication between bounded contexts in a distributed system.",
+    "description": "Events published by one service to notify other, independently-owned services that something relevant happened, forming the backbone of asynchronous communication between bounded contexts in a distributed system. See also: 'Integration Event Transport (After Commit / Store-and-Forward)' in Software Architecture.",
     "translationPl": "Zdarzenia integracyjne",
-    "descriptionPl": "Zdarzenia publikowane przez jedną usługę, aby poinformować inne, niezależnie zarządzane usługi, że wydarzyło się coś istotnego, stanowiące podstawę asynchronicznej komunikacji między kontekstami ograniczonymi w systemie rozproszonym.",
+    "descriptionPl": "Zdarzenia publikowane przez jedną usługę, aby poinformować inne, niezależnie zarządzane usługi, że wydarzyło się coś istotnego, stanowiące podstawę asynchronicznej komunikacji między kontekstami ograniczonymi w systemie rozproszonym. Zobacz też: „Transport zdarzeń integracyjnych (After Commit / Store-and-Forward)” w kategorii Software Architecture.",
     "category": "Software Engineering",
     "level": "Regular"
   },
   {
     "id": "software-engineering-microservices",
     "term": "Microservices Architecture",
-    "description": "An architectural style that structures an application as a set of small, independently deployable services, each owning a specific business capability and communicating over the network.",
+    "description": "An architectural style that structures an application as a set of small, independently deployable services, each owning a specific business capability and communicating over the network. See also: 'Microservices Architecture' in Microservices & Distributed Systems.",
     "translationPl": "Architektura mikroserwisów",
-    "descriptionPl": "Styl architektoniczny strukturyzujący aplikację jako zestaw małych, niezależnie wdrażanych usług, z których każda odpowiada za konkretną zdolność biznesową i komunikuje się z innymi przez sieć.",
+    "descriptionPl": "Styl architektoniczny strukturyzujący aplikację jako zestaw małych, niezależnie wdrażanych usług, z których każda odpowiada za konkretną zdolność biznesową i komunikuje się z innymi przez sieć. Zobacz też: „Architektura mikroserwisów” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Regular"
   },
   {
     "id": "software-engineering-monolith",
     "term": "Monolithic Architecture",
-    "description": "An architectural style where an entire application is built and deployed as a single unit, which simplifies development and deployment early on but can become harder to scale or change in isolation as it grows.",
+    "description": "An architectural style where an entire application is built and deployed as a single unit, which simplifies development and deployment early on but can become harder to scale or change in isolation as it grows. See also: 'Monolithic Architecture' in Microservices & Distributed Systems.",
     "translationPl": "Architektura monolityczna",
-    "descriptionPl": "Styl architektoniczny, w którym cała aplikacja jest budowana i wdrażana jako pojedyncza jednostka, co upraszcza wczesny rozwój i wdrażanie, ale wraz ze wzrostem aplikacji może utrudniać jej skalowanie lub zmienianie w izolacji.",
+    "descriptionPl": "Styl architektoniczny, w którym cała aplikacja jest budowana i wdrażana jako pojedyncza jednostka, co upraszcza wczesny rozwój i wdrażanie, ale wraz ze wzrostem aplikacji może utrudniać jej skalowanie lub zmienianie w izolacji. Zobacz też: „Architektura monolityczna” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Regular"
   },
@@ -1055,36 +1055,36 @@
   {
     "id": "software-engineering-transactional-outbox",
     "term": "Transactional Outbox Pattern",
-    "description": "A pattern that reliably publishes an event as part of the same local database transaction that changes state, by first writing the event to an 'outbox' table and having a separate process relay it to a message broker, avoiding lost or duplicated events.",
+    "description": "A pattern that reliably publishes an event as part of the same local database transaction that changes state, by first writing the event to an 'outbox' table and having a separate process relay it to a message broker, avoiding lost or duplicated events. See also: 'Transactional Log Tailing' in Microservices & Distributed Systems.",
     "translationPl": "Wzorzec Transactional Outbox",
-    "descriptionPl": "Wzorzec niezawodnie publikujący zdarzenie w ramach tej samej lokalnej transakcji bazodanowej, która zmienia stan — poprzez zapisanie zdarzenia najpierw do tabeli 'outbox', a następnie przekazanie go przez osobny proces do brokera wiadomości, co pozwala uniknąć utraty lub zdublowania zdarzeń.",
+    "descriptionPl": "Wzorzec niezawodnie publikujący zdarzenie w ramach tej samej lokalnej transakcji bazodanowej, która zmienia stan — poprzez zapisanie zdarzenia najpierw do tabeli 'outbox', a następnie przekazanie go przez osobny proces do brokera wiadomości, co pozwala uniknąć utraty lub zdublowania zdarzeń. Zobacz też: „Odczyt logu transakcyjnego (transactional log tailing)” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Senior"
   },
   {
     "id": "software-engineering-retry-pattern",
     "term": "Retry Pattern",
-    "description": "A resilience pattern that automatically re-attempts a failed operation (often with backoff and a limited number of tries), on the assumption that many failures in distributed systems are transient and will succeed on a later attempt.",
+    "description": "A resilience pattern that automatically re-attempts a failed operation (often with backoff and a limited number of tries), on the assumption that many failures in distributed systems are transient and will succeed on a later attempt. See also: 'Retry' in Microservices & Distributed Systems.",
     "translationPl": "Wzorzec Retry",
-    "descriptionPl": "Wzorzec odporności automatycznie ponawiający nieudaną operację (często z narastającym opóźnieniem i ograniczoną liczbą prób), przy założeniu, że wiele awarii w systemach rozproszonych ma charakter przejściowy i kolejna próba się powiedzie.",
+    "descriptionPl": "Wzorzec odporności automatycznie ponawiający nieudaną operację (często z narastającym opóźnieniem i ograniczoną liczbą prób), przy założeniu, że wiele awarii w systemach rozproszonych ma charakter przejściowy i kolejna próba się powiedzie. Zobacz też: „Retry” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Senior"
   },
   {
     "id": "software-engineering-circuit-breaker",
     "term": "Circuit Breaker Pattern",
-    "description": "A resilience pattern that stops calling a downstream dependency after it fails repeatedly, 'opening the circuit' to fail fast and give the dependency time to recover, instead of piling up more failing requests against it.",
+    "description": "A resilience pattern that stops calling a downstream dependency after it fails repeatedly, 'opening the circuit' to fail fast and give the dependency time to recover, instead of piling up more failing requests against it. See also: 'Circuit Breaker' in Microservices & Distributed Systems.",
     "translationPl": "Wzorzec Circuit Breaker",
-    "descriptionPl": "Wzorzec odporności, który przestaje wywoływać zależną usługę po jej wielokrotnej awarii, 'otwierając obwód', aby szybko zwracać błąd i dać zależności czas na odzyskanie sprawności, zamiast kierować do niej kolejne, skazane na porażkę żądania.",
+    "descriptionPl": "Wzorzec odporności, który przestaje wywoływać zależną usługę po jej wielokrotnej awarii, 'otwierając obwód', aby szybko zwracać błąd i dać zależności czas na odzyskanie sprawności, zamiast kierować do niej kolejne, skazane na porażkę żądania. Zobacz też: „Circuit Breaker (przełącznik obwodu)” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Senior"
   },
   {
     "id": "software-engineering-domain-events",
     "term": "Domain Events",
-    "description": "Events that represent something meaningful that happened within a single bounded context's domain model, used internally to decouple side effects from the code that triggered them, distinct from integration events sent across service boundaries.",
+    "description": "Events that represent something meaningful that happened within a single bounded context's domain model, used internally to decouple side effects from the code that triggered them, distinct from integration events sent across service boundaries. See also: 'Domain Events' in Software Architecture.",
     "translationPl": "Zdarzenia domenowe",
-    "descriptionPl": "Zdarzenia reprezentujące coś istotnego, co wydarzyło się w modelu domenowym pojedynczego kontekstu ograniczonego, wykorzystywane wewnętrznie do odseparowania efektów ubocznych od kodu, który je wywołał, w odróżnieniu od zdarzeń integracyjnych wysyłanych poza granice usługi.",
+    "descriptionPl": "Zdarzenia reprezentujące coś istotnego, co wydarzyło się w modelu domenowym pojedynczego kontekstu ograniczonego, wykorzystywane wewnętrznie do odseparowania efektów ubocznych od kodu, który je wywołał, w odróżnieniu od zdarzeń integracyjnych wysyłanych poza granice usługi. Zobacz też: „Zdarzenia domenowe” w kategorii Software Architecture.",
     "category": "Software Engineering",
     "level": "Senior"
   },
@@ -1136,9 +1136,9 @@
   {
     "id": "software-engineering-saga-pattern",
     "term": "Saga Pattern",
-    "description": "A pattern for managing a long-running business transaction that spans multiple services, by breaking it into a sequence of local transactions each with a corresponding compensating action to undo it if a later step fails.",
+    "description": "A pattern for managing a long-running business transaction that spans multiple services, by breaking it into a sequence of local transactions each with a corresponding compensating action to undo it if a later step fails. See also: 'Saga' in Microservices & Distributed Systems.",
     "translationPl": "Wzorzec Saga",
-    "descriptionPl": "Wzorzec zarządzania długotrwałą transakcją biznesową rozciągniętą na wiele usług, poprzez podzielenie jej na sekwencję lokalnych transakcji, z których każda ma odpowiadającą jej akcję kompensującą cofającą zmiany, jeśli kolejny krok się nie powiedzie.",
+    "descriptionPl": "Wzorzec zarządzania długotrwałą transakcją biznesową rozciągniętą na wiele usług, poprzez podzielenie jej na sekwencję lokalnych transakcji, z których każda ma odpowiadającą jej akcję kompensującą cofającą zmiany, jeśli kolejny krok się nie powiedzie. Zobacz też: „Saga” w kategorii Microservices & Distributed Systems.",
     "category": "Software Engineering",
     "level": "Senior"
   },
@@ -1208,9 +1208,9 @@
   {
     "id": "spring-jee-externalized-configuration",
     "term": "Externalized Configuration (@Value / application.properties)",
-    "description": "Keeping configuration values (URLs, credentials, feature flags) outside the compiled code in files like `application.properties`/`.yml`, and injecting them into beans with `@Value` or `@ConfigurationProperties` so behavior can change per environment without a rebuild.",
+    "description": "Keeping configuration values (URLs, credentials, feature flags) outside the compiled code in files like `application.properties`/`.yml`, and injecting them into beans with `@Value` or `@ConfigurationProperties` so behavior can change per environment without a rebuild. See also: 'Externalized Configuration' in Microservices & Distributed Systems.",
     "translationPl": "Konfiguracja zewnętrzna (@Value / application.properties)",
-    "descriptionPl": "Przechowywanie wartości konfiguracyjnych (adresów URL, poświadczeń, flag funkcji) poza skompilowanym kodem, w plikach takich jak `application.properties`/`.yml`, i wstrzykiwanie ich do beanów za pomocą `@Value` lub `@ConfigurationProperties`, dzięki czemu zachowanie aplikacji można zmieniać per środowisko bez ponownej kompilacji.",
+    "descriptionPl": "Przechowywanie wartości konfiguracyjnych (adresów URL, poświadczeń, flag funkcji) poza skompilowanym kodem, w plikach takich jak `application.properties`/`.yml`, i wstrzykiwanie ich do beanów za pomocą `@Value` lub `@ConfigurationProperties`, dzięki czemu zachowanie aplikacji można zmieniać per środowisko bez ponownej kompilacji. Zobacz też: „Konfiguracja zewnętrzna” w kategorii Microservices & Distributed Systems.",
     "category": "Spring/JEE",
     "level": "Regular"
   },
@@ -1415,9 +1415,9 @@
   {
     "id": "testing-contract-testing",
     "term": "Consumer-Driven Contract Testing (CDC/Pact)",
-    "description": "A testing approach where a service consumer defines the exact request/response contract it expects, and the provider is tested against that same contract (e.g. with Pact), catching breaking API changes without needing full end-to-end integration tests.",
+    "description": "A testing approach where a service consumer defines the exact request/response contract it expects, and the provider is tested against that same contract (e.g. with Pact), catching breaking API changes without needing full end-to-end integration tests. See also: 'Consumer-Driven Contract Test' and 'Consumer-Side Contract Test' in Microservices & Distributed Systems.",
     "translationPl": "Testy kontraktowe sterowane przez konsumenta (CDC/Pact)",
-    "descriptionPl": "Podejście testowe, w którym konsument usługi definiuje dokładny kontrakt żądania/odpowiedzi, jakiego oczekuje, a dostawca usługi jest testowany względem tego samego kontraktu (np. za pomocą Pact), co pozwala wychwycić przełamujące zgodność zmiany w API bez potrzeby pełnych testów end-to-end.",
+    "descriptionPl": "Podejście testowe, w którym konsument usługi definiuje dokładny kontrakt żądania/odpowiedzi, jakiego oczekuje, a dostawca usługi jest testowany względem tego samego kontraktu (np. za pomocą Pact), co pozwala wychwycić przełamujące zgodność zmiany w API bez potrzeby pełnych testów end-to-end. Zobacz też: „Test kontraktowy sterowany przez konsumenta” i „Test kontraktowy po stronie konsumenta” w kategorii Microservices & Distributed Systems.",
     "category": "Testing",
     "level": "Senior"
   },
@@ -1428,6 +1428,1203 @@
     "translationPl": "Testy End-to-End (E2E)",
     "descriptionPl": "Testowanie całego przepływu aplikacji przez jej rzeczywisty, zbliżony do produkcyjnego stos (UI, backend, baza danych), dokładnie tak, jak doświadczyłby go użytkownik, weryfikujące poprawną współpracę wszystkich zintegrowanych elementów.",
     "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-decompose-by-business-capability",
+    "term": "Decompose by Business Capability",
+    "description": "A service decomposition strategy that defines service boundaries around what the business does (e.g. order management, billing, shipping) rather than around technical layers, so each service owns a capability end-to-end.",
+    "translationPl": "Dekompozycja według możliwości biznesowych",
+    "descriptionPl": "Strategia podziału na usługi, w której granice usług wyznacza się na podstawie tego, co robi biznes (np. zarządzanie zamówieniami, fakturowanie, wysyłka), a nie warstw technicznych, dzięki czemu każda usługa odpowiada za całą daną zdolność biznesową.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-decompose-by-subdomain",
+    "term": "Decompose by Subdomain",
+    "description": "A service decomposition strategy, rooted in Domain-Driven Design, that derives service boundaries from the subdomains and bounded contexts of the business domain model, keeping each service aligned with a single, cohesive area of domain logic. See also: 'Bounded Context' and 'Subdomain' in Software Architecture.",
+    "translationPl": "Dekompozycja według poddomen",
+    "descriptionPl": "Strategia podziału na usługi wywodząca się z Domain-Driven Design, w której granice usług wyznacza się na podstawie poddomen i kontekstów ograniczonych (bounded context) modelu domenowego biznesu, tak aby każda usługa odpowiadała jednemu, spójnemu obszarowi logiki domenowej. Zobacz też: „Bounded Context” oraz „Poddomena” w kategorii Software Architecture.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-self-contained-service",
+    "term": "Self-Contained Service",
+    "description": "A service designed to handle a synchronous request using only its own local data, without making blocking calls to other services, so it can respond even when its collaborators are slow or unavailable.",
+    "translationPl": "Usługa samowystarczalna",
+    "descriptionPl": "Usługa zaprojektowana tak, aby obsłużyć żądanie synchroniczne wyłącznie na podstawie własnych, lokalnych danych, bez wykonywania blokujących wywołań do innych usług, dzięki czemu może odpowiedzieć nawet gdy usługi z nią współpracujące są wolne lub niedostępne.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-per-team",
+    "term": "Service per Team",
+    "description": "An organizational pattern where each service is owned end-to-end by a single team, aligning system architecture with team boundaries (Conway's Law) so teams can develop, test, and deploy their service independently. See also: 'Bounded Context' in Software Architecture.",
+    "translationPl": "Usługa przypisana do zespołu",
+    "descriptionPl": "Wzorzec organizacyjny, w którym każda usługa jest w pełni własnością jednego zespołu, dopasowujący architekturę systemu do granic zespołów (zgodnie z prawem Conwaya), dzięki czemu zespoły mogą niezależnie rozwijać, testować i wdrażać swoją usługę. Zobacz też: „Bounded Context” w kategorii Software Architecture.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-saga",
+    "term": "Saga",
+    "description": "A pattern for coordinating a business transaction that spans multiple services by executing it as a sequence of local transactions, where each step publishes an event or message that triggers the next, and a failed step is undone by running compensating transactions for the steps already completed. See also: 'Saga Pattern' in Software Engineering.",
+    "translationPl": "Saga",
+    "descriptionPl": "Wzorzec koordynacji transakcji biznesowej rozciągniętej na wiele usług, polegający na wykonaniu jej jako sekwencji lokalnych transakcji, gdzie każdy krok publikuje zdarzenie lub komunikat uruchamiający kolejny krok, a nieudany krok jest cofany poprzez wykonanie transakcji kompensujących dla już zakończonych kroków. Zobacz też: „Wzorzec Saga” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-event-sourcing",
+    "term": "Event Sourcing",
+    "description": "Persisting a service's state as an ordered, append-only sequence of domain events rather than as current-state rows, so the service's current state is derived by replaying its own event log — which also yields a full audit trail and lets new read models be rebuilt from history at any time. See also: 'Event Sourcing' in Software Engineering. See also: 'Event Sourcing' in Software Architecture.",
+    "translationPl": "Event Sourcing",
+    "descriptionPl": "Utrwalanie stanu usługi jako uporządkowanej, dopisywanej sekwencji zdarzeń domenowych zamiast wierszy z bieżącym stanem, dzięki czemu aktualny stan usługi wynika z odtworzenia jej własnego dziennika zdarzeń — co dodatkowo daje pełny ślad audytowy i pozwala w dowolnym momencie odbudować nowe modele odczytu na podstawie historii. Zobacz też: „Event Sourcing” w kategorii Software Engineering. Zobacz też: „Event Sourcing” w kategorii Software Architecture.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-cqrs",
+    "term": "CQRS",
+    "description": "Maintaining separate models for writing data (commands) and reading it (queries) so each can use its own schema, storage technology, and scaling strategy; in microservices it typically means a service's write side publishes events that asynchronously update one or more read-optimized query stores or materialized views. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Engineering. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Architecture.",
+    "translationPl": "CQRS",
+    "descriptionPl": "Utrzymywanie osobnych modeli do zapisu danych (komendy) i ich odczytu (zapytania), tak aby każda strona mogła mieć własny schemat, technologię przechowywania i strategię skalowania; w mikroserwisach oznacza to zwykle, że strona zapisu usługi publikuje zdarzenia, które asynchronicznie aktualizują jeden lub więcej zoptymalizowanych pod kątem odczytu magazynów zapytań lub widoków materializowanych. Zobacz też: „CQRS (rozdzielenie odpowiedzialności komend i zapytań)” w kategorii Software Engineering. Zobacz też: „CQRS (rozdzielenie odpowiedzialności komend i zapytań)” w kategorii Software Architecture.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-aggregate",
+    "term": "Aggregate",
+    "description": "A Domain-Driven Design building block: a cluster of related domain objects (entities and value objects) treated as a single consistency boundary, with one designated root entity through which all external access and modification must go. See also: 'Aggregate' in Software Architecture.",
+    "translationPl": "Agregat",
+    "descriptionPl": "Element budulcowy Domain-Driven Design: klaster powiązanych obiektów domenowych (encji i obiektów wartości) traktowany jako jedna granica spójności, z jedną wyznaczoną encją-korzeniem (aggregate root), przez którą musi przechodzić cały zewnętrzny dostęp i modyfikacja. Zobacz też: „Agregat” w kategorii Software Architecture.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-shared-database",
+    "term": "Shared Database",
+    "description": "A data architecture where multiple services read from and write to the same physical database, which simplifies querying across services but tightly couples them at the schema level and undermines independent deployability — generally considered an anti-pattern for microservices.",
+    "translationPl": "Współdzielona baza danych",
+    "descriptionPl": "Architektura danych, w której wiele usług odczytuje i zapisuje dane w tej samej fizycznej bazie danych, co upraszcza zapytania między usługami, ale mocno sprzęga je na poziomie schematu i podważa ich niezależną wdrażalność — zwykle uznawana za antywzorzec w mikroserwisach.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-database-per-service",
+    "term": "Database per Service",
+    "description": "A data architecture where each service owns a private database that only it can access directly, so services stay loosely coupled and free to choose their own schema and storage technology, at the cost of needing patterns like Saga or API Composition to work with data that spans services.",
+    "translationPl": "Baza danych na usługę",
+    "descriptionPl": "Architektura danych, w której każda usługa posiada prywatną bazę danych dostępną wyłącznie dla niej bezpośrednio, dzięki czemu usługi pozostają luźno powiązane i mogą swobodnie dobierać własny schemat oraz technologię przechowywania danych, kosztem konieczności stosowania wzorców takich jak Saga czy API Composition przy pracy z danymi rozproszonymi między usługami.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-api-composition",
+    "term": "API Composition",
+    "description": "A querying pattern for retrieving data that is scattered across multiple services by having a composer (an API Gateway or dedicated service) call each owning service and combine their responses in-memory into a single result for the client.",
+    "translationPl": "Kompozycja API",
+    "descriptionPl": "Wzorzec zapytań służący do pobierania danych rozproszonych między wieloma usługami, w którym komponent kompozytora (API Gateway lub dedykowana usługa) wywołuje każdą z usług posiadających dane i łączy ich odpowiedzi w pamięci w jeden wynik zwracany klientowi.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-consumer-driven-contract-test",
+    "term": "Consumer-Driven Contract Test",
+    "description": "An automated test, run in the provider's own build pipeline, that verifies the provider still satisfies the contracts published by each of its known consumers, so a breaking change is caught before deployment instead of after it reaches production. See also: 'Consumer-Driven Contract Testing (CDC/Pact)' in Testing.",
+    "translationPl": "Test kontraktowy sterowany przez konsumenta",
+    "descriptionPl": "Automatyczny test, uruchamiany w potoku budowania dostawcy usługi, który weryfikuje, czy dostawca nadal spełnia kontrakty opublikowane przez każdego ze znanych mu konsumentów, dzięki czemu przełamująca zmiana zostaje wykryta przed wdrożeniem, a nie dopiero na produkcji. Zobacz też: „Testy kontraktowe sterowane przez konsumenta (CDC/Pact)” w kategorii Testing.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-consumer-side-contract-test",
+    "term": "Consumer-Side Contract Test",
+    "description": "A test written by the consuming team that exercises its own client code against a mock or stub of the remote service, verifying the consumer builds valid requests and correctly handles the responses, without needing the real provider to be running. See also: 'Consumer-Driven Contract Testing (CDC/Pact)' in Testing.",
+    "translationPl": "Test kontraktowy po stronie konsumenta",
+    "descriptionPl": "Test pisany przez zespół konsumenta, który uruchamia jego własny kod kliencki względem atrapy (mocka/stuba) zdalnej usługi, weryfikując, czy konsument poprawnie buduje żądania i obsługuje odpowiedzi, bez potrzeby uruchamiania rzeczywistego dostawcy usługi. Zobacz też: „Testy kontraktowe sterowane przez konsumenta (CDC/Pact)” w kategorii Testing.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-component-test",
+    "term": "Service Component Test",
+    "description": "A test that exercises one service in isolation through its public API, with its own real business logic but with external collaborators (other services, message brokers) replaced by stubs, verifying the service behaves correctly on its own before it's tested integrated with the rest of the system.",
+    "translationPl": "Test komponentowy usługi",
+    "descriptionPl": "Test uruchamiający jedną usługę w izolacji poprzez jej publiczne API, z rzeczywistą logiką biznesową, ale z zewnętrznymi współpracownikami (innymi usługami, brokerami komunikatów) zastąpionymi atrapami, weryfikujący poprawne działanie usługi samodzielnie, zanim zostanie przetestowana w integracji z resztą systemu.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-server-side-page-fragment-composition",
+    "term": "Server-Side Page Fragment Composition",
+    "description": "A UI integration pattern where a server (e.g. an edge server or gateway) assembles a single web page by fetching and stitching together HTML fragments rendered by different backend services, so each team can own the markup for its own part of the page.",
+    "translationPl": "Kompozycja fragmentów strony po stronie serwera",
+    "descriptionPl": "Wzorzec integracji UI, w którym serwer (np. serwer brzegowy lub gateway) składa pojedynczą stronę internetową, pobierając i łącząc fragmenty HTML renderowane przez różne usługi backendowe, dzięki czemu każdy zespół może odpowiadać za znaczniki swojej części strony.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-client-side-ui-composition",
+    "term": "Client-Side UI Composition",
+    "description": "A UI integration pattern where the browser assembles the page at runtime by loading independently-deployed UI fragments (e.g. micro-frontends or widgets) from different services and composing them client-side, rather than a server pre-assembling the full page.",
+    "translationPl": "Kompozycja UI po stronie klienta",
+    "descriptionPl": "Wzorzec integracji UI, w którym przeglądarka składa stronę w czasie działania, ładując niezależnie wdrażane fragmenty interfejsu (np. mikrofrontendy lub widżety) z różnych usług i łącząc je po stronie klienta, zamiast polegać na serwerze wstępnie składającym całą stronę.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-audit-logging",
+    "term": "Audit Logging",
+    "description": "Recording who did what, to which resource, and when, in a durable and tamper-resistant log, so that user and system actions can later be reconstructed for compliance, security investigations, or dispute resolution.",
+    "translationPl": "Logowanie audytowe",
+    "descriptionPl": "Zapisywanie informacji o tym, kto, co i kiedy zrobił na danym zasobie, w trwałym i odpornym na manipulacje dzienniku, tak aby działania użytkowników i systemu można było później odtworzyć na potrzeby zgodności, dochodzeń bezpieczeństwa lub rozstrzygania sporów.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-application-metrics",
+    "term": "Application Metrics",
+    "description": "Numeric measurements (request rates, latencies, error counts, resource usage) that a service emits at runtime and that are collected by a monitoring system, giving operators a real-time, aggregate view of application health and performance.",
+    "translationPl": "Metryki aplikacji",
+    "descriptionPl": "Liczbowe pomiary (liczba żądań, opóźnienia, liczba błędów, zużycie zasobów), które usługa emituje w czasie działania i które są zbierane przez system monitoringu, dając operatorom bieżący, zagregowany wgląd w kondycję i wydajność aplikacji.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-distributed-tracing",
+    "term": "Distributed Tracing",
+    "description": "A technique for following a single request as it flows across multiple services, by propagating a shared trace/correlation ID and recording timed spans at each hop, so the full path and latency breakdown of a request can be visualized end-to-end.",
+    "translationPl": "Śledzenie rozproszone (distributed tracing)",
+    "descriptionPl": "Technika śledzenia pojedynczego żądania w miarę jego przepływu przez wiele usług, poprzez propagowanie wspólnego identyfikatora śladu/korelacji i rejestrowanie mierzonych czasowo odcinków (spanów) na każdym etapie, dzięki czemu pełną ścieżkę i rozkład opóźnień żądania można zobrazować od początku do końca.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-health-check-api",
+    "term": "Health Check API",
+    "description": "An endpoint a service exposes that reports its own readiness and liveness (and often the status of its critical dependencies), letting load balancers, orchestrators, and monitoring tools automatically detect and route around unhealthy instances.",
+    "translationPl": "API sprawdzania stanu (health check)",
+    "descriptionPl": "Endpoint udostępniany przez usługę, który raportuje jej gotowość i żywotność (a często także stan krytycznych zależności), pozwalając load balancerom, orkiestratorom i narzędziom monitorującym automatycznie wykrywać niesprawne instancje i omijać je w ruchu.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-exception-tracking",
+    "term": "Exception Tracking",
+    "description": "Automatically capturing unhandled errors and exceptions from running services — with stack traces, context, and frequency — and reporting them to a central tool (e.g. Sentry), so failures surface immediately instead of being buried in scattered log files.",
+    "translationPl": "Śledzenie wyjątków",
+    "descriptionPl": "Automatyczne przechwytywanie nieobsłużonych błędów i wyjątków z działających usług — wraz ze stack trace'ami, kontekstem i częstotliwością — i raportowanie ich do centralnego narzędzia (np. Sentry), dzięki czemu awarie są widoczne od razu, zamiast ginąć w rozproszonych plikach logów.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-log-aggregation",
+    "term": "Log Aggregation",
+    "description": "Collecting log output from many service instances and shipping it into one centralized, searchable store (e.g. the ELK/EFK stack), so engineers can search and correlate logs across an entire distributed system instead of SSH-ing into individual hosts.",
+    "translationPl": "Agregacja logów",
+    "descriptionPl": "Zbieranie logów z wielu instancji usług i przesyłanie ich do jednego, scentralizowanego i przeszukiwalnego magazynu (np. stosu ELK/EFK), dzięki czemu inżynierowie mogą przeszukiwać i korelować logi z całego rozproszonego systemu zamiast łączyć się po SSH do pojedynczych maszyn.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-log-deployments-and-changes",
+    "term": "Log Deployments and Changes",
+    "description": "Recording every deployment and configuration change as a timestamped event alongside application logs and metrics, so that a sudden shift in behavior can quickly be correlated with 'what changed' rather than investigated blind.",
+    "translationPl": "Rejestrowanie wdrożeń i zmian",
+    "descriptionPl": "Rejestrowanie każdego wdrożenia i zmiany konfiguracji jako zdarzenia z sygnaturą czasową obok logów aplikacji i metryk, dzięki czemu nagłą zmianę zachowania systemu można szybko skorelować z tym, „co się zmieniło”, zamiast prowadzić dochodzenie po omacku.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-template",
+    "term": "Service Template",
+    "description": "A starter project or code generator that bakes in an organization's standard choices for logging, configuration, health checks, packaging, and CI/CD, so a team creating a new service starts from a consistent, production-ready baseline instead of from scratch.",
+    "translationPl": "Szablon usługi",
+    "descriptionPl": "Projekt startowy lub generator kodu, który zawiera standardowe dla organizacji ustawienia logowania, konfiguracji, health checków, pakowania i CI/CD, dzięki czemu zespół tworzący nową usługę zaczyna od spójnego, gotowego do produkcji punktu wyjścia zamiast od zera.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-microservice-chassis",
+    "term": "Microservice Chassis",
+    "description": "A shared framework or library base that bundles the cross-cutting concerns every service needs (configuration, health checks, metrics, tracing, service discovery) into a common foundation, so individual services only add their own business logic on top.",
+    "translationPl": "Microservice chassis (szkielet usługi)",
+    "descriptionPl": "Współdzielony framework lub biblioteka bazowa, łącząca w sobie kwestie przekrojowe potrzebne każdej usłudze (konfigurację, health checki, metryki, tracing, discovery usług) we wspólnym fundamencie, dzięki czemu poszczególne usługi dodają na wierzchu jedynie własną logikę biznesową.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-externalized-configuration",
+    "term": "Externalized Configuration",
+    "description": "Storing environment-specific settings (URLs, credentials, feature flags, timeouts) outside a service's deployable artifact — in environment variables or a config server — so the same build can be promoted across environments and configuration can change without a rebuild or redeploy. See also: 'Externalized Configuration (@Value / application.properties)' in Spring/JEE.",
+    "translationPl": "Konfiguracja zewnętrzna",
+    "descriptionPl": "Przechowywanie ustawień specyficznych dla środowiska (adresów URL, poświadczeń, flag funkcji, limitów czasu) poza wdrażanym artefaktem usługi — w zmiennych środowiskowych lub serwerze konfiguracji — dzięki czemu ten sam build można promować między środowiskami, a konfigurację zmieniać bez ponownej kompilacji czy wdrożenia. Zobacz też: „Konfiguracja zewnętrzna (@Value / application.properties)” w kategorii Spring/JEE.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-access-token",
+    "term": "Access Token",
+    "description": "A short-lived, opaque or signed credential issued to a client after successful authentication, which the client attaches to subsequent API requests to prove its identity and authorization without resending the user's actual login credentials each time.",
+    "translationPl": "Token dostępu (access token)",
+    "descriptionPl": "Krótkotrwałe, nieprzejrzyste lub podpisane poświadczenie wydawane klientowi po udanym uwierzytelnieniu, które klient dołącza do kolejnych żądań API, aby potwierdzić swoją tożsamość i uprawnienia bez ponownego przesyłania rzeczywistych danych logowania użytkownika za każdym razem.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-transactional-messaging",
+    "term": "Transactional Messaging",
+    "description": "The general challenge and pattern family for reliably coordinating a service's local database update with the publication of a corresponding message or event, ensuring the two occur as a single atomic unit of work even though the database and the message broker cannot participate in one shared distributed transaction.",
+    "translationPl": "Komunikacja transakcyjna",
+    "descriptionPl": "Ogólny problem i rodzina wzorców służących do niezawodnego skoordynowania lokalnej zmiany w bazie danych usługi z publikacją odpowiadającego jej komunikatu lub zdarzenia, tak aby obie operacje zachodziły jako jedna atomowa jednostka pracy, mimo że baza danych i broker komunikatów nie mogą uczestniczyć we wspólnej transakcji rozproszonej.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-transactional-log-tailing",
+    "term": "Transactional Log Tailing",
+    "description": "A technique for reliably publishing state changes as messages by reading them directly from the database's own transaction (commit) log — often via a change-data-capture tool — rather than having application code explicitly write to a separate outbox table. See also: 'Transactional Outbox Pattern' in Software Engineering.",
+    "translationPl": "Odczyt logu transakcyjnego (transactional log tailing)",
+    "descriptionPl": "Technika niezawodnego publikowania zmian stanu jako komunikatów poprzez odczyt ich bezpośrednio z logu transakcyjnego (commit log) bazy danych — często za pomocą narzędzia do przechwytywania zmian danych (change data capture) — zamiast jawnego zapisywania ich przez kod aplikacji do osobnej tabeli outbox. Zobacz też: „Wzorzec Transactional Outbox” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-polling-publisher",
+    "term": "Polling Publisher",
+    "description": "A technique for reliably publishing state-change messages in which a separate process periodically polls a database table of pending outbound events, sends each new row to the message broker, and marks or deletes it once delivery succeeds.",
+    "translationPl": "Publisher odpytujący (polling publisher)",
+    "descriptionPl": "Technika niezawodnego publikowania komunikatów o zmianach stanu, w której osobny proces okresowo odpytuje tabelę bazodanową z oczekującymi zdarzeniami wychodzącymi, wysyła każdy nowy wiersz do brokera komunikatów, a następnie oznacza go lub usuwa po skutecznym doręczeniu.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-messaging",
+    "term": "Messaging",
+    "description": "An asynchronous inter-service communication style in which services exchange data by sending messages through a broker or queue rather than calling each other directly, decoupling sender and receiver in time so the receiver can be temporarily unavailable without the sender's call failing.",
+    "translationPl": "Komunikacja komunikatowa (messaging)",
+    "descriptionPl": "Asynchroniczny styl komunikacji między usługami, w którym usługi wymieniają dane, wysyłając komunikaty przez brokera lub kolejkę, zamiast wywoływać się bezpośrednio, co oddziela nadawcę od odbiorcy w czasie i pozwala odbiorcy być chwilowo niedostępnym bez powodowania błędu po stronie nadawcy.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-remote-procedure-invocation",
+    "term": "Remote Procedure Invocation",
+    "description": "A synchronous inter-service communication style in which a client invokes an operation on a remote service as if it were a local method call — typically over REST or gRPC — and blocks waiting for the response, coupling the client's availability to the callee's.",
+    "translationPl": "Zdalne wywoływanie procedur (remote procedure invocation)",
+    "descriptionPl": "Synchroniczny styl komunikacji między usługami, w którym klient wywołuje operację na usłudze zdalnej tak, jakby była lokalnym wywołaniem metody — zwykle przez REST lub gRPC — i blokuje się w oczekiwaniu na odpowiedź, przez co dostępność klienta zależy od dostępności wywoływanej usługi.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-domain-specific-protocol",
+    "term": "Domain-Specific Protocol",
+    "description": "An inter-service communication style built on a protocol purpose-made for a particular kind of data or industry — such as a media-streaming protocol or a financial messaging standard like FIX — trading broad interoperability for a wire format optimized to that domain's own semantics.",
+    "translationPl": "Protokół specyficzny dla dziedziny (domain-specific protocol)",
+    "descriptionPl": "Styl komunikacji między usługami oparty na protokole zaprojektowanym specjalnie pod konkretny rodzaj danych lub branżę — na przykład protokole strumieniowania multimediów lub standardzie komunikatów finansowych takim jak FIX — kosztem szerokiej interoperacyjności zyskujący format danych dopasowany do semantyki danej dziedziny.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-circuit-breaker",
+    "term": "Circuit Breaker",
+    "description": "A proxy placed around a call to another service that tracks recent failures and, once a threshold is crossed, trips to reject further calls immediately instead of letting them run until they time out, preventing one failing service from cascading latency and resource exhaustion across the rest of the call chain. See also: 'Circuit Breaker Pattern' in Software Engineering.",
+    "translationPl": "Circuit Breaker (przełącznik obwodu)",
+    "descriptionPl": "Proxy umieszczone wokół wywołania innej usługi, które śledzi ostatnie błędy i po przekroczeniu ustalonego progu „otwiera się”, natychmiast odrzucając kolejne wywołania zamiast pozwalać im się kończyć przekroczeniem czasu, co zapobiega kaskadowemu rozprzestrzenianiu się opóźnień i wyczerpania zasobów na resztę łańcucha wywołań. Zobacz też: „Wzorzec Circuit Breaker” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-client-side-discovery",
+    "term": "Client-Side Discovery",
+    "description": "A service-discovery pattern in which the client itself queries a service registry to obtain the current list of available instances of the service it wants to call, then applies its own load-balancing logic to pick one and invoke it directly.",
+    "translationPl": "Odkrywanie usług po stronie klienta (client-side discovery)",
+    "descriptionPl": "Wzorzec odkrywania usług, w którym klient samodzielnie odpytuje rejestr usług o aktualną listę dostępnych instancji usługi, którą chce wywołać, a następnie stosuje własną logikę równoważenia obciążenia, aby wybrać jedną z nich i wywołać ją bezpośrednio.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-self-registration",
+    "term": "Self-Registration",
+    "description": "A service-registration pattern in which each service instance is itself responsible for registering with the service registry on startup and deregistering (or sending periodic heartbeats) on shutdown, without relying on any external component to track its availability.",
+    "translationPl": "Samorejestracja usługi (self-registration)",
+    "descriptionPl": "Wzorzec rejestracji usług, w którym każda instancja usługi samodzielnie odpowiada za zarejestrowanie się w rejestrze usług przy starcie oraz wyrejestrowanie się (lub wysyłanie okresowych sygnałów heartbeat) przy zatrzymaniu, bez polegania na żadnym zewnętrznym komponencie śledzącym jej dostępność.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-registry",
+    "term": "Service Registry",
+    "description": "A database of the network locations of currently available service instances, supporting registration, deregistration, and health-aware lookup queries so that discovery patterns can route requests only to instances known to be running.",
+    "translationPl": "Rejestr usług (service registry)",
+    "descriptionPl": "Baza danych zawierająca lokalizacje sieciowe aktualnie dostępnych instancji usług, obsługująca rejestrację, wyrejestrowanie oraz zapytania wyszukujące uwzględniające stan zdrowia instancji, dzięki czemu wzorce odkrywania usług mogą kierować żądania wyłącznie do instancji, o których wiadomo, że działają.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-server-side-discovery",
+    "term": "Server-Side Discovery",
+    "description": "A service-discovery pattern in which the client sends its request to a well-known router or load balancer, which itself queries the service registry and forwards the request to an available instance — keeping all discovery logic out of the client entirely.",
+    "translationPl": "Odkrywanie usług po stronie serwera (server-side discovery)",
+    "descriptionPl": "Wzorzec odkrywania usług, w którym klient wysyła żądanie do znanego mu z góry routera lub load balancera, który sam odpytuje rejestr usług i przekazuje żądanie do dostępnej instancji — dzięki czemu cała logika odkrywania pozostaje całkowicie poza klientem.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-third-party-registration",
+    "term": "Third-Party Registration",
+    "description": "A service-registration pattern in which a separate registrar component — rather than the service instance itself — watches the deployment environment and handles registering and deregistering instances with the service registry as they come up and go down.",
+    "translationPl": "Rejestracja przez stronę trzecią (third-party registration)",
+    "descriptionPl": "Wzorzec rejestracji usług, w którym osobny komponent rejestrujący — a nie sama instancja usługi — obserwuje środowisko wdrożeniowe i odpowiada za rejestrowanie oraz wyrejestrowywanie instancji w rejestrze usług w miarę ich uruchamiania i zatrzymywania.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-api-gateway",
+    "term": "API Gateway",
+    "description": "In a microservices architecture, a single entry point that shields external clients from the system's internal service topology by routing each request to the right backend service (or composing several) and hiding decomposition details the client shouldn't need to know about. See also: 'API Gateway' in API Development.",
+    "translationPl": "API Gateway",
+    "descriptionPl": "W architekturze mikroserwisowej pojedynczy punkt wejścia, który izoluje zewnętrznych klientów od wewnętrznej topologii usług systemu, kierując każde żądanie do właściwej usługi backendowej (lub łącząc odpowiedzi z kilku) i ukrywając szczegóły dekompozycji, których klient nie powinien znać. Zobacz też: „API Gateway” w kategorii API Development.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-backends-for-frontends",
+    "term": "Backends for Frontends (BFF)",
+    "description": "A variant of the API Gateway pattern in which each class of client (web, mobile, third-party) is served by its own dedicated backend tailored to that client's specific data and interaction needs, instead of forcing every client through one general-purpose gateway.",
+    "translationPl": "Backend dla frontendu (BFF)",
+    "descriptionPl": "Wariant wzorca API Gateway, w którym każda klasa klienta (aplikacja webowa, mobilna, zewnętrzny partner) jest obsługiwana przez własny, dedykowany backend dopasowany do jej specyficznych potrzeb w zakresie danych i interakcji, zamiast zmuszania wszystkich klientów do korzystania z jednej uniwersalnej bramy.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-multiple-services-per-host",
+    "term": "Multiple Services per Host",
+    "description": "A deployment pattern in which several service instances share the same physical or virtual host, improving hardware utilization density at the cost of weaker isolation between services and the risk that one instance's resource spike degrades its neighbors.",
+    "translationPl": "Wiele usług na jednym hoście",
+    "descriptionPl": "Wzorzec wdrożeniowy, w którym kilka instancji usług współdzieli ten sam host fizyczny lub wirtualny, poprawiając wykorzystanie sprzętu kosztem słabszej izolacji między usługami oraz ryzyka, że skok zużycia zasobów jednej instancji pogorszy działanie sąsiadów.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-single-service-per-host",
+    "term": "Single Service per Host",
+    "description": "A deployment pattern in which each service instance runs alone on its own host, giving it strong resource isolation and independent scaling at the cost of lower hardware utilization density than packing multiple instances together.",
+    "translationPl": "Jedna usługa na jeden host",
+    "descriptionPl": "Wzorzec wdrożeniowy, w którym każda instancja usługi działa samodzielnie na własnym hoście, co zapewnia silną izolację zasobów i niezależne skalowanie kosztem niższego wykorzystania sprzętu niż przy współdzieleniu hosta przez wiele instancji.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-serverless-deployment",
+    "term": "Serverless Deployment",
+    "description": "Deploying a service's code as functions that a managed cloud platform provisions, scales — including down to zero — and executes on demand in response to events or requests, shifting infrastructure operation to the provider in exchange for reduced control over the runtime and per-invocation billing.",
+    "translationPl": "Wdrożenie bezserwerowe (serverless)",
+    "descriptionPl": "Wdrażanie kodu usługi w postaci funkcji, które zarządzana platforma chmurowa udostępnia, skaluje (w tym do zera) i uruchamia na żądanie w odpowiedzi na zdarzenia lub żądania, przenosząc obsługę infrastruktury na dostawcę w zamian za mniejszą kontrolę nad środowiskiem uruchomieniowym i rozliczanie za wywołanie.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-deployment-platform",
+    "term": "Service Deployment Platform",
+    "description": "A platform, such as Kubernetes or Cloud Foundry, that automates deploying, scheduling, scaling, and healing many service instances across a cluster of hosts, rather than requiring each instance to be provisioned and managed by hand. See also: 'Kubernetes' in Cloud Engineering.",
+    "translationPl": "Platforma wdrożeniowa usług",
+    "descriptionPl": "Platforma, taka jak Kubernetes czy Cloud Foundry, automatyzująca wdrażanie, planowanie, skalowanie i samonaprawę wielu instancji usług w obrębie klastra hostów, zamiast wymagać ręcznego udostępniania i zarządzania każdą instancją z osobna. Zobacz też: „Kubernetes” w kategorii Cloud Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-per-container",
+    "term": "Service per Container",
+    "description": "Packaging and deploying each service instance as its own container image, giving it a reproducible, isolated runtime environment with far less overhead than a dedicated virtual machine.",
+    "translationPl": "Jedna usługa na jeden kontener",
+    "descriptionPl": "Pakowanie i wdrażanie każdej instancji usługi jako osobnego obrazu kontenera, co zapewnia jej odtwarzalne, izolowane środowisko uruchomieniowe przy dużo mniejszym narzucie niż dedykowana maszyna wirtualna.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-service-per-vm",
+    "term": "Service per VM",
+    "description": "Packaging and deploying each service instance in its own dedicated virtual machine image, giving it strong operating-system-level isolation at the cost of a heavier resource footprint and slower startup than a container.",
+    "translationPl": "Jedna usługa na jedną maszynę wirtualną",
+    "descriptionPl": "Pakowanie i wdrażanie każdej instancji usługi we własnym, dedykowanym obrazie maszyny wirtualnej, co zapewnia silną izolację na poziomie systemu operacyjnego kosztem większego zużycia zasobów i wolniejszego startu niż w przypadku kontenera.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-mesh",
+    "term": "Mesh",
+    "description": "A dedicated infrastructure layer — typically a set of proxies deployed alongside every service instance — that takes over inter-service communication concerns like routing, retries, load balancing, encryption, and observability, moving that logic out of application code and into uniformly configured infrastructure. See also: 'Sidecar' in Microservices & Distributed Systems. See also: 'Service Mesh' in Cloud Engineering.",
+    "translationPl": "Mesh usług (service mesh)",
+    "descriptionPl": "Dedykowana warstwa infrastruktury — zwykle zestaw proxy wdrożonych obok każdej instancji usługi — przejmująca odpowiedzialność za komunikację między usługami, taką jak routing, ponawianie żądań, równoważenie obciążenia, szyfrowanie i obserwowalność, wynosząc tę logikę z kodu aplikacji do jednolicie konfigurowanej infrastruktury. Zobacz też: „Sidecar” w kategorii Microservices & Distributed Systems. Zobacz też: „Service Mesh” w kategorii Cloud Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-sidecar",
+    "term": "Sidecar",
+    "description": "A deployment pattern that runs a service's cross-cutting infrastructure concerns (such as a proxy, log shipper, or config loader) in a separate process or container co-located with the main service instance, sharing its lifecycle while remaining independently deployable and upgradable. See also: 'Mesh' in Microservices & Distributed Systems. See also: 'Service Mesh' in Cloud Engineering.",
+    "translationPl": "Sidecar",
+    "descriptionPl": "Wzorzec wdrożeniowy uruchamiający przekrojowe funkcje infrastrukturalne usługi (takie jak proxy, wysyłkę logów czy wczytywanie konfiguracji) w osobnym procesie lub kontenerze współlokowanym z główną instancją usługi, dzielącym jej cykl życia, a jednocześnie pozostającym niezależnie wdrażalnym i aktualizowalnym. Zobacz też: „Mesh usług (service mesh)” w kategorii Microservices & Distributed Systems. Zobacz też: „Service Mesh” w kategorii Cloud Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-kafka",
+    "term": "Kafka",
+    "description": "A distributed event-streaming platform that organizes data into append-only, partitioned logs called topics, letting producers publish events and independent consumer groups read them at their own pace. Its durability and high throughput make it a common backbone for asynchronous, event-driven communication between services. See also: 'Kafka Protocol' in API Development.",
+    "translationPl": "Kafka",
+    "descriptionPl": "Rozproszona platforma do strumieniowania zdarzeń, która organizuje dane w postaci logów typu append-only podzielonych na partycje, zwanych tematami (topics), pozwalając producentom publikować zdarzenia, a niezależnym grupom konsumentów odczytywać je we własnym tempie. Jej trwałość i wysoka przepustowość sprawiają, że jest powszechnie stosowana jako podstawa asynchronicznej, zdarzeniowej komunikacji między usługami. Zobacz też: „Protokół Kafki” w kategorii API Development.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "data-storage-redis",
+    "term": "Redis",
+    "description": "An in-memory key-value data store commonly used as a fast cache in front of a relational database, serving frequently-read values — such as a lookup by ticket ID — from memory instead of hitting disk-backed storage on every request. It can also act as a lightweight message broker or session store thanks to its rich set of in-memory data structures.",
+    "translationPl": "Redis",
+    "descriptionPl": "In-memory'owa baza danych typu klucz-wartość, powszechnie używana jako szybki cache przed bazą relacyjną, serwująca często odczytywane wartości — na przykład wyszukiwanie po identyfikatorze zgłoszenia — bezpośrednio z pamięci zamiast odpytywać za każdym razem trwałe zasoby dyskowe. Dzięki bogatemu zestawowi struktur danych w pamięci może też pełnić rolę lekkiego brokera komunikatów lub magazynu sesji.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-elasticsearch",
+    "term": "Elasticsearch (AWS OpenSearch)",
+    "description": "A distributed search and analytics engine that indexes documents by tokenizing text fields — such as names, locations, and dates — into an inverted index, enabling fast full-text and fuzzy search across datasets that would be slow to query directly against a relational database. AWS OpenSearch is a community-driven fork that offers the same core search capabilities as a managed service.",
+    "translationPl": "Elasticsearch (AWS OpenSearch)",
+    "descriptionPl": "Rozproszony silnik wyszukiwania i analityki, który indeksuje dokumenty, tokenizując pola tekstowe — takie jak imiona i nazwiska, lokalizacje czy daty — do postaci indeksu odwróconego, co umożliwia szybkie wyszukiwanie pełnotekstowe i rozmyte w zbiorach danych, które byłyby wolne do odpytania bezpośrednio w bazie relacyjnej. AWS OpenSearch to rozwijany społecznościowo fork oferujący te same podstawowe możliwości wyszukiwania jako usługa zarządzana.",
+    "category": "Data Storage",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-zookeeper",
+    "term": "Zookeeper",
+    "description": "A distributed coordination service that provides primitives like leader election, distributed locking, and shared configuration storage, letting a cluster of nodes agree on shared state despite individual node failures. Distributed systems such as older Kafka clusters and Hadoop have relied on it to track cluster metadata and membership.",
+    "translationPl": "Zookeeper",
+    "descriptionPl": "Rozproszona usługa koordynacji, dostarczająca prymitywy takie jak wybór lidera, blokady rozproszone i współdzielone przechowywanie konfiguracji, dzięki którym klaster węzłów może uzgodnić wspólny stan mimo awarii pojedynczych węzłów. Systemy rozproszone, takie jak starsze klastry Kafki czy Hadoop, opierały się na niej do śledzenia metadanych klastra i członkostwa węzłów.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-cdn",
+    "term": "CDN (Content Delivery Network)",
+    "description": "A geographically distributed network of edge servers that caches static assets — and, more selectively, API responses — close to end users, cutting latency and origin-server load compared to serving every request from a single location. Caching API responses trades growing cache space against the number of parameter permutations a query can have, and must be avoided for responses that are personalized per user.",
+    "translationPl": "CDN (sieć dostarczania treści)",
+    "descriptionPl": "Geograficznie rozproszona sieć serwerów brzegowych (edge), która buforuje statyczne zasoby — a w bardziej ograniczonym zakresie także odpowiedzi API — blisko użytkowników końcowych, zmniejszając opóźnienia i obciążenie serwera źródłowego w porównaniu z obsługą każdego żądania z jednej lokalizacji. Buforowanie odpowiedzi API to kompromis między rosnącym zużyciem przestrzeni cache a liczbą możliwych permutacji parametrów zapytania, i należy go unikać dla odpowiedzi spersonalizowanych dla konkretnego użytkownika.",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-simple-polling",
+    "term": "Simple Polling",
+    "description": "A client-driven update strategy where the client repeatedly requests the server at a fixed interval to check for new data, suitable when near-real-time delivery isn't required and the resulting delay between an update happening and the client noticing it is acceptable. It's the simplest option to implement but wastes requests when nothing has changed and doesn't scale well to very frequent updates.",
+    "translationPl": "Proste odpytywanie (polling)",
+    "descriptionPl": "Strategia aktualizacji sterowana przez klienta, w której klient cyklicznie odpytuje serwer w stałych odstępach czasu, sprawdzając nowe dane — odpowiednia, gdy dostarczanie niemal w czasie rzeczywistym nie jest wymagane, a wynikające z tego opóźnienie między wystąpieniem aktualizacji a jej zauważeniem przez klienta jest akceptowalne. To najprostsza opcja do zaimplementowania, ale marnuje żądania, gdy nic się nie zmieniło, i słabo skaluje się przy bardzo częstych aktualizacjach.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-server-sent-events",
+    "term": "Server-Sent Events (SSE)",
+    "description": "A one-way, server-to-client push mechanism built on a single long-lived HTTP connection, where the server streams events to the client as they occur instead of the client repeatedly polling for them. It suits frequent, low-latency updates that flow in one direction, but — unlike WebSocket — doesn't give the client an equally cheap channel to push data back.",
+    "translationPl": "Server-Sent Events (SSE)",
+    "descriptionPl": "Jednokierunkowy mechanizm przesyłania danych z serwera do klienta oparty na pojedynczym, długo utrzymywanym połączeniu HTTP, w którym serwer strumieniuje zdarzenia do klienta w momencie ich wystąpienia zamiast klienta cyklicznie o nie odpytującego. Sprawdza się przy częstych aktualizacjach o niskim opóźnieniu płynących w jednym kierunku, ale — w przeciwieństwie do WebSocket — nie daje klientowi równie taniego kanału do wysyłania danych z powrotem.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-websocket",
+    "term": "WebSocket",
+    "description": "A persistent, full-duplex connection between client and server that lets both sides send messages to each other at any time over a single long-lived socket, well suited to frequent, low-latency, bidirectional communication such as chat or live dashboards. It remains a client-server protocol — two clients can't exchange data directly without the server relaying traffic between them.",
+    "translationPl": "WebSocket",
+    "descriptionPl": "Trwałe, dwukierunkowe (full-duplex) połączenie między klientem a serwerem, które pozwala obu stronom wysyłać do siebie wiadomości w dowolnym momencie przez pojedynczy, długo utrzymywany socket — dobrze sprawdza się przy częstej, dwukierunkowej komunikacji o niskim opóźnieniu, takiej jak czat czy żywe dashboardy. Pozostaje protokołem klient-serwer — dwaj klienci nie mogą wymieniać danych bezpośrednio bez pośredniczącego serwera przekazującego ruch między nimi.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-webrtc",
+    "term": "WebRTC",
+    "description": "A protocol suite for direct, peer-to-peer connections between two clients — commonly browsers — negotiated through a signaling step but then carrying audio, video, or data without routing traffic through a server, minimizing latency for real-time media. Its NAT-traversal and signaling setup (STUN/TURN, ICE) make it more complex to implement than a simple client-server channel like WebSocket.",
+    "translationPl": "WebRTC",
+    "descriptionPl": "Zestaw protokołów do bezpośrednich, peer-to-peer połączeń między dwoma klientami — zwykle przeglądarkami — negocjowanych w kroku sygnalizacyjnym, ale następnie przenoszących audio, wideo lub dane bez pośrednictwa serwera, minimalizując opóźnienia dla mediów czasu rzeczywistego. Konieczność przechodzenia przez NAT i konfiguracja sygnalizacji (STUN/TURN, ICE) sprawiają, że jego implementacja jest bardziej złożona niż prosty kanał klient-serwer, taki jak WebSocket.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-policy",
+    "term": "Policy (Domain Modeling)",
+    "description": "A domain-modeling building block that captures a reactive business rule of the form \"whenever event X happens, automatically trigger command Y,\" letting cross-aggregate side effects be modeled explicitly instead of hidden inside application code.",
+    "translationPl": "Polityka (modelowanie domeny)",
+    "descriptionPl": "Element budulcowy modelowania domeny, opisujący reaktywną regułę biznesową typu „gdy zdarzy się zdarzenie X, automatycznie wywołaj komendę Y”, dzięki czemu efekty uboczne wykraczające poza pojedynczy agregat można modelować jawnie, zamiast ukrywać je w kodzie aplikacji.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-read-model",
+    "term": "Read Model (View)",
+    "description": "A representation of domain data shaped specifically to answer a query or serve a particular screen, built and kept up to date independently of the write-side aggregates so it can be optimized purely for reading.",
+    "translationPl": "Model odczytu (widok)",
+    "descriptionPl": "Reprezentacja danych domenowych ukształtowana specjalnie pod kątem odpowiedzi na zapytanie lub obsługi konkretnego ekranu, budowana i aktualizowana niezależnie od agregatów po stronie zapisu, dzięki czemu można ją zoptymalizować wyłącznie pod kątem odczytu.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-command",
+    "term": "Command (Domain Modeling)",
+    "description": "An explicit request to change the system's state, issued by an actor or a policy and directed at a single aggregate, which the aggregate may accept -- producing one or more events -- or reject if it violates a business rule.",
+    "translationPl": "Komenda (modelowanie domeny)",
+    "descriptionPl": "Jawne żądanie zmiany stanu systemu, wystawiane przez aktora lub politykę i kierowane do pojedynczego agregatu, które agregat może przyjąć — generując jedno lub więcej zdarzeń — albo odrzucić, jeśli narusza regułę biznesową.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-business-rule",
+    "term": "Business Rule (Domain Modeling)",
+    "description": "A constraint expressed in the language of the domain that determines whether a given command is allowed to succeed, acting as the guard an aggregate checks before accepting a change and the usual source of validation errors shown back to an actor.",
+    "translationPl": "Reguła biznesowa (modelowanie domeny)",
+    "descriptionPl": "Ograniczenie wyrażone w języku domeny, które decyduje, czy dana komenda może zostać zrealizowana — pełni rolę strażnika sprawdzanego przez agregat przed przyjęciem zmiany i jest zwykłym źródłem błędów walidacji zwracanych aktorowi.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-actor",
+    "term": "Actor (Domain Modeling)",
+    "description": "A person, external system, or scheduled process that initiates a command in the domain model, representing \"who\" (or what) is responsible for triggering a given change.",
+    "translationPl": "Aktor (modelowanie domeny)",
+    "descriptionPl": "Osoba, system zewnętrzny lub zaplanowany proces, który inicjuje komendę w modelu domenowym — reprezentuje „kto” (lub co) odpowiada za wywołanie danej zmiany.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-domain-events",
+    "term": "Domain Events",
+    "description": "A fact recorded once a command has been successfully applied to an aggregate, describing something that has already happened rather than something being requested; other building blocks such as policies and read models react to it to keep the rest of the system in sync. See also: 'Domain Events' in Software Engineering.",
+    "translationPl": "Zdarzenia domenowe",
+    "descriptionPl": "Fakt zapisywany po pomyślnym zastosowaniu komendy do agregatu, opisujący coś, co już się wydarzyło, a nie coś, o co dopiero proszono; inne elementy modelu, takie jak polityki czy modele odczytu, reagują na niego, aby utrzymać spójność reszty systemu. Zobacz też: „Zdarzenia domenowe” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-aggregate",
+    "term": "Aggregate",
+    "description": "A cluster of related domain objects that a command must go through as a single unit, enforcing all of the business rules that must hold true immediately after any change; keeping aggregates small is a deliberate practice since each one defines its own transaction boundary. See also: 'Aggregate' in Microservices & Distributed Systems.",
+    "translationPl": "Agregat",
+    "descriptionPl": "Klaster powiązanych obiektów domenowych, przez który musi przechodzić każda komenda traktowana jako jedna spójna całość, wymuszający wszystkie reguły biznesowe, które muszą być spełnione natychmiast po każdej zmianie; utrzymywanie małych agregatów jest świadomą praktyką, ponieważ każdy z nich wyznacza własną granicę transakcji. Zobacz też: „Agregat” w kategorii Microservices & Distributed Systems.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-transaction-script",
+    "term": "Transaction Script",
+    "description": "An organizing pattern for business logic in which each use case is implemented as a single procedure that reads input, runs whatever validation and computation it needs, and writes the result directly to storage -- well suited to bulk operations and complex read queries where a full object model would add more ceremony than value.",
+    "translationPl": "Skrypt transakcyjny (Transaction Script)",
+    "descriptionPl": "Wzorzec organizacji logiki biznesowej, w którym każdy przypadek użycia jest realizowany jako pojedyncza procedura odczytująca dane wejściowe, wykonująca potrzebną walidację i obliczenia, po czym zapisująca wynik bezpośrednio do magazynu danych — dobrze sprawdza się w operacjach masowych i złożonych zapytaniach odczytu, gdzie pełny model obiektowy wprowadzałby więcej formalności niż korzyści.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-rich-domain-model",
+    "term": "Rich Domain Model",
+    "description": "A way of organizing business logic where behavior and the data it operates on live together inside the same object-oriented entities, best suited to logic that is complex and changes often, since related rules stay co-located instead of scattered across services.",
+    "translationPl": "Model bogaty (Rich Domain Model)",
+    "descriptionPl": "Sposób organizacji logiki biznesowej, w którym zachowanie i dane, na których ono operuje, znajdują się razem, wewnątrz tych samych encji obiektowych — najlepiej sprawdza się przy logice złożonej i często zmienianej, ponieważ powiązane reguły pozostają w jednym miejscu zamiast być rozproszone po serwisach.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-anemic-domain-model",
+    "term": "Anemic Domain Model",
+    "description": "A way of organizing business logic where entities hold only data while the behavior that operates on them lives in separate service classes, a reasonable trade-off for logic that is simple and rarely changes but a code smell when applied to a genuinely complex domain.",
+    "translationPl": "Model anemiczny (Anemic Domain Model)",
+    "descriptionPl": "Sposób organizacji logiki biznesowej, w którym encje przechowują wyłącznie dane, a operująca na nich logika znajduje się w osobnych klasach serwisowych — rozsądny kompromis dla prostej i rzadko zmieniającej się logiki, ale swoisty „code smell”, gdy zastosuje się go do naprawdę złożonej domeny.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-integration-event-transport",
+    "term": "Integration Event Transport (After Commit / Store-and-Forward)",
+    "description": "Two strategies for safely getting an integration event out of a service without letting it escape before the triggering transaction actually commits: publishing 'after commit' waits for the local transaction to succeed before sending, while 'store-and-forward' saves the event in the same transaction as the business change and lets a separate process forward it asynchronously afterward -- the strategy underlying patterns like the transactional outbox. See also: 'Integration Events' in Software Engineering.",
+    "translationPl": "Transport zdarzeń integracyjnych (After Commit / Store-and-Forward)",
+    "descriptionPl": "Dwie strategie bezpiecznego wysyłania zdarzenia integracyjnego z usługi tak, by nie „uciekło” ono, zanim wywołująca je transakcja faktycznie się zatwierdzi: publikacja „after commit” czeka na powodzenie lokalnej transakcji przed wysyłką, a „store-and-forward” zapisuje zdarzenie w tej samej transakcji co zmiana biznesowa i pozwala odrębnemu procesowi przekazać je później asynchronicznie — to podejście leży u podstaw wzorców takich jak transakcyjna skrzynka wyjściowa (transactional outbox). Zobacz też: „Zdarzenia integracyjne” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-event-sourcing",
+    "term": "Event Sourcing",
+    "description": "The design question of how an aggregate hands the events it just raised off to the surrounding infrastructure for publication -- whether through a dedicated static publish call, an internal list the aggregate accumulates during a command and exposes afterward, or simply returning the raised events as part of the command's result -- a concern most visible in aggregates designed around event-sourced persistence. See also: 'Event Sourcing' in Microservices & Distributed Systems. See also: 'Event Sourcing' in Software Engineering.",
+    "translationPl": "Event Sourcing",
+    "descriptionPl": "Zagadnienie projektowe dotyczące tego, jak agregat przekazuje właśnie wygenerowane zdarzenia infrastrukturze odpowiedzialnej za ich publikację — czy poprzez dedykowaną statyczną metodę publikującą, wewnętrzną listę gromadzoną przez agregat w trakcie obsługi komendy i udostępnianą później, czy po prostu przez zwrócenie wygenerowanych zdarzeń jako części wyniku komendy — kwestia najbardziej widoczna w agregatach projektowanych wokół persystencji opartej na zdarzeniach (event sourcing). Zobacz też: „Event Sourcing” w kategorii Microservices & Distributed Systems. Zobacz też: „Event Sourcing” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-cqrs",
+    "term": "CQRS (Command Query Responsibility Segregation)",
+    "description": "An application-layer architectural choice to keep the code path that changes state (commands) structurally separate from the code path that reads state (queries), so each side can use whichever model, technology, or scaling approach best fits reading versus writing instead of sharing one general-purpose model for both. See also: 'CQRS' in Microservices & Distributed Systems. See also: 'CQRS (Command Query Responsibility Segregation)' in Software Engineering.",
+    "translationPl": "CQRS (rozdzielenie odpowiedzialności komend i zapytań)",
+    "descriptionPl": "Decyzja architektoniczna na poziomie aplikacji, polegająca na strukturalnym rozdzieleniu ścieżki kodu zmieniającej stan (komendy) od ścieżki odczytującej stan (zapytania), tak aby każda ze stron mogła używać modelu, technologii czy sposobu skalowania najlepiej dopasowanego odpowiednio do zapisu i do odczytu, zamiast dzielić jeden uniwersalny model dla obu. Zobacz też: „CQRS” w kategorii Microservices & Distributed Systems. Zobacz też: „CQRS (rozdzielenie odpowiedzialności komend i zapytań)” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-microkernel-architecture",
+    "term": "Microkernel Architecture",
+    "description": "An architectural style built around a minimal core system plus a plugin registry and a stable contract that plugins must implement, trading reduced scalability and added complexity for strong testability, configurability, and the ability to extend behavior without touching the core.",
+    "translationPl": "Architektura mikrojądra",
+    "descriptionPl": "Styl architektoniczny zbudowany wokół minimalnego rdzenia systemu, rejestru wtyczek oraz stabilnego kontraktu, jaki muszą implementować wtyczki — kosztem ograniczonej skalowalności i dodatkowej złożoności zyskuje się wysoką testowalność, konfigurowalność oraz możliwość rozszerzania zachowania bez ingerencji w rdzeń.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-modularity",
+    "term": "Modularity",
+    "description": "The practice of grouping logically related functionality into modules with an explicit contract at their boundary, narrowing the blast radius of any single change; it is a means toward evolvability rather than a goal in itself, and depends on encapsulation -- hiding both implementation detail and the parts most likely to change.",
+    "translationPl": "Modularyzacja",
+    "descriptionPl": "Praktyka grupowania logicznie powiązanej funkcjonalności w moduły z jawnym kontraktem na ich granicy, zawężająca zasięg skutków pojedynczej zmiany; jest środkiem prowadzącym do łatwiejszej ewolucji systemu, a nie celem samym w sobie, i opiera się na enkapsulacji — ukrywaniu zarówno szczegółów implementacji, jak i tych elementów, które najczęściej się zmieniają.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-coupling",
+    "term": "Coupling",
+    "description": "A measure of how much one component's design depends on another's, distinguished along several axes -- strong versus weak, explicit versus implicit, and afferent (incoming) versus efferent (outgoing) -- where semantic and logical coupling are the hardest kinds to spot because no explicit reference shows them; depending on a stable, rarely-changing component is generally preferable to depending on a volatile one, and techniques like the Law of Demeter (only talk to your immediate collaborators) help keep coupling explicit and shallow.",
+    "translationPl": "Sprzężenie (coupling)",
+    "descriptionPl": "Miara tego, jak bardzo projekt jednego komponentu zależy od innego, rozpatrywana na kilku osiach — silne kontra słabe, jawne kontra niejawne oraz przychodzące (afferent) kontra wychodzące (efferent) — przy czym sprzężenie semantyczne i logiczne są najtrudniejsze do wykrycia, bo nie ujawnia ich żadne jawne odwołanie w kodzie; zależność od komponentu stabilnego i rzadko zmienianego jest zwykle korzystniejsza niż od komponentu zmiennego, a techniki takie jak prawo Demeter (rozmawiaj tylko z bezpośrednimi współpracownikami) pomagają utrzymać sprzężenie jawnym i płytkim.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-cohesion",
+    "term": "Cohesion",
+    "description": "A measure of how well the elements grouped inside a single module belong together and serve one clearly related purpose; low cohesion is often surfaced with metrics such as 'lack of cohesion of methods,' which flags classes whose methods barely share any of the same fields.",
+    "translationPl": "Kohezja",
+    "descriptionPl": "Miara tego, jak dobrze elementy zgrupowane w jednym module do siebie pasują i służą jednemu, wyraźnie powiązanemu celowi; niską kohezję często ujawniają metryki takie jak „lack of cohesion of methods”, wskazujące klasy, których metody niemal nie współdzielą tych samych pól.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-grasp-principles",
+    "term": "GRASP Principles",
+    "description": "A set of object-oriented design guidelines (General Responsibility Assignment Software Patterns) for deciding which class should own a given responsibility -- such as Information Expert, Creator, Controller, Low Coupling, and High Cohesion -- used alongside SOLID as a good-practice checklist when modularizing a system.",
+    "translationPl": "Zasady GRASP",
+    "descriptionPl": "Zestaw wytycznych projektowania obiektowego (General Responsibility Assignment Software Patterns) pomagających zdecydować, która klasa powinna odpowiadać za daną odpowiedzialność — takich jak Information Expert, Creator, Controller, Low Coupling czy High Cohesion — stosowany obok zasad SOLID jako lista dobrych praktyk przy modularyzacji systemu.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-hexagonal-architecture",
+    "term": "Hexagonal Architecture (Ports and Adapters)",
+    "description": "An architectural style that puts the domain at the center of the application, defining inbound and outbound ports that the domain depends on as abstractions, with adapters plugging into those ports to talk to the outside world -- keeping I/O out of the domain and making the domain easy to test and the outside world easy to swap, at the cost of more adapters, more test surface, and configuration overhead.",
+    "translationPl": "Architektura heksagonalna (porty i adaptery)",
+    "descriptionPl": "Styl architektoniczny stawiający domenę w centrum aplikacji i definiujący porty wejściowe oraz wyjściowe, od których domena zależy jako od abstrakcji, przy czym adaptery podłączają się do tych portów, aby komunikować się ze światem zewnętrznym — dzięki temu operacje I/O pozostają poza domeną, domenę łatwo testować, a świat zewnętrzny łatwo wymieniać, kosztem większej liczby adapterów, większego zakresu testów i dodatkowej konfiguracji.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-pipes-and-filters",
+    "term": "Pipes and Filters",
+    "description": "An architectural style that processes data through a sequence of independent filters, each encapsulating one processing step and connected by pipes that pass output from one filter to the next, giving simple parallelization, extensibility, and configurability at the cost of error handling being spread across every filter in the chain instead of centralized.",
+    "translationPl": "Potoki i filtry (Pipes and Filters)",
+    "descriptionPl": "Styl architektoniczny przetwarzający dane poprzez sekwencję niezależnych filtrów, z których każdy hermetyzuje jeden krok przetwarzania, połączonych rurami (pipes) przekazującymi wynik jednego filtra do kolejnego — zapewnia to prostą równoległość, rozszerzalność i konfigurowalność kosztem obsługi błędów rozproszonej pomiędzy poszczególne filtry zamiast scentralizowanej.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-layered-architecture",
+    "term": "Layered Architecture (Three-Tier)",
+    "description": "An architectural style that stacks an application into layers -- commonly presentation, business logic, and data access -- where each higher layer depends only on the layer directly below it and layers separate responsibilities; it is simple to reason about and widely understood, but a single feature often needs coordinated changes across several layers at once, and that coupling can make the layers harder to test in isolation.",
+    "translationPl": "Architektura warstwowa (trójwarstwowa)",
+    "descriptionPl": "Styl architektoniczny układający aplikację w warstwy — najczęściej prezentacji, logiki biznesowej i dostępu do danych — w którym każda wyższa warstwa zależy wyłącznie od warstwy bezpośrednio poniżej, a warstwy rozdzielają odpowiedzialności; jest prosty do zrozumienia i powszechnie znany, ale pojedyncza funkcjonalność często wymaga skoordynowanych zmian w kilku warstwach naraz, co utrudnia ich niezależne testowanie.",
+    "category": "Software Architecture",
+    "level": "Junior"
+  },
+  {
+    "id": "data-storage-acid",
+    "term": "ACID (Atomicity, Consistency, Isolation, Durability)",
+    "description": "The four guarantees a database transaction is expected to provide -- atomicity (all-or-nothing execution), consistency (moving the database from one valid state to another), isolation (concurrent transactions don't corrupt each other's view of the data), and durability (a committed change survives a crash) -- with isolation being the guarantee most often relaxed in practice, opening the door to anomalies such as dirty reads, lost updates, write skew, and phantom reads.",
+    "translationPl": "ACID (atomowość, spójność, izolacja, trwałość)",
+    "descriptionPl": "Cztery gwarancje, jakich oczekuje się od transakcji bazodanowej — atomowość (wykonanie na zasadzie wszystko albo nic), spójność (przejście bazy z jednego poprawnego stanu do drugiego), izolacja (współbieżne transakcje nie zaburzają wzajemnie swojego widoku danych) oraz trwałość (zatwierdzona zmiana przetrwa awarię) — przy czym to izolacja jest w praktyce najczęściej łagodzoną gwarancją, co otwiera drogę do anomalii takich jak brudne odczyty, utracone aktualizacje, write skew czy odczyty widma (phantom read).",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-base",
+    "term": "BASE (Basically Available, Soft State, Eventually Consistent)",
+    "description": "A consistency model, common in distributed and NoSQL systems, that trades ACID's strict guarantees for higher availability: the system stays basically available even during partial failures, its state may be in flux ('soft') while updates propagate, and readers are only guaranteed to converge on the correct value eventually rather than immediately.",
+    "translationPl": "BASE (podstawowa dostępność, stan miękki, spójność ostateczna)",
+    "descriptionPl": "Model spójności, powszechny w systemach rozproszonych i NoSQL, który w zamian za wyższą dostępność rezygnuje ze ścisłych gwarancji ACID: system pozostaje zasadniczo dostępny (basically available) nawet przy częściowych awariach, jego stan może być tymczasowo niestabilny („soft state”) w trakcie propagacji zmian, a odczytujący mają gwarancję zbieżności do poprawnej wartości dopiero po pewnym czasie (eventual consistency), a nie natychmiast.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "data-storage-newsql",
+    "term": "NewSQL",
+    "description": "A class of database that aims to combine the relational model's strong consistency and ACID transactions with the horizontal scalability more typically associated with NoSQL systems, positioning itself as a middle ground between traditional RDBMS and NoSQL rather than a replacement for either.",
+    "translationPl": "NewSQL",
+    "descriptionPl": "Klasa baz danych dążąca do połączenia silnej spójności i transakcji ACID typowych dla modelu relacyjnego ze skalowalnością horyzontalną bardziej kojarzoną z systemami NoSQL, plasując się jako rozwiązanie pośrednie między tradycyjnym RDBMS a NoSQL, a nie zamiennik żadnego z nich.",
+    "category": "Data Storage",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-fallacies-of-distributed-computing",
+    "term": "Fallacies of Distributed Computing",
+    "description": "A well-known list of assumptions engineers new to distributed systems tend to make and shouldn't -- that the network is reliable, latency is zero, bandwidth is infinite, the network is secure, topology never changes, there is a single administrator, transport cost is zero, and the network is homogeneous -- each of which, if actually believed, leads to designs that break under real network conditions.",
+    "translationPl": "Błędne założenia o systemach rozproszonych",
+    "descriptionPl": "Znana lista założeń, które inżynierowie stawiający pierwsze kroki w systemach rozproszonych mają skłonność przyjmować, choć nie powinni — że sieć jest niezawodna, opóźnienie wynosi zero, przepustowość jest nieskończona, sieć jest bezpieczna, topologia się nie zmienia, istnieje jeden administrator, koszt transportu wynosi zero, a sieć jest jednorodna — z których każde, jeśli potraktowane dosłownie, prowadzi do projektów, które załamują się w realnych warunkach sieciowych.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-distributed-system",
+    "term": "Distributed System",
+    "description": "A system made of multiple deployment units communicating over the network to behave as one coherent whole; teams adopt this shape for organizational reasons (regulatory constraints, team or project size, delivery process) or technical ones (scalability, resource limits, fault tolerance, availability), but it costs more to analyze and debug, secures and operates a more complex infrastructure, gives up immediate cross-component transactionality, and makes changes that cut across components harder to land.",
+    "translationPl": "System rozproszony",
+    "descriptionPl": "System złożony z wielu jednostek wdrożeniowych komunikujących się przez sieć tak, by zachowywać się jak jedna spójna całość; zespoły decydują się na taki kształt z powodów organizacyjnych (wymogi regulacyjne, wielkość zespołu lub projektu, proces wytwarzania) albo technicznych (skalowalność, ograniczenia zasobów, odporność na błędy, dostępność), ale płaci się za to trudniejszą analizą i debugowaniem, bardziej złożoną infrastrukturą do zabezpieczenia i utrzymania, brakiem natychmiastowej transakcyjności między komponentami oraz utrudnionym wprowadzaniem zmian przecinających kilka komponentów naraz.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-enterprise-service-bus",
+    "term": "Enterprise Service Bus (ESB)",
+    "description": "A centralized integration platform that routes, transforms, and orchestrates messages between systems through a shared bus, typically implementing the SOA pattern with a canonical data model and rich adapters (REST, SOAP, FTP); it brings auditability, security, and configurable service scaling, but its shared client libraries and central role make it expensive, slow to evolve, and a single point of failure for the whole integration layer.",
+    "translationPl": "Enterprise Service Bus (szyna usług)",
+    "descriptionPl": "Scentralizowana platforma integracyjna, która trasuje, transformuje i orkiestruje komunikaty między systemami za pośrednictwem wspólnej szyny, zwykle implementując wzorzec SOA wraz z kanonicznym modelem danych i bogatym zestawem adapterów (REST, SOAP, FTP); zapewnia audytowalność, bezpieczeństwo i konfigurowalne skalowanie usług, ale współdzielone biblioteki klienckie i centralna rola sprawiają, że jest kosztowna, trudna do rozwijania i stanowi pojedynczy punkt awarii dla całej warstwy integracyjnej.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-microservices-architecture",
+    "term": "Microservices Architecture",
+    "description": "A style suited to systems that need fast, independent scaling and team autonomy, structured around cloud-native, business-oriented services with no central coordination point, communicating through choreography instead of a central orchestrator; it removes single points of failure and lets teams deploy and evolve independently, at the cost of harder-to-analyze communication, more complex infrastructure, and the risk that unconstrained technology choice turns into chaos. See also: 'Microservices Architecture' in Software Engineering.",
+    "translationPl": "Architektura mikroserwisów",
+    "descriptionPl": "Styl odpowiedni dla systemów wymagających szybkiego, niezależnego skalowania i autonomii zespołów, zbudowany wokół usług chmuro-natywnych, zorientowanych biznesowo, bez centralnego punktu koordynacji, komunikujących się poprzez choreografię zamiast centralnego orkiestratora; eliminuje pojedyncze punkty awarii i pozwala zespołom wdrażać oraz rozwijać się niezależnie, kosztem trudniejszej do analizy komunikacji, bardziej złożonej infrastruktury oraz ryzyka, że nieograniczona swoboda technologiczna przerodzi się w chaos. Zobacz też: „Architektura mikroserwisów” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-monolithic-architecture",
+    "term": "Monolithic Architecture",
+    "description": "A single deployable unit that is self-sufficient within its scope, giving simple infrastructure, fast and reliable in-process communication, easy transactionality, and a quick start for early development; as it grows it tends to become a 'big ball of mud' that is hard to keep structured and maintain, and its infrastructure, team productivity, and runtime scalability all end up limited by the size of that one unit. See also: 'Monolithic Architecture' in Software Engineering.",
+    "translationPl": "Architektura monolityczna",
+    "descriptionPl": "Pojedyncza jednostka wdrożeniowa, samowystarczalna w swoim zakresie, dająca prostą infrastrukturę, szybką i niezawodną komunikację wewnątrz procesu, łatwą transakcyjność oraz szybki start na wczesnym etapie rozwoju; wraz ze wzrostem ma tendencję do stawania się „wielką kulą błota”, trudną do utrzymania w porządku i konserwacji, a jej skalowalność infrastruktury, produktywności zespołu i wydajności jest ograniczona rozmiarem tej jednej jednostki. Zobacz też: „Architektura monolityczna” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-modular-monolith",
+    "term": "Modular Monolith",
+    "description": "A single deployable unit internally organized into modules that are autonomous along business lines, giving easier maintenance and testability than an unstructured monolith while staying simpler to run than a distributed system, and forgiving early mistakes in where module boundaries are drawn -- the basis for a deliberate 'monolith first' strategy even when a distributed architecture is the eventual goal; the trade-off shows up at the database, where foreign keys across modules are discouraged, pushing toward data duplication and harder-to-maintain consistency.",
+    "translationPl": "Modularny monolit",
+    "descriptionPl": "Pojedyncza jednostka wdrożeniowa, wewnętrznie zorganizowana w moduły autonomiczne pod względem biznesowym, dająca łatwiejsze utrzymanie i testowalność niż nieustrukturyzowany monolit, a jednocześnie prostsza w obsłudze niż system rozproszony, wybaczająca początkowo błędnie wyznaczone granice modułów — stanowi podstawę świadomej strategii „monolith first”, nawet gdy docelowym celem jest architektura rozproszona; kompromis ujawnia się na poziomie bazy danych, gdzie klucze obce między modułami są odradzane, co prowadzi do duplikacji danych i utrudnionego utrzymania spójności.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-fire-and-forget-messaging",
+    "term": "Fire-and-Forget Messaging (One-Way / Event-Driven)",
+    "description": "An asynchronous, event-driven communication style where a sender publishes a message and moves on without waiting for a reply or confirmation that the receiver processed it, trading the request-reply guarantee of an answer for looser coupling and higher throughput between services.",
+    "translationPl": "Komunikacja fire-and-forget (jednokierunkowa)",
+    "descriptionPl": "Asynchroniczny, zdarzeniowy styl komunikacji, w którym nadawca publikuje wiadomość i kontynuuje działanie, nie czekając na odpowiedź ani na potwierdzenie, że odbiorca ją przetworzył — w zamian za gwarancję odpowiedzi typową dla request-reply zyskuje się luźniejsze powiązanie i wyższą przepustowość między usługami.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-message-delivery-semantics",
+    "term": "Message Delivery Semantics (At-Most-Once vs At-Least-Once)",
+    "description": "The guarantee a messaging system makes about how many times a message might be delivered: at-most-once accepts that a message can be silently lost rather than risk a duplicate, while at-least-once guarantees the message eventually arrives but may deliver it more than once, requiring the receiver to handle duplicates (often via idempotency) if correctness depends on processing each message exactly once.",
+    "translationPl": "Semantyka dostarczania wiadomości",
+    "descriptionPl": "Gwarancja, jaką system komunikatów daje co do liczby dostarczeń wiadomości: at-most-once dopuszcza ciche zgubienie wiadomości zamiast ryzykować duplikat, natomiast at-least-once gwarantuje, że wiadomość w końcu dotrze, ale może zostać dostarczona więcej niż raz, co wymaga od odbiorcy obsługi duplikatów (często poprzez idempotentność), jeśli poprawność zależy od przetworzenia każdej wiadomości dokładnie raz.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-publish-subscribe-vs-point-to-point",
+    "term": "Publish-Subscribe vs Point-to-Point Messaging",
+    "description": "Two messaging topologies for fire-and-forget communication: publish-subscribe broadcasts each message to every interested subscriber, useful for notifications and replicating the same data to many consumers, while point-to-point delivers each message from a queue to exactly one of the competing consumers, useful for spreading work in parallel, running it in the background, or buffering a burst of load.",
+    "translationPl": "Publish-subscribe a point-to-point",
+    "descriptionPl": "Dwie topologie komunikacji typu fire-and-forget: publish-subscribe rozgłasza każdą wiadomość do wszystkich zainteresowanych subskrybentów, co przydaje się przy powiadomieniach i replikowaniu tych samych danych do wielu odbiorców, natomiast point-to-point dostarcza każdą wiadomość z kolejki dokładnie do jednego z rywalizujących konsumentów, co sprawdza się przy równoległym rozdzielaniu pracy, przetwarzaniu w tle lub buforowaniu skoku obciążenia.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-design-for-failure",
+    "term": "Design for Failure",
+    "description": "A resilience philosophy that assumes any remote dependency will eventually fail and designs for that outcome up front, combining techniques such as health/performance metrics for early detection, fallback responses and caching to degrade gracefully, rate limits to protect shared capacity, and patterns like the circuit breaker and retry to stop cascading failures and recover from transient ones.",
+    "translationPl": "Projektowanie z myślą o awariach (Design for Failure)",
+    "descriptionPl": "Filozofia projektowania odporności, która z góry zakłada, że każda zdalna zależność w końcu zawiedzie, i projektuje system pod tym kątem, łącząc techniki takie jak metryki wydajności i kondycji do wczesnego wykrywania problemów, odpowiedzi zastępcze (fallback) oraz buforowanie do łagodnej degradacji, limity zapytań chroniące wspólną pojemność, a także wzorce takie jak circuit breaker i retry do powstrzymywania kaskadowych awarii i odzyskiwania sprawności po błędach przejściowych.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-fallback-pattern",
+    "term": "Fallback Pattern",
+    "description": "A resilience technique that returns a predefined default value, a cached result, or a degraded response when a dependency call fails, so the caller can keep functioning at reduced quality instead of failing the whole request outright.",
+    "translationPl": "Wzorzec Fallback",
+    "descriptionPl": "Technika odporności zwracająca z góry zdefiniowaną wartość domyślną, wynik z pamięci podręcznej lub odpowiedź o obniżonej jakości, gdy wywołanie zależności się nie powiedzie, dzięki czemu wywołujący może dalej działać z ograniczoną funkcjonalnością zamiast całkowicie odrzucać żądanie.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-rate-limiting",
+    "term": "Rate Limiting",
+    "description": "A protective technique that caps how many requests a client, service, or endpoint is allowed to make within a given time window, rejecting or delaying the excess so that a traffic spike from one source cannot exhaust shared capacity and degrade the service for everyone else.",
+    "translationPl": "Limitowanie ruchu (Rate Limiting)",
+    "descriptionPl": "Technika ochronna ograniczająca liczbę żądań, jakie klient, usługa lub endpoint może wykonać w danym oknie czasowym, odrzucając lub opóźniając nadmiar, tak aby skok ruchu z jednego źródła nie wyczerpał wspólnej pojemności i nie pogorszył działania usługi dla wszystkich pozostałych.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-retry",
+    "term": "Retry",
+    "description": "Automatically re-attempting a failed call to a dependency, usually with a capped number of attempts and a backoff delay between them, on the working assumption that many failures in a distributed system are transient network or timing issues that will succeed if simply tried again shortly after. See also: 'Retry Pattern' in Software Engineering.",
+    "translationPl": "Retry",
+    "descriptionPl": "Automatyczne ponawianie nieudanego wywołania zależności, zwykle z ograniczoną liczbą prób i narastającym opóźnieniem między nimi, przy założeniu, że wiele błędów w systemie rozproszonym to przejściowe problemy sieciowe lub czasowe, które powiodą się, jeśli po prostu spróbować ponownie chwilę później. Zobacz też: „Wzorzec Retry” w kategorii Software Engineering.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Senior"
+  },
+  {
+    "id": "microservices-distributed-systems-richardson-maturity-model",
+    "term": "Richardson Maturity Model (REST Maturity Levels)",
+    "description": "A four-level scale describing how fully a service's API follows REST conventions: from a single generic endpoint carrying plain XML or JSON payloads (level 0), through exposing individual resources (level 1) and using proper HTTP methods and status codes on them (level 2), up to a fully hypermedia-driven API where responses embed the links a client needs to discover its next actions (level 3, HATEOAS). See also: 'Richardson Maturity Model (REST Maturity Levels)' in API Development.",
+    "translationPl": "Model dojrzałości Richardsona (poziomy REST)",
+    "descriptionPl": "Czteropoziomowa skala opisująca, w jakim stopniu API usługi stosuje się do konwencji REST: od pojedynczego, ogólnego endpointu przenoszącego zwykłe treści XML lub JSON (poziom 0), przez wydzielenie poszczególnych zasobów (poziom 1) i użycie na nich właściwych metod HTTP oraz kodów odpowiedzi (poziom 2), aż po API w pełni oparte na hipermediach, w którym odpowiedzi zawierają linki potrzebne klientowi do odkrycia kolejnych możliwych działań (poziom 3, HATEOAS). Zobacz też: „Model dojrzałości Richardsona (poziomy REST)” w kategorii API Development.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-request-reply",
+    "term": "Request-Reply (Synchronous vs Asynchronous)",
+    "description": "Message-driven communication where the caller expects a reply to a specific request, implemented either synchronously -- the calling thread blocks until the response returns, typically backed by a thread pool -- or asynchronously, where the caller keeps running and is notified later via mechanisms such as an event loop or lightweight fibers, trading simpler code for better resource utilization under load.",
+    "translationPl": "Request-Reply (synchroniczny a asynchroniczny)",
+    "descriptionPl": "Komunikacja sterowana wiadomościami, w której nadawca oczekuje odpowiedzi na konkretne żądanie, realizowana albo synchronicznie — wywołujący wątek blokuje się do momentu otrzymania odpowiedzi, zwykle w oparciu o pulę wątków — albo asynchronicznie, gdzie wywołujący kontynuuje działanie i jest powiadamiany później za pomocą mechanizmów takich jak pętla zdarzeń czy lekkie fibery, kosztem prostoty kodu zyskując lepsze wykorzystanie zasobów pod obciążeniem.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-request-reply-interaction-styles",
+    "term": "Request-Reply Interaction Styles (Request-Response / Request-Stream / Channel)",
+    "description": "The cardinality of a request-reply exchange: request-response returns exactly one reply per request, request-stream returns a stream of replies to a single request, and channel (stream-stream) keeps a bidirectional stream open so both sides can keep exchanging messages over the same connection.",
+    "translationPl": "Style interakcji Request-Reply (Request-Response / Request-Stream / Channel)",
+    "descriptionPl": "Liczność wymiany w komunikacji request-reply: request-response zwraca dokładnie jedną odpowiedź na jedno żądanie, request-stream zwraca strumień odpowiedzi na pojedyncze żądanie, a channel (stream-stream) utrzymuje otwarty dwukierunkowy strumień, dzięki czemu obie strony mogą stale wymieniać komunikaty w ramach tego samego połączenia.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "microservices-distributed-systems-load-balancing",
+    "term": "Load Balancing (Client-Side vs Server-Side)",
+    "description": "Distributing incoming calls across multiple instances of a service so no single instance is overwhelmed, decided either client-side -- the caller itself picks an instance from the known set and balances across them -- or server-side, where a dedicated load balancer sits in front of the instances and makes that choice on the caller's behalf.",
+    "translationPl": "Równoważenie obciążenia (client-side a server-side)",
+    "descriptionPl": "Rozdzielanie napływających wywołań pomiędzy wiele instancji usługi, tak aby żadna pojedyncza instancja nie była przeciążona — decyzję podejmuje się albo po stronie klienta (client-side), gdzie wywołujący sam wybiera instancję ze znanego zbioru i rozkłada obciążenie, albo po stronie serwera (server-side), gdzie dedykowany load balancer stoi przed instancjami i podejmuje tę decyzję w imieniu wywołującego.",
+    "category": "Microservices & Distributed Systems",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-adr",
+    "term": "Architecture Decision Record (ADR)",
+    "description": "A short, versioned document that records a single significant architectural decision -- the context that prompted it, the option chosen, and the consequences accepted -- kept alongside the codebase so the reasoning behind a decision remains discoverable long after the people who made it have moved on.",
+    "translationPl": "ADR (rejestr decyzji architektonicznych)",
+    "descriptionPl": "Krótki, wersjonowany dokument rejestrujący jedną istotną decyzję architektoniczną — kontekst, który ją wywołał, wybraną opcję oraz zaakceptowane konsekwencje — przechowywany razem z kodem, dzięki czemu uzasadnienie decyzji pozostaje odnajdywalne długo po tym, jak osoby, które ją podjęły, odeszły z projektu.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-decision-making-process",
+    "term": "Architectural Decision-Making Process",
+    "description": "A structured approach to reaching an architectural decision that moves from observed facts to a clearly stated problem to a chosen solution, often run as a short cycle of iterations (echoing the OODA loop of observe-orient-decide-act) with small experiments used to validate an option before committing to it at scale.",
+    "translationPl": "Proces podejmowania decyzji architektonicznych",
+    "descriptionPl": "Ustrukturyzowane podejście do podejmowania decyzji architektonicznej, prowadzące od zaobserwowanych faktów, przez jasno sformułowany problem, do wybranego rozwiązania, często realizowane jako krótki cykl iteracji (nawiązujący do pętli OODA: obserwuj-orientuj się-decyduj-działaj), w którym drobne eksperymenty służą do zweryfikowania opcji przed zaangażowaniem się w nią na pełną skalę.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-decision-metrics",
+    "term": "Decision Metrics",
+    "description": "A metric chosen to inform an architectural decision, defined by four comparable values (a target, the current reading, an acceptable limit, and an ideal) and judged fit for purpose only if it is easy to obtain, unambiguous, and genuinely measurable -- whether it is expressed as a hard quantitative number or a qualitative assessment.",
+    "translationPl": "Metryki decyzyjne",
+    "descriptionPl": "Metryka dobrana tak, by wspierać podjęcie decyzji architektonicznej, opisywana czterema porównywalnymi wartościami (celem, wartością aktualną, dopuszczalnym limitem oraz wartością idealną) i uznawana za przydatną tylko wtedy, gdy jest łatwo dostępna, jednoznaczna i rzeczywiście mierzalna — niezależnie od tego, czy przyjmuje postać twardej liczby ilościowej, czy oceny jakościowej.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-architectural-drivers",
+    "term": "Architectural Drivers",
+    "description": "The forces that shape an architecture, grouped into design goals, design constraints, functional requirements, quality attributes, and conventions; drivers describe the context a decision is made in, don't need to be consistent across the whole system, and shift over time, so they must be revisited rather than treated as fixed once written down.",
+    "translationPl": "Drivery architektoniczne",
+    "descriptionPl": "Siły kształtujące architekturę, dzielone na cele projektowe, ograniczenia projektowe, wymagania funkcjonalne, atrybuty jakościowe i konwencje; drivery opisują kontekst, w jakim podejmowana jest decyzja, nie muszą być spójne w całym systemie i zmieniają się w czasie, dlatego trzeba je regularnie weryfikować, a nie traktować jako ustalone raz na zawsze.",
+    "category": "Software Architecture",
+    "level": "Senior"
+  },
+  {
+    "id": "software-architecture-uml",
+    "term": "UML (Unified Modeling Language)",
+    "description": "A standardized set of diagram notations for visualizing a system's design, including sequence diagrams (message order between participants over time), deployment diagrams (physical/runtime nodes and the artifacts on them), activity diagrams (workflow and control flow), and component diagrams (structural relationships between components) -- each used to communicate a different facet of the same design.",
+    "translationPl": "UML (Unified Modeling Language)",
+    "descriptionPl": "Zestandaryzowany zbiór notacji diagramowych do wizualizowania projektu systemu, obejmujący diagramy sekwencji (kolejność komunikatów między uczestnikami w czasie), diagramy wdrożenia (fizyczne/uruchomieniowe węzły i osadzone na nich artefakty), diagramy aktywności (przepływ pracy i sterowania) oraz diagramy komponentów (strukturalne relacje między komponentami) — każdy z nich komunikuje inny aspekt tego samego projektu.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-bpmn",
+    "term": "BPMN (Business Process Model and Notation)",
+    "description": "A standardized graphical notation for modeling business processes, used in an executable form that a process engine can run directly, a descriptive form used purely to document a process for humans, or an analytical form focused on exploring and understanding a process rather than fully specifying it.",
+    "translationPl": "BPMN (Business Process Model and Notation)",
+    "descriptionPl": "Zestandaryzowana notacja graficzna do modelowania procesów biznesowych, stosowana w formie wykonywalnej, którą silnik procesów może uruchomić bezpośrednio, formie opisowej służącej wyłącznie do udokumentowania procesu dla ludzi, lub formie analitycznej skupionej na eksploracji i zrozumieniu procesu, a nie jego pełnej specyfikacji.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-c4-model",
+    "term": "C4 Model",
+    "description": "A lightweight approach to diagramming software architecture at four progressively zoomed-in levels -- system landscape (how systems relate across an organization), context (one system and its external actors/systems), container (the deployable applications/data stores that make up a system), and component (the internal building blocks of a single container) -- so each audience gets a diagram at the right level of detail.",
+    "translationPl": "Model C4",
+    "descriptionPl": "Lekkie podejście do diagramowania architektury oprogramowania na czterech, coraz bardziej szczegółowych poziomach — krajobrazu systemów (jak systemy powiązane są w skali organizacji), kontekstu (jeden system i jego zewnętrzni aktorzy/systemy), kontenerów (aplikacje/magazyny danych wdrażane w ramach systemu) oraz komponentów (wewnętrzne elementy budulcowe pojedynczego kontenera) — dzięki czemu każdy odbiorca otrzymuje diagram na odpowiednim dla siebie poziomie szczegółowości.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-process-level-event-storming",
+    "term": "Process-Level Event Storming",
+    "description": "A focused variant of Event Storming used once a domain is already understood, aimed at designing a single business process in detail -- its steps, decision points, and the events, commands, and actors involved -- rather than exploring the whole domain from scratch. See also: 'Event Storming' in Software Engineering.",
+    "translationPl": "Process-Level Event Storming",
+    "descriptionPl": "Skoncentrowany wariant Event Stormingu stosowany wtedy, gdy domena jest już zrozumiana, ukierunkowany na szczegółowe zaprojektowanie pojedynczego procesu biznesowego — jego kroków, punktów decyzyjnych oraz zaangażowanych zdarzeń, komend i aktorów — zamiast eksplorowania całej domeny od podstaw. Zobacz też: „Event Storming” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-bounded-context",
+    "term": "Bounded Context",
+    "description": "An explicitly defined boundary within which a particular domain model and its ubiquitous language apply consistently, deliberately designed rather than discovered, that should never cut across a subdomain; healthy boundaries are validated with heuristics like context autonomy, how many contexts a business process touches, and which pieces of information change or get used together, and Conway's Law makes team structure -- typically one team per bounded context, with its boundaries actively guarded -- a natural fit. See also: 'Ubiquitous Language' in Software Architecture, and 'Decompose by Subdomain' and 'Service per Team' in Microservices & Distributed Systems.",
+    "translationPl": "Bounded Context",
+    "descriptionPl": "Jawnie zdefiniowana granica, w obrębie której konsekwentnie obowiązuje określony model domenowy wraz z jego językiem wszechobecnym; jest ona świadomie projektowana, a nie odkrywana, i nigdy nie powinna przecinać poddomeny. Poprawność granic weryfikuje się heurystykami takimi jak autonomia kontekstu, liczba kontekstów, przez które przechodzi proces biznesowy, oraz to, które informacje zmieniają się lub są używane razem, a prawo Conwaya sprawia, że struktura zespołów — zwykle jeden zespół na jeden bounded context, z aktywnie pilnowanymi granicami — naturalnie odpowiada tym granicom. Zobacz też: „Język wszechobecny” w kategorii Software Architecture oraz „Dekompozycja według poddomen” i „Usługa przypisana do zespołu” w kategorii Microservices & Distributed Systems.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-ubiquitous-language",
+    "term": "Ubiquitous Language",
+    "description": "The shared vocabulary of a specific bounded context, built from the language domain experts actually use rather than invented by developers, that serves as the common communication platform between business and engineering and is expected to keep evolving as understanding of the domain deepens. See also: 'Bounded Context' in Software Architecture.",
+    "translationPl": "Język wszechobecny",
+    "descriptionPl": "Wspólne słownictwo danego bounded contextu, budowane na języku faktycznie używanym przez ekspertów dziedzinowych, a nie wymyślane przez programistów, które służy jako wspólna platforma komunikacji między biznesem a inżynierią i ma prawo ewoluować w miarę pogłębiania się rozumienia domeny. Zobacz też: „Bounded Context” w kategorii Software Architecture.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-domain",
+    "term": "Domain",
+    "description": "The overall scope of interest or activity that a business, organization, or field of expertise covers -- the subject matter a software system is built to model and support, and the reference point against which subdomains and bounded contexts are later carved out.",
+    "translationPl": "Domena",
+    "descriptionPl": "Całościowy zakres zainteresowań lub działalności, jaki obejmuje biznes, organizacja lub dziedzina wiedzy — przedmiot, który system oprogramowania ma modelować i wspierać, oraz punkt odniesienia, względem którego później wyznacza się poddomeny i bounded konteksty.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-subdomain",
+    "term": "Subdomain",
+    "description": "A partition of a business domain into a core subdomain (the part that gives the business its competitive edge and deserves the most investment), supporting subdomains (necessary but not differentiating), and generic subdomains (solved problems better bought or reused than built); subdomains are typically discovered by studying the organization's structure, listening to different domain experts and their vocabulary, and tracing business value through the steps of a business process. See also: 'Decompose by Subdomain' in Microservices & Distributed Systems.",
+    "translationPl": "Poddomena",
+    "descriptionPl": "Podział domeny biznesowej na poddomenę główną (core) — część dającą biznesowi przewagę konkurencyjną i zasługującą na największe inwestycje, poddomeny wspierające — potrzebne, lecz nieróżnicujące, oraz poddomeny generyczne — rozwiązane już problemy, które lepiej kupić lub użyć gotowych niż budować od nowa; poddomeny odkrywa się zwykle, analizując strukturę organizacji, słuchając różnych ekspertów dziedzinowych i ich słownictwa oraz śledząc wartość biznesową na kolejnych krokach procesu biznesowego. Zobacz też: „Dekompozycja według poddomen” w kategorii Microservices & Distributed Systems.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "software-architecture-big-picture-event-storming",
+    "term": "Big Picture Event Storming",
+    "description": "A large-group workshop format for quickly discovering what an unfamiliar domain looks like, run with sticky notes, markers, and a long stretch of wall space rather than slides; it moves through a loose sequence -- kickoff, chaotic exploration of events, arranging them into a timeline, narrating the story backwards, adding the people and systems involved, then surfacing problems and opportunities -- and works best with both internal stakeholders (owners, managers, staff) and external ones (suppliers, regulators, customers) in the room, because its value comes from being fast, incremental, and good at exposing gaps in shared understanding. See also: 'Event Storming' in Software Engineering.",
+    "translationPl": "Big Picture Event Storming",
+    "descriptionPl": "Format warsztatu dla dużej grupy, służący szybkiemu odkryciu, jak wygląda nieznana domena, prowadzony za pomocą karteczek, flamastrów i długiego pasa ściany zamiast slajdów; przebiega w luźnej sekwencji — rozpoczęcie, chaotyczna eksploracja zdarzeń, ułożenie ich na osi czasu, opowiedzenie historii od końca, dodanie zaangażowanych ludzi i systemów, a na końcu wskazanie problemów i okazji — i działa najlepiej, gdy w sali są zarówno interesariusze wewnętrzni (właściciele, managerowie, pracownicy), jak i zewnętrzni (dostawcy, regulatorzy, klienci), ponieważ jego wartość bierze się z tego, że jest szybki, przyrostowy i dobrze uwidacznia luki we wspólnym rozumieniu. Zobacz też: „Event Storming” w kategorii Software Engineering.",
+    "category": "Software Architecture",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-deployment-models",
+    "term": "Cloud Deployment Models (Public/Private/Hybrid/Community)",
+    "description": "The four ways cloud infrastructure can be provisioned relative to an organization: public cloud (shared, provider-owned infrastructure open to any customer), private cloud (dedicated to a single organization, whether self-hosted or provider-hosted), hybrid cloud (a deliberate mix of the two connected together), and community cloud (shared infrastructure provisioned for a specific group of organizations with common concerns, such as compliance requirements).",
+    "translationPl": "Modele rozmieszczania usług chmurowych",
+    "descriptionPl": "Cztery sposoby udostępniania infrastruktury chmurowej względem organizacji: chmura publiczna (współdzielona infrastruktura należąca do dostawcy, dostępna dla każdego klienta), chmura prywatna (dedykowana jednej organizacji, hostowana samodzielnie lub przez dostawcę), chmura hybrydowa (celowe połączenie obu powyższych) oraz chmura współdzielona/community (infrastruktura udostępniona konkretnej grupie organizacji o wspólnych potrzebach, np. wymogach zgodności).",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-vendor-lock-in-vs-agnostic",
+    "term": "Vendor Lock-In vs Cloud-Agnostic Strategy",
+    "description": "A strategic trade-off in how deeply a system depends on one cloud provider's proprietary services: accepting vendor lock-in trades away portability for faster development and lower short-term cost, while a cloud-agnostic strategy sticks to portable, provider-independent building blocks -- especially at the stateful, infrastructure level rather than the stateless, application level -- to preserve the ability to move providers, at the cost of higher effort and often higher spend.",
+    "translationPl": "Vendor lock-in a strategia cloud-agnostic",
+    "descriptionPl": "Strategiczny kompromis dotyczący tego, jak mocno system zależy od usług właściwych dla jednego dostawcy chmury: akceptacja vendor lock-in oznacza rezygnację z przenaszalności na rzecz szybszego wytwarzania i niższego kosztu na starcie, podczas gdy strategia cloud-agnostic trzyma się przenaszalnych, niezależnych od dostawcy komponentów — zwłaszcza na stanowym poziomie infrastruktury, a nie bezstanowym poziomie aplikacji — aby zachować możliwość zmiany dostawcy, kosztem większego wysiłku i zwykle wyższych wydatków.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-containers",
+    "term": "Containers",
+    "description": "A packaging and runtime technology that bundles an application with its dependencies into a portable image -- built to a standard image format, distributed through a registry, and run by a container runtime -- giving the application separation from the underlying infrastructure and a consistent way to ship and run it across environments.",
+    "translationPl": "Kontenery",
+    "descriptionPl": "Technologia pakowania i uruchamiania aplikacji, łącząca aplikację wraz z jej zależnościami w przenaszalny obraz — budowany w standardowym formacie, dystrybuowany przez rejestr i uruchamiany przez runtime kontenerowy — co daje aplikacji separację od bazowej infrastruktury oraz spójny sposób dostarczania i uruchamiania jej w różnych środowiskach.",
+    "category": "Cloud Engineering",
+    "level": "Regular"
+  },
+  {
+    "id": "cloud-engineering-kubernetes",
+    "term": "Kubernetes",
+    "description": "A container orchestration platform, available from most cloud providers, that is configured declaratively -- you describe the desired state and Kubernetes reconciles the cluster toward it -- and automates deploying, scaling, and healing containers, groups resources flexibly through labels, and handles supporting concerns like secret storage, volume management, and service discovery across a cluster of machines. See also: 'Service Deployment Platform' in Microservices & Distributed Systems.",
+    "translationPl": "Kubernetes",
+    "descriptionPl": "Platforma do orkiestracji kontenerów, dostępna u większości dostawców chmury, konfigurowana deklaratywnie — opisuje się pożądany stan, a Kubernetes doprowadza do niego klaster — automatyzująca wdrażanie, skalowanie i samonaprawę kontenerów, elastycznie grupująca zasoby za pomocą etykiet (labels) oraz obsługująca kwestie towarzyszące, takie jak przechowywanie sekretów, zarządzanie wolumenami i wykrywanie usług w obrębie klastra maszyn. Zobacz też: „Platforma wdrożeniowa usług” w kategorii Microservices & Distributed Systems.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "cloud-engineering-service-mesh",
+    "term": "Service Mesh",
+    "description": "A dedicated infrastructure layer, split into a data plane (proxies that handle the actual traffic between services) and a control plane (that configures and coordinates those proxies), which takes over cross-cutting service-to-service concerns -- traffic management, policy enforcement, certificate management, and observability -- so individual services don't each have to implement them. See also: 'Mesh' and 'Sidecar' in Microservices & Distributed Systems.",
+    "translationPl": "Service Mesh",
+    "descriptionPl": "Dedykowana warstwa infrastruktury, podzielona na płaszczyznę danych (data plane — proxy obsługujące faktyczny ruch między usługami) i płaszczyznę kontroli (control plane — konfigurującą i koordynującą te proxy), która przejmuje przekrojowe kwestie komunikacji między usługami — zarządzanie ruchem, egzekwowanie reguł, zarządzanie certyfikatami i obserwowalność — dzięki czemu poszczególne usługi nie muszą implementować ich samodzielnie. Zobacz też: „Mesh usług (service mesh)” oraz „Sidecar” w kategorii Microservices & Distributed Systems.",
+    "category": "Cloud Engineering",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-chaos-engineering",
+    "term": "Chaos Engineering",
+    "description": "The practice of deliberately injecting failures (killing instances, adding latency, cutting network links) into a system, typically in production or a production-like environment, to verify that its resilience mechanisms actually work under real conditions rather than only in theory.",
+    "translationPl": "Chaos Engineering",
+    "descriptionPl": "Praktyka celowego wprowadzania awarii (zabijania instancji, dodawania opóźnień, przerywania połączeń sieciowych) do systemu, zwykle na produkcji lub w środowisku zbliżonym do produkcyjnego, aby zweryfikować, czy mechanizmy odporności systemu rzeczywiście działają w realnych warunkach, a nie tylko w teorii.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-load-testing",
+    "term": "Load Testing",
+    "description": "Testing that drives a system with a realistic or gradually increasing volume of concurrent traffic to see how it behaves as demand grows, which only produces trustworthy results when run against a near-production environment with production-like traffic, data, and proper warm-up (JIT compilation, caches) -- conditions that are expensive to reproduce, which is why many teams lean on production monitoring instead for day-to-day signal. See also: 'Stress Testing' in Testing.",
+    "translationPl": "Testy obciążeniowe",
+    "descriptionPl": "Testowanie obciążające system realistyczną lub stopniowo rosnącą liczbą jednoczesnych żądań, aby sprawdzić jego zachowanie w miarę wzrostu ruchu; daje wiarygodne wyniki tylko wtedy, gdy jest uruchamiane w środowisku zbliżonym do produkcyjnego, z ruchem i danymi przypominającymi produkcyjne oraz odpowiednim rozgrzaniem aplikacji (kompilacja JIT, cache) — warunki te są kosztowne do odtworzenia, dlatego wiele zespołów na co dzień opiera się zamiast tego na monitoringu produkcji. Zobacz też: „Testy wytrzymałościowe” w kategorii Testing.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "testing-stress-testing",
+    "term": "Stress Testing",
+    "description": "Testing that deliberately pushes a system beyond its expected capacity to find the point and manner in which it breaks, sharing the same near-production-environment requirement as load testing to be meaningful, and often preferred over broad load testing precisely because a clear breaking point is a more reliable signal than a noisy performance number. See also: 'Load Testing' in Testing.",
+    "translationPl": "Testy wytrzymałościowe",
+    "descriptionPl": "Testowanie celowo doprowadzające system ponad jego oczekiwaną pojemność, aby znaleźć punkt i sposób, w jaki ulega awarii; aby było miarodajne, wymaga tego samego środowiska zbliżonego do produkcyjnego co testy obciążeniowe, i często jest preferowane względem szerokich testów obciążeniowych właśnie dlatego, że wyraźny punkt załamania jest bardziej wiarygodnym sygnałem niż zaszumiony wynik wydajnościowy. Zobacz też: „Testy obciążeniowe” w kategorii Testing.",
+    "category": "Testing",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-deployment-vs-release",
+    "term": "Deployment vs Release",
+    "description": "A distinction between two separate activities that are easy to conflate: deployment is installing a given version of software onto an environment, while release is the separate act of making a feature available to end users -- decoupling the two (e.g. via feature flags) lets a team deploy far more often than it releases. See also: 'Continuous Deployment' in DevOps.",
+    "translationPl": "Wdrożenie a wydanie",
+    "descriptionPl": "Rozróżnienie dwóch osobnych działań, które łatwo ze sobą pomylić: wdrożenie (deployment) to zainstalowanie danej wersji oprogramowania w środowisku, a wydanie (release) to odrębny akt udostępnienia funkcji użytkownikom końcowym — rozdzielenie tych dwóch pojęć (np. za pomocą feature flag) pozwala zespołowi wdrażać znacznie częściej, niż wydaje nowe funkcje. Zobacz też: „Continuous Deployment (ciągłe wdrażanie)” w kategorii DevOps.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-dora-metrics",
+    "term": "Software Delivery Performance (DORA Metrics)",
+    "description": "Four metrics used to benchmark how well a team ships software, split into stability (change failure rate, and time to restore service after an incident) and speed (lead time for changes, and deployment frequency); tracking all four together avoids optimizing shipping speed at the expense of stability, or vice versa.",
+    "translationPl": "Wydajność dostarczania oprogramowania (metryki DORA)",
+    "descriptionPl": "Cztery metryki służące do oceny tego, jak dobrze zespół dostarcza oprogramowanie, podzielone na stabilność (wskaźnik awaryjności zmian oraz czas przywrócenia usługi po incydencie) i szybkość (czas realizacji zmiany oraz częstotliwość wdrożeń); śledzenie wszystkich czterech naraz zapobiega optymalizowaniu szybkości dostarczania kosztem stabilności, lub odwrotnie.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-continuous-deployment",
+    "term": "Continuous Deployment",
+    "description": "The practice of automatically deploying every change that passes the pipeline straight to production, treating deployment as a routine, low-risk mechanical step rather than the moment features are released to users -- a pragmatic team still tunes how often it deploys to its own risk tolerance rather than deploying purely for its own sake. See also: 'Deployment vs Release' in DevOps.",
+    "translationPl": "Continuous Deployment (ciągłe wdrażanie)",
+    "descriptionPl": "Praktyka automatycznego wdrażania na produkcję każdej zmiany, która przejdzie przez pipeline, traktująca wdrożenie jako rutynowy, mało ryzykowny krok mechaniczny, a nie moment udostępnienia funkcji użytkownikom — pragmatyczny zespół i tak dostosowuje częstotliwość wdrożeń do własnej tolerancji ryzyka, zamiast wdrażać wyłącznie dla samego wdrażania. Zobacz też: „Wdrożenie a wydanie” w kategorii DevOps.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-continuous-inspection",
+    "term": "Continuous Inspection",
+    "description": "Automatically analyzing a codebase on every change -- checking configuration, dependencies, static code quality, test coverage, and dynamic application behavior -- and feeding the results back into the development workflow as a report, a pull request comment, or a build that fails outright, so quality problems surface immediately instead of accumulating unnoticed.",
+    "translationPl": "Continuous Inspection (ciągła inspekcja)",
+    "descriptionPl": "Automatyczna analiza bazy kodu przy każdej zmianie — obejmująca konfigurację, zależności, statyczną jakość kodu, pokrycie testami i dynamiczne zachowanie aplikacji — z wynikami przekazywanymi z powrotem do procesu wytwórczego w postaci raportu, komentarza do pull requestu lub przerwania budowania, dzięki czemu problemy jakościowe ujawniają się od razu, zamiast niezauważenie się kumulować.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-trunk-based-development",
+    "term": "Trunk-Based Development",
+    "description": "A source-control workflow where developers integrate small, frequent changes directly into a single shared trunk instead of long-lived feature branches, relying on feature flags to hide unfinished work in production (separating the branch-abstraction concern from the actual release mechanism) and following a light branching convention such as GitHub Flow or a master-only model.",
+    "translationPl": "Trunk-Based Development",
+    "descriptionPl": "Model pracy z systemem kontroli wersji, w którym deweloperzy integrują małe, częste zmiany bezpośrednio do jednego wspólnego trunka zamiast długo żyjących gałęzi funkcjonalności, opierając się na feature flagach do ukrywania niedokończonej pracy na produkcji (oddzielając kwestię abstrakcji gałęzi od faktycznego mechanizmu wydawania) i stosując lekką konwencję gałęzi, taką jak GitHub Flow lub model oparty wyłącznie na gałęzi głównej (master-only).",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-git-flow",
+    "term": "Git Flow",
+    "description": "A branching model built around long-lived develop and release branches, where finished work is integrated into a dedicated release branch ahead of a version going out, trading the simplicity of trunk-based development for more structure and more required coordination between branches.",
+    "translationPl": "Git Flow",
+    "descriptionPl": "Model gałęzi zbudowany wokół długo żyjących gałęzi develop i release, w którym ukończona praca jest integrowana w dedykowanej gałęzi wydania przed publikacją wersji, co kosztem prostoty trunk-based development daje więcej struktury, ale wymaga większej koordynacji między gałęziami.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-centralized-logging",
+    "term": "Centralized Logging",
+    "description": "The practice of writing application logs in a consistent, structured format -- a shared timezone (typically UTC), a correlation ID that ties related entries together across services, and a clear entry structure -- so that once shipped to a central store they can actually be searched and correlated, while treating sensitive data in log content as a hazard to be filtered out rather than an afterthought.",
+    "translationPl": "Centralne logowanie",
+    "descriptionPl": "Praktyka zapisywania logów aplikacji w spójnym, ustrukturyzowanym formacie — ze wspólną strefą czasową (zwykle UTC), identyfikatorem korelującym łączącym powiązane wpisy między usługami oraz jasną strukturą wpisu — tak aby po przesłaniu do centralnego magazynu dało się je faktycznie przeszukiwać i korelować, przy czym dane wrażliwe w treści logów traktuje się jako zagrożenie do odfiltrowania, a nie kwestię drugorzędną.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-application-monitoring",
+    "term": "Application Monitoring",
+    "description": "Watching a running system across four dimensions -- system performance, how users are actually interacting with it, business-level metrics, and system stability (logged exception counts, error metrics, HTTP status codes, and failed business transactions) -- so operational health and business impact are both visible, not just one or the other.",
+    "translationPl": "Monitorowanie aplikacji",
+    "descriptionPl": "Obserwowanie działającego systemu w czterech wymiarach — wydajności systemu, sposobu, w jaki użytkownicy faktycznie z niego korzystają, metryk biznesowych oraz stabilności systemu (liczby logowanych wyjątków, metryk błędów, kodów odpowiedzi HTTP i nieudanych transakcji biznesowych) — dzięki czemu widoczna jest zarówno kondycja operacyjna, jak i wpływ biznesowy, a nie tylko jedno z nich.",
+    "category": "DevOps",
+    "level": "Regular"
+  },
+  {
+    "id": "devops-post-mortem",
+    "term": "Post-Mortem (Blameless Retrospective)",
+    "description": "A structured write-up produced after an incident that asks 'why' through root-cause analysis while assuming good intent from everyone involved (blameless), pairing findings with concrete remedial actions, and pulling together a timeline, charts and metrics, and the communication and stopgap measures used during the incident into one place needed for the analysis.",
+    "translationPl": "Post-mortem (analiza poincydentalna)",
+    "descriptionPl": "Ustrukturyzowany dokument tworzony po incydencie, który zadaje pytanie „dlaczego” poprzez analizę przyczyn źródłowych, zakładając dobre intencje wszystkich zaangażowanych osób (podejście bezstresowe/blameless), łączy ustalenia z konkretnymi środkami zaradczymi oraz zbiera w jednym miejscu oś czasu, wykresy i metryki, a także komunikację i doraźne środki zastosowane podczas incydentu — wszystko, co potrzebne do analizy.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-immutable-infrastructure",
+    "term": "Immutable Infrastructure",
+    "description": "An approach where running infrastructure is never patched or modified in place; instead, a change is rolled out by building a new image or instance from the change and replacing the old one entirely, eliminating configuration drift and making every deployed environment reproducible from its definition.",
+    "translationPl": "Niemutowalna infrastruktura",
+    "descriptionPl": "Podejście, w którym działająca infrastruktura nigdy nie jest łatana ani modyfikowana w miejscu; zamiast tego zmianę wprowadza się, budując nowy obraz lub instancję zawierającą tę zmianę i całkowicie zastępując nią starą, co eliminuje dryf konfiguracji i sprawia, że każde wdrożone środowisko jest odtwarzalne na podstawie swojej definicji.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-infrastructure-configuration-testing",
+    "term": "Infrastructure Configuration Testing",
+    "description": "Automatically validating infrastructure-as-code definitions -- linting syntax, checking for policy violations, and verifying a provisioned environment actually matches its declared configuration -- before they're applied, catching misconfigurations the same way unit tests catch application bugs, rather than discovering them only after a broken deployment.",
+    "translationPl": "Testowanie konfiguracji infrastruktury",
+    "descriptionPl": "Automatyczna walidacja definicji infrastructure-as-code — sprawdzanie poprawności składni, naruszeń polityk oraz tego, czy udostępnione środowisko rzeczywiście odpowiada zadeklarowanej konfiguracji — jeszcze przed ich zastosowaniem, wychwytująca błędne konfiguracje w taki sam sposób, w jaki testy jednostkowe wychwytują błędy aplikacji, zamiast odkrywać je dopiero po nieudanym wdrożeniu.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-gitops",
+    "term": "GitOps",
+    "description": "An operating model where a Git repository is the single source of truth for a system's desired infrastructure and deployment state, and an automated controller continuously reconciles the live environment to match what's committed, so every infrastructure change goes through the same review, history, and rollback mechanics as an application code change.",
+    "translationPl": "GitOps",
+    "descriptionPl": "Model pracy operacyjnej, w którym repozytorium Git jest jedynym źródłem prawdy o pożądanym stanie infrastruktury i wdrożeń systemu, a zautomatyzowany kontroler nieustannie doprowadza działające środowisko do zgodności z tym, co zostało scommitowane, dzięki czemu każda zmiana infrastruktury przechodzi przez te same mechanizmy przeglądu, historii i wycofywania co zmiana w kodzie aplikacji.",
+    "category": "DevOps",
+    "level": "Senior"
+  },
+  {
+    "id": "devops-secrets-management",
+    "term": "Secrets Management",
+    "description": "The practice of storing, distributing, and rotating sensitive values -- passwords, API keys, certificates, tokens -- through a dedicated system rather than embedding them in source code or plain configuration files, so access can be granted, audited, and revoked independently of a code deployment.",
+    "translationPl": "Zarządzanie sekretami",
+    "descriptionPl": "Praktyka przechowywania, dystrybucji i rotacji danych wrażliwych — haseł, kluczy API, certyfikatów, tokenów — za pomocą dedykowanego systemu zamiast osadzania ich w kodzie źródłowym lub zwykłych plikach konfiguracyjnych, dzięki czemu dostęp można nadawać, audytować i odbierać niezależnie od wdrożenia kodu.",
+    "category": "DevOps",
     "level": "Senior"
   }
 ]

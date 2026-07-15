@@ -35,7 +35,7 @@ test('passes on a well-formed fixture array (all required fields present, valid 
   assert.deepEqual(errors, []);
 });
 
-test('fails with a clear error when a category value is outside the 12-value enum', () => {
+test('fails with a clear error when a category value is outside the 14-value enum', () => {
   const fixture = [{ ...validEntry, category: 'Rust' }];
 
   const errors = validateGlossary(fixture);

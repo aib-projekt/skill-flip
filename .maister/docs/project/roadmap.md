@@ -5,13 +5,13 @@
 - **Version**: 0.1.0
 - **Key Features**:
   - Learn Mode — single-card weighted-random drill (bucketed weighting: `dont_know` > `unseen` > `know`, graduation after 2 consecutive "know" marks), swipe/button marking, `localStorage`-persisted progress
-  - Browse — searchable (term + EN/PL description) and filterable (category multi-select + level segmented control) grid of all 159 entries
+  - Browse — searchable (term + EN/PL description) and filterable (category multi-select + level segmented control) grid of all 292 entries
   - Bilingual cards — English term/description always shown; Polish term + full description translation behind an explicit `(i)` toggle
   - Documented content pipeline (`content-pipeline/`) — prompt template + curation rubric + schema validator (`npm run validate-glossary`), decoupled from the app bundle
-  - Full 14-category taxonomy coverage (Java, Spring/JEE, Data Storage, DevOps, Cloud Engineering, Testing, Soft Skills, Management, Mentoring, Problem Solving, API Development, Software Engineering)
+  - Full 14-category taxonomy coverage (Java, Spring/JEE, Data Storage, DevOps, Cloud Engineering, Testing, Soft Skills, Management, Mentoring, Problem Solving, API Development, Software Engineering, Software Architecture, Microservices & Distributed Systems)
   - GitHub Actions CI → GitHub Pages auto-deploy on push to `main`
 - **Recent Updates** (from git history):
-  - Full-coverage content pass: expanded glossary from 20 (Java-only) to 159 entries across all 14 categories
+  - Full-coverage content pass: expanded glossary from 20 (Java-only) to 292 entries across all 14 categories
   - Fixed an inert "+N more" category filter chip in Browse (7 of 14 categories were unreachable via chip filtering until this fix)
   - User-facing documentation with screenshots added
   - Development workflow finalized through "Phase 14"
